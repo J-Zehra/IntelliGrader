@@ -15,6 +15,12 @@
 # production
 /build
 
+# prettier
+.prettierrc
+
+# husky
+.husky
+
 # misc
 .DS_Store
 *.pem
