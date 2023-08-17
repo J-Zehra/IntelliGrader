@@ -12,7 +12,7 @@ export default function GoogleSignIn() {
       p=".8rem"
       borderRadius=".5rem"
     >
-      <Image src="/google.svg" w="2.5rem" alt="google-icon" />
+      <Image src="/google.svg" w="2rem" alt="google-icon" />
     </Center>
   );
 }

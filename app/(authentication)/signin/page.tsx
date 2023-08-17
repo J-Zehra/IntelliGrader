@@ -30,7 +30,7 @@ export default function SinginPage() {
           h="100%"
           color="palette.text"
           opacity=".5"
-          mr={3}
+          w="3.5rem"
           cursor="pointer"
           onClick={toggleViewPassword}
         >
@@ -46,7 +46,10 @@ export default function SinginPage() {
       </Button>
       <Text textAlign="center" color="palette.light">
         Doesn&apos;t have an account yet?
-        <Link href="signup" style={{ color: "#75AFFF", fontWeight: "bold" }}>
+        <Link
+          href="signup"
+          style={{ color: "#75AFFF", fontWeight: "bold", marginLeft: "1ch" }}
+        >
           Sign up
         </Link>
       </Text>

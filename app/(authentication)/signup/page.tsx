@@ -31,7 +31,7 @@ export default function SignupPage() {
           h="100%"
           color="palette.text"
           opacity=".5"
-          mr={3}
+          w="3.5rem"
           cursor="pointer"
           onClick={toggleViewPassword}
         >
@@ -52,7 +52,8 @@ export default function SignupPage() {
           h="100%"
           color="palette.text"
           opacity=".5"
-          mr={3}
+          w="3.5rem"
+          paddingInline=".6rem"
           onClick={toggleViewConfirmPassword}
           cursor="pointer"
         >
