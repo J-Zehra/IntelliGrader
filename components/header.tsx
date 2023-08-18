@@ -23,7 +23,7 @@ export default function Header() {
               style={{ width: "10rem" }}
             />
           </Center>
-          <Avatar w="3rem" h="3rem" />
+          <Avatar w="2.5rem" h="2.5rem" />
         </Stack>
       </CustomContainer>
     </Box>
