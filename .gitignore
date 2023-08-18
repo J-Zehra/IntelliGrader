@@ -16,7 +16,7 @@
 /build
 
 # prettier
-.prettierrc
+/.prettierrc
 
 # husky
 .husky
@@ -39,3 +39,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Auto Generated PWA files
+**/public/sw.js
+**/public/workbox-*.js
+**/public/worker-*.js
+**/public/sw.js.map
+**/public/workbox-*.js.map
+**/public/worker-*.js.map

@@ -6,6 +6,7 @@ import Header from "@/components/header";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
+  manifest: "/manifest.json",
   icons: "/favicon.svg",
   title: "IntelliGrader",
   description:

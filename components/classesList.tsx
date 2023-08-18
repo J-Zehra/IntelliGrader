@@ -23,7 +23,7 @@ export default function ClassesList() {
           </Button>
         </Stack>
         <Stack mt={5} spacing={3}>
-          {[...Array(3)].map((item) => {
+          {[1, 2, 3].map((item) => {
             return <Class key={item} />;
           })}
         </Stack>
