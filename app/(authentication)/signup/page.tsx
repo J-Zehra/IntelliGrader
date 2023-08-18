@@ -31,7 +31,7 @@ export default function SignupPage() {
           h="100%"
           color="palette.text"
           opacity=".5"
-          mr={3}
+          w="3.5rem"
           cursor="pointer"
           onClick={toggleViewPassword}
         >
@@ -52,7 +52,8 @@ export default function SignupPage() {
           h="100%"
           color="palette.text"
           opacity=".5"
-          mr={3}
+          w="3.5rem"
+          paddingInline=".6rem"
           onClick={toggleViewConfirmPassword}
           cursor="pointer"
         >
@@ -66,7 +67,7 @@ export default function SignupPage() {
       <Button bg="#1380FF" color="palette.background">
         Sign up
       </Button>
-      <Text textAlign="center" color="palette.light">
+      <Text textAlign="center" color="palette.light" fontSize=".9rem">
         Already have an account?{" "}
         <Link href="signin" style={{ color: "#75AFFF", fontWeight: "bold" }}>
           Sign in
