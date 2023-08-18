@@ -20,19 +20,25 @@ export default function Home() {
           style={{ width: "8rem" }}
         />
         <Text
-          fontSize="1.3rem"
+          fontSize="1.2rem"
           opacity=".6"
           fontWeight="semibold"
           color="palette.button.primary"
         >
           No classes yet.
         </Text>
-        <Text fontWeight="normal" opacity=".6" color="palette.button.primary">
+        <Text
+          fontWeight="normal"
+          opacity=".6"
+          fontSize=".9rem"
+          color="palette.button.primary"
+        >
           So spacious here. Why not create one?
         </Text>
         <Button
           mt={5}
           w="fit-content"
+          fontSize=".9rem"
           leftIcon={<IoMdAdd style={{ fontSize: "1rem" }} />}
         >
           Create Class

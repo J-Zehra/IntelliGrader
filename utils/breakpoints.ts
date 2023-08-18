@@ -1,5 +1,5 @@
 const breakPoints = {
-  base: "95%",
+  base: "92%",
   sm: "90%",
   lg: "80%",
   xl: "85%",

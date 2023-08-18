@@ -67,7 +67,7 @@ export default function SignupPage() {
       <Button bg="#1380FF" color="palette.background">
         Sign up
       </Button>
-      <Text textAlign="center" color="palette.light">
+      <Text textAlign="center" color="palette.light" fontSize=".9rem">
         Already have an account?{" "}
         <Link href="signin" style={{ color: "#75AFFF", fontWeight: "bold" }}>
           Sign in

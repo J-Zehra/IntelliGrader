@@ -8,11 +8,15 @@ export default function ClassesList() {
     <CustomContainer>
       <Stack pt="7rem">
         <Stack w="100%" align="center" direction="row" justify="space-between">
-          <Text>All classes</Text>
+          <Text fontSize=".9rem" fontWeight="semibold" opacity=".8">
+            All classes
+          </Text>
           <Button
             w="fit-content"
             leftIcon={<IoMdAdd style={{ fontSize: "1rem" }} />}
             fontSize=".8rem"
+            size="sm"
+            p="1.2rem 1rem"
             boxShadow="none"
           >
             New

@@ -44,7 +44,7 @@ export default function SinginPage() {
       <Button bg="#1380FF" color="palette.background">
         Sign in
       </Button>
-      <Text textAlign="center" color="palette.light">
+      <Text textAlign="center" color="palette.light" fontSize=".9rem">
         Doesn&apos;t have an account yet?
         <Link
           href="signup"

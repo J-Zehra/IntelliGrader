@@ -20,10 +20,10 @@ export default function Header() {
               alt="logo"
               width={500}
               height={500}
-              style={{ width: "12rem" }}
+              style={{ width: "10rem" }}
             />
           </Center>
-          <Avatar />
+          <Avatar w="3rem" h="3rem" />
         </Stack>
       </CustomContainer>
     </Box>
