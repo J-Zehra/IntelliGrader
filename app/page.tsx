@@ -8,7 +8,7 @@ import ClassesList from "@/components/classesList";
 export default function Home() {
   const isClassEmpty = false;
 
-  if (!isClassEmpty) return <ClassesList />;
+  if (isClassEmpty) return <ClassesList />;
   return (
     <Grid placeContent="center" w="100%" h="100vh" gap="2rem">
       <Stack align="center">

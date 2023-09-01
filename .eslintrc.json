@@ -36,6 +36,8 @@
     "react/jsx-uses-react": "off",
     "react/jsx-props-no-spreading": "warn",
     "no-shadow": "off",
-    "prettier/prettier": ["error", { "endOfLine": "auto" }]
+    "prettier/prettier": ["error", { "endOfLine": "auto" }],
+    "consistent-return": "off",
+    "import/extensions": "off"
   }
 }

@@ -7,17 +7,17 @@ export default function Class() {
   return (
     <Stack
       bg="palette.light"
-      p="1rem"
+      p=".8rem"
       borderRadius=".5rem"
       pos="relative"
       boxShadow="0 2px 5px rgba(0, 0, 50, .2)"
     >
       <Stack direction="row" w="100%" justify="space-between" align="start">
         <Stack spacing={0.1}>
-          <Text fontWeight="bold" fontSize="1rem" opacity=".8">
+          <Text fontWeight="bold" fontSize=".9rem" opacity=".8">
             System Analysis and Design
           </Text>
-          <Text fontSize=".9rem" fontWeight="semibold" color="palette.accent">
+          <Text fontSize=".8rem" fontWeight="semibold" color="palette.accent">
             BSIT 3
           </Text>
         </Stack>
