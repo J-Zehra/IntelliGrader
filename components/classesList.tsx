@@ -1,5 +1,6 @@
 import { Button, Stack, Text } from "@chakra-ui/react";
 import { IoMdAdd } from "react-icons/io";
+import Link from "next/link";
 import { ClassVariant } from "@/utils/types";
 import CustomContainer from "./reusables/customContainer";
 import Class from "./class";
@@ -12,16 +13,18 @@ export default function ClassesList() {
           <Text fontSize=".9rem" fontWeight="semibold" opacity=".8">
             All classes
           </Text>
-          <Button
-            w="fit-content"
-            leftIcon={<IoMdAdd style={{ fontSize: "1rem" }} />}
-            fontSize=".8rem"
-            size="sm"
-            p="1.2rem 1rem"
-            boxShadow="none"
-          >
-            New
-          </Button>
+          <Link href="/create">
+            <Button
+              w="fit-content"
+              leftIcon={<IoMdAdd style={{ fontSize: "1rem" }} />}
+              fontSize=".8rem"
+              size="sm"
+              p="1.2rem 1rem"
+              boxShadow="none"
+            >
+              New
+            </Button>
+          </Link>
         </Stack>
         <Stack mt={5} spacing={3}>
           {[

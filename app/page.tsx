@@ -3,10 +3,11 @@
 import { Button, Grid, Stack, Text } from "@chakra-ui/react";
 import Image from "next/image";
 import { IoMdAdd } from "react-icons/io";
+import Link from "next/link";
 import ClassesList from "@/components/classesList";
 
 export default function Home() {
-  const isClassEmpty = true;
+  const isClassEmpty = false;
 
   if (isClassEmpty) return <ClassesList />;
   return (
@@ -35,14 +36,16 @@ export default function Home() {
         >
           So spacious here. Why not create one?
         </Text>
-        <Button
-          mt={5}
-          w="fit-content"
-          fontSize=".9rem"
-          leftIcon={<IoMdAdd style={{ fontSize: "1rem" }} />}
-        >
-          Create Class
-        </Button>
+        <Link href="/create">
+          <Button
+            mt={5}
+            w="fit-content"
+            fontSize=".9rem"
+            leftIcon={<IoMdAdd style={{ fontSize: "1rem" }} />}
+          >
+            Create Class
+          </Button>
+        </Link>
       </Stack>
     </Grid>
   );
