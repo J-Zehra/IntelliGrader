@@ -2,22 +2,66 @@ import { Center, Stack, Text } from "@chakra-ui/react";
 import React from "react";
 import { AiOutlineMore, AiOutlineScan } from "react-icons/ai";
 import { BsBarChartLine } from "react-icons/bs";
+import { ClassVariant } from "@/utils/types";
 
-export default function Class() {
+export default function Class({ variant }: { variant: ClassVariant }) {
+  const bgVariant = () => {
+    let background = "";
+
+    switch (variant) {
+      case ClassVariant.primary:
+        background = "linear-gradient(to left, #003C8F, #006CFB)";
+        break;
+      case ClassVariant.secondary:
+        background = "linear-gradient(to left, #015BD5, #0AA6FF)";
+        // CODE
+        break;
+      case ClassVariant.tertiary:
+        background = "linear-gradient(to left, #3A8FFF, #B8E5FF)";
+        // CODE
+        break;
+      default:
+        background = "linear-gradient(to left, #D6E6FF, #FAFCFF)";
+    }
+
+    return background;
+  };
+
+  const textColorVariant = () => {
+    let textColor = "";
+
+    if (
+      variant === ClassVariant.primary ||
+      variant === ClassVariant.secondary
+    ) {
+      textColor = "palette.background";
+    } else {
+      textColor = "palette.text";
+    }
+
+    return textColor;
+  };
+
   return (
     <Stack
-      bg="palette.light"
+      bg={bgVariant()}
       p=".8rem"
       borderRadius=".5rem"
       pos="relative"
       boxShadow="0 2px 5px rgba(0, 0, 50, .2)"
     >
-      <Stack direction="row" w="100%" justify="space-between" align="start">
+      <Stack
+        direction="row"
+        w="100%"
+        color={textColorVariant()}
+        justify="space-between"
+        align="start"
+      >
         <Stack spacing={0.1}>
-          <Text fontWeight="bold" fontSize=".9rem" opacity=".8">
+          <Text fontWeight="semibold" fontSize=".9rem">
             System Analysis and Design
           </Text>
-          <Text fontSize=".8rem" fontWeight="semibold" color="palette.accent">
+          <Text fontSize=".8rem" fontWeight="medium" opacity={0.8}>
             BSIT 3
           </Text>
         </Stack>
@@ -29,15 +73,14 @@ export default function Class() {
         <Text
           fontWeight="black"
           fontSize="4rem"
-          color="palette.accent"
-          opacity=".05"
+          opacity=".03"
           pos="absolute"
           left="1rem"
-          bottom={0}
+          bottom={-5}
         >
           BSIT 3
         </Text>
-        <Stack color="palette.button.primary" direction="row" spacing={4}>
+        <Stack color={textColorVariant()} direction="row" spacing={4}>
           <Center p=".1rem" fontSize="1.2rem" cursor="pointer" opacity=".8">
             <BsBarChartLine />
           </Center>
