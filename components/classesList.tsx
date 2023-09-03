@@ -1,5 +1,6 @@
 import { Button, Stack, Text } from "@chakra-ui/react";
 import { IoMdAdd } from "react-icons/io";
+import { ClassVariant } from "@/utils/types";
 import CustomContainer from "./reusables/customContainer";
 import Class from "./class";
 
@@ -23,8 +24,13 @@ export default function ClassesList() {
           </Button>
         </Stack>
         <Stack mt={5} spacing={3}>
-          {[1, 2, 3].map((item) => {
-            return <Class key={item} />;
+          {[
+            ClassVariant.primary,
+            ClassVariant.secondary,
+            ClassVariant.tertiary,
+            ClassVariant.default,
+          ].map((item) => {
+            return <Class key={item} variant={item} />;
           })}
         </Stack>
       </Stack>

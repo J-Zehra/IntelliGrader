@@ -69,14 +69,12 @@ model Test {
   updatedAt       DateTime     @updatedAt
 
   questions       Question[]
-  criteria        Criteria @relation(fields: [criteriaId], references: [id])
   student         Student @relation(fields: [studentId], references: [id])
   class           Class @relation(fields: [classId], references: [id])
 }
 
 model Question {
   id              String @id @default(cuid()) @map("_id")
-  type            QuestionType
   number          Int
   text            String
   points          Int
@@ -97,27 +95,10 @@ model CorrectAnswer {
   question        Question?
 }
 
-model Criteria {
-  id              String @id @default(cuid()) @map("_id")
-  spelling        Int
-  grammar         Int
-  creativity      Int
-  originality     Int
-  noPlagiarism    Int
-  noAITrails      Int
-
-  test            Test?
-}
-
 model StudentAnswer {
   id              String @id @default(cuid()) @map("_id")
   answer          String
   questionId      String @unique
 
   question        Question @relation(fields: [questionId], references: [id])
-}
-
-enum QuestionType {
-  ESSAY
-  MULTIPLE
 }
