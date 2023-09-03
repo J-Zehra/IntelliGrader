@@ -1,0 +1,123 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Teacher {
+  id              String @id @default(cuid()) @map("_id")
+  name            String @unique
+  password        String
+  email           String @unique
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  class           Class[]
+}
+
+model Class {
+  id              String @id @default(cuid()) @map("_id")
+  sectionName     String
+  year            Int
+  course          String
+  subject         String
+  totalStudent    Int
+  teacherId       String @unique
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  students        ClassStudent[]
+  tests           Test[]
+  teacher         Teacher @relation(fields: [teacherId], references: [id])
+}
+
+model Student {
+  id              String @id @default(cuid()) @map("_id")
+  name            String
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  classes         ClassStudent[]
+  test            Test[]
+}
+
+model ClassStudent {
+  id              String @id @default(cuid()) @map("_id")
+  classId         String @unique
+  studentId       String @unique
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  student         Student @relation(fields: [studentId], references: [id])
+  class           Class @relation(fields: [classId], references: [id])
+}
+
+model Test {
+  id              String @id @default(cuid()) @map("_id")
+  totalQuestions  Int
+  criteriaId      String @unique
+  studentId       String @unique
+  questionId      String @unique
+  classId         String @unique
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  questions       Question[]
+  criteria        Criteria @relation(fields: [criteriaId], references: [id])
+  student         Student @relation(fields: [studentId], references: [id])
+  class           Class @relation(fields: [classId], references: [id])
+}
+
+model Question {
+  id              String @id @default(cuid()) @map("_id")
+  type            QuestionType
+  number          Int
+  text            String
+  points          Int
+  answerId        String @unique
+  testId          String @unique
+  createdAt       DateTime     @default(now())
+  updatedAt       DateTime     @updatedAt
+
+  studentAnswers  StudentAnswer[]
+  test            Test @relation(fields: [testId], references: [id])
+  correctAnswer   CorrectAnswer @relation(fields: [answerId], references: [id])
+}
+
+model CorrectAnswer {
+  id              String @id @default(cuid()) @map("_id")
+  answerText      String
+
+  question        Question?
+}
+
+model Criteria {
+  id              String @id @default(cuid()) @map("_id")
+  spelling        Int
+  grammar         Int
+  creativity      Int
+  originality     Int
+  noPlagiarism    Int
+  noAITrails      Int
+
+  test            Test?
+}
+
+model StudentAnswer {
+  id              String @id @default(cuid()) @map("_id")
+  answer          String
+  questionId      String @unique
+
+  question        Question @relation(fields: [questionId], references: [id])
+}
+
+enum QuestionType {
+  ESSAY
+  MULTIPLE
+}
