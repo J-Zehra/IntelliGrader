@@ -8,7 +8,7 @@ export default function CreateClass() {
   return (
     <CustomContainer>
       <Box pt="6rem">
-        <Text>Create Class</Text>
+        <Text>Create Classesssss</Text>
       </Box>
     </CustomContainer>
   );
