@@ -1,5 +1,6 @@
 import { Button, Stack, Text } from "@chakra-ui/react";
 import { IoMdAdd } from "react-icons/io";
+import Link from "next/link";
 import EmptyTest from "./emptyTest";
 
 export default function Tests() {
@@ -7,15 +8,18 @@ export default function Tests() {
 
   const renderButton = () => {
     if (!empty) {
-      <Button
-        mt={5}
-        w="fit-content"
-        fontSize=".7rem"
-        p=".5rem .8rem"
-        leftIcon={<IoMdAdd style={{ fontSize: "1rem" }} />}
-      >
-        Setup Test
-      </Button>;
+      <Link href="class1/test/setup_test">
+        <Button
+          mt={5}
+          w="fit-content"
+          fontSize=".7rem"
+          p=".5rem .8rem"
+          leftIcon={<IoMdAdd style={{ fontSize: "1rem" }} />}
+        >
+          Setup Test
+        </Button>
+        ;
+      </Link>;
     } else return null;
   };
 

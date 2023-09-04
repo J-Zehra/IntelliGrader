@@ -2,11 +2,12 @@
 
 import { Avatar, Box, Center, Stack } from "@chakra-ui/react";
 import Image from "next/image";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import CustomContainer from "./reusables/customContainer";
 
 export default function Header() {
   const path = usePathname();
+  const navigate = useRouter();
 
   if (path === "/signin" || path === "/signup") return null;
 
@@ -14,7 +15,7 @@ export default function Header() {
     <Box pos="fixed" w="100%">
       <CustomContainer>
         <Stack direction="row" h="5rem" align="center" justify="space-between">
-          <Center>
+          <Center onClick={() => navigate.push("/")}>
             <Image
               src="/logo_v1.svg"
               alt="logo"

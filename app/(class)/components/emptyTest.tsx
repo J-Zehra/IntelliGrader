@@ -1,4 +1,4 @@
-import { Button, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, Link, Stack, Text } from "@chakra-ui/react";
 import Image from "next/image";
 import { IoMdAdd } from "react-icons/io";
 
@@ -28,15 +28,18 @@ export default function EmptyTest() {
       >
         So spacious here. Why not create one?
       </Text>
-      <Button
-        mt={5}
-        w="fit-content"
-        fontSize=".8rem"
-        p="1rem"
-        leftIcon={<IoMdAdd style={{ fontSize: "1rem" }} />}
-      >
-        Setup Test
-      </Button>
+      <Box mt={5}>
+        <Link href="class1/test/setup_test">
+          <Button
+            w="fit-content"
+            fontSize=".8rem"
+            p="1rem"
+            leftIcon={<IoMdAdd style={{ fontSize: "1rem" }} />}
+          >
+            Setup Test
+          </Button>
+        </Link>
+      </Box>
     </Stack>
   );
 }

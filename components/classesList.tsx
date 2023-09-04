@@ -33,7 +33,11 @@ export default function ClassesList() {
             ClassVariant.tertiary,
             ClassVariant.default,
           ].map((item) => {
-            return <Class key={item} variant={item} />;
+            return (
+              <Link key={item} href="/class1">
+                <Class variant={item} />
+              </Link>
+            );
           })}
         </Stack>
       </Stack>

@@ -7,7 +7,7 @@ import Link from "next/link";
 import ClassesList from "@/components/classesList";
 
 export default function Home() {
-  const isClassEmpty = false;
+  const isClassEmpty = true;
 
   if (isClassEmpty) return <ClassesList />;
   return (
