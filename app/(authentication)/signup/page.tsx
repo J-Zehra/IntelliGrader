@@ -10,9 +10,12 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 
 export default function SignupPage() {
+  const navigate = useRouter();
+
   const { isOpen: viewPassword, onToggle: toggleViewPassword } =
     useDisclosure();
   const { isOpen: viewConfirmPassword, onToggle: toggleViewConfirmPassword } =
@@ -64,7 +67,11 @@ export default function SignupPage() {
           )}
         </InputRightElement>
       </InputGroup>
-      <Button bg="#1380FF" color="palette.background">
+      <Button
+        bg="#1380FF"
+        color="palette.background"
+        onClick={() => navigate.push("/signin")}
+      >
         Sign up
       </Button>
       <Text textAlign="center" color="palette.light" fontSize=".9rem">

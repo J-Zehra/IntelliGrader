@@ -1,9 +1,10 @@
 "use client";
 
-import { Avatar, Box, Center, Stack } from "@chakra-ui/react";
+import { Box, Center, Stack } from "@chakra-ui/react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import CustomContainer from "./reusables/customContainer";
+import Profile from "./profile";
 
 export default function Header() {
   const path = usePathname();
@@ -12,7 +13,7 @@ export default function Header() {
   if (path === "/signin" || path === "/signup") return null;
 
   return (
-    <Box pos="fixed" w="100%">
+    <Box pos="fixed" w="100%" zIndex={100}>
       <CustomContainer>
         <Stack direction="row" h="5rem" align="center" justify="space-between">
           <Center onClick={() => navigate.push("/")}>
@@ -24,7 +25,7 @@ export default function Header() {
               style={{ width: "10rem" }}
             />
           </Center>
-          <Avatar w="2.5rem" h="2.5rem" />
+          <Profile />
         </Stack>
       </CustomContainer>
     </Box>

@@ -48,6 +48,7 @@ export default function Class({ variant }: { variant: ClassVariant }) {
       p=".8rem"
       borderRadius=".5rem"
       pos="relative"
+      overflow="hidden"
       boxShadow="0 2px 5px rgba(0, 0, 50, .2)"
     >
       <Stack
@@ -76,7 +77,7 @@ export default function Class({ variant }: { variant: ClassVariant }) {
           opacity=".03"
           pos="absolute"
           left="1rem"
-          bottom={-5}
+          bottom={-4}
         >
           BSIT 3
         </Text>

@@ -12,9 +12,11 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { useRouter } from "next/navigation";
 import GoogleSignIn from "@/components/reusables/googleSignIn";
 
 export default function SinginPage() {
+  const navigate = useRouter();
   const { isOpen: viewPassword, onToggle: toggleViewPassword } =
     useDisclosure();
   return (
@@ -41,7 +43,11 @@ export default function SinginPage() {
           )}
         </InputRightElement>
       </InputGroup>
-      <Button bg="#1380FF" color="palette.background">
+      <Button
+        bg="#1380FF"
+        onClick={() => navigate.push("/")}
+        color="palette.background"
+      >
         Sign in
       </Button>
       <Text textAlign="center" color="palette.light" fontSize=".9rem">
