@@ -22,20 +22,28 @@ export default function Profile() {
         <MenuButton>
           <Avatar w="2.5rem" h="2.5rem" />
         </MenuButton>
-        <MenuList p="1rem">
+        <MenuList p=".6rem">
           <MenuGroup>
-            <Stack direction="row" align="center">
-              <Button onClick={() => navigate.push("/signin")}>Signin</Button>
+            <Stack direction="row" align="center" w="100%">
               <Button
+                onClick={() => navigate.push("/signin")}
+                p="0 1rem"
+                fontSize=".9rem"
+              >
+                Signin
+              </Button>
+              <Button
+                p="0 1rem"
                 variant="outline"
                 onClick={() => navigate.push("/signup")}
+                fontSize=".9rem"
               >
                 Signup
               </Button>
             </Stack>
           </MenuGroup>
           <MenuDivider />
-          <MenuGroup>
+          <MenuGroup fontSize=".9rem">
             <MenuItem>Docs</MenuItem>
             <MenuItem>FAQ</MenuItem>
           </MenuGroup>
