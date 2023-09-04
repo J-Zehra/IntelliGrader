@@ -4,9 +4,9 @@
     "display": "standalone",
     "scope": "/",
     "start_url": "/",
-    "name": "Intelligrader",
+    "name": "IntelliGrader",
     "description": "IntelliGrader: Advancing Test Scoring through AI and Image Recognition",
-    "short_name": "ING",
+    "short_name": "IntelliGrader",
     "icons": [
         {
             "src": "/icon-192x192.png",
