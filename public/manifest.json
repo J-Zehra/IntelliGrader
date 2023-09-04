@@ -3,7 +3,7 @@
     "background_color": "#FAFCFF",
     "display": "standalone",
     "scope": "/",
-    "start_url": "/",
+    "start_url": "/signin",
     "name": "IntelliGrader",
     "description": "IntelliGrader: Advancing Test Scoring through AI and Image Recognition",
     "short_name": "IntelliGrader",
