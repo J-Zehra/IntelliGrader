@@ -1,14 +1,7 @@
 "use client";
 
-import { Box, Text } from "@chakra-ui/react";
-import CustomContainer from "@/components/reusables/customContainer";
+import { Text } from "@chakra-ui/react";
 
 export default function ScanPage() {
-  return (
-    <CustomContainer>
-      <Box pt="6rem">
-        <Text>Scan</Text>
-      </Box>
-    </CustomContainer>
-  );
+  return <Text>Scan</Text>;
 }

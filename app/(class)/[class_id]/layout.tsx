@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import ClassLayoutWrapper from "@/components/layouts/classLayoutWrapper";
 
 export const metadata: Metadata = {
   title: "Class | IntelliGrader",
@@ -10,5 +11,5 @@ export default function ClassLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <div>{children}</div>;
+  return <ClassLayoutWrapper>{children}</ClassLayoutWrapper>;
 }
