@@ -5,8 +5,12 @@ import Image from "next/image";
 import { TbScan } from "react-icons/tb";
 import { MdOutlineFolderCopy } from "react-icons/md";
 import { RiSettings3Line } from "react-icons/ri";
+import { useState } from "react";
+import Camera from "./components/camera";
 
 export default function ScanPage() {
+  const [isCameraOpen, setIsCameraOpen] = useState<boolean>(false);
+
   return (
     <Stack align="center" pt="6rem">
       <Image
@@ -44,6 +48,7 @@ export default function ScanPage() {
         />
         <Button
           w="fit-content"
+          onClick={() => setIsCameraOpen(true)}
           leftIcon={<TbScan style={{ fontSize: "1.5rem" }} />}
         >
           SCAN
@@ -57,6 +62,7 @@ export default function ScanPage() {
           icon={<RiSettings3Line />}
         />
       </Stack>
+      {isCameraOpen ? <Camera /> : null}
     </Stack>
   );
 }
