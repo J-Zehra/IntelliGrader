@@ -30,7 +30,7 @@ export default function ClassLayoutWrapper({
 
   return (
     <CustomContainer>
-      <Stack pt="6rem" spacing="2.5rem">
+      <Stack pt="6rem" spacing="2.5rem" h="100vh">
         <Stack w="100%" direction="row" justify="space-between" align="center">
           <IconButton
             aria-label="Return"
@@ -56,7 +56,7 @@ export default function ClassLayoutWrapper({
             <Box w=".5rem" h=".5rem" bg="palette.accent" borderRadius="5rem" />
           </Stack>
         </Stack>
-        {children}
+        <Box h="100%">{children}</Box>
       </Stack>
     </CustomContainer>
   );

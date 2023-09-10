@@ -1,9 +1,8 @@
 "use client";
 
-import { Button, Grid, Stack, Text } from "@chakra-ui/react";
+import { Button, Grid, Link, Stack, Text } from "@chakra-ui/react";
 import Image from "next/image";
 import { IoMdAdd } from "react-icons/io";
-import Link from "next/link";
 import ClassesList from "@/components/classesList";
 
 export default function Home() {
@@ -21,7 +20,7 @@ export default function Home() {
           style={{ width: "8rem" }}
         />
         <Text
-          fontSize="1.2rem"
+          fontSize="1rem"
           opacity=".6"
           fontWeight="semibold"
           color="palette.button.primary"
@@ -31,16 +30,16 @@ export default function Home() {
         <Text
           fontWeight="normal"
           opacity=".6"
-          fontSize=".9rem"
+          fontSize=".8rem"
           color="palette.button.primary"
         >
           So spacious here. Why not create one?
         </Text>
-        <Link href="/create">
+        <Link mt={5} href="/create">
           <Button
-            mt={5}
             w="fit-content"
-            fontSize=".9rem"
+            p="0 1rem"
+            fontSize=".8rem"
             leftIcon={<IoMdAdd style={{ fontSize: "1rem" }} />}
           >
             Create Class

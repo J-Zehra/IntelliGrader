@@ -1,39 +1,32 @@
 /* eslint-disable react/no-array-index-key */
-import { Grid } from "@chakra-ui/react";
-import { useCallback, useEffect, useState } from "react";
+import {
+  Drawer,
+  DrawerBody,
+  DrawerContent,
+  DrawerOverlay,
+} from "@chakra-ui/react";
 import Webcam from "react-webcam";
 
-export default function Camera() {
-  const [devices, setDevices] = useState<MediaDeviceInfo[]>([]);
-
-  const handleDevices = useCallback(
-    (mediaDevices: MediaDeviceInfo[]) => {
-      return setDevices(
-        mediaDevices.filter(({ kind }) => kind === "videoinput"),
-      );
-    },
-    [setDevices],
-  );
-
-  useEffect(() => {
-    navigator.mediaDevices.enumerateDevices().then(handleDevices);
-  }, [handleDevices]);
-
+export default function Camera({
+  onClose,
+  isOpen,
+}: {
+  isOpen: boolean;
+  onClose: () => void;
+}) {
   return (
-    <Grid h="100vh" pos="absolute" top={0} right={0} left={0} w="100%">
-      {devices.map((device, key) => {
-        return (
-          <>
-            <Webcam
-              key={key}
-              audio={false}
-              videoConstraints={{ deviceId: device.deviceId }}
-              height="100%"
-            />
-            {device.label || `Device ${key + 1}`}
-          </>
-        );
-      })}
-    </Grid>
+    <Drawer onClose={onClose} isOpen={isOpen} size="full">
+      <DrawerOverlay />
+      <DrawerContent>
+        <DrawerBody bg="red">
+          <Webcam
+            videoConstraints={{ facingMode: "user" }}
+            height="100%"
+            width="100%"
+            mirrored
+          />
+        </DrawerBody>
+      </DrawerContent>
+    </Drawer>
   );
 }
