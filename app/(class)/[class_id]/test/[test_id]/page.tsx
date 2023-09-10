@@ -1,23 +1,16 @@
 "use client";
 
-import {
-  Button,
-  IconButton,
-  Stack,
-  Text,
-  useDisclosure,
-} from "@chakra-ui/react";
+import { IconButton, Stack, Text } from "@chakra-ui/react";
 import Image from "next/image";
-import { TbScan } from "react-icons/tb";
+
 import { MdOutlineFolderCopy } from "react-icons/md";
 import { RiSettings3Line } from "react-icons/ri";
-import Camera from "./components/camera";
+
+import ScanButton from "./components/camera";
 
 export default function ScanPage() {
-  const { isOpen, onOpen, onClose } = useDisclosure();
-
   return (
-    <Stack align="center" h="80%" spacing="5rem" justify="center">
+    <Stack align="center" spacing="5rem" pt="2.5rem" justify="center">
       <Stack align="center">
         <Image
           src="/scan.svg"
@@ -53,13 +46,7 @@ export default function ScanPage() {
           opacity={0.8}
           icon={<MdOutlineFolderCopy />}
         />
-        <Button
-          w="fit-content"
-          onClick={onOpen}
-          leftIcon={<TbScan style={{ fontSize: "1.5rem" }} />}
-        >
-          SCAN
-        </Button>
+        <ScanButton />
         <IconButton
           variant="ghost"
           aria-label="setting"
@@ -69,7 +56,6 @@ export default function ScanPage() {
           icon={<RiSettings3Line />}
         />
       </Stack>
-      <Camera onClose={onClose} isOpen={isOpen} />
     </Stack>
   );
 }

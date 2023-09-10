@@ -1,37 +1,42 @@
-/* eslint-disable react/no-array-index-key */
-import {
-  Drawer,
-  DrawerBody,
-  DrawerContent,
-  DrawerOverlay,
-} from "@chakra-ui/react";
-import Webcam from "react-webcam";
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import { Button, Image } from "@chakra-ui/react";
+import { ChangeEvent, useRef, useState } from "react";
+import { TbScan } from "react-icons/tb";
 
-export default function Camera({
-  onClose,
-  isOpen,
-}: {
-  isOpen: boolean;
-  onClose: () => void;
-}) {
+export default function ScanButton() {
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const [image, setImage] = useState<string>("");
+
+  const openCamera = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      setImage(URL.createObjectURL(event.target.files[0]));
+    }
+  };
+
   return (
-    <Drawer onClose={onClose} isOpen={isOpen} size="full">
-      <DrawerOverlay />
-      <DrawerContent>
-        <DrawerBody bg="red" pos="relative">
-          <Webcam
-            videoConstraints={{ facingMode: "user" }}
-            style={{
-              width: "100%",
-              height: "100%",
-              position: "absolute",
-              top: 0,
-              left: 0,
-            }}
-            mirrored
-          />
-        </DrawerBody>
-      </DrawerContent>
-    </Drawer>
+    <>
+      <Button
+        w="fit-content"
+        onClick={openCamera}
+        leftIcon={<TbScan style={{ fontSize: "1.5rem" }} />}
+      >
+        SCAN
+      </Button>
+      <input
+        type="file"
+        accept="image/*"
+        capture="environment"
+        style={{ display: "none" }} // Hide the input element
+        ref={fileInputRef}
+        onChange={handleImageChange}
+      />
+      {/* {image ? <Image src={image} alt="Preview" /> : null} */}
+    </>
   );
 }
