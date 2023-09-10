@@ -18,11 +18,16 @@ export default function Camera({
     <Drawer onClose={onClose} isOpen={isOpen} size="full">
       <DrawerOverlay />
       <DrawerContent>
-        <DrawerBody bg="red">
+        <DrawerBody bg="red" pos="relative">
           <Webcam
             videoConstraints={{ facingMode: "user" }}
-            height="100%"
-            width="100%"
+            style={{
+              width: "100%",
+              height: "100%",
+              position: "absolute",
+              top: 0,
+              left: 0,
+            }}
             mirrored
           />
         </DrawerBody>
