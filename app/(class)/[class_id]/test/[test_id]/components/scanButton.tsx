@@ -1,11 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Button, Image } from "@chakra-ui/react";
-import { ChangeEvent, useRef, useState } from "react";
+import { Button } from "@chakra-ui/react";
+import { ChangeEvent, useRef } from "react";
 import { TbScan } from "react-icons/tb";
+import { useSetRecoilState } from "recoil";
+import { fileState } from "@/state/fileState";
 
 export default function ScanButton() {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
-  const [image, setImage] = useState<string>("");
+  const setImage = useSetRecoilState(fileState);
 
   const openCamera = () => {
     if (fileInputRef.current) {
@@ -15,7 +17,10 @@ export default function ScanButton() {
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      setImage(URL.createObjectURL(event.target.files[0]));
+      setImage({
+        image: event.target.files[0],
+        imageUrl: URL.createObjectURL(event.target.files[0]),
+      });
     }
   };
 

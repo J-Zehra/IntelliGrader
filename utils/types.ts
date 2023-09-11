@@ -6,3 +6,8 @@ export enum ClassVariant {
   secondary = "secondary",
   tertiary = "tertiary",
 }
+
+export type UploadedFile = {
+  image: File | null;
+  imageUrl: string;
+};

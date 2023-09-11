@@ -6,9 +6,18 @@ import Image from "next/image";
 import { MdOutlineFolderCopy } from "react-icons/md";
 import { RiSettings3Line } from "react-icons/ri";
 
-import ScanButton from "./components/camera";
+import { useRecoilValue } from "recoil";
+import { fileState } from "@/state/fileState";
+import ScanButton from "./components/scanButton";
+import Preview from "./components/preview";
 
 export default function ScanPage() {
+  const image = useRecoilValue(fileState);
+
+  if (image.imageUrl) {
+    return <Preview />;
+  }
+
   return (
     <Stack align="center" spacing="5rem" pt="2.5rem" justify="center">
       <Stack align="center">

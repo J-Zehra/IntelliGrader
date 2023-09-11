@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import ThemeWrapper from "@/components/wrappers/themeWrapper";
 import Header from "@/components/header";
+import StateWrapper from "@/components/wrappers/stateWrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -22,8 +23,10 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <ThemeWrapper>
-          <Header />
-          {children}
+          <StateWrapper>
+            <Header />
+            {children}
+          </StateWrapper>
         </ThemeWrapper>
       </body>
     </html>
