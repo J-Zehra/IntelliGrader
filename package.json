@@ -4,11 +4,12 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
     "lint": "eslint .",
     "fix": "eslint --fix .",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "postinstall": "prisma generate"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.1.0",
