@@ -1,5 +1,12 @@
 /* eslint-disable no-console */
-import { Button, Center, IconButton, Image, Stack } from "@chakra-ui/react";
+import {
+  Button,
+  Center,
+  IconButton,
+  Image,
+  Stack,
+  Text,
+} from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useRecoilState } from "recoil";
 import { AiOutlineScan } from "react-icons/ai";
@@ -10,6 +17,8 @@ import { fileState } from "@/state/fileState";
 export default function Preview() {
   const [file, setFile] = useRecoilState(fileState);
   const [processedImage, setProcessedImage] = useState("");
+  // const [answer, setAnswer] = useState<number[]>([]);
+  const [status, setStatus] = useState<string>("");
 
   const handleSubmit = async () => {
     if (!file.image) {
@@ -22,15 +31,17 @@ export default function Preview() {
 
     // API REQUEST
     axios
-      .post("https://jazen.pythonanywhere.com/check", formData, {
+      .post("http://127.0.0.1:5000/check", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
       })
       .then((res) => {
-        console.log(res.data);
+        console.log(res);
         const { data } = res;
         console.log(data);
+        setStatus(res.statusText);
+        // setAnswer(data.answer_indices);
         setProcessedImage(`data:image/jpeg;base64, ${data.image}`);
       })
       .catch((err) => {
@@ -46,7 +57,7 @@ export default function Preview() {
         flexDir="row"
         alignItems="start"
       >
-        <Image borderRadius=".5rem" src={file.imageUrl} w="25%" />
+        <Image borderRadius=".5rem" src={file.imageUrl} w="10%" />
         {processedImage ? (
           <Image borderRadius=".5rem" src={processedImage} w="75%" />
         ) : null}
@@ -63,7 +74,14 @@ export default function Preview() {
         <Button leftIcon={<AiOutlineScan />} onClick={handleSubmit}>
           Grade
         </Button>
-      </Stack>{" "}
+      </Stack>
+      <Text>{status}</Text>
+      {/* <Stack>
+        {answer.map((item, index) => {
+          // eslint-disable-next-line react/no-array-index-key
+          return <Text key={index}>{item}</Text>;
+        })}
+      </Stack> */}
     </Stack>
   );
 }
