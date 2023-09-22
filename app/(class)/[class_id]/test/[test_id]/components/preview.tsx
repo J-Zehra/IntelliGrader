@@ -17,14 +17,12 @@ export default function Preview() {
       return;
     }
 
-    console.log("clicked");
-
     const formData = new FormData();
     formData.append("image", file.image);
 
     // API REQUEST
     axios
-      .post("http://127.0.0.1:5000/check", formData, {
+      .post("https://jazen.pythonanywhere.com/check", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
@@ -32,6 +30,7 @@ export default function Preview() {
       .then((res) => {
         console.log(res.data);
         const { data } = res;
+        console.log(data);
         setProcessedImage(`data:image/jpeg;base64, ${data.image}`);
       })
       .catch((err) => {
@@ -43,7 +42,7 @@ export default function Preview() {
     <Stack>
       <Center
         bg="palette.light"
-        paddingBlock="1rem"
+        padding="1rem"
         flexDir="row"
         alignItems="start"
       >
@@ -64,7 +63,7 @@ export default function Preview() {
         <Button leftIcon={<AiOutlineScan />} onClick={handleSubmit}>
           Grade
         </Button>
-      </Stack>
+      </Stack>{" "}
     </Stack>
   );
 }

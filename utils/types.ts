@@ -11,3 +11,39 @@ export type UploadedFile = {
   image: File | null;
   imageUrl: string;
 };
+
+export type ClassInfo = {
+  course: string;
+  section: string;
+  year: number;
+  subject: string;
+};
+
+export type TestInfo = {
+  classId: string;
+  testName: string;
+  totalQuestions: number;
+  numberOfChoices: number;
+  answerIndices: number[];
+  points: number;
+};
+
+// FETCHED TYPES
+
+export type FetchedClassInfo = {
+  id: string;
+  course: string;
+  section: string;
+  year: number;
+  subject: string;
+};
+
+export type FetchedTestInfo = {
+  id: string;
+  classId: string;
+  testName: string;
+  totalQuestions: number;
+  numberOfChoices: number;
+  answerIndices: number[];
+  points: number;
+};

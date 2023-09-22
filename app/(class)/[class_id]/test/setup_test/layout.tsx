@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import TestSetupLayoutWrapper from "@/components/layouts/testSetupLayoutWrapper";
 
 export const metadata: Metadata = {
   title: "Setup Test | IntelliGrader",
@@ -10,5 +11,5 @@ export default function TestSetupLayout({
 }: {
   children: React.ReactNode;
 }) {
-  return <div>{children}</div>;
+  return <TestSetupLayoutWrapper>{children}</TestSetupLayoutWrapper>;
 }

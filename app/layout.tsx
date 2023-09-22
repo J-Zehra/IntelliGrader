@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import ThemeWrapper from "@/components/wrappers/themeWrapper";
 import Header from "@/components/header";
 import StateWrapper from "@/components/wrappers/stateWrapper";
+import QueryWrapper from "@/components/wrappers/queryWrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,8 +25,10 @@ export default function RootLayout({
       <body className={inter.className}>
         <ThemeWrapper>
           <StateWrapper>
-            <Header />
-            {children}
+            <QueryWrapper>
+              <Header />
+              {children}
+            </QueryWrapper>
           </StateWrapper>
         </ThemeWrapper>
       </body>

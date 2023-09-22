@@ -1,11 +1,28 @@
 import { Button, Stack, Text } from "@chakra-ui/react";
 import { IoMdAdd } from "react-icons/io";
 import Link from "next/link";
-import { ClassVariant } from "@/utils/types";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { useSetRecoilState } from "recoil";
+import { ClassVariant, FetchedClassInfo } from "@/utils/types";
+import { headerState } from "@/state/headerState";
 import CustomContainer from "./reusables/customContainer";
 import Class from "./class";
 
 export default function ClassesList() {
+  const setHeader = useSetRecoilState(headerState);
+
+  const getClasses = async () => {
+    let classes: FetchedClassInfo[] = [];
+    await axios.get("/api/classes").then((res) => {
+      classes = res.data;
+    });
+
+    return classes;
+  };
+
+  const { data } = useQuery({ queryKey: ["classes"], queryFn: getClasses });
+
   return (
     <CustomContainer>
       <Stack pt="7rem">
@@ -27,15 +44,14 @@ export default function ClassesList() {
           </Link>
         </Stack>
         <Stack mt={5} spacing={3}>
-          {[
-            ClassVariant.primary,
-            ClassVariant.secondary,
-            ClassVariant.tertiary,
-            ClassVariant.default,
-          ].map((item) => {
+          {data?.map((item) => {
             return (
-              <Link key={item} href="/class1">
-                <Class variant={item} />
+              <Link
+                key={item.id}
+                href={`/${item.id}`}
+                onClick={() => setHeader(item.subject)}
+              >
+                <Class variant={ClassVariant.primary} classInfo={item} />
               </Link>
             );
           })}

@@ -23,12 +23,11 @@ model Teacher {
 
 model Class {
   id              String @id @default(cuid()) @map("_id")
-  sectionName     String
-  year            Int
   course          String
+  year            Int
+  section         String
   subject         String
-  totalStudent    Int
-  teacherId       String @unique
+  teacherId       String
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
 
@@ -40,11 +39,12 @@ model Class {
 model Student {
   id              String @id @default(cuid()) @map("_id")
   name            String
+  testId          String
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
 
   classes         ClassStudent[]
-  test            Test[]
+  tests           Test @relation(fields: [testId], references: [id])
 }
 
 model ClassStudent {
@@ -60,16 +60,16 @@ model ClassStudent {
 
 model Test {
   id              String @id @default(cuid()) @map("_id")
+  testName        String
   totalQuestions  Int
-  criteriaId      String @unique
-  studentId       String @unique
-  questionId      String @unique
-  classId         String @unique
+  numberOfChoices Int
+  answerIndices   Int[]
+  points          Int
+  classId         String
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
 
-  questions       Question[]
-  student         Student @relation(fields: [studentId], references: [id])
+  students        Student[]
   class           Class @relation(fields: [classId], references: [id])
 }
 
@@ -84,7 +84,6 @@ model Question {
   updatedAt       DateTime     @updatedAt
 
   studentAnswers  StudentAnswer[]
-  test            Test @relation(fields: [testId], references: [id])
   correctAnswer   CorrectAnswer @relation(fields: [answerId], references: [id])
 }
 

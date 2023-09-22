@@ -4,6 +4,8 @@ import { Box, IconButton, Stack, Text } from "@chakra-ui/react";
 import { usePathname, useRouter } from "next/navigation";
 import React, { ReactNode, useEffect, useState } from "react";
 import { BsArrowReturnLeft } from "react-icons/bs";
+import { useRecoilValue } from "recoil";
+import { headerState } from "@/state/headerState";
 import CustomContainer from "../reusables/customContainer";
 
 export default function ClassLayoutWrapper({
@@ -14,19 +16,20 @@ export default function ClassLayoutWrapper({
   const navigate = useRouter();
   const pathName = usePathname();
 
+  const header = useRecoilValue(headerState);
   const [headerTitle, setHeaderTitle] = useState<string>();
 
   const segments = pathName.split("/").filter(Boolean);
 
   useEffect(() => {
     if (segments[0] && !segments[1]) {
-      setHeaderTitle("System Analysis and Design");
+      setHeaderTitle(header);
     } else if (segments[2] === "setup_test") {
       setHeaderTitle("Setup Test");
     } else if (segments[2] !== "setup_test") {
       setHeaderTitle("Final Examination");
     }
-  }, [segments]);
+  }, [header, segments]);
 
   return (
     <CustomContainer>
