@@ -12,6 +12,7 @@ import { useRecoilState } from "recoil";
 import { AiOutlineScan } from "react-icons/ai";
 import { MdDeleteOutline } from "react-icons/md";
 import axios from "axios";
+import imageCompression, { Options } from "browser-image-compression";
 import { fileState } from "@/state/fileState";
 
 export default function Preview() {
@@ -26,12 +27,20 @@ export default function Preview() {
       return;
     }
 
+    const options: Options = {
+      maxSizeMB: 1,
+      maxWidthOrHeight: 800,
+      useWebWorker: true,
+    };
+
+    const compressedFile = await imageCompression(file.image, options);
+
     const formData = new FormData();
-    formData.append("image", file.image);
+    formData.append("image", compressedFile);
 
     // API REQUEST
     axios
-      .post("http://127.0.0.1:5000/check", formData, {
+      .post("https://jazen.pythonanywhere.com/check", formData, {
         headers: {
           "Content-Type": "multipart/form-data",
         },

@@ -1,22 +1,40 @@
 "use client";
 
-import { IconButton, Stack, Text } from "@chakra-ui/react";
+import { IconButton, Input, Stack, Text } from "@chakra-ui/react";
 import Image from "next/image";
 
 import { MdOutlineFolderCopy } from "react-icons/md";
 import { RiSettings3Line } from "react-icons/ri";
 
-import { useRecoilValue } from "recoil";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import { ChangeEvent, useRef } from "react";
 import { fileState } from "@/state/fileState";
 import ScanButton from "./components/scanButton";
 import Preview from "./components/preview";
 
 export default function ScanPage() {
   const image = useRecoilValue(fileState);
+  const setImage = useSetRecoilState(fileState);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   if (image.imageUrl) {
     return <Preview />;
   }
+
+  const handleClick = () => {
+    if (fileInputRef.current) {
+      fileInputRef.current.click();
+    }
+  };
+
+  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
+    if (event.target.files) {
+      setImage({
+        image: event.target.files[0],
+        imageUrl: URL.createObjectURL(event.target.files[0]),
+      });
+    }
+  };
 
   return (
     <Stack align="center" spacing="5rem" pt="2.5rem" justify="center">
@@ -54,8 +72,15 @@ export default function ScanPage() {
           color="palette.accent"
           opacity={0.8}
           icon={<MdOutlineFolderCopy />}
+          onClick={handleClick}
         />
         <ScanButton />
+        <Input
+          type="file"
+          display="none"
+          onChange={handleChange}
+          ref={fileInputRef}
+        />
         <IconButton
           variant="ghost"
           aria-label="setting"

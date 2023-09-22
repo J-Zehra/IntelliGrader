@@ -16,12 +16,16 @@ export default function ScanButton() {
   };
 
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      setImage({
-        image: event.target.files[0],
-        imageUrl: URL.createObjectURL(event.target.files[0]),
-      });
-    }
+    const compress = async () => {
+      if (event.target.files) {
+        setImage({
+          image: event.target.files[0],
+          imageUrl: URL.createObjectURL(event.target.files[0]),
+        });
+      }
+    };
+
+    compress();
   };
 
   return (
