@@ -5,13 +5,13 @@ import prisma from "@/libs/prismadb";
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } },
+  { params }: { params: { class_id: string } },
 ) {
-  const { id } = params;
+  const { class_id } = params;
 
   try {
-    const testInfo = await prisma.test.findFirst({
-      where: { id },
+    const testInfo = await prisma.test.findMany({
+      where: { classId: class_id },
     });
 
     return NextResponse.json(testInfo);

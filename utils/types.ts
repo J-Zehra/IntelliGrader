@@ -28,6 +28,18 @@ export type TestInfo = {
   points: number;
 };
 
+export type ProcessedImageData = {
+  answerIndices: number[];
+  processed_image: string;
+};
+
+export type Grade = {
+  totalQuestions: number;
+  totalNumberOfCorrect: number;
+  totalNumberOfWrong: number;
+  gradedAnswerIndices: number[];
+};
+
 // FETCHED TYPES
 
 export type FetchedClassInfo = {

@@ -15,7 +15,7 @@ export default function Tests() {
 
   const getTests = async () => {
     let tests: FetchedTestInfo[] = [];
-    await axios.get(`/api/tests/${class_id}`).then((res) => {
+    await axios.get(`api/tests/class_tests/${class_id}`).then((res) => {
       tests = res.data;
     });
 

@@ -1,32 +1,44 @@
 /* eslint-disable no-console */
-import {
-  Button,
-  Center,
-  IconButton,
-  Image,
-  Stack,
-  Text,
-} from "@chakra-ui/react";
+import { Button, Center, IconButton, Image, Stack } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { AiOutlineScan } from "react-icons/ai";
 import { MdDeleteOutline } from "react-icons/md";
 import axios from "axios";
 import imageCompression, { Options } from "browser-image-compression";
+import { useParams, usePathname, useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
 import { fileState } from "@/state/fileState";
+import { processedImageState } from "@/state/answerState";
+import { FetchedTestInfo } from "@/utils/types";
 
 export default function Preview() {
+  // eslint-disable-next-line @typescript-eslint/naming-convention
+  const { test_id } = useParams();
+  const currentPath = usePathname();
+  const navigate = useRouter();
   const [file, setFile] = useRecoilState(fileState);
-  const [processedImage, setProcessedImage] = useState("");
-  // const [answer, setAnswer] = useState<number[]>([]);
-  const [status, setStatus] = useState<string>("");
+  const setProcessedImageData = useSetRecoilState(processedImageState);
+  const [loading, setLoading] = useState<boolean>(false);
+
+  const getTest = async () => {
+    let test: Partial<FetchedTestInfo> = {};
+    await axios.get(`/api/tests/${test_id}`).then((res) => {
+      test = res.data;
+    });
+
+    return test;
+  };
+
+  const { data: testData } = useQuery({ queryKey: ["test"], queryFn: getTest });
 
   const handleSubmit = async () => {
-    if (!file.image) {
+    if (!file.image || !testData) {
       console.log("No File");
       return;
     }
 
+    setLoading(true);
     const options: Options = {
       maxSizeMB: 1,
       maxWidthOrHeight: 800,
@@ -37,6 +49,7 @@ export default function Preview() {
 
     const formData = new FormData();
     formData.append("image", compressedFile);
+    formData.append("answer", JSON.stringify(testData.answerIndices));
 
     // API REQUEST
     axios
@@ -46,14 +59,19 @@ export default function Preview() {
         },
       })
       .then((res) => {
-        console.log(res);
         const { data } = res;
         console.log(data);
-        setStatus(res.statusText);
-        // setAnswer(data.answer_indices);
-        setProcessedImage(`data:image/jpeg;base64, ${data.image}`);
+        setLoading(false);
+
+        setProcessedImageData({
+          answerIndices: data.answer_indices,
+          processed_image: `data:image/jpeg;base64, ${data.image}`,
+        });
+
+        navigate.push(`${currentPath}/grade`);
       })
       .catch((err) => {
+        setLoading(false);
         console.log(err);
       });
   };
@@ -66,10 +84,7 @@ export default function Preview() {
         flexDir="row"
         alignItems="start"
       >
-        <Image borderRadius=".5rem" src={file.imageUrl} w="10%" />
-        {processedImage ? (
-          <Image borderRadius=".5rem" src={processedImage} w="75%" />
-        ) : null}
+        <Image borderRadius=".5rem" src={file.imageUrl} w="100%" />
       </Center>
       <Stack direction="row" justify="end" align="center" spacing={5} pt={5}>
         <IconButton
@@ -80,17 +95,15 @@ export default function Preview() {
           onClick={() => setFile({ image: null, imageUrl: "" })}
           icon={<MdDeleteOutline />}
         />
-        <Button leftIcon={<AiOutlineScan />} onClick={handleSubmit}>
+        <Button
+          leftIcon={<AiOutlineScan />}
+          isLoading={loading}
+          loadingText="Grading..."
+          onClick={handleSubmit}
+        >
           Grade
         </Button>
       </Stack>
-      <Text>{status}</Text>
-      {/* <Stack>
-        {answer.map((item, index) => {
-          // eslint-disable-next-line react/no-array-index-key
-          return <Text key={index}>{item}</Text>;
-        })}
-      </Stack> */}
     </Stack>
   );
 }
