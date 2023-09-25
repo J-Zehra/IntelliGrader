@@ -21,6 +21,7 @@ export default function Home() {
 
       return classes;
     },
+    staleTime: 0,
   });
 
   const renderClasses = () => {

@@ -32,7 +32,7 @@ export default function CreateClass() {
 
   const mutateClass = useMutation({
     mutationFn: createClass,
-    mutationKey: ["classes"],
+    mutationKey: ["create-class"],
     onSuccess: (data) => {
       clearState();
       setHeaderTitle(data.data.subject);
