@@ -13,8 +13,7 @@ export default function Home() {
     queryKey: ["classes"],
     queryFn: async () => {
       const res = await fetch("/api/classes", {
-        cache: "no-store",
-        next: { revalidate: 0 },
+        next: { revalidate: 1 },
       });
       const classes = res.json();
 
