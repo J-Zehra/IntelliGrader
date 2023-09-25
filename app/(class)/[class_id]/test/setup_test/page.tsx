@@ -5,12 +5,13 @@
 import { Button, Stack, useToast } from "@chakra-ui/react";
 import { useParams, useRouter } from "next/navigation";
 import { AiOutlinePlus } from "react-icons/ai";
-import { useRecoilState, useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { stepState } from "@/state/stepState";
 import { setupTestState } from "@/state/setupTestState";
 import { TestInfo } from "@/utils/types";
+import { headerState } from "@/state/headerState";
 import Step1 from "./components/step1";
 import Step2 from "./components/step2";
 import Step3 from "./components/step3";
@@ -18,6 +19,7 @@ import Confimation from "./components/confimation";
 
 export default function SetupTest() {
   const navigate = useRouter();
+  const setHeader = useSetRecoilState(headerState);
   const { class_id } = useParams();
 
   const toast = useToast();
@@ -32,6 +34,7 @@ export default function SetupTest() {
     mutationFn: createTest,
     mutationKey: ["create test"],
     onSuccess: (data) => {
+      setHeader(data.data.testName);
       navigate.push(`/${class_id}/test/${data.data.id}`);
     },
   });
@@ -77,17 +80,13 @@ export default function SetupTest() {
       }
       setActiveStep((prev) => prev + 1);
     } else if (activeStep === 3) {
-      mutateTest.mutate(testInfo);
+      const newTestInfo = { ...testInfo };
+      newTestInfo.classId = class_id as string;
+      mutateTest.mutate(newTestInfo);
     }
   };
 
   const steps = [<Step1 />, <Step2 />, <Step3 />, <Confimation />];
-
-  // useEffect(() => {
-  //   const newTestInfo = { ...testInfo };
-  //   newTestInfo.classId = class_id as string;
-  //   setTestInfo(newTestInfo);
-  // }, [class_id]);
 
   return (
     <Stack mt="3rem" spacing="1.2rem">

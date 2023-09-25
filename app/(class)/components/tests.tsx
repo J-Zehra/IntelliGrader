@@ -39,7 +39,7 @@ export default function Tests() {
     }
 
     if (isSuccess && testData.length > 0) {
-      testData.map((test) => {
+      return testData.map((test) => {
         return (
           <Test testInfo={test} key={test.id} variant={ClassVariant.primary} />
         );
