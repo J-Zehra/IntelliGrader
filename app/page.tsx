@@ -1,51 +1,60 @@
 "use client";
 
-import { Button, Grid, Link, Stack, Text } from "@chakra-ui/react";
-import Image from "next/image";
+import { Button, Link, Stack, Text } from "@chakra-ui/react";
 import { IoMdAdd } from "react-icons/io";
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 import ClassesList from "@/components/classesList";
+import { FetchedClassInfo } from "@/utils/types";
+import ClassLoading from "@/components/classLoading";
+import CustomContainer from "@/components/reusables/customContainer";
+import EmptyClass from "@/components/emptyClass";
 
 export default function Home() {
-  const isClassEmpty = true;
+  const { data, isLoading, isSuccess } = useQuery({
+    queryKey: ["classes"],
+    queryFn: async () => {
+      let classes: FetchedClassInfo[] = [];
+      await axios.get("/api/classes").then((res) => {
+        classes = res.data;
+      });
 
-  if (isClassEmpty) return <ClassesList />;
+      return classes;
+    },
+  });
+
+  const renderClasses = () => {
+    if (isLoading) {
+      return <ClassLoading />;
+    }
+
+    if (isSuccess && data.length < 1) return <EmptyClass />;
+
+    if (isSuccess && data.length > 0) return <ClassesList classesData={data} />;
+  };
+
   return (
-    <Grid placeContent="center" w="100%" h="100vh" gap="2rem">
-      <Stack align="center">
-        <Image
-          src="/empty_class.svg"
-          alt="empty-class"
-          width={500}
-          height={500}
-          style={{ width: "8rem" }}
-        />
-        <Text
-          fontSize="1rem"
-          opacity=".6"
-          fontWeight="semibold"
-          color="palette.button.primary"
-        >
-          No classes yet.
-        </Text>
-        <Text
-          fontWeight="normal"
-          opacity=".6"
-          fontSize=".8rem"
-          color="palette.button.primary"
-        >
-          So spacious here. Why not create one?
-        </Text>
-        <Link mt={5} href="/create">
-          <Button
-            w="fit-content"
-            p="0 1rem"
-            fontSize=".8rem"
-            leftIcon={<IoMdAdd style={{ fontSize: "1rem" }} />}
-          >
-            Create Class
-          </Button>
-        </Link>
+    <CustomContainer>
+      <Stack pt="7rem" spacing={10}>
+        <Stack w="100%" align="center" direction="row" justify="space-between">
+          <Text fontSize=".9rem" fontWeight="semibold" opacity=".8">
+            All classes
+          </Text>
+          <Link href="/create">
+            <Button
+              w="fit-content"
+              leftIcon={<IoMdAdd style={{ fontSize: "1rem" }} />}
+              fontSize=".8rem"
+              size="sm"
+              p="1.2rem 1rem"
+              boxShadow="none"
+            >
+              New
+            </Button>
+          </Link>
+        </Stack>
+        {renderClasses()}
       </Stack>
-    </Grid>
+    </CustomContainer>
   );
 }

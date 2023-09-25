@@ -1,13 +1,9 @@
-import { Box, Button, Link, Stack, Text } from "@chakra-ui/react";
+import { Stack, Text } from "@chakra-ui/react";
 import Image from "next/image";
-import { useParams } from "next/navigation";
-import { IoMdAdd } from "react-icons/io";
 
 export default function EmptyTest() {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  const { class_id } = useParams();
   return (
-    <Stack align="center">
+    <Stack align="center" mt={10}>
       <Image
         src="/empty_class.svg"
         alt="empty-class"
@@ -31,18 +27,6 @@ export default function EmptyTest() {
       >
         So spacious here. Why not create one?
       </Text>
-      <Box mt={5}>
-        <Link href={`${class_id}/test/setup_test`}>
-          <Button
-            w="fit-content"
-            fontSize=".8rem"
-            p="1rem"
-            leftIcon={<IoMdAdd style={{ fontSize: "1rem" }} />}
-          >
-            Setup Test
-          </Button>
-        </Link>
-      </Box>
     </Stack>
   );
 }

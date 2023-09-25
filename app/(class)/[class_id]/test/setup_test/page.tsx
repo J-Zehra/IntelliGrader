@@ -1,13 +1,16 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+
 "use client";
 
 import { Button, Stack, useToast } from "@chakra-ui/react";
 import { useParams, useRouter } from "next/navigation";
-import React, { useEffect, useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import axios from "axios";
+import { useMutation } from "@tanstack/react-query";
 import { stepState } from "@/state/stepState";
 import { setupTestState } from "@/state/setupTestState";
+import { TestInfo } from "@/utils/types";
 import Step1 from "./components/step1";
 import Step2 from "./components/step2";
 import Step3 from "./components/step3";
@@ -15,12 +18,23 @@ import Confimation from "./components/confimation";
 
 export default function SetupTest() {
   const navigate = useRouter();
-  // eslint-disable-next-line @typescript-eslint/naming-convention
   const { class_id } = useParams();
+
   const toast = useToast();
-  const [loading, setLoading] = useState<boolean>(false);
-  const [testInfo, setTestInfo] = useRecoilState(setupTestState);
+  const testInfo = useRecoilValue(setupTestState);
   const [activeStep, setActiveStep] = useRecoilState(stepState);
+
+  const createTest = (data: TestInfo) => {
+    return axios.post("/api/create_test", data);
+  };
+
+  const mutateTest = useMutation({
+    mutationFn: createTest,
+    mutationKey: ["create test"],
+    onSuccess: (data) => {
+      navigate.push(`/${class_id}/test/${data.data.id}`);
+    },
+  });
 
   const handleNext = () => {
     if (activeStep === 0) {
@@ -63,28 +77,17 @@ export default function SetupTest() {
       }
       setActiveStep((prev) => prev + 1);
     } else if (activeStep === 3) {
-      // DO REQUEST
-      setLoading(true);
-      axios
-        .post("/api/create_test", testInfo)
-        .then((res) => {
-          setLoading(false);
-          console.log(res.data);
-        })
-        .catch((err) => {
-          setLoading(false);
-          console.log(err);
-        });
+      mutateTest.mutate(testInfo);
     }
   };
 
   const steps = [<Step1 />, <Step2 />, <Step3 />, <Confimation />];
 
-  useEffect(() => {
-    const newTestInfo = { ...testInfo };
-    newTestInfo.classId = class_id as string;
-    setTestInfo(newTestInfo);
-  }, [class_id]);
+  // useEffect(() => {
+  //   const newTestInfo = { ...testInfo };
+  //   newTestInfo.classId = class_id as string;
+  //   setTestInfo(newTestInfo);
+  // }, [class_id]);
 
   return (
     <Stack mt="3rem" spacing="1.2rem">
@@ -97,7 +100,7 @@ export default function SetupTest() {
           leftIcon={<AiOutlinePlus />}
           onClick={handleNext}
           p="1.6rem 1rem"
-          isLoading={loading}
+          isLoading={mutateTest.isLoading}
         >
           {activeStep === 3 ? "Create Test" : "Next"}
         </Button>

@@ -5,38 +5,45 @@ import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import axios from "axios";
+import { useMutation } from "@tanstack/react-query";
+import { useSetRecoilState } from "recoil";
+import { ClassInfo } from "@/utils/types";
+import { headerState } from "@/state/headerState";
 import MultiInput from "./components/multiInput";
 
 export default function CreateClass() {
   const navigate = useRouter();
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [course, setCourse] = useState<string>();
-  const [section, setSection] = useState<string>();
-  const [year, setYear] = useState<number | null>();
-  const [subject, setSubject] = useState<string>();
+  const setHeaderTitle = useSetRecoilState(headerState);
+  const [course, setCourse] = useState<string>("");
+  const [section, setSection] = useState<string>("");
+  const [year, setYear] = useState<number>(0);
+  const [subject, setSubject] = useState<string>("");
 
-  const clearAllState = () => {
+  const clearState = () => {
     setCourse("");
     setSection("");
-    setYear(null);
+    setYear(0);
     setSubject("");
   };
 
+  const createClass = (data: ClassInfo) => {
+    return axios.post("/api/create_class", data);
+  };
+
+  const mutateClass = useMutation({
+    mutationFn: createClass,
+    mutationKey: ["create class"],
+    onSuccess: (data) => {
+      clearState();
+      setHeaderTitle(data.data.subject);
+      navigate.push(`/${data.data.id}`);
+    },
+  });
+
   const handleCreateClass = () => {
-    setIsLoading(true);
-    const data = { course, section, year, subject };
-    axios
-      .post("/api/create_class", data)
-      .then((res) => {
-        setIsLoading(false);
-        clearAllState();
-        console.log(res.data);
-      })
-      .catch((err) => {
-        setIsLoading(false);
-        clearAllState();
-        console.log(err);
-      });
+    const data: ClassInfo = { course, section, year, subject };
+
+    mutateClass.mutate(data);
   };
 
   return (
@@ -63,7 +70,7 @@ export default function CreateClass() {
           type="number"
           bg="gray.100"
           h="3.5rem"
-          value={year!}
+          value={year === 0 ? "" : year}
           onChange={(e) => setYear(parseInt(e.target.value, 10))}
         />
         <Input
@@ -81,7 +88,7 @@ export default function CreateClass() {
           Cancel
         </Button>
         <Button
-          isLoading={isLoading}
+          isLoading={mutateClass.isLoading}
           leftIcon={<AiOutlinePlus />}
           onClick={handleCreateClass}
           p="1.6rem 1rem"
