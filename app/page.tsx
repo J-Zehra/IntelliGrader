@@ -12,7 +12,10 @@ export default function Home() {
   const { data, isLoading, isSuccess } = useQuery({
     queryKey: ["classes"],
     queryFn: async () => {
-      const res = await fetch("/api/classes", { cache: "no-cache" });
+      const res = await fetch("/api/classes", {
+        cache: "no-store",
+        next: { revalidate: 0 },
+      });
       const classes = res.json();
       console.log(classes);
 
