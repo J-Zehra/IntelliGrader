@@ -32,7 +32,10 @@ export default function ScanPage() {
 
     return test;
   };
-  const { data } = useQuery({ queryKey: ["test"], queryFn: getTest });
+  const { data, isLoading } = useQuery({
+    queryKey: ["test"],
+    queryFn: getTest,
+  });
 
   if (image.imageUrl) {
     return <Preview answer={data?.answerIndices} />;
@@ -91,7 +94,7 @@ export default function ScanPage() {
           icon={<MdOutlineFolderCopy />}
           onClick={handleClick}
         />
-        <ScanButton />
+        <ScanButton isLoading={isLoading} />
         <Input
           type="file"
           display="none"

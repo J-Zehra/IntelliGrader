@@ -5,7 +5,7 @@ import { TbScan } from "react-icons/tb";
 import { useSetRecoilState } from "recoil";
 import { fileState } from "@/state/fileState";
 
-export default function ScanButton() {
+export default function ScanButton({ isLoading }: { isLoading: boolean }) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const setImage = useSetRecoilState(fileState);
 
@@ -32,6 +32,7 @@ export default function ScanButton() {
     <>
       <Button
         w="fit-content"
+        disabled={isLoading}
         onClick={openCamera}
         leftIcon={<TbScan style={{ fontSize: "1.5rem" }} />}
       >
