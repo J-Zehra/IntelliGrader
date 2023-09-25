@@ -2,10 +2,8 @@
 
 import { Button, Link, Stack, Text } from "@chakra-ui/react";
 import { IoMdAdd } from "react-icons/io";
-import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import ClassesList from "@/components/classesList";
-import { FetchedClassInfo } from "@/utils/types";
 import ClassLoading from "@/components/classLoading";
 import CustomContainer from "@/components/reusables/customContainer";
 import EmptyClass from "@/components/emptyClass";
@@ -14,14 +12,12 @@ export default function Home() {
   const { data, isLoading, isSuccess } = useQuery({
     queryKey: ["classes"],
     queryFn: async () => {
-      let classes: FetchedClassInfo[] = [];
-      await axios.get("/api/classes").then((res) => {
-        classes = res.data;
-      });
+      const res = await fetch("/api/classes");
+      const classes = res.json();
+      console.log(classes);
 
       return classes;
     },
-    refetchInterval: 1000,
   });
 
   const renderClasses = () => {
