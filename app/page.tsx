@@ -21,7 +21,7 @@ export default function Home() {
 
       return classes;
     },
-    cacheTime: 0,
+    refetchInterval: 1000,
   });
 
   const renderClasses = () => {
