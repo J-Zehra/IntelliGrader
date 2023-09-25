@@ -21,7 +21,7 @@ export default function Header() {
       boxShadow="0 5px 10px rgba(0, 0, 0, .05)"
     >
       <CustomContainer>
-        <Stack direction="row" h="5rem" align="center" justify="space-between">
+        <Stack direction="row" h="4rem" align="center" justify="space-between">
           <Center onClick={() => navigate.push("/")}>
             <Image
               src="/logo_v1.svg"
