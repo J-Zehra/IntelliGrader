@@ -1,11 +1,15 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import { AiOutlineEye } from "react-icons/ai";
 import { Box, Button, Divider, Stack, Text } from "@chakra-ui/react";
 import { useRecoilValue } from "recoil";
 import Image from "next/image";
-import { processedImageState } from "@/state/answerState";
+import { useParams, useRouter } from "next/navigation";
+import { gradeState } from "@/state/gradeState";
 
 export default function StudentGradeItem() {
-  const processedImage = useRecoilValue(processedImageState);
+  const gradeInfo = useRecoilValue(gradeState);
+  const { class_id, test_id } = useParams();
+  const navigate = useRouter();
   return (
     <Stack
       p=".5rem"
@@ -22,7 +26,7 @@ export default function StudentGradeItem() {
         <Box h="100%" w="3rem" bg="palette.light" borderRadius=".4rem">
           <Image
             alt="Processed Image"
-            src={processedImage.processed_image}
+            src={gradeInfo.processedImage}
             width={500}
             height={500}
             style={{
@@ -45,12 +49,15 @@ export default function StudentGradeItem() {
               h="fit-content"
               maxWidth="fit-content"
               p=".6rem .7rem"
+              onClick={() =>
+                navigate.push(`/${class_id}/test/${test_id}/overview`)
+              }
               leftIcon={<AiOutlineEye />}
             >
               View Details
             </Button>
             <Stack align="center" spacing={0.1}>
-              <Text fontSize=".5rem" fontWeight="medium" opacity={0.7}>
+              <Text fontSize=".5rem" fontWeight="medi2um" opacity={0.7}>
                 Accuracy
               </Text>
               <Text fontSize=".8rem" fontWeight="medium">
@@ -62,10 +69,10 @@ export default function StudentGradeItem() {
       </Stack>
       <Stack spacing={0.1} paddingInline="1rem" align="center">
         <Text fontSize="2rem" fontWeight="bold">
-          20
+          {gradeInfo.totalNumberOfCorrect}
         </Text>
         <Divider mb={2} />
-        <Text fontSize=".8rem">10</Text>
+        <Text fontSize=".8rem">{gradeInfo.totalQuestions}</Text>
       </Stack>
     </Stack>
   );

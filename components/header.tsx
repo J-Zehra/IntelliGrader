@@ -13,7 +13,13 @@ export default function Header() {
   if (path === "/signin" || path === "/signup") return null;
 
   return (
-    <Box pos="fixed" w="100%" zIndex={100}>
+    <Box
+      pos="fixed"
+      w="100%"
+      zIndex={100}
+      bg="palette.background"
+      boxShadow="0 5px 10px rgba(0, 0, 0, .05)"
+    >
       <CustomContainer>
         <Stack direction="row" h="5rem" align="center" justify="space-between">
           <Center onClick={() => navigate.push("/")}>

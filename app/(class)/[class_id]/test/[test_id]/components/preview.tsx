@@ -1,39 +1,34 @@
 /* eslint-disable no-console */
-import { Button, Center, IconButton, Image, Stack } from "@chakra-ui/react";
+import {
+  Button,
+  Center,
+  IconButton,
+  Image,
+  Stack,
+  useToast,
+} from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { AiOutlineScan } from "react-icons/ai";
 import { MdDeleteOutline } from "react-icons/md";
 import axios from "axios";
 import imageCompression, { Options } from "browser-image-compression";
-import { useParams, usePathname, useRouter } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
+import { usePathname, useRouter } from "next/navigation";
+import Lottie from "react-lottie-player";
 import { fileState } from "@/state/fileState";
-import { processedImageState } from "@/state/answerState";
-import { FetchedTestInfo } from "@/utils/types";
+import { gradeState } from "@/state/gradeState";
+import ScanningAnimation from "../../../../../../public/scanning_animation.json";
 
-export default function Preview() {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  const { test_id } = useParams();
+export default function Preview({ answer }: { answer: number[] | undefined }) {
+  const toast = useToast();
   const currentPath = usePathname();
+  const setGradeInfo = useSetRecoilState(gradeState);
   const navigate = useRouter();
   const [file, setFile] = useRecoilState(fileState);
-  const setProcessedImageData = useSetRecoilState(processedImageState);
   const [loading, setLoading] = useState<boolean>(false);
 
-  const getTest = async () => {
-    let test: Partial<FetchedTestInfo> = {};
-    await axios.get(`/api/tests/${test_id}`).then((res) => {
-      test = res.data;
-    });
-
-    return test;
-  };
-
-  const { data: testData } = useQuery({ queryKey: ["test"], queryFn: getTest });
-
   const handleSubmit = async () => {
-    if (!file.image || !testData) {
+    if (!file.image || !answer) {
       console.log("No File");
       return;
     }
@@ -49,7 +44,7 @@ export default function Preview() {
 
     const formData = new FormData();
     formData.append("image", compressedFile);
-    formData.append("answer", JSON.stringify(testData.answerIndices));
+    formData.append("answer", JSON.stringify(answer));
 
     // API REQUEST
     axios
@@ -63,15 +58,32 @@ export default function Preview() {
         console.log(data);
         setLoading(false);
 
-        setProcessedImageData({
+        setGradeInfo({
+          processedImage: `data:image/jpeg;base64, ${data.image}`,
+          gradedAnswerIndices: data.result,
+          totalNumberOfCorrect: data.correct,
+          totalNumberOfWrong: data.incorrect,
+          totalQuestions: data.result.length,
           answerIndices: data.answer_indices,
-          processed_image: `data:image/jpeg;base64, ${data.image}`,
+        });
+
+        toast({
+          title: "Success",
+          status: "success",
+          duration: 3000,
         });
 
         navigate.push(`${currentPath}/grade`);
       })
       .catch((err) => {
         setLoading(false);
+        toast({
+          title: err.response.data.error,
+          description: "Please take a clear picture",
+          status: "error",
+          duration: 10000,
+        });
+
         console.log(err);
       });
   };
@@ -83,8 +95,25 @@ export default function Preview() {
         padding="1rem"
         flexDir="row"
         alignItems="start"
+        pos="relative"
+        borderRadius=".5rem"
       >
-        <Image borderRadius=".5rem" src={file.imageUrl} w="100%" />
+        <Image
+          borderRadius=".5rem"
+          src={file.imageUrl}
+          w="100%"
+          opacity={loading ? 0.4 : 1}
+        />
+        {loading ? (
+          <Center pos="absolute" zIndex={10} h="100%" top={0}>
+            <Lottie
+              loop
+              animationData={ScanningAnimation}
+              play
+              style={{ width: 600, height: 400 }}
+            />
+          </Center>
+        ) : null}
       </Center>
       <Stack direction="row" justify="end" align="center" spacing={5} pt={5}>
         <IconButton

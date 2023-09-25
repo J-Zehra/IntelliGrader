@@ -9,5 +9,7 @@ export const gradeState = atom<Grade>({
     totalNumberOfWrong: 0,
     totalQuestions: 0,
     gradedAnswerIndices: [],
+    processedImage: "",
+    answerIndices: [],
   },
 });

@@ -5,7 +5,9 @@ import { BsBarChartLine } from "react-icons/bs";
 import { useParams } from "next/navigation";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+import { motion } from "framer-motion";
 import { ClassVariant, FetchedClassInfo, FetchedTestInfo } from "@/utils/types";
+import { item } from "@/utils/animations";
 
 export default function Test({
   variant,
@@ -82,6 +84,8 @@ export default function Test({
       pos="relative"
       overflow="hidden"
       boxShadow="0 2px 5px rgba(0, 0, 50, .2)"
+      as={motion.div}
+      variants={item}
     >
       <Stack
         direction="row"

@@ -1,15 +1,15 @@
 "use client";
 
-import { Box, Select, Stack, Text } from "@chakra-ui/react";
+import { Center, Select, Stack, Text } from "@chakra-ui/react";
 import { useRecoilValue } from "recoil";
 import Image from "next/image";
-import { processedImageState } from "@/state/answerState";
+import { gradeState } from "@/state/gradeState";
 import StudentGradeItem from "./components/studentGradeItem";
 
 export default function GradePage() {
-  const processedImage = useRecoilValue(processedImageState);
+  const gradeInfo = useRecoilValue(gradeState);
   return (
-    <Box>
+    <Stack spacing={2} paddingBottom={5}>
       <Stack direction="row" w="100%" justify="space-between" align="center">
         <Text fontSize=".8rem" fontWeight="normal">
           Total of 1 paper
@@ -26,18 +26,20 @@ export default function GradePage() {
           return <StudentGradeItem key={item} />;
         })}
       </Stack>
-      <Image
-        alt="Processed Image"
-        src={processedImage.processed_image}
-        width={500}
-        height={500}
-        style={{
-          width: "100%",
-          height: "100%",
-          borderRadius: ".4rem",
-          opacity: 0.8,
-        }}
-      />
-    </Box>
+      <Center p="1rem" bg="palette.light">
+        <Image
+          alt="Processed Image"
+          src={gradeInfo.processedImage}
+          width={500}
+          height={500}
+          style={{
+            width: "100%",
+            height: "100%",
+            borderRadius: ".4rem",
+            opacity: 0.8,
+          }}
+        />
+      </Center>
+    </Stack>
   );
 }

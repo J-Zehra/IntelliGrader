@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+
 "use client";
 
 import { IconButton, Input, Stack, Text } from "@chakra-ui/react";
@@ -8,17 +10,32 @@ import { RiSettings3Line } from "react-icons/ri";
 
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { ChangeEvent, useRef } from "react";
+import axios from "axios";
+import { useParams } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
 import { fileState } from "@/state/fileState";
+import { FetchedTestInfo } from "@/utils/types";
 import ScanButton from "./components/scanButton";
 import Preview from "./components/preview";
 
 export default function ScanPage() {
+  const { test_id } = useParams();
   const image = useRecoilValue(fileState);
   const setImage = useSetRecoilState(fileState);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
+  const getTest = async () => {
+    let test: Partial<FetchedTestInfo> = {};
+    await axios.get(`/api/tests/${test_id}`).then((res) => {
+      test = res.data;
+    });
+
+    return test;
+  };
+  const { data } = useQuery({ queryKey: ["test"], queryFn: getTest });
+
   if (image.imageUrl) {
-    return <Preview />;
+    return <Preview answer={data?.answerIndices} />;
   }
 
   const handleClick = () => {

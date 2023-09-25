@@ -4,9 +4,12 @@ import Link from "next/link";
 import { useParams } from "next/navigation";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+import { motion } from "framer-motion";
 import { ClassVariant, FetchedTestInfo } from "@/utils/types";
+import { container } from "@/utils/animations";
 import EmptyTest from "./emptyTest";
 import Test from "./test";
+import TestsLoading from "../[class_id]/test/[test_id]/components/testsLoading";
 
 export default function Tests() {
   const empty = true;
@@ -22,7 +25,7 @@ export default function Tests() {
     return tests;
   };
 
-  const { data: testData } = useQuery({
+  const { data: testData, isLoading } = useQuery({
     queryKey: ["tests"],
     queryFn: getTests,
   });
@@ -44,27 +47,39 @@ export default function Tests() {
     } else return null;
   };
 
+  const renderTests = () => {
+    if (isLoading) {
+      return <TestsLoading />;
+    }
+
+    if (!isLoading && testData && testData?.length < 1) {
+      return <EmptyTest />;
+    }
+
+    return testData?.map((test) => {
+      return (
+        <Test testInfo={test} key={test.id} variant={ClassVariant.primary} />
+      );
+    });
+  };
+
   return (
     <Stack spacing={6} mt={5}>
       <Stack direction="row" w="100%" justify="space-between" align="center">
         <Text fontSize=".8rem" fontWeight="medium">
           Tests
         </Text>
-        {renderButton()}
+        <Stack
+          spacing={3}
+          as={motion.div}
+          variants={container}
+          initial="hidden"
+          animate="show"
+        >
+          {renderButton()}
+        </Stack>
       </Stack>
-      {testData && testData?.length > 0 ? (
-        testData.map((test) => {
-          return (
-            <Test
-              testInfo={test}
-              key={test.id}
-              variant={ClassVariant.primary}
-            />
-          );
-        })
-      ) : (
-        <EmptyTest />
-      )}
+      {renderTests()}
     </Stack>
   );
 }

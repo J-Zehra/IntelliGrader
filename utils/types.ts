@@ -34,9 +34,11 @@ export type ProcessedImageData = {
 };
 
 export type Grade = {
+  processedImage: string;
   totalQuestions: number;
   totalNumberOfCorrect: number;
   totalNumberOfWrong: number;
+  answerIndices: number[];
   gradedAnswerIndices: number[];
 };
 
