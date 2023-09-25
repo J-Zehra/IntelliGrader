@@ -1,6 +1,14 @@
 import { Center, Divider, Stack, Text, WrapItem } from "@chakra-ui/react";
+import { useRecoilValue } from "recoil";
+import { gradeState } from "@/state/gradeState";
 
 export default function Accuracy() {
+  const gradeInfo = useRecoilValue(gradeState);
+
+  const calculateAccuracy = () => {
+    return (gradeInfo.totalNumberOfCorrect / gradeInfo.totalQuestions) * 100;
+  };
+
   return (
     <WrapItem
       as={Stack}
@@ -14,7 +22,7 @@ export default function Accuracy() {
     >
       <Center w="100%" flex={10}>
         <Text fontSize="2rem" fontWeight="bold">
-          80%
+          {`${calculateAccuracy()}%`}
         </Text>
       </Center>
       <Divider />
