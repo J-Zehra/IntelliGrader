@@ -10,6 +10,10 @@ export default function StudentGradeItem() {
   const gradeInfo = useRecoilValue(gradeState);
   const { class_id, test_id } = useParams();
   const navigate = useRouter();
+
+  const calculateAccuracy = () => {
+    return (gradeInfo.totalNumberOfCorrect / gradeInfo.totalQuestions) * 100;
+  };
   return (
     <Stack
       p=".5rem"
@@ -61,7 +65,7 @@ export default function StudentGradeItem() {
                 Accuracy
               </Text>
               <Text fontSize=".8rem" fontWeight="medium">
-                50%
+                {`${calculateAccuracy()}%`}
               </Text>
             </Stack>
           </Stack>
