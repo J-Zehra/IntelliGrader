@@ -10,7 +10,7 @@ export default function Streaks() {
     let highestStreak = 0;
 
     gradeInfo.gradedAnswerIndices.forEach((item) => {
-      if (item === 1) {
+      if (item === 0) {
         currentStreak += 1;
         if (currentStreak > highestStreak) {
           highestStreak = currentStreak;
