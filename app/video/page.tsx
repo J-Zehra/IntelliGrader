@@ -16,7 +16,7 @@ export default function VideoPage() {
         video: {
           width: 1920,
           height: 1080,
-          // facingMode: { exact: "environment" },
+          facingMode: { exact: "environment" },
         },
       })
       .then((stream) => {
