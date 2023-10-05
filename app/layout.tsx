@@ -4,6 +4,7 @@ import ThemeWrapper from "@/components/wrappers/themeWrapper";
 import Header from "@/components/header";
 import StateWrapper from "@/components/wrappers/stateWrapper";
 import QueryWrapper from "@/components/wrappers/queryWrapper";
+import SessionWrapper from "@/components/wrappers/sessionWrapper";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -24,12 +25,14 @@ export default function RootLayout({
     <html lang="en">
       <body className={inter.className}>
         <ThemeWrapper>
-          <StateWrapper>
-            <QueryWrapper>
-              <Header />
-              {children}
-            </QueryWrapper>
-          </StateWrapper>
+          <SessionWrapper>
+            <StateWrapper>
+              <QueryWrapper>
+                <Header />
+                {children}
+              </QueryWrapper>
+            </StateWrapper>
+          </SessionWrapper>
         </ThemeWrapper>
       </body>
     </html>

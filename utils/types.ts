@@ -42,6 +42,12 @@ export type Grade = {
   gradedAnswerIndices: number[];
 };
 
+export type Teacher = {
+  username: string;
+  email: string;
+  password: string;
+};
+
 // FETCHED TYPES
 
 export type FetchedClassInfo = {

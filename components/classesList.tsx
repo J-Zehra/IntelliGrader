@@ -15,7 +15,7 @@ export default function ClassesList({
 
   return (
     <Stack
-      spacing={3}
+      spacing={2}
       as={motion.div}
       variants={container}
       initial="hidden"
