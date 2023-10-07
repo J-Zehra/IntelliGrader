@@ -1,5 +1,6 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import bcrypt from "bcrypt";
 import prisma from "@/libs/prismadb";
@@ -9,7 +10,13 @@ export const OPTIONS: NextAuthOptions = {
     signIn: "/signin",
   },
   adapter: PrismaAdapter(prisma),
+
   providers: [
+    GoogleProvider({
+      clientId:
+        "13924501660-3h5p4ohcv8v7qnaeuuemoubvdop4pga6.apps.googleusercontent.com",
+      clientSecret: "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",
+    }),
     CredentialsProvider({
       name: "credentials",
       credentials: {
@@ -24,7 +31,7 @@ export const OPTIONS: NextAuthOptions = {
         }
 
         // CHECK IF USER EXIST
-        const user = await prisma.teacher.findUnique({
+        const user = await prisma.user.findUnique({
           where: {
             email: credentials?.email,
           },
@@ -37,7 +44,7 @@ export const OPTIONS: NextAuthOptions = {
         // CHECK IF THE PASSWORD MATCHES
         const passwordMatch = await bcrypt.compare(
           credentials!.password,
-          user.password,
+          user.password!,
         );
 
         if (!passwordMatch) {

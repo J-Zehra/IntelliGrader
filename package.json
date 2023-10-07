@@ -6,6 +6,7 @@
     "dev": "next dev",
     "build": "prisma generate && next build",
     "start": "next start",
+    "updatedb": "npx prisma generate && npx prisma db push",
     "lint": "eslint .",
     "fix": "eslint --fix .",
     "prepare": "husky install",

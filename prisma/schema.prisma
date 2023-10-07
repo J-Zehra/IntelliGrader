@@ -7,14 +7,18 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Teacher {
+model User {
   id              String @id @default(cuid()) @map("_id")
-  username        String @unique
-  password        String
+  name            String?
+  username        String?
+  password        String?
+  image           String?
   email           String @unique
+  emailVerified   DateTime?
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
 
+  accounts      Account[]
   class           Class[]
 }
 
@@ -24,13 +28,13 @@ model Class {
   year            Int
   section         String
   subject         String
-  teacherId       String
+  teacherId       String 
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
 
   students        ClassStudent[]
   tests           Test[]
-  teacher         Teacher @relation(fields: [teacherId], references: [id])
+  teacher         User @relation(fields: [teacherId], references: [id])
 }
 
 model Student {
@@ -97,4 +101,23 @@ model StudentAnswer {
   questionId      String @unique
 
   question        Question @relation(fields: [questionId], references: [id])
+}
+
+model Account {
+  id                 String @id @default(cuid()) @map("_id")
+  userId             String
+  type               String
+  provider           String
+  providerAccountId  String @map("provider_account_id")
+  refresh_token      String? @db.String
+  access_token       String? @db.String
+  expires_at         Int?
+  token_type         String?
+  scope              String?
+  id_token           String? @db.String
+  session_state      String?
+
+  user             User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
 }

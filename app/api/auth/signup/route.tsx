@@ -41,7 +41,7 @@ export async function POST(request: Request) {
   }
 
   // CHECK IF USERNAME EXISTS
-  const usernameExist = await prisma.teacher.findUnique({
+  const usernameExist = await prisma.user.findFirst({
     where: {
       username,
     },
@@ -56,7 +56,7 @@ export async function POST(request: Request) {
   }
 
   // CHECK IF EMAIL EXISTS
-  const emailExist = await prisma.teacher.findUnique({
+  const emailExist = await prisma.user.findUnique({
     where: {
       email,
     },
@@ -74,7 +74,7 @@ export async function POST(request: Request) {
   const hashedPassword = await bcrypt.hash(password, 10);
 
   // REGISTER USER
-  const user = await prisma.teacher.create({
+  const user = await prisma.user.create({
     data: {
       username,
       email,
