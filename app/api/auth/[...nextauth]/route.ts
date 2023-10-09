@@ -58,6 +58,7 @@ const options: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
+  secret: "intelligrader",
 };
 
 const handler = NextAuth(options);
