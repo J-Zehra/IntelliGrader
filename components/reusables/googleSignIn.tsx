@@ -4,7 +4,9 @@ import React from "react";
 
 export default function GoogleSignIn() {
   const handleGoogleSignin = async () => {
-    await signIn("google", { callbackUrl: "/" });
+    await signIn("google", { callbackUrl: "/" })
+      .then((res) => console.log(res))
+      .catch((err) => console.log(err));
   };
   return (
     <Center

@@ -10,7 +10,6 @@ const options: NextAuthOptions = {
     signIn: "/signin",
   },
   adapter: PrismaAdapter(prisma),
-
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID || "",

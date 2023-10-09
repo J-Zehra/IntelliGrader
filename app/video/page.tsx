@@ -11,7 +11,7 @@ export default function VideoPage() {
   const getVideo = () => {
     navigator.mediaDevices
       .getUserMedia({
-        video: true,
+        video: { facingMode: { exact: "environment" } },
       })
       .then((stream) => {
         const video = videoRef.current;
@@ -31,7 +31,7 @@ export default function VideoPage() {
 
   return (
     <Box w="100%" bg="rgba(0, 0, 0, .1)" h="100vh" pos="absolute" top={0}>
-      <video ref={videoRef} style={{ width: "100%", height: "100%" }} />;
+      <video ref={videoRef} style={{ width: "100%", height: "100vh" }} />;
       <Box
         w="100%"
         h="100%"
