@@ -5,7 +5,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import bcrypt from "bcrypt";
 import prisma from "@/libs/prismadb";
 
-export const OPTIONS: NextAuthOptions = {
+export const options: NextAuthOptions = {
   pages: {
     signIn: "/signin",
   },
@@ -60,6 +60,6 @@ export const OPTIONS: NextAuthOptions = {
   },
 };
 
-const handler = NextAuth(OPTIONS);
+const handler = NextAuth(options);
 
 export { handler as GET, handler as POST };
