@@ -13,9 +13,8 @@ const options: NextAuthOptions = {
 
   providers: [
     GoogleProvider({
-      clientId:
-        "13924501660-3h5p4ohcv8v7qnaeuuemoubvdop4pga6.apps.googleusercontent.com",
-      clientSecret: "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",
+      clientId: process.env.GOOGLE_CLIENT_ID || "",
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET || "",
     }),
     CredentialsProvider({
       name: "credentials",
@@ -58,7 +57,6 @@ const options: NextAuthOptions = {
   session: {
     strategy: "jwt",
   },
-  secret: "intelligrader",
 };
 
 const handler = NextAuth(options);
