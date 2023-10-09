@@ -30,8 +30,8 @@ export default function VideoPage() {
   }, [videoRef]);
 
   return (
-    <Box w="100%" bg="rgba(0, 0, 0, .1)" h="100vh" pos="absolute" top={0}>
-      <video ref={videoRef} style={{ width: "100%", height: "100vh" }} />;
+    <Box w="100%" bg="rgba(0, 0, 0, .1)" h="100vh">
+      <video ref={videoRef} style={{ width: "100%", height: "100%" }} />;
       <Box
         w="100%"
         h="100%"
