@@ -7,8 +7,6 @@ export const gradeState = atom<Grade>({
   default: {
     totalNumberOfCorrect: 0,
     totalNumberOfWrong: 0,
-    totalQuestions: 0,
-    gradedAnswerIndices: [],
     processedImage: "",
     answerIndices: [],
   },

@@ -1,9 +1,7 @@
-import { Stack, Link } from "@chakra-ui/react";
-import { useSetRecoilState } from "recoil";
+import { Stack } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { ClassVariant, FetchedClassInfo } from "@/utils/types";
-import { headerState } from "@/state/headerState";
-import { container, item as animationItem } from "@/utils/animations";
+import { container } from "@/utils/animations";
 import Class from "./class";
 
 export default function ClassesList({
@@ -11,8 +9,6 @@ export default function ClassesList({
 }: {
   classesData: FetchedClassInfo[];
 }) {
-  const setHeader = useSetRecoilState(headerState);
-
   return (
     <Stack
       spacing={2}
@@ -22,15 +18,11 @@ export default function ClassesList({
       animate="show"
     >
       {classesData.map((classData) => (
-        <Link
+        <Class
           key={classData.id}
-          href={`/${classData.id}`}
-          as={motion.a}
-          variants={animationItem}
-          onClick={() => setHeader(classData.subject)}
-        >
-          <Class variant={ClassVariant.primary} classInfo={classData} />
-        </Link>
+          variant={ClassVariant.primary}
+          classInfo={classData}
+        />
       ))}
     </Stack>
   );

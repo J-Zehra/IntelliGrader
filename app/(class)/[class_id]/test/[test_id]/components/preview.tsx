@@ -48,22 +48,24 @@ export default function Preview({ answer }: { answer: number[] | undefined }) {
 
     // API REQUEST
     axios
-      .post("https://jazen.pythonanywhere.com/check", formData, {
-        headers: {
-          "Content-Type": "multipart/form-data",
+      .post(
+        "https://intelli-grader-backend-43b270ab373f.herokuapp.com/process",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
         },
-      })
+      )
       .then((res) => {
         const { data } = res;
         console.log(data);
         setLoading(false);
 
         setGradeInfo({
-          processedImage: `data:image/jpeg;base64, ${data.image}`,
-          gradedAnswerIndices: data.result,
-          totalNumberOfCorrect: data.correct,
-          totalNumberOfWrong: data.incorrect,
-          totalQuestions: data.result.length,
+          processedImage: `data:image/jpeg;base64, ${data.processed_image}`,
+          totalNumberOfCorrect: data.number_of_correct,
+          totalNumberOfWrong: data.number_of_incorrect,
           answerIndices: data.answer_indices,
         });
 

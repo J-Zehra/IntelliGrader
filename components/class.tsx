@@ -1,8 +1,13 @@
 import { Center, Stack, Text } from "@chakra-ui/react";
-import React from "react";
-import { AiOutlineMore, AiOutlineScan } from "react-icons/ai";
+import { AiOutlineScan } from "react-icons/ai";
 import { BsBarChartLine } from "react-icons/bs";
+import { motion } from "framer-motion";
+import { useSetRecoilState } from "recoil";
+import { useRouter } from "next/navigation";
 import { ClassVariant, FetchedClassInfo } from "@/utils/types";
+import { item as animationItem } from "@/utils/animations";
+import { headerState } from "@/state/headerState";
+import MoreOptions from "./moreOptions";
 
 export default function Class({
   variant,
@@ -11,6 +16,9 @@ export default function Class({
   variant: ClassVariant;
   classInfo: FetchedClassInfo;
 }) {
+  const setHeader = useSetRecoilState(headerState);
+  const navigate = useRouter();
+
   const bgVariant = () => {
     let background = "";
 
@@ -48,6 +56,11 @@ export default function Class({
     return textColor;
   };
 
+  const handleClick = () => {
+    setHeader(classInfo.subject);
+    navigate.push(`/${classInfo.id}`);
+  };
+
   return (
     <Stack
       bg={bgVariant()}
@@ -56,6 +69,9 @@ export default function Class({
       pos="relative"
       overflow="hidden"
       boxShadow="0 2px 5px rgba(0, 0, 50, .2)"
+      as={motion.div}
+      variants={animationItem}
+      onClick={handleClick}
     >
       <Stack
         direction="row"
@@ -72,9 +88,7 @@ export default function Class({
             {`${classInfo.course} ${classInfo.year}`}
           </Text>
         </Stack>
-        <Center p=".1rem" cursor="pointer" fontSize="1.2rem" opacity=".8">
-          <AiOutlineMore />
-        </Center>
+        <MoreOptions />
       </Stack>
       <Stack direction="row" w="100%" align="end" justify="end">
         <Text
