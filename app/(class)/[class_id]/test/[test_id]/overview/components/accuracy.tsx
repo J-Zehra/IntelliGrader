@@ -6,7 +6,9 @@ export default function Accuracy() {
   const gradeInfo = useRecoilValue(gradeState);
 
   const calculateAccuracy = () => {
-    return (gradeInfo.totalNumberOfCorrect / gradeInfo.totalQuestions) * 100;
+    return (
+      (gradeInfo.totalNumberOfCorrect / gradeInfo.answerIndices.length) * 100
+    );
   };
 
   return (
