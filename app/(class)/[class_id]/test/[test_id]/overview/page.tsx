@@ -54,7 +54,7 @@ export default function OverviewPage() {
           Answers Overview
         </Text>
         <Stack spacing={2}>
-          {[...Array(gradeInfo.totalQuestions)].map((_, index) => {
+          {[...Array(gradeInfo.answerIndices.length)].map((_, index) => {
             return (
               <AnswerItem
                 index={index}
