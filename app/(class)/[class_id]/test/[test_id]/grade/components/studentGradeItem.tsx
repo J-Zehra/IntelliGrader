@@ -12,7 +12,9 @@ export default function StudentGradeItem() {
   const navigate = useRouter();
 
   const calculateAccuracy = () => {
-    return (gradeInfo.totalNumberOfCorrect / gradeInfo.totalQuestions) * 100;
+    return (
+      (gradeInfo.totalNumberOfCorrect / gradeInfo.answerIndices.length) * 100
+    );
   };
   return (
     <Stack
@@ -76,7 +78,7 @@ export default function StudentGradeItem() {
           {gradeInfo.totalNumberOfCorrect}
         </Text>
         <Divider mb={2} />
-        <Text fontSize=".8rem">{gradeInfo.totalQuestions}</Text>
+        <Text fontSize=".8rem">{gradeInfo.answerIndices.length}</Text>
       </Stack>
     </Stack>
   );
