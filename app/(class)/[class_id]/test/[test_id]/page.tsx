@@ -8,11 +8,12 @@ import Image from "next/image";
 import { MdOutlineFolderCopy } from "react-icons/md";
 import { RiSettings3Line } from "react-icons/ri";
 
-import { useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { ChangeEvent, useRef } from "react";
 import axios from "axios";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
+import { TbScan } from "react-icons/tb";
 import { fileState } from "@/state/fileState";
 import { FetchedTestInfo } from "@/utils/types";
 import ScanButton from "./components/scanButton";
@@ -20,8 +21,7 @@ import Preview from "./components/preview";
 
 export default function ScanPage() {
   const { test_id } = useParams();
-  const image = useRecoilValue(fileState);
-  const setImage = useSetRecoilState(fileState);
+  const [image, setImage] = useRecoilState(fileState);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const getTest = async () => {
@@ -37,10 +37,6 @@ export default function ScanPage() {
     queryFn: getTest,
   });
 
-  if (image.imageUrl) {
-    return <Preview answer={data?.answerIndices} />;
-  }
-
   const handleClick = () => {
     if (fileInputRef.current) {
       fileInputRef.current.click();
@@ -49,12 +45,24 @@ export default function ScanPage() {
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     if (event.target.files) {
-      setImage({
-        image: event.target.files[0],
-        imageUrl: URL.createObjectURL(event.target.files[0]),
+      const { files } = event.target;
+      const fileList = Array.from(files);
+
+      fileList.forEach((file) => {
+        setImage((prev) => [
+          {
+            image: file,
+            imageUrl: URL.createObjectURL(file),
+          },
+          ...prev,
+        ]);
       });
     }
   };
+
+  if (image.length > 0) {
+    return <Preview answer={data?.answerIndices} />;
+  }
 
   return (
     <Stack align="center" spacing="5rem" pt="2.5rem" justify="center">
@@ -94,10 +102,17 @@ export default function ScanPage() {
           icon={<MdOutlineFolderCopy />}
           onClick={handleClick}
         />
-        <ScanButton isLoading={isLoading} />
+        <ScanButton
+          isLoading={isLoading}
+          variant="solid"
+          icon={<TbScan fontSize="1.3rem" />}
+          text="Scan"
+        />
         <Input
           type="file"
           display="none"
+          multiple
+          accept="image/*"
           onChange={handleChange}
           ref={fileInputRef}
         />

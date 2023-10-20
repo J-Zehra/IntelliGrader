@@ -1,11 +1,20 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button } from "@chakra-ui/react";
-import { ChangeEvent, useRef } from "react";
-import { TbScan } from "react-icons/tb";
+import React, { ChangeEvent, useRef } from "react";
 import { useSetRecoilState } from "recoil";
 import { fileState } from "@/state/fileState";
 
-export default function ScanButton({ isLoading }: { isLoading: boolean }) {
+export default function ScanButton({
+  isLoading,
+  variant,
+  icon,
+  text,
+}: {
+  text: string;
+  isLoading: boolean;
+  variant: string;
+  icon: React.ReactElement;
+}) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const setImage = useSetRecoilState(fileState);
 
@@ -18,9 +27,17 @@ export default function ScanButton({ isLoading }: { isLoading: boolean }) {
   const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
     const compress = async () => {
       if (event.target.files) {
-        setImage({
-          image: event.target.files[0],
-          imageUrl: URL.createObjectURL(event.target.files[0]),
+        const { files } = event.target;
+        const fileList = Array.from(files);
+
+        fileList.forEach((file) => {
+          setImage((prev) => [
+            {
+              image: file,
+              imageUrl: URL.createObjectURL(file),
+            },
+            ...prev,
+          ]);
         });
       }
     };
@@ -32,21 +49,22 @@ export default function ScanButton({ isLoading }: { isLoading: boolean }) {
     <>
       <Button
         w="fit-content"
+        variant={variant}
         disabled={isLoading}
         onClick={openCamera}
-        leftIcon={<TbScan style={{ fontSize: "1.5rem" }} />}
+        leftIcon={icon}
+        p="1.5rem 1rem"
       >
-        SCAN
+        {text}
       </Button>
       <input
         type="file"
         accept="image/*"
         capture="environment"
-        style={{ display: "none" }} // Hide the input element
+        style={{ display: "none" }}
         ref={fileInputRef}
         onChange={handleImageChange}
       />
-      {/* {image ? <Image src={image} alt="Preview" /> : null} */}
     </>
   );
 }

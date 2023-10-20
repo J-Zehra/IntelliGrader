@@ -1,3 +1,6 @@
+/* eslint-disable no-nested-ternary */
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-plusplus */
 /* eslint-disable no-console */
 import {
   Button,
@@ -5,11 +8,13 @@ import {
   IconButton,
   Image,
   Stack,
+  Wrap,
+  WrapItem,
   useToast,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import { AiOutlineScan } from "react-icons/ai";
+import { AiOutlinePlus, AiOutlineScan } from "react-icons/ai";
 import { MdDeleteOutline } from "react-icons/md";
 import axios from "axios";
 import imageCompression, { Options } from "browser-image-compression";
@@ -18,17 +23,18 @@ import Lottie from "react-lottie-player";
 import { fileState } from "@/state/fileState";
 import { gradeState } from "@/state/gradeState";
 import ScanningAnimation from "../../../../../../public/scanning_animation.json";
+import ScanButton from "./scanButton";
 
 export default function Preview({ answer }: { answer: number[] | undefined }) {
   const toast = useToast();
   const currentPath = usePathname();
   const setGradeInfo = useSetRecoilState(gradeState);
   const navigate = useRouter();
-  const [file, setFile] = useRecoilState(fileState);
+  const [files, setFiles] = useRecoilState(fileState);
   const [loading, setLoading] = useState<boolean>(false);
 
   const handleSubmit = async () => {
-    if (!file.image || !answer) {
+    if (!files || !answer) {
       console.log("No File");
       return;
     }
@@ -40,91 +46,122 @@ export default function Preview({ answer }: { answer: number[] | undefined }) {
       useWebWorker: true,
     };
 
-    const compressedFile = await imageCompression(file.image, options);
+    async function compressAndAppendImages() {
+      const formData = new FormData();
+      for (let index = 0; index < files.length; index++) {
+        const { image } = files[index];
+        const compressedFile = await imageCompression(image!, options);
+        formData.append(`images[${index}]`, compressedFile);
+      }
 
-    const formData = new FormData();
-    formData.append("image", compressedFile);
-    formData.append("answer", JSON.stringify(answer));
+      formData.append("answer", JSON.stringify(answer));
+      return formData;
+    }
 
-    // API REQUEST
-    axios
-      .post(
-        "https://intelli-grader-backend-43b270ab373f.herokuapp.com/process",
-        formData,
-        {
-          headers: {
-            "Content-Type": "multipart/form-data",
+    compressAndAppendImages().then((formData) => {
+      axios
+        .post(
+          "https://intelli-grader-backend-43b270ab373f.herokuapp.com/process",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
           },
-        },
-      )
-      .then((res) => {
-        const { data } = res;
-        console.log(data);
-        setLoading(false);
+        )
+        .then((res) => {
+          const { data } = res;
+          console.log(data);
+          setLoading(false);
 
-        setGradeInfo({
-          processedImage: `data:image/jpeg;base64, ${data.processed_image}`,
-          totalNumberOfCorrect: data.number_of_correct,
-          totalNumberOfWrong: data.number_of_incorrect,
-          answerIndices: data.answer_indices,
+          setGradeInfo({
+            processedImage: `data:image/jpeg;base64, ${data.processed_image}`,
+            totalNumberOfCorrect: data.number_of_correct,
+            totalNumberOfWrong: data.number_of_incorrect,
+            answerIndices: data.answer_indices,
+          });
+
+          toast({
+            title: "Success",
+            status: "success",
+            duration: 3000,
+          });
+
+          navigate.push(`${currentPath}/grade`);
+        })
+        .catch((err) => {
+          setLoading(false);
+          toast({
+            title: err.response.data.error,
+            description: "Please take a clear picture",
+            status: "error",
+            duration: 10000,
+          });
+
+          console.log(err);
         });
-
-        toast({
-          title: "Success",
-          status: "success",
-          duration: 3000,
-        });
-
-        navigate.push(`${currentPath}/grade`);
-      })
-      .catch((err) => {
-        setLoading(false);
-        toast({
-          title: err.response.data.error,
-          description: "Please take a clear picture",
-          status: "error",
-          duration: 10000,
-        });
-
-        console.log(err);
-      });
+    });
   };
 
   return (
     <Stack>
-      <Center
+      <Wrap
         bg="palette.light"
         padding="1rem"
-        flexDir="row"
-        alignItems="start"
+        justify="start"
+        align="center"
+        w="100%"
         pos="relative"
         borderRadius=".5rem"
       >
-        <Image
-          borderRadius=".5rem"
-          src={file.imageUrl}
-          w="100%"
-          opacity={loading ? 0.4 : 1}
-        />
-        {loading ? (
-          <Center pos="absolute" zIndex={10} h="100%" top={0}>
-            <Lottie
-              loop
-              animationData={ScanningAnimation}
-              play
-              style={{ width: 600, height: 400 }}
-            />
-          </Center>
-        ) : null}
-      </Center>
+        {files.map((file) => {
+          return (
+            <WrapItem
+              key={file.imageUrl}
+              w={
+                files.length === 1
+                  ? "100%"
+                  : files.length === 2
+                  ? "48%"
+                  : files.length === 3
+                  ? "30%"
+                  : "23%"
+              }
+            >
+              <Image
+                borderRadius=".5rem"
+                src={file.imageUrl}
+                w="100%"
+                opacity={loading ? 0.4 : 1}
+              />
+              {loading ? (
+                <Center pos="absolute" zIndex={10} h="100%" top={0}>
+                  <Lottie
+                    loop
+                    animationData={ScanningAnimation}
+                    play
+                    style={{ width: 600, height: 400 }}
+                  />
+                </Center>
+              ) : null}
+            </WrapItem>
+          );
+        })}
+      </Wrap>
       <Stack direction="row" justify="end" align="center" spacing={5} pt={5}>
         <IconButton
           aria-label="Delete Icon"
           variant="ghost"
           fontSize="1.5rem"
           color="palette.accent"
-          onClick={() => setFile({ image: null, imageUrl: "" })}
+          onClick={() => setFiles([])}
           icon={<MdDeleteOutline />}
+        />
+        <ScanButton
+          isLoading={false}
+          variant="outline"
+          icon={<AiOutlinePlus />}
+          text="Add more"
         />
         <Button
           leftIcon={<AiOutlineScan />}

@@ -74,7 +74,7 @@ export default function SinginPage() {
   };
 
   return (
-    <Stack justifyContent="center" h="100%" spacing={5}>
+    <Stack justifyContent="center" h="100%" spacing={3.5}>
       {loading ? (
         <Center
           h="100vh"
@@ -92,7 +92,7 @@ export default function SinginPage() {
             play
             style={{ width: 150, height: 150 }}
           />
-          <Text fontSize="1rem" fontWeight="normal" color="palette.light">
+          <Text fontSize=".9rem" fontWeight="normal" color="palette.light">
             Signing you in...
           </Text>
         </Center>

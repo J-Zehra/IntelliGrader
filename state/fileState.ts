@@ -2,7 +2,7 @@
 import { atom } from "recoil";
 import { UploadedFile } from "@/utils/types";
 
-export const fileState = atom<UploadedFile>({
+export const fileState = atom<UploadedFile[]>({
   key: "fileState",
-  default: { image: null, imageUrl: "" },
+  default: [],
 });

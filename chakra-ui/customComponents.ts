@@ -6,7 +6,7 @@ export const CustomInput = defineStyleConfig({
       field: {
         bg: "palette.background",
         boxShadow: "0 1px 10px rgba(0, 0, 0, .1)",
-        fontSize: "1rem",
+        fontSize: ".9rem",
         p: "1.5rem 1.2rem",
         _placeholder: { color: "rgba(0, 0, 100, .5)" },
       },
@@ -23,7 +23,7 @@ export const CustomButton = defineStyleConfig({
       boxShadow: "0 5px 10px rgba(0, 0, 0, .2)",
       color: "palette.background",
       p: "1.5rem",
-      fontSize: "1rem",
+      fontSize: ".9rem",
       fontWeight: "bold",
       _hover: { bg: "palette.button.background_hover" },
     },
