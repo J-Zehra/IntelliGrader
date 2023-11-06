@@ -51,7 +51,7 @@ export default function Preview({ answer }: { answer: number[] | undefined }) {
       for (let index = 0; index < files.length; index++) {
         const { image } = files[index];
         const compressedFile = await imageCompression(image!, options);
-        formData.append(`images[${index}]`, compressedFile);
+        formData.append("images", compressedFile);
       }
 
       formData.append("answer", JSON.stringify(answer));
