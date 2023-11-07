@@ -1,10 +1,19 @@
+/* eslint-disable no-nested-ternary */
+
 "use client";
 
-import { Center, Select, Stack, Text } from "@chakra-ui/react";
+import {
+  Center,
+  Image,
+  Select,
+  Stack,
+  Text,
+  Wrap,
+  WrapItem,
+} from "@chakra-ui/react";
 import { useRecoilValue } from "recoil";
-import Image from "next/image";
 import { gradeState } from "@/state/gradeState";
-import StudentGradeItem from "./components/studentGradeItem";
+// import StudentGradeItem from "./components/studentGradeItem";
 
 export default function GradePage() {
   const gradeInfo = useRecoilValue(gradeState);
@@ -21,13 +30,45 @@ export default function GradePage() {
           <option value="option2">Lowest</option>
         </Select>
       </Stack>
-      <Stack marginTop={10}>
+      {/* <Stack marginTop={10}>
         {[1].map((item) => {
           return <StudentGradeItem key={item} />;
         })}
-      </Stack>
+      </Stack> */}
       <Center p="1rem" bg="palette.light">
-        <Image
+        <Wrap
+          bg="palette.light"
+          padding="1rem"
+          justify="start"
+          align="center"
+          w="100%"
+          pos="relative"
+          borderRadius=".5rem"
+        >
+          {gradeInfo.map((file) => {
+            return (
+              <WrapItem
+                key={file.processedImage}
+                w={
+                  gradeInfo.length === 1
+                    ? "100%"
+                    : gradeInfo.length === 2
+                    ? "48%"
+                    : gradeInfo.length === 3
+                    ? "30%"
+                    : "23%"
+                }
+              >
+                <Image
+                  borderRadius=".5rem"
+                  src={file.processedImage}
+                  w="100%"
+                />
+              </WrapItem>
+            );
+          })}
+        </Wrap>
+        {/* <Image
           alt="Processed Image"
           src={gradeInfo.processedImage}
           width={500}
@@ -38,7 +79,7 @@ export default function GradePage() {
             borderRadius: ".4rem",
             opacity: 0.8,
           }}
-        />
+        /> */}
       </Center>
     </Stack>
   );

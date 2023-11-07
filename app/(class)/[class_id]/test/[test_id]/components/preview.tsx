@@ -22,7 +22,8 @@ import { usePathname, useRouter } from "next/navigation";
 import Lottie from "react-lottie-player";
 import { fileState } from "@/state/fileState";
 import { gradeState } from "@/state/gradeState";
-import ScanningAnimation from "../../../../../../public/scanning_animation.json";
+import { FetchedGradeInfo, Grade } from "@/utils/types";
+import ScanningAnimation from "../../../../../../public/scanning_animation_2.json";
 import ScanButton from "./scanButton";
 
 export default function Preview({ answer }: { answer: number[] | undefined }) {
@@ -74,12 +75,19 @@ export default function Preview({ answer }: { answer: number[] | undefined }) {
           console.log(data);
           setLoading(false);
 
-          setGradeInfo({
-            processedImage: `data:image/jpeg;base64, ${data.processed_image}`,
-            totalNumberOfCorrect: data.number_of_correct,
-            totalNumberOfWrong: data.number_of_incorrect,
-            answerIndices: data.answer_indices,
+          const processedImages: Grade[] = [];
+          data.forEach((item: FetchedGradeInfo) => {
+            const processedImageData: Grade = {
+              processedImage: `data:image/jpeg;base64, ${item.processed_image}`,
+              totalNumberOfCorrect: item.number_of_correct,
+              totalNumberOfWrong: item.number_of_incorrect,
+              answerIndices: item.answer_indices,
+            };
+
+            processedImages.push(processedImageData);
           });
+
+          setGradeInfo(processedImages);
 
           toast({
             title: "Success",
@@ -132,15 +140,22 @@ export default function Preview({ answer }: { answer: number[] | undefined }) {
                 borderRadius=".5rem"
                 src={file.imageUrl}
                 w="100%"
-                opacity={loading ? 0.4 : 1}
+                opacity={loading ? 0.3 : 1}
               />
               {loading ? (
-                <Center pos="absolute" zIndex={10} h="100%" top={0}>
+                <Center
+                  pos="absolute"
+                  w="100%"
+                  zIndex={10}
+                  h="100%"
+                  left={0}
+                  top={0}
+                >
                   <Lottie
                     loop
                     animationData={ScanningAnimation}
                     play
-                    style={{ width: 600, height: 400 }}
+                    style={{ width: 300, height: 300 }}
                   />
                 </Center>
               ) : null}

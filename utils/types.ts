@@ -65,3 +65,11 @@ export type FetchedTestInfo = {
   answerIndices: number[];
   points: number;
 };
+
+export type FetchedGradeInfo = {
+  roll_number: number;
+  number_of_correct: number;
+  number_of_incorrect: number;
+  answer_indices: number[];
+  processed_image: string;
+};

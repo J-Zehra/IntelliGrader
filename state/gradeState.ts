@@ -2,12 +2,7 @@
 import { atom } from "recoil";
 import { Grade } from "@/utils/types";
 
-export const gradeState = atom<Grade>({
+export const gradeState = atom<Grade[]>({
   key: "gradeState",
-  default: {
-    totalNumberOfCorrect: 0,
-    totalNumberOfWrong: 0,
-    processedImage: "",
-    answerIndices: [],
-  },
+  default: [],
 });
