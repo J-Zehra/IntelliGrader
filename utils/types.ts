@@ -16,7 +16,9 @@ export type ClassInfo = {
   course: string;
   section: string;
   year: number;
-  subject: string;
+  program: string;
+  variant: ClassVariant;
+  students: StudentInfo[];
 };
 
 export type TestInfo = {
@@ -26,6 +28,13 @@ export type TestInfo = {
   numberOfChoices: number;
   answerIndices: number[];
   points: number;
+};
+
+export type StudentInfo = {
+  lastName: string;
+  firstName: string;
+  middleName: string;
+  rollNumber: number;
 };
 
 export type ProcessedImageData = {
@@ -38,6 +47,7 @@ export type Grade = {
   totalNumberOfCorrect: number;
   totalNumberOfWrong: number;
   answerIndices: number[];
+  rollNumber: number;
 };
 
 export type Teacher = {

@@ -1,33 +1,25 @@
 "use client";
 
-import { Stack, Button, Input, Box } from "@chakra-ui/react";
+import { Stack, Button, useToast } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
 import { AiOutlinePlus } from "react-icons/ai";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
-import { useSetRecoilState } from "recoil";
-import { ClassInfo, ClassVariant } from "@/utils/types";
+import { BsArrowRightShort } from "react-icons/bs";
+import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil";
+import { ClassInfo } from "@/utils/types";
 import { headerState } from "@/state/headerState";
-// import MultiInput from "./components/multiInput";
+import { classInfoState } from "@/state/classInfoState";
+import { createClassStepState } from "@/state/stepState";
+import Step1 from "./components/step1";
+import Step2 from "./components/step2";
 
 export default function CreateClass() {
   const navigate = useRouter();
+  const toast = useToast();
   const setHeaderTitle = useSetRecoilState(headerState);
-  const [course, setCourse] = useState<string>("");
-  const [section, setSection] = useState<string>("");
-  const [year, setYear] = useState<number>(0);
-  const [subject, setSubject] = useState<string>("");
-  const [selectedVariant, setSelectedVariant] = useState<ClassVariant>(
-    ClassVariant.default,
-  );
-
-  const clearState = () => {
-    setCourse("");
-    setSection("");
-    setYear(0);
-    setSubject("");
-  };
+  const classInfo = useRecoilValue(classInfoState);
+  const [activeStep, setActiveStep] = useRecoilState(createClassStepState);
 
   const createClass = (data: ClassInfo) => {
     return axios.post("/api/create_class", data);
@@ -37,87 +29,41 @@ export default function CreateClass() {
     mutationFn: createClass,
     mutationKey: ["create-class"],
     onSuccess: (data) => {
-      clearState();
       setHeaderTitle(data.data.subject);
       navigate.push(`/${data.data.id}`);
     },
   });
 
-  const handleCreateClass = () => {
-    const data: ClassInfo = { course, section, year, subject };
-
-    mutateClass.mutate(data);
-  };
-
-  const bgVariant = (variant: ClassVariant) => {
-    let background = "";
-
-    switch (variant) {
-      case ClassVariant.primary:
-        background = "linear-gradient(to left, #003C8F, #006CFB)";
-        break;
-      case ClassVariant.secondary:
-        background = "linear-gradient(to left, #015BD5, #0AA6FF)";
-        // CODE
-        break;
-      case ClassVariant.tertiary:
-        background = "linear-gradient(to left, #3A8FFF, #B8E5FF)";
-        // CODE
-        break;
-      default:
-        background = "linear-gradient(to left, #D6E6FF, #FAFCFF)";
+  const handleNext = () => {
+    if (
+      !classInfo.course ||
+      !classInfo.section ||
+      !classInfo.program ||
+      !classInfo.year
+    ) {
+      toast({
+        title: "Incomplete Fields.",
+        description: "Please fill all the fields.",
+        duration: 3000,
+        position: "top",
+        status: "error",
+      });
+      return;
     }
 
-    return background;
+    if (activeStep === 1) {
+      mutateClass.mutate(classInfo);
+      return;
+    }
+
+    setActiveStep((prev) => prev + 1);
   };
+
+  const steps = [<Step1 />, <Step2 />];
 
   return (
     <>
-      <Stack spacing="1rem">
-        <Input
-          placeholder="Course"
-          type="text"
-          bg="gray.100"
-          h="3.5rem"
-          value={course}
-          onChange={(e) => setCourse(e.target.value)}
-        />
-        <Input
-          placeholder="Section"
-          type="text"
-          bg="gray.100"
-          h="3.5rem"
-          value={section}
-          onChange={(e) => setSubject(e.target.value)}
-        />
-        {/* <MultiInput /> */}
-        <Stack direction="row" spacing={2} align="center" h="4rem">
-          {[
-            ClassVariant.default,
-            ClassVariant.primary,
-            ClassVariant.secondary,
-            ClassVariant.tertiary,
-          ].map((item) => {
-            return (
-              <Box
-                w={selectedVariant === item ? "2.5rem" : "2rem"}
-                borderRadius=".2rem"
-                h={selectedVariant === item ? "2.5rem" : "2rem"}
-                border={
-                  selectedVariant === item
-                    ? "1px solid rgba(0, 0, 100, .5)"
-                    : ""
-                }
-                opacity={selectedVariant === item ? 1 : 0.9}
-                transition="all .1s ease"
-                onClick={() => setSelectedVariant(item)}
-                bg={bgVariant(item)}
-                key={item}
-              />
-            );
-          })}
-        </Stack>
-      </Stack>
+      {steps[activeStep]}
       <Stack direction="row" align="center" justify="end" spacing="1rem">
         <Button
           variant="ghost"
@@ -127,13 +73,15 @@ export default function CreateClass() {
           Cancel
         </Button>
         <Button
-          isLoading={mutateClass.isLoading}
-          leftIcon={<AiOutlinePlus />}
-          onClick={handleCreateClass}
+          // isLoading={mutateClass.isLoading}
+          leftIcon={
+            activeStep === 0 ? <BsArrowRightShort /> : <AiOutlinePlus />
+          }
+          onClick={handleNext}
           p="1.5rem 1rem"
           fontSize=".9rem"
         >
-          Create class
+          {activeStep === 0 ? "Next" : "Create Class"}
         </Button>
       </Stack>
     </>

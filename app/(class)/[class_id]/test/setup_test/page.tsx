@@ -8,10 +8,10 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
-import { stepState } from "@/state/stepState";
-import { setupTestState } from "@/state/setupTestState";
 import { TestInfo } from "@/utils/types";
 import { headerState } from "@/state/headerState";
+import { setupTestStepState } from "@/state/stepState";
+import { setupTestState } from "@/state/setupTestState";
 import Step1 from "./components/step1";
 import Step2 from "./components/step2";
 import Step3 from "./components/step3";
@@ -24,7 +24,7 @@ export default function SetupTest() {
 
   const toast = useToast();
   const testInfo = useRecoilValue(setupTestState);
-  const [activeStep, setActiveStep] = useRecoilState(stepState);
+  const [activeStep, setActiveStep] = useRecoilState(setupTestStepState);
 
   const createTest = (data: TestInfo) => {
     return axios.post("/api/create_test", data);

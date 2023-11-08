@@ -82,6 +82,7 @@ export default function Preview({ answer }: { answer: number[] | undefined }) {
               totalNumberOfCorrect: item.number_of_correct,
               totalNumberOfWrong: item.number_of_incorrect,
               answerIndices: item.answer_indices,
+              rollNumber: item.roll_number,
             };
 
             processedImages.push(processedImageData);

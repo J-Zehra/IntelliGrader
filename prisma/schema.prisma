@@ -21,42 +21,46 @@ model User {
   accounts      Account[]
   class           Class[]
 }
-
 model Class {
-  id              String @id @default(cuid()) @map("_id")
-  course          String
-  year            Int
-  section         String
-  subject         String
-  teacherId       String 
-  createdAt       DateTime     @default(now())
-  updatedAt       DateTime     @updatedAt
+  id        String   @id @default(cuid()) @map("_id")
+  course    String
+  year      Int
+  section   String
+  program   String
+  teacherId String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  students        ClassStudent[]
+  teacher   User     @relation(fields: [teacherId], references: [id])
+  classStudents ClassStudent[] // Represents the many-to-many relationship
   tests           Test[]
-  teacher         User @relation(fields: [teacherId], references: [id])
 }
 
 model Student {
-  id              String @id @default(cuid()) @map("_id")
-  name            String
-  testId          String
-  createdAt       DateTime     @default(now())
-  updatedAt       DateTime     @updatedAt
+  id        String   @id @default(cuid()) @map("_id")
+  lastName  String
+  firstName  String
+  middleName  String
+  rollNumber Int
+  testId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  classes         ClassStudent[]
   tests           Test @relation(fields: [testId], references: [id])
+  classStudents ClassStudent[] // Represents the many-to-many relationship
 }
 
 model ClassStudent {
-  id              String @id @default(cuid()) @map("_id")
-  classId         String @unique
-  studentId       String @unique
-  createdAt       DateTime     @default(now())
-  updatedAt       DateTime     @updatedAt
+  id         String @id @default(cuid()) @map("_id")
+  classId    String
+  studentId  String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 
-  student         Student @relation(fields: [studentId], references: [id])
-  class           Class @relation(fields: [classId], references: [id])
+  class    Class   @relation(fields: [classId], references: [id])
+  student  Student @relation(fields: [studentId], references: [id])
+
+  @@unique([classId, studentId])
 }
 
 model Test {

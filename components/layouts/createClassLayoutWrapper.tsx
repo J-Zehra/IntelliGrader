@@ -2,8 +2,22 @@
 
 import React, { ReactNode } from "react";
 import { BsArrowReturnLeft } from "react-icons/bs";
-import { Box, IconButton, Stack, Text } from "@chakra-ui/react";
+import {
+  Box,
+  IconButton,
+  Stack,
+  Step,
+  StepIcon,
+  StepIndicator,
+  StepNumber,
+  StepSeparator,
+  StepStatus,
+  Stepper,
+  Text,
+} from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
+import { useRecoilValue } from "recoil";
+import { createClassStepState } from "@/state/stepState";
 import CustomContainer from "../reusables/customContainer";
 
 export default function CreateClassLayoutWrapper({
@@ -12,6 +26,13 @@ export default function CreateClassLayoutWrapper({
   children: ReactNode;
 }) {
   const navigate = useRouter();
+
+  const steps = [
+    { title: "First", description: "Contact Info" },
+    { title: "Second", description: "Date & Time" },
+  ];
+
+  const activeStep = useRecoilValue(createClassStepState);
 
   return (
     <CustomContainer>
@@ -40,6 +61,24 @@ export default function CreateClassLayoutWrapper({
             </Text>
             <Box w=".5rem" h=".5rem" bg="palette.accent" borderRadius="5rem" />
           </Stack>
+        </Stack>
+        <Stack pt="2rem" w="100%" align="center" spacing="2.5rem">
+          <Box w="75%">
+            <Stepper size="lg" index={activeStep}>
+              {steps.map((step) => (
+                <Step key={step.title}>
+                  <StepIndicator>
+                    <StepStatus
+                      complete={<StepIcon />}
+                      incomplete={<StepNumber />}
+                      active={<StepNumber />}
+                    />
+                  </StepIndicator>
+                  <StepSeparator />
+                </Step>
+              ))}
+            </Stepper>
+          </Box>
         </Stack>
         {children}
       </Stack>

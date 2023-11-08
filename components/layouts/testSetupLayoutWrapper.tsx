@@ -12,7 +12,7 @@ import {
   Stepper,
 } from "@chakra-ui/react";
 import { useRecoilValue } from "recoil";
-import { stepState } from "@/state/stepState";
+import { setupTestStepState } from "@/state/stepState";
 import CustomContainer from "../reusables/customContainer";
 
 export default function TestSetupLayoutWrapper({
@@ -26,7 +26,7 @@ export default function TestSetupLayoutWrapper({
     { title: "Third", description: "Select Rooms" },
   ];
 
-  const activeStep = useRecoilValue(stepState);
+  const activeStep = useRecoilValue(setupTestStepState);
 
   return (
     <CustomContainer>
