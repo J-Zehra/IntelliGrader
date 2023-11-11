@@ -1,4 +1,4 @@
-import { Input, Textarea } from "@chakra-ui/react";
+import { Input } from "@chakra-ui/react";
 import React from "react";
 import { useRecoilState } from "recoil";
 import { setupTestState } from "@/state/setupTestState";
@@ -54,18 +54,6 @@ export default function Step1() {
         value={testInfo.numberOfChoices === 0 ? "" : testInfo.numberOfChoices}
         onChange={handleNumberofChoicesChange}
       />
-      <Textarea
-        placeholder="Add Student"
-        disabled
-        bg="gray.100"
-        h="6rem"
-        p="1rem"
-      >
-        {/* <Tag size="md" borderRadius="full" variant="solid" colorScheme="green">
-        <TagLabel>Green</TagLabel>
-        <TagCloseButton />
-      </Tag> */}
-      </Textarea>
     </>
   );
 }

@@ -2,11 +2,11 @@
 import { atom } from "recoil";
 
 export const setupTestStepState = atom({
-  key: "setupTestState",
+  key: "setupTestStepState",
   default: 0,
 });
 
 export const createClassStepState = atom({
-  key: "createClassState",
+  key: "createClassStepState",
   default: 0,
 });

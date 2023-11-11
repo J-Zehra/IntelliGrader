@@ -1,6 +1,6 @@
 import { Stack } from "@chakra-ui/react";
 import { motion } from "framer-motion";
-import { ClassVariant, FetchedClassInfo } from "@/utils/types";
+import { FetchedClassInfo } from "@/utils/types";
 import { container } from "@/utils/animations";
 import Class from "./class";
 
@@ -20,7 +20,7 @@ export default function ClassesList({
       {classesData.map((classData) => (
         <Class
           key={classData.id}
-          variant={ClassVariant.primary}
+          variant={classData.variant}
           classInfo={classData}
         />
       ))}

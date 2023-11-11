@@ -2,7 +2,6 @@
 
 import {
   Button,
-  Center,
   Input,
   InputGroup,
   InputRightElement,
@@ -17,9 +16,8 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useMutation } from "@tanstack/react-query";
-import Lottie from "react-lottie-player";
 import { Teacher } from "@/utils/types";
-import SigningupAnimation from "../../../public/signing_up.json";
+import Loading from "@/components/loading";
 
 export default function SignupPage() {
   const navigate = useRouter();
@@ -100,28 +98,7 @@ export default function SignupPage() {
 
   return (
     <Stack justifyContent="center" h="100%" spacing={3.5}>
-      {mutateTeacher.isLoading ? (
-        <Center
-          h="100vh"
-          top={0}
-          left={0}
-          pos="absolute"
-          bg="rgba(0, 0, 0, .8)"
-          w="100vw"
-          flexDir="column"
-          zIndex={10}
-        >
-          <Lottie
-            loop
-            animationData={SigningupAnimation}
-            play
-            style={{ width: 150, height: 150 }}
-          />
-          <Text fontSize=".9rem" fontWeight="normal" color="palette.light">
-            Signing you up...
-          </Text>
-        </Center>
-      ) : null}
+      {mutateTeacher.isLoading ? <Loading message="Signing you up" /> : null}
       <Input
         variant="primary"
         value={username}

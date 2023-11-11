@@ -12,6 +12,7 @@ import { TestInfo } from "@/utils/types";
 import { headerState } from "@/state/headerState";
 import { setupTestStepState } from "@/state/stepState";
 import { setupTestState } from "@/state/setupTestState";
+import Loading from "@/components/loading";
 import Step1 from "./components/step1";
 import Step2 from "./components/step2";
 import Step3 from "./components/step3";
@@ -89,21 +90,24 @@ export default function SetupTest() {
   const steps = [<Step1 />, <Step2 />, <Step3 />, <Confimation />];
 
   return (
-    <Stack mt="3rem" spacing="1.2rem">
-      {steps[activeStep]}
-      <Stack direction="row" align="center" justify="end" spacing="1rem">
-        <Button variant="ghost" onClick={() => navigate.back()}>
-          Cancel
-        </Button>
-        <Button
-          leftIcon={<AiOutlinePlus />}
-          onClick={handleNext}
-          p="1.6rem 1rem"
-          isLoading={mutateTest.isLoading}
-        >
-          {activeStep === 3 ? "Create Test" : "Next"}
-        </Button>
+    <>
+      {mutateTest.isLoading ? <Loading message="Creating Test" /> : ""}
+      <Stack mt="3rem" spacing="1.2rem">
+        {steps[activeStep]}
+        <Stack direction="row" align="center" justify="end" spacing="1rem">
+          <Button variant="ghost" onClick={() => navigate.back()}>
+            Cancel
+          </Button>
+          <Button
+            leftIcon={<AiOutlinePlus />}
+            onClick={handleNext}
+            p="1.6rem 1rem"
+            isLoading={mutateTest.isLoading}
+          >
+            {activeStep === 3 ? "Create Test" : "Next"}
+          </Button>
+        </Stack>
       </Stack>
-    </Stack>
+    </>
   );
 }

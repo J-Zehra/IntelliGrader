@@ -1,8 +1,9 @@
 "use client";
 
-import { Button, Link, Stack, Text } from "@chakra-ui/react";
+import { Button, Stack, Text } from "@chakra-ui/react";
 import { IoMdAdd } from "react-icons/io";
 import { useQuery } from "@tanstack/react-query";
+import Link from "next/link";
 import ClassesList from "@/components/classesList";
 import ClassLoading from "@/components/classLoading";
 import CustomContainer from "@/components/reusables/customContainer";
@@ -12,7 +13,9 @@ export default function Home() {
   const { data, isLoading, isSuccess } = useQuery({
     queryKey: ["classes"],
     queryFn: async () => {
-      const res = await fetch("/api/classes", { method: "PUT" });
+      const res = await fetch("/api/classes", {
+        method: "PUT",
+      });
       const classes = res.json();
 
       return classes;

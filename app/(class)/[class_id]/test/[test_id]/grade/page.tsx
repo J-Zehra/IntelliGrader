@@ -13,15 +13,15 @@ import {
 } from "@chakra-ui/react";
 import { useRecoilValue } from "recoil";
 import { gradeState } from "@/state/gradeState";
-// import StudentGradeItem from "./components/studentGradeItem";
+import StudentGradeItem from "./components/studentGradeItem";
 
 export default function GradePage() {
-  const gradeInfo = useRecoilValue(gradeState);
+  const gradesInfo = useRecoilValue(gradeState);
   return (
     <Stack spacing={2} paddingBottom={5}>
       <Stack direction="row" w="100%" justify="space-between" align="center">
         <Text fontSize=".8rem" fontWeight="normal">
-          Total of 1 paper
+          Total of {gradesInfo.length} paper
         </Text>
         <Select placeholder="Sort" w="6rem" fontSize=".8rem" colorScheme="red">
           <option value="option1" style={{ fontSize: ".8rem" }}>
@@ -30,11 +30,11 @@ export default function GradePage() {
           <option value="option2">Lowest</option>
         </Select>
       </Stack>
-      {/* <Stack marginTop={10}>
-        {[1].map((item) => {
-          return <StudentGradeItem key={item} />;
+      <Stack marginTop={10}>
+        {gradesInfo.map((grades) => {
+          return <StudentGradeItem grades={grades} key={grades.rollNumber} />;
         })}
-      </Stack> */}
+      </Stack>
       <Center p="1rem" bg="palette.light">
         <Wrap
           bg="palette.light"
@@ -45,16 +45,16 @@ export default function GradePage() {
           pos="relative"
           borderRadius=".5rem"
         >
-          {gradeInfo.map((file) => {
+          {gradesInfo.map((file) => {
             return (
               <WrapItem
                 key={file.processedImage}
                 w={
-                  gradeInfo.length === 1
+                  gradesInfo.length === 1
                     ? "100%"
-                    : gradeInfo.length === 2
+                    : gradesInfo.length === 2
                     ? "48%"
-                    : gradeInfo.length === 3
+                    : gradesInfo.length === 3
                     ? "30%"
                     : "23%"
                 }
@@ -68,18 +68,6 @@ export default function GradePage() {
             );
           })}
         </Wrap>
-        {/* <Image
-          alt="Processed Image"
-          src={gradeInfo.processedImage}
-          width={500}
-          height={500}
-          style={{
-            width: "100%",
-            height: "100%",
-            borderRadius: ".4rem",
-            opacity: 0.8,
-          }}
-        /> */}
       </Center>
     </Stack>
   );

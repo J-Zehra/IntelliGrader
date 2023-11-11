@@ -63,7 +63,8 @@ export type FetchedClassInfo = {
   course: string;
   section: string;
   year: number;
-  subject: string;
+  program: string;
+  variant: ClassVariant;
 };
 
 export type FetchedTestInfo = {

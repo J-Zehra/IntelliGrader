@@ -1,20 +1,16 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { AiOutlineEye } from "react-icons/ai";
 import { Box, Button, Divider, Stack, Text } from "@chakra-ui/react";
-import { useRecoilValue } from "recoil";
 import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
-import { gradeState } from "@/state/gradeState";
+import { Grade } from "@/utils/types";
 
-export default function StudentGradeItem() {
-  const gradeInfo = useRecoilValue(gradeState);
+export default function StudentGradeItem({ grades }: { grades: Grade }) {
   const { class_id, test_id } = useParams();
   const navigate = useRouter();
 
   const calculateAccuracy = () => {
-    return (
-      (gradeInfo.totalNumberOfCorrect / gradeInfo.answerIndices.length) * 100
-    );
+    return (grades.totalNumberOfCorrect / grades.answerIndices.length) * 100;
   };
   return (
     <Stack
@@ -32,7 +28,7 @@ export default function StudentGradeItem() {
         <Box h="100%" w="3rem" bg="palette.light" borderRadius=".4rem">
           <Image
             alt="Processed Image"
-            src={gradeInfo.processedImage}
+            src={grades.processedImage}
             width={500}
             height={500}
             style={{
@@ -75,10 +71,10 @@ export default function StudentGradeItem() {
       </Stack>
       <Stack spacing={0.1} paddingInline="1rem" align="center">
         <Text fontSize="2rem" fontWeight="bold">
-          {gradeInfo.totalNumberOfCorrect}
+          {grades.totalNumberOfCorrect}
         </Text>
         <Divider mb={2} />
-        <Text fontSize=".8rem">{gradeInfo.answerIndices.length}</Text>
+        <Text fontSize=".8rem">{grades.answerIndices.length}</Text>
       </Stack>
     </Stack>
   );

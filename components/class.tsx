@@ -57,7 +57,7 @@ export default function Class({
   };
 
   const handleClick = () => {
-    setHeader(classInfo.subject);
+    setHeader(classInfo.course);
     navigate.push(`/${classInfo.id}`);
   };
 
@@ -82,10 +82,10 @@ export default function Class({
       >
         <Stack spacing={0.1}>
           <Text fontWeight="semibold" fontSize=".9rem">
-            {classInfo.subject}
+            {classInfo.course}
           </Text>
           <Text fontSize=".8rem" fontWeight="medium" opacity={0.8}>
-            {`${classInfo.course} ${classInfo.year}`}
+            {`${classInfo.program} ${classInfo.year}`}
           </Text>
         </Stack>
         <MoreOptions />
@@ -99,7 +99,7 @@ export default function Class({
           left="1rem"
           bottom={-4}
         >
-          {`${classInfo.course} ${classInfo.year}`}
+          {`${classInfo.program} ${classInfo.year}`}
         </Text>
         <Stack color={textColorVariant()} direction="row" spacing={4}>
           <Center p=".1rem" fontSize="1.2rem" cursor="pointer" opacity=".8">

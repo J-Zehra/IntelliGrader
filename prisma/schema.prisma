@@ -27,6 +27,7 @@ model Class {
   year      Int
   section   String
   program   String
+  variant   String
   teacherId String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -42,11 +43,9 @@ model Student {
   firstName  String
   middleName  String
   rollNumber Int
-  testId    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  tests           Test @relation(fields: [testId], references: [id])
   classStudents ClassStudent[] // Represents the many-to-many relationship
 }
 
@@ -74,7 +73,6 @@ model Test {
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
 
-  students        Student[]
   class           Class @relation(fields: [classId], references: [id])
 }
 

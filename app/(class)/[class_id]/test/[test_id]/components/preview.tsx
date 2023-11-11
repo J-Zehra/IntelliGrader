@@ -61,15 +61,11 @@ export default function Preview({ answer }: { answer: number[] | undefined }) {
 
     compressAndAppendImages().then((formData) => {
       axios
-        .post(
-          "https://intelli-grader-backend-43b270ab373f.herokuapp.com/process",
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
+        .post("http://127.0.0.1:5000/process", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
           },
-        )
+        })
         .then((res) => {
           const { data } = res;
           console.log(data);

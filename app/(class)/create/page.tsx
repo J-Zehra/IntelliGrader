@@ -11,6 +11,7 @@ import { ClassInfo } from "@/utils/types";
 import { headerState } from "@/state/headerState";
 import { classInfoState } from "@/state/classInfoState";
 import { createClassStepState } from "@/state/stepState";
+import Loading from "@/components/loading";
 import Step1 from "./components/step1";
 import Step2 from "./components/step2";
 
@@ -63,6 +64,7 @@ export default function CreateClass() {
 
   return (
     <>
+      {mutateClass.isLoading ? <Loading message="Creating Class" /> : ""}
       {steps[activeStep]}
       <Stack direction="row" align="center" justify="end" spacing="1rem">
         <Button
@@ -73,7 +75,7 @@ export default function CreateClass() {
           Cancel
         </Button>
         <Button
-          // isLoading={mutateClass.isLoading}
+          isLoading={mutateClass.isLoading}
           leftIcon={
             activeStep === 0 ? <BsArrowRightShort /> : <AiOutlinePlus />
           }

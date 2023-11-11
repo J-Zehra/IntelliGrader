@@ -1,3 +1,4 @@
+/* eslint-disable no-param-reassign */
 /** @type {import('next').NextConfig} */
 
 const withPWA = require("next-pwa");

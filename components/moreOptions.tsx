@@ -18,6 +18,7 @@ export default function MoreOptions() {
           h="fit-content"
           w="fit-content"
           minW="0"
+          boxShadow="none"
           cursor="pointer"
           fontSize="1.2rem"
           opacity=".8"

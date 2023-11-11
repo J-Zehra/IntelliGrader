@@ -2,7 +2,6 @@
 
 import {
   Button,
-  Center,
   Divider,
   Input,
   InputGroup,
@@ -17,10 +16,9 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { signIn } from "next-auth/react";
-import Lottie from "react-lottie-player";
 import GoogleSignIn from "@/components/reusables/googleSignIn";
 import useKeyCommand from "@/hooks/useKeyCommand";
-import SigningupAnimation from "../../../public/signing_up.json";
+import Loading from "@/components/loading";
 
 export default function SinginPage() {
   const navigate = useRouter();
@@ -75,28 +73,7 @@ export default function SinginPage() {
 
   return (
     <Stack justifyContent="center" h="100%" spacing={3.5}>
-      {loading ? (
-        <Center
-          h="100vh"
-          top={0}
-          left={0}
-          pos="absolute"
-          bg="rgba(0, 0, 0, .8)"
-          w="100vw"
-          flexDir="column"
-          zIndex={10}
-        >
-          <Lottie
-            loop
-            animationData={SigningupAnimation}
-            play
-            style={{ width: 150, height: 150 }}
-          />
-          <Text fontSize=".9rem" fontWeight="normal" color="palette.light">
-            Signing you in...
-          </Text>
-        </Center>
-      ) : null}
+      {loading ? <Loading message="Signing you in" /> : null}
       <Input
         variant="primary"
         value={email}
