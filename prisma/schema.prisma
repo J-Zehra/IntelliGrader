@@ -62,6 +62,18 @@ model ClassStudent {
   @@unique([classId, studentId])
 }
 
+model StudentGrade {
+  id         String @id @default(cuid()) @map("_id")
+  processedImage  String
+  numberOfCorrect Int
+  numberOfIncorrect Int
+  answerIndices Int[]
+  rollNumber      Int
+  testId         String
+
+  test  Test @relation(fields: [testId], references: [id])
+}
+
 model Test {
   id              String @id @default(cuid()) @map("_id")
   testName        String
@@ -73,36 +85,8 @@ model Test {
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
 
+  studentTest     StudentGrade[]
   class           Class @relation(fields: [classId], references: [id])
-}
-
-model Question {
-  id              String @id @default(cuid()) @map("_id")
-  number          Int
-  text            String
-  points          Int
-  answerId        String @unique
-  testId          String @unique
-  createdAt       DateTime     @default(now())
-  updatedAt       DateTime     @updatedAt
-
-  studentAnswers  StudentAnswer[]
-  correctAnswer   CorrectAnswer @relation(fields: [answerId], references: [id])
-}
-
-model CorrectAnswer {
-  id              String @id @default(cuid()) @map("_id")
-  answerText      String
-
-  question        Question?
-}
-
-model StudentAnswer {
-  id              String @id @default(cuid()) @map("_id")
-  answer          String
-  questionId      String @unique
-
-  question        Question @relation(fields: [questionId], references: [id])
 }
 
 model Account {

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable no-nested-ternary */
 
 "use client";
@@ -12,10 +13,33 @@ import {
   WrapItem,
 } from "@chakra-ui/react";
 import { useRecoilValue } from "recoil";
+import { useParams } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import { gradeState } from "@/state/gradeState";
+import { Grade } from "@/utils/types";
 import StudentGradeItem from "./components/studentGradeItem";
 
 export default function GradePage() {
+  const { test_id } = useParams();
+
+  const getStudentGrades = async () => {
+    const id = test_id;
+    let studentGrade: Grade[] = [];
+    await axios.get(`/api/student_grades/${id}`).then((res) => {
+      studentGrade = res.data;
+    });
+
+    return studentGrade;
+  };
+
+  const { data: studentGrades } = useQuery({
+    queryFn: getStudentGrades,
+    queryKey: ["get-student-grades", test_id],
+  });
+
+  console.log(studentGrades);
+
   const gradesInfo = useRecoilValue(gradeState);
   return (
     <Stack spacing={2} paddingBottom={5}>
@@ -31,8 +55,8 @@ export default function GradePage() {
         </Select>
       </Stack>
       <Stack marginTop={10}>
-        {gradesInfo.map((grades) => {
-          return <StudentGradeItem grades={grades} key={grades.rollNumber} />;
+        {studentGrades?.map((grades: Grade) => {
+          return <StudentGradeItem grade={grades} key={grades.rollNumber} />;
         })}
       </Stack>
       <Center p="1rem" bg="palette.light">

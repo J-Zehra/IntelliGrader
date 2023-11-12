@@ -1,10 +1,10 @@
 import { Center, Divider, Stack, Text, WrapItem } from "@chakra-ui/react";
-import { useRecoilValue } from "recoil";
-import { gradeState } from "@/state/gradeState";
 
-export default function Incorrect() {
-  const gradeInfo = useRecoilValue(gradeState);
-
+export default function Incorrect({
+  incorrect,
+}: {
+  incorrect: number | undefined;
+}) {
   return (
     <WrapItem
       as={Stack}
@@ -20,7 +20,7 @@ export default function Incorrect() {
     >
       <Center w="100%" flex={10}>
         <Text fontSize="2rem" fontWeight="bold">
-          {gradeInfo.totalNumberOfWrong}
+          {incorrect}
         </Text>
       </Center>
       <Divider />

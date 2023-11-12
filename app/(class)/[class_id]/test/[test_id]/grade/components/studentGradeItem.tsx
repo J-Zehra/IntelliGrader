@@ -5,12 +5,14 @@ import Image from "next/image";
 import { useParams, useRouter } from "next/navigation";
 import { Grade } from "@/utils/types";
 
-export default function StudentGradeItem({ grades }: { grades: Grade }) {
+export default function StudentGradeItem({ grade }: { grade: Grade }) {
   const { class_id, test_id } = useParams();
   const navigate = useRouter();
 
   const calculateAccuracy = () => {
-    return (grades.totalNumberOfCorrect / grades.answerIndices.length) * 100;
+    return Math.round(
+      (grade.numberOfCorrect / grade.answerIndices.length) * 100,
+    );
   };
   return (
     <Stack
@@ -28,7 +30,7 @@ export default function StudentGradeItem({ grades }: { grades: Grade }) {
         <Box h="100%" w="3rem" bg="palette.light" borderRadius=".4rem">
           <Image
             alt="Processed Image"
-            src={grades.processedImage}
+            src={`data:image/jpeg;base64, ${grade.processedImage}`}
             width={500}
             height={500}
             style={{
@@ -52,7 +54,9 @@ export default function StudentGradeItem({ grades }: { grades: Grade }) {
               maxWidth="fit-content"
               p=".6rem .7rem"
               onClick={() =>
-                navigate.push(`/${class_id}/test/${test_id}/overview`)
+                navigate.push(
+                  `/${class_id}/test/${test_id}/overview/${grade.rollNumber}`,
+                )
               }
               leftIcon={<AiOutlineEye />}
             >
@@ -71,11 +75,13 @@ export default function StudentGradeItem({ grades }: { grades: Grade }) {
       </Stack>
       <Stack spacing={0.1} paddingInline="1rem" align="center">
         <Text fontSize="2rem" fontWeight="bold">
-          {grades.totalNumberOfCorrect}
+          {grade.numberOfCorrect}
         </Text>
         <Divider mb={2} />
-        <Text fontSize=".8rem">{grades.answerIndices.length}</Text>
+        <Text fontSize=".8rem">{grade.answerIndices.length}</Text>
       </Stack>
     </Stack>
   );
 }
+
+// data:image/jpeg;base64, ${item.processed_image}

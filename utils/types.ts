@@ -44,8 +44,8 @@ export type ProcessedImageData = {
 
 export type Grade = {
   processedImage: string;
-  totalNumberOfCorrect: number;
-  totalNumberOfWrong: number;
+  numberOfCorrect: number;
+  numberOfWrong: number;
   answerIndices: number[];
   rollNumber: number;
 };
@@ -78,9 +78,20 @@ export type FetchedTestInfo = {
 };
 
 export type FetchedGradeInfo = {
+  id: string;
   roll_number: number;
   number_of_correct: number;
   number_of_incorrect: number;
   answer_indices: number[];
   processed_image: string;
+};
+
+export type FetchedSingleGrade = {
+  id: string;
+  processedImage: string;
+  numberOfCorrect: number;
+  numberOfIncorrect: number;
+  answerIndices: number[];
+  rollNumber: number;
+  test: { answerIndices: number[]; numberOfChoices: number };
 };

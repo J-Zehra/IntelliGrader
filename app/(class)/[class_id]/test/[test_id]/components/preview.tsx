@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-await-in-loop */
 /* eslint-disable no-plusplus */
@@ -13,26 +14,47 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { useRecoilState, useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 import { AiOutlinePlus, AiOutlineScan } from "react-icons/ai";
 import { MdDeleteOutline } from "react-icons/md";
 import axios from "axios";
 import imageCompression, { Options } from "browser-image-compression";
-import { usePathname, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import Lottie from "react-lottie-player";
+import { useMutation } from "@tanstack/react-query";
 import { fileState } from "@/state/fileState";
-import { gradeState } from "@/state/gradeState";
-import { FetchedGradeInfo, Grade } from "@/utils/types";
+import { FetchedGradeInfo } from "@/utils/types";
 import ScanningAnimation from "../../../../../../public/scanning_animation_2.json";
 import ScanButton from "./scanButton";
 
 export default function Preview({ answer }: { answer: number[] | undefined }) {
   const toast = useToast();
+  const { test_id } = useParams();
   const currentPath = usePathname();
-  const setGradeInfo = useSetRecoilState(gradeState);
   const navigate = useRouter();
   const [files, setFiles] = useRecoilState(fileState);
   const [loading, setLoading] = useState<boolean>(false);
+
+  const createStudentGrade = (grades: FetchedGradeInfo[]) => {
+    const data = { testId: test_id, grades };
+    return axios.post("/api/create_student_grade", data);
+  };
+
+  const mutateStudentGrade = useMutation({
+    mutationFn: createStudentGrade,
+    mutationKey: ["create-student-grade", test_id],
+    onSuccess: () => {
+      setLoading(false);
+
+      toast({
+        title: "Success",
+        status: "success",
+        duration: 3000,
+      });
+
+      navigate.push(`${currentPath}/grade`);
+    },
+  });
 
   const handleSubmit = async () => {
     if (!files || !answer) {
@@ -43,7 +65,6 @@ export default function Preview({ answer }: { answer: number[] | undefined }) {
     setLoading(true);
     const options: Options = {
       maxSizeMB: 1,
-      maxWidthOrHeight: 800,
       useWebWorker: true,
     };
 
@@ -61,38 +82,13 @@ export default function Preview({ answer }: { answer: number[] | undefined }) {
 
     compressAndAppendImages().then((formData) => {
       axios
-        .post("http://127.0.0.1:5000/process", formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-          },
-        })
+        .post("http://127.0.0.1:5000/process", formData)
         .then((res) => {
           const { data } = res;
           console.log(data);
-          setLoading(false);
 
-          const processedImages: Grade[] = [];
-          data.forEach((item: FetchedGradeInfo) => {
-            const processedImageData: Grade = {
-              processedImage: `data:image/jpeg;base64, ${item.processed_image}`,
-              totalNumberOfCorrect: item.number_of_correct,
-              totalNumberOfWrong: item.number_of_incorrect,
-              answerIndices: item.answer_indices,
-              rollNumber: item.roll_number,
-            };
-
-            processedImages.push(processedImageData);
-          });
-
-          setGradeInfo(processedImages);
-
-          toast({
-            title: "Success",
-            status: "success",
-            duration: 3000,
-          });
-
-          navigate.push(`${currentPath}/grade`);
+          // STORE IN DATABASE
+          mutateStudentGrade.mutate(data);
         })
         .catch((err) => {
           setLoading(false);

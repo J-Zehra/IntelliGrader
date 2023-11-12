@@ -1,7 +1,6 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable react/no-array-index-key */
-import { Center, Radio, RadioGroup, Stack, Text } from "@chakra-ui/react";
-import { useRecoilValue } from "recoil";
-import { gradeState } from "@/state/gradeState";
+import { Box, Center, Radio, Stack, Text } from "@chakra-ui/react";
 
 function convertToLetter(index: number) {
   return String.fromCharCode("A".charCodeAt(0) + index);
@@ -10,11 +9,24 @@ function convertToLetter(index: number) {
 export default function AnswerItem({
   index,
   numberOfChoices,
+  answerIndex,
+  correctAnswerIndex,
 }: {
   index: number;
+  correctAnswerIndex: number | undefined;
+  answerIndex: number | undefined;
   numberOfChoices: number | undefined;
 }) {
-  const gradeInfo = useRecoilValue(gradeState);
+  const isCorrect = () => {
+    if (correctAnswerIndex && answerIndex) {
+      if (correctAnswerIndex === answerIndex) {
+        return true;
+      }
+
+      return false;
+    }
+  };
+
   return (
     <Stack bg="palette.light" direction="row" borderRadius=".5rem">
       <Center
@@ -31,7 +43,7 @@ export default function AnswerItem({
           {index + 1}
         </Text>
       </Center>
-      <RadioGroup flex={10}>
+      <Box flex={10}>
         <Stack
           direction="row"
           h="100%"
@@ -44,16 +56,39 @@ export default function AnswerItem({
             return (
               <Radio
                 opacity={0.8}
-                isChecked={index2 === gradeInfo.answerIndices[index]}
+                isChecked={
+                  isCorrect()
+                    ? answerIndex === index2
+                    : correctAnswerIndex === index2 || answerIndex === index2
+                }
+                colorScheme={
+                  isCorrect()
+                    ? "green"
+                    : answerIndex === index2
+                    ? "green"
+                    : correctAnswerIndex === index2
+                    ? "red"
+                    : ""
+                }
                 key={index2}
                 isReadOnly
                 borderColor="palette.text"
               >
                 <Text
                   opacity={0.6}
-                  fontWeight="semibold"
-                  color="palette.text"
+                  fontWeight={
+                    answerIndex === index2 || correctAnswerIndex === index2
+                      ? "bold"
+                      : "semibold"
+                  }
                   fontSize="1rem"
+                  color={
+                    answerIndex === index2 && (isCorrect() || !isCorrect())
+                      ? "green"
+                      : correctAnswerIndex === index2 && !isCorrect()
+                      ? "red"
+                      : "palette.text"
+                  }
                 >
                   {convertToLetter(index2)}
                 </Text>
@@ -61,7 +96,7 @@ export default function AnswerItem({
             );
           })}
         </Stack>
-      </RadioGroup>
+      </Box>
     </Stack>
   );
 }
