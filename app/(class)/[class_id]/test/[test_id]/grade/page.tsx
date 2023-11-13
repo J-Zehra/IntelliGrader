@@ -3,11 +3,13 @@
 
 "use client";
 
-import { Select, Skeleton, Stack, Text } from "@chakra-ui/react";
+import { Center, Select, Skeleton, Stack, Text } from "@chakra-ui/react";
 import { useRecoilValue } from "recoil";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { BsFillBarChartFill } from "react-icons/bs";
+import Link from "next/link";
 import { gradeState } from "@/state/gradeState";
 import { Grade } from "@/utils/types";
 import StudentGradeItem from "./components/studentGradeItem";
@@ -35,7 +37,7 @@ export default function GradePage() {
 
   const gradesInfo = useRecoilValue(gradeState);
   return (
-    <Stack spacing={2} paddingBottom={5}>
+    <Stack spacing={2} paddingBottom="8rem">
       <Stack direction="row" w="100%" justify="space-between" align="center">
         <Text fontSize=".8rem" fontWeight="normal">
           Total of {gradesInfo.length} paper
@@ -74,40 +76,20 @@ export default function GradePage() {
               );
             })}
       </Stack>
-      {/* <Center p="1rem" bg="palette.light">
-        <Wrap
-          bg="palette.light"
-          padding="1rem"
-          justify="start"
-          align="center"
-          w="100%"
-          pos="relative"
-          borderRadius=".5rem"
+      <Link href="overview/statistics">
+        <Center
+          pos="fixed"
+          bottom="1.5rem"
+          right="1.5rem"
+          p="1.2rem"
+          bg="palette.accent"
+          color="palette.background"
+          zIndex={10}
+          borderRadius="10rem"
         >
-          {gradesInfo.map((file) => {
-            return (
-              <WrapItem
-                key={file.processedImage}
-                w={
-                  gradesInfo.length === 1
-                    ? "100%"
-                    : gradesInfo.length === 2
-                    ? "48%"
-                    : gradesInfo.length === 3
-                    ? "30%"
-                    : "23%"
-                }
-              >
-                <Image
-                  borderRadius=".5rem"
-                  src={file.processedImage}
-                  w="100%"
-                />
-              </WrapItem>
-            );
-          })}
-        </Wrap>
-      </Center> */}
+          <BsFillBarChartFill fontSize="2rem" />
+        </Center>
+      </Link>
     </Stack>
   );
 }

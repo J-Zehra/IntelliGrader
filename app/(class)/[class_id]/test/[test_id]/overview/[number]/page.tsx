@@ -44,7 +44,7 @@ export default function OverviewPage() {
   console.log(grade);
 
   return (
-    <Box>
+    <Box pos="relative">
       <Stack direction="row" align="center" fontSize=".8rem" spacing={1}>
         <SkeletonText isLoaded={!isLoading} noOfLines={1}>
           <Text color="palette.accent" fontWeight="semibold">

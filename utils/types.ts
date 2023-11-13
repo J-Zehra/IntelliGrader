@@ -56,6 +56,30 @@ export type Teacher = {
   password: string;
 };
 
+export type QuestionsMostGotRight = {
+  index: number;
+  studentCount: number;
+  correctAnswer: number;
+  studentNames: string[];
+};
+
+export type QuestionsMostGotWrong = {
+  index: number;
+  studentCount: number;
+  mostPickedAnswer: number;
+  correctAnswer: number;
+  studentNames: string[];
+};
+
+export type Statistics = {
+  accuracy: number;
+  average: number;
+  highest: number;
+  lowest: number;
+  questionsMostGotRight: QuestionsMostGotRight[];
+  questionsMostGotWrong: QuestionsMostGotWrong[];
+};
+
 // FETCHED TYPES
 
 export type FetchedClassInfo = {
