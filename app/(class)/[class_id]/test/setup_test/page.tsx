@@ -36,6 +36,7 @@ export default function SetupTest() {
     mutationKey: ["create test"],
     onSuccess: (data) => {
       setHeader(data.data.testName);
+      setActiveStep(0);
       navigate.push(`/${class_id}/test/${data.data.id}`);
     },
   });

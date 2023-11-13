@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import { Center, Radio, RadioGroup, Stack, Text } from "@chakra-ui/react";
 import { useRecoilState } from "recoil";
 import { useState } from "react";
@@ -34,11 +35,11 @@ export default function Step2() {
 
   return (
     <Stack spacing={3}>
-      {[...Array(testInfo.totalQuestions)].map((item, i) => {
+      {[...Array(testInfo.totalQuestions)].map((_, i) => {
         return (
           <Stack
             bg="palette.light"
-            key={item}
+            key={i}
             direction="row"
             borderRadius=".5rem"
           >

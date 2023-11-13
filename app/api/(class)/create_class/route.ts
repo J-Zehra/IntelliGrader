@@ -9,11 +9,9 @@ export async function POST(request: Request) {
   try {
     const session = await getServerSession(options);
     const user = session?.user as unknown as any;
-    console.log("session", session);
     const body = await request.json();
     const { course, section, year, program, students, variant } =
       body as ClassInfo;
-    console.log(course, section, year, program, students);
 
     const newClass = await prisma.class.create({
       data: {
@@ -23,22 +21,18 @@ export async function POST(request: Request) {
         program,
         variant,
         teacherId: user.id,
-        classStudents: {
+        students: {
           create: students.map((student) => {
             return {
-              student: {
-                create: {
-                  firstName: student.firstName,
-                  lastName: student.lastName,
-                  middleName: student.middleName,
-                  rollNumber: student.rollNumber,
-                },
-              },
+              firstName: student.firstName,
+              lastName: student.lastName,
+              middleName: student.middleName,
+              rollNumber: student.rollNumber,
             };
           }),
         },
       },
-      include: { classStudents: { include: { student: true } } },
+      include: { students: true },
     });
 
     return NextResponse.json(newClass);

@@ -15,6 +15,15 @@ export async function POST(request: Request) {
       totalQuestions,
     } = body as TestInfo;
 
+    console.log(
+      answerIndices,
+      classId,
+      numberOfChoices,
+      points,
+      testName,
+      totalQuestions,
+    );
+
     const newTest = await prisma.test.create({
       data: {
         answerIndices,

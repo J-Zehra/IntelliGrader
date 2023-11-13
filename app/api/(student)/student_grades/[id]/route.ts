@@ -11,6 +11,19 @@ export async function GET(
   try {
     const studentGrade = await prisma.studentGrade.findMany({
       where: { testId: id },
+      orderBy: {
+        numberOfCorrect: "desc",
+      },
+      include: {
+        student: {
+          select: {
+            firstName: true,
+            middleName: true,
+            lastName: true,
+            rollNumber: true,
+          },
+        },
+      },
     });
 
     return NextResponse.json(studentGrade);

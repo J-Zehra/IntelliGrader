@@ -3,15 +3,7 @@
 
 "use client";
 
-import {
-  Center,
-  Image,
-  Select,
-  Stack,
-  Text,
-  Wrap,
-  WrapItem,
-} from "@chakra-ui/react";
+import { Select, Skeleton, Stack, Text } from "@chakra-ui/react";
 import { useRecoilValue } from "recoil";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
@@ -19,6 +11,7 @@ import axios from "axios";
 import { gradeState } from "@/state/gradeState";
 import { Grade } from "@/utils/types";
 import StudentGradeItem from "./components/studentGradeItem";
+import StudentGradeItemRest from "./components/studentGradeItemRest";
 
 export default function GradePage() {
   const { test_id } = useParams();
@@ -33,7 +26,7 @@ export default function GradePage() {
     return studentGrade;
   };
 
-  const { data: studentGrades } = useQuery({
+  const { data: studentGrades, isLoading } = useQuery({
     queryFn: getStudentGrades,
     queryKey: ["get-student-grades", test_id],
   });
@@ -54,12 +47,34 @@ export default function GradePage() {
           <option value="option2">Lowest</option>
         </Select>
       </Stack>
-      <Stack marginTop={10}>
-        {studentGrades?.map((grades: Grade) => {
-          return <StudentGradeItem grade={grades} key={grades.rollNumber} />;
-        })}
+      <Stack marginTop={10} spacing={3}>
+        {!isLoading
+          ? studentGrades?.map((grades: Grade, index) => {
+              return index === 0 ? (
+                <StudentGradeItem
+                  grade={grades}
+                  key={grades.student.rollNumber}
+                />
+              ) : (
+                <StudentGradeItemRest
+                  grade={grades}
+                  key={grades.student.rollNumber}
+                />
+              );
+            })
+          : [0.8, 0.6, 0.4].map((item) => {
+              return (
+                <Skeleton
+                  isLoaded={!isLoading}
+                  key={item}
+                  opacity={item}
+                  borderRadius=".5rem"
+                  h="5rem"
+                />
+              );
+            })}
       </Stack>
-      <Center p="1rem" bg="palette.light">
+      {/* <Center p="1rem" bg="palette.light">
         <Wrap
           bg="palette.light"
           padding="1rem"
@@ -92,7 +107,7 @@ export default function GradePage() {
             );
           })}
         </Wrap>
-      </Center>
+      </Center> */}
     </Stack>
   );
 }

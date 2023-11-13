@@ -47,7 +47,7 @@ export type Grade = {
   numberOfCorrect: number;
   numberOfWrong: number;
   answerIndices: number[];
-  rollNumber: number;
+  student: StudentInfo;
 };
 
 export type Teacher = {
@@ -92,6 +92,6 @@ export type FetchedSingleGrade = {
   numberOfCorrect: number;
   numberOfIncorrect: number;
   answerIndices: number[];
-  rollNumber: number;
+  student: StudentInfo;
   test: { answerIndices: number[]; numberOfChoices: number };
 };

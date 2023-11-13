@@ -33,7 +33,7 @@ model Class {
   updatedAt DateTime @updatedAt
 
   teacher   User     @relation(fields: [teacherId], references: [id])
-  classStudents ClassStudent[] // Represents the many-to-many relationship
+  students Student[] // Represents the many-to-many relationship
   tests           Test[]
 }
 
@@ -42,25 +42,15 @@ model Student {
   lastName  String
   firstName  String
   middleName  String
-  rollNumber Int
+  rollNumber Int @unique
+  classId     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  classStudents ClassStudent[] // Represents the many-to-many relationship
+  studentGrade StudentGrade[]
+  class   Class     @relation(fields: [classId], references: [id])
 }
 
-model ClassStudent {
-  id         String @id @default(cuid()) @map("_id")
-  classId    String
-  studentId  String
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
-
-  class    Class   @relation(fields: [classId], references: [id])
-  student  Student @relation(fields: [studentId], references: [id])
-
-  @@unique([classId, studentId])
-}
 
 model StudentGrade {
   id         String @id @default(cuid()) @map("_id")
@@ -68,9 +58,10 @@ model StudentGrade {
   numberOfCorrect Int
   numberOfIncorrect Int
   answerIndices Int[]
-  rollNumber      Int
+  studentId     String
   testId         String
 
+  student  Student @relation(fields: [studentId], references: [id])
   test  Test @relation(fields: [testId], references: [id])
 }
 
@@ -107,3 +98,18 @@ model Account {
 
   @@unique([provider, providerAccountId])
 }
+
+
+
+// model ClassStudent {
+//   id         String @id @default(cuid()) @map("_id")
+//   classId    String
+//   studentId  String
+//   createdAt  DateTime @default(now())
+//   updatedAt  DateTime @updatedAt
+
+//   class    Class   @relation(fields: [classId], references: [id])
+//   student  Student @relation(fields: [studentId], references: [id])
+
+//   @@unique([classId, studentId])
+// }

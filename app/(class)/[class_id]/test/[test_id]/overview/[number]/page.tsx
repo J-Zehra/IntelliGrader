@@ -2,7 +2,14 @@
 
 "use client";
 
-import { Box, Stack, Text, Wrap } from "@chakra-ui/react";
+import {
+  Box,
+  Skeleton,
+  SkeletonText,
+  Stack,
+  Text,
+  Wrap,
+} from "@chakra-ui/react";
 import React from "react";
 import { useParams } from "next/navigation";
 import axios from "axios";
@@ -29,7 +36,7 @@ export default function OverviewPage() {
     return grade;
   };
 
-  const { data: grade } = useQuery({
+  const { data: grade, isLoading } = useQuery({
     queryKey: ["individual-grade", number, test_id],
     queryFn: getGrade,
   });
@@ -39,38 +46,58 @@ export default function OverviewPage() {
   return (
     <Box>
       <Stack direction="row" align="center" fontSize=".8rem" spacing={1}>
-        <Text color="palette.accent" fontWeight="semibold">
-          Jazen&apos;s
-        </Text>
+        <SkeletonText isLoaded={!isLoading} noOfLines={1}>
+          <Text color="palette.accent" fontWeight="semibold">
+            {`${grade?.student?.lastName}'s`}
+          </Text>
+        </SkeletonText>
         <Text fontWeight="medium">performance for this test</Text>
       </Stack>
       <Wrap justify="center" pt={8} spacing={5}>
-        {}
-        <Accuracy
-          numberOfCorrect={grade?.numberOfCorrect}
-          total={grade?.answerIndices?.length}
-        />
-        <Streaks />
-        <Correct correct={grade?.numberOfCorrect} />
-        <Incorrect incorrect={grade?.numberOfIncorrect} />
+        <Skeleton isLoaded={!isLoading} borderRadius=".5rem">
+          <Accuracy
+            numberOfCorrect={grade?.numberOfCorrect}
+            total={grade?.answerIndices?.length}
+          />
+        </Skeleton>
+        <Skeleton isLoaded={!isLoading} borderRadius=".5rem">
+          <Streaks />
+        </Skeleton>
+        <Skeleton isLoaded={!isLoading} borderRadius=".5rem">
+          <Correct correct={grade?.numberOfCorrect} />
+        </Skeleton>
+        <Skeleton isLoaded={!isLoading} borderRadius=".5rem">
+          <Incorrect incorrect={grade?.numberOfIncorrect} />
+        </Skeleton>
       </Wrap>
       <Stack mt={10} spacing={5}>
         <Text fontSize=".8rem" fontWeight="medium">
           Answers Overview
         </Text>
         <Stack spacing={2}>
-          {grade &&
-            [...Array(grade.answerIndices?.length)].map((_, index) => {
-              return (
-                <AnswerItem
-                  index={index}
-                  key={index}
-                  correctAnswerIndex={grade.test?.answerIndices[index]}
-                  answerIndex={grade.answerIndices![index]}
-                  numberOfChoices={grade.test?.numberOfChoices}
-                />
-              );
-            })}
+          {grade
+            ? [...Array(grade.answerIndices?.length)].map((_, index) => {
+                return (
+                  <AnswerItem
+                    index={index}
+                    key={index}
+                    correctAnswerIndex={grade.test?.answerIndices[index]}
+                    answerIndex={grade.answerIndices![index]}
+                    numberOfChoices={grade.test?.numberOfChoices}
+                  />
+                );
+              })
+            : [0.8, 0.6, 0.4].map((item) => {
+                return (
+                  <Skeleton
+                    isLoaded={!isLoading}
+                    key={item}
+                    opacity={item}
+                    borderRadius=".5rem"
+                    h="4rem"
+                  />
+                );
+              })}
         </Stack>
       </Stack>
     </Box>

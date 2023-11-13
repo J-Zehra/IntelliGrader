@@ -6,8 +6,6 @@ export async function GET(request: Request) {
   const { searchParams } = new URL(request.url);
   const testId = searchParams.get("testId");
   const rollNumber = parseInt(searchParams.get("rollNumber")!, 10);
-  console.log("DATA", testId);
-  console.log("DATA", rollNumber);
   try {
     const studentGrade = await prisma.studentGrade.findFirst({
       where: {
@@ -16,7 +14,7 @@ export async function GET(request: Request) {
             testId: testId!,
           },
           {
-            rollNumber: rollNumber!,
+            student: { rollNumber: rollNumber! },
           },
         ],
       },
@@ -27,6 +25,7 @@ export async function GET(request: Request) {
             numberOfChoices: true,
           },
         },
+        student: true,
       },
     });
 
