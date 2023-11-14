@@ -96,7 +96,11 @@ export default function SetupTest() {
       <Stack mt="3rem" spacing="1.2rem">
         {steps[activeStep]}
         <Stack direction="row" align="center" justify="end" spacing="1rem">
-          <Button variant="ghost" onClick={() => navigate.back()}>
+          <Button
+            variant="ghost"
+            display={activeStep === 0 ? "none" : "flex"}
+            onClick={() => setActiveStep((prev) => prev - 1)}
+          >
             Cancel
           </Button>
           <Button

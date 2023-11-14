@@ -7,6 +7,12 @@ export enum ClassVariant {
   tertiary = "tertiary",
 }
 
+export enum QuestionType {
+  multipleChoice = "Multiple Choice",
+  trueOrFalse = "True or False",
+  combination = "Combination",
+}
+
 export type UploadedFile = {
   image: File | null;
   imageUrl: string;
@@ -28,6 +34,7 @@ export type TestInfo = {
   numberOfChoices: number;
   answerIndices: number[];
   points: number;
+  questionType: QuestionType;
 };
 
 export type StudentInfo = {

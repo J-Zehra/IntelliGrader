@@ -1,7 +1,8 @@
-import { Input } from "@chakra-ui/react";
+import { Input, Select } from "@chakra-ui/react";
 import React from "react";
 import { useRecoilState } from "recoil";
 import { setupTestState } from "@/state/setupTestState";
+import { QuestionType } from "@/utils/types";
 
 export default function Step1() {
   const [testInfo, setTestInfo] = useRecoilState(setupTestState);
@@ -28,6 +29,14 @@ export default function Step1() {
     setTestInfo(testInfoCopy);
   };
 
+  const handleQuestionTypeChange = (
+    e: React.ChangeEvent<HTMLSelectElement>,
+  ) => {
+    const testInfoCopy = { ...testInfo };
+    testInfoCopy.questionType = e.target.value as QuestionType;
+    setTestInfo(testInfoCopy);
+  };
+
   return (
     <>
       <Input
@@ -46,14 +55,26 @@ export default function Step1() {
         value={testInfo.totalQuestions === 0 ? "" : testInfo.totalQuestions}
         onChange={handleTotalQuestionsChange}
       />
-      <Input
-        placeholder="Number of Choices"
-        type="number"
+      <Select
+        color="rgba(0, 0, 0, .6)"
         bg="gray.100"
         h="3.5rem"
-        value={testInfo.numberOfChoices === 0 ? "" : testInfo.numberOfChoices}
-        onChange={handleNumberofChoicesChange}
-      />
+        onChange={handleQuestionTypeChange}
+      >
+        <option value={QuestionType.multipleChoice}>Multiple Choice</option>
+        <option value={QuestionType.trueOrFalse}>True or False</option>
+        <option value={QuestionType.combination}>Combination</option>
+      </Select>
+      {testInfo.questionType !== QuestionType.trueOrFalse ? (
+        <Input
+          placeholder="Number of Choices"
+          type="number"
+          bg="gray.100"
+          h="3.5rem"
+          value={testInfo.numberOfChoices === 0 ? "" : testInfo.numberOfChoices}
+          onChange={handleNumberofChoicesChange}
+        />
+      ) : null}
     </>
   );
 }
