@@ -13,6 +13,7 @@ export async function POST(request: Request) {
       points,
       testName,
       totalQuestions,
+      questionType,
     } = body as TestInfo;
 
     console.log(
@@ -32,6 +33,7 @@ export async function POST(request: Request) {
         points,
         testName,
         totalQuestions,
+        questionType,
       },
     });
 
