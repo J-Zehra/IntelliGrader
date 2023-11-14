@@ -8,6 +8,7 @@ export async function GET(
   { params }: { params: { class_id: string } },
 ) {
   const { class_id } = params;
+  console.log(class_id);
 
   try {
     const testInfo = await prisma.test.findMany({

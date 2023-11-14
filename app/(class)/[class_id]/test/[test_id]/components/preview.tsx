@@ -66,6 +66,7 @@ export default function Preview({ answer }: { answer: number[] | undefined }) {
     const options: Options = {
       maxSizeMB: 1,
       useWebWorker: true,
+      maxWidthOrHeight: 850,
     };
 
     async function compressAndAppendImages() {
