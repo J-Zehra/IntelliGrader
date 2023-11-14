@@ -21,6 +21,7 @@ import HighestScore from "../components/highestScore";
 import LowestScore from "../components/lowestScore";
 import MostPickedAnswerItem from "../components/mostPickedAnswerItem";
 import CommonyMistakesAnswerItem from "../components/commonMistakesAnswerItem";
+import PolarAreaChart from "../components/polarAreaChart";
 
 export default function StatisticsPage() {
   // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -68,6 +69,12 @@ export default function StatisticsPage() {
           <LowestScore score={statistics?.lowest} />
         </Skeleton>
       </Wrap>
+      <Box paddingBlock="3rem 1rem">
+        <Text fontSize=".8rem" paddingBottom="2rem" fontWeight="medium">
+          Score Distribution
+        </Text>
+        <PolarAreaChart />
+      </Box>
       <Stack mt={10} spacing={5}>
         <Text fontSize=".8rem" fontWeight="medium">
           Common Mistakes

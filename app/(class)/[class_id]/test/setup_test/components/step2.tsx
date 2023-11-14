@@ -24,11 +24,12 @@ export default function Step2() {
       newAnswers[questionIndex] = choiceIndex;
     }
 
-    const newTestInfo = { ...testInfo };
-    newTestInfo.answerIndices = newAnswers;
-
     setAnswers(newAnswers);
-    setTestInfo(newTestInfo);
+
+    setTestInfo((prevTestInfo) => ({
+      ...prevTestInfo,
+      answerIndices: newAnswers,
+    }));
   };
 
   console.log(testInfo);
