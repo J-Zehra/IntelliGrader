@@ -61,7 +61,12 @@ export default function ScanPage() {
   };
 
   if (image.length > 0) {
-    return <Preview answer={data?.answerIndices} />;
+    return (
+      <Preview
+        answer={data?.answerIndices}
+        numberOfChoices={data?.numberOfChoices}
+      />
+    );
   }
 
   return (

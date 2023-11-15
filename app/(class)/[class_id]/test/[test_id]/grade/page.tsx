@@ -4,13 +4,11 @@
 "use client";
 
 import { Center, Select, Skeleton, Stack, Text } from "@chakra-ui/react";
-import { useRecoilValue } from "recoil";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { BsFillBarChartFill } from "react-icons/bs";
 import Link from "next/link";
-import { gradeState } from "@/state/gradeState";
 import { Grade } from "@/utils/types";
 import StudentGradeItem from "./components/studentGradeItem";
 import StudentGradeItemRest from "./components/studentGradeItemRest";
@@ -34,13 +32,12 @@ export default function GradePage() {
   });
 
   console.log(studentGrades);
-
-  const gradesInfo = useRecoilValue(gradeState);
   return (
     <Stack spacing={2} paddingBottom="8rem">
       <Stack direction="row" w="100%" justify="space-between" align="center">
         <Text fontSize=".8rem" fontWeight="normal">
-          Total of {gradesInfo.length} paper
+          Total of {studentGrades?.length}{" "}
+          {studentGrades && studentGrades?.length < 2 ? "paper" : "papers"}
         </Text>
         <Select placeholder="Sort" w="6rem" fontSize=".8rem" colorScheme="red">
           <option value="option1" style={{ fontSize: ".8rem" }}>

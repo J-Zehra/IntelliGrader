@@ -103,6 +103,7 @@ export type FetchedTestInfo = {
   classId: string;
   testName: string;
   totalQuestions: number;
+  questionType: QuestionType;
   numberOfChoices: number;
   answerIndices: number[];
   points: number;
@@ -124,5 +125,9 @@ export type FetchedSingleGrade = {
   numberOfIncorrect: number;
   answerIndices: number[];
   student: StudentInfo;
-  test: { answerIndices: number[]; numberOfChoices: number };
+  test: {
+    answerIndices: number[];
+    numberOfChoices: number;
+    questionType: QuestionType;
+  };
 };

@@ -33,7 +33,7 @@ model Class {
   updatedAt DateTime @updatedAt
 
   teacher   User     @relation(fields: [teacherId], references: [id])
-  students Student[] // Represents the many-to-many relationship
+  students Student[]
   tests           Test[]
 }
 
@@ -48,7 +48,7 @@ model Student {
   updatedAt DateTime @updatedAt
 
   studentGrade StudentGrade[]
-  class   Class     @relation(fields: [classId], references: [id])
+  class   Class     @relation(fields: [classId], references: [id], onDelete: Cascade)
 }
 
 
@@ -62,7 +62,7 @@ model StudentGrade {
   testId         String
 
   student  Student @relation(fields: [studentId], references: [id])
-  test  Test @relation(fields: [testId], references: [id])
+  test  Test @relation(fields: [testId], references: [id], onDelete: Cascade)
 }
 
 model Test {
@@ -77,7 +77,7 @@ model Test {
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
 
-  studentTest     StudentGrade[]
+  studentGrade     StudentGrade[]
   class           Class @relation(fields: [classId], references: [id])
 }
 
@@ -99,18 +99,3 @@ model Account {
 
   @@unique([provider, providerAccountId])
 }
-
-
-
-// model ClassStudent {
-//   id         String @id @default(cuid()) @map("_id")
-//   classId    String
-//   studentId  String
-//   createdAt  DateTime @default(now())
-//   updatedAt  DateTime @updatedAt
-
-//   class    Class   @relation(fields: [classId], references: [id])
-//   student  Student @relation(fields: [studentId], references: [id])
-
-//   @@unique([classId, studentId])
-// }

@@ -1,9 +1,15 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/no-array-index-key */
 import { Box, Center, Radio, Stack, Text } from "@chakra-ui/react";
+import { QuestionType } from "@/utils/types";
 
 function convertToLetter(index: number) {
   return String.fromCharCode("A".charCodeAt(0) + index);
+}
+
+function convertToTorF(index: number) {
+  if (index === 0) return "True";
+  return "False";
 }
 
 export default function AnswerItem({
@@ -11,11 +17,13 @@ export default function AnswerItem({
   numberOfChoices,
   answerIndex,
   correctAnswerIndex,
+  questionType,
 }: {
   index: number;
   correctAnswerIndex: number | undefined;
   answerIndex: number | undefined;
   numberOfChoices: number | undefined;
+  questionType: QuestionType | undefined;
 }) {
   const isCorrect = () => {
     if (correctAnswerIndex && answerIndex) {
@@ -50,7 +58,7 @@ export default function AnswerItem({
           w="100%"
           paddingInline="1rem"
           align="center"
-          justify="space-between"
+          spacing={3}
         >
           {[...Array(numberOfChoices)].map((_, index2) => {
             return (
@@ -90,7 +98,9 @@ export default function AnswerItem({
                       : "palette.text"
                   }
                 >
-                  {convertToLetter(index2)}
+                  {questionType === QuestionType.trueOrFalse
+                    ? convertToTorF(index2)
+                    : convertToLetter(index2)}
                 </Text>
               </Radio>
             );

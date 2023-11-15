@@ -5,10 +5,10 @@
 import { Button, Stack, useToast } from "@chakra-ui/react";
 import { useParams, useRouter } from "next/navigation";
 import { AiOutlinePlus } from "react-icons/ai";
-import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
-import { TestInfo } from "@/utils/types";
+import { QuestionType, TestInfo } from "@/utils/types";
 import { headerState } from "@/state/headerState";
 import { setupTestStepState } from "@/state/stepState";
 import { setupTestState } from "@/state/setupTestState";
@@ -24,7 +24,7 @@ export default function SetupTest() {
   const { class_id } = useParams();
 
   const toast = useToast();
-  const testInfo = useRecoilValue(setupTestState);
+  const [testInfo, setTestInfo] = useRecoilState(setupTestState);
   const [activeStep, setActiveStep] = useRecoilState(setupTestStepState);
 
   const createTest = (data: TestInfo) => {
@@ -37,6 +37,15 @@ export default function SetupTest() {
     onSuccess: (data) => {
       setHeader(data.data.testName);
       setActiveStep(0);
+      setTestInfo({
+        answerIndices: [],
+        classId: "",
+        numberOfChoices: 0,
+        points: 0,
+        questionType: QuestionType.multipleChoice,
+        testName: "",
+        totalQuestions: 0,
+      });
       navigate.push(`/${class_id}/test/${data.data.id}`);
     },
   });
@@ -46,7 +55,8 @@ export default function SetupTest() {
       if (
         !testInfo.testName ||
         testInfo.totalQuestions === 0 ||
-        testInfo.numberOfChoices === 0
+        (testInfo.questionType !== QuestionType.trueOrFalse &&
+          testInfo.numberOfChoices === 0)
       ) {
         toast({
           title: "Incomplete Field",

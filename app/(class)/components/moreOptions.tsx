@@ -4,18 +4,18 @@ import axios from "axios";
 import React from "react";
 import { FaDeleteLeft } from "react-icons/fa6";
 import Lottie from "react-lottie-player";
-import loadingAnimation from "../public/signing_up.json";
+import loadingAnimation from "../../../public/signing_up.json";
 
 export default function MoreOptions({ id }: { id: string }) {
   const toast = useToast();
 
-  const deleteClass = (classId: string) => {
-    return axios.delete(`/api/delete_class/${classId}`);
+  const deleteTest = (testId: string) => {
+    return axios.delete(`/api/delete_test/${testId}`);
   };
 
   const mutateTest = useMutation({
-    mutationFn: deleteClass,
-    mutationKey: ["delete-class", id],
+    mutationFn: deleteTest,
+    mutationKey: ["delete-test", id],
     onSuccess: () => {
       toast({
         title: "Success",
@@ -25,7 +25,7 @@ export default function MoreOptions({ id }: { id: string }) {
     },
   });
 
-  const handleDeleteClass = () => {
+  const handleDeleteTest = () => {
     mutateTest.mutate(id);
   };
 
@@ -41,7 +41,7 @@ export default function MoreOptions({ id }: { id: string }) {
   }
 
   return (
-    <Center zIndex={10} onClick={handleDeleteClass}>
+    <Center zIndex={10} onClick={handleDeleteTest}>
       <FaDeleteLeft />
     </Center>
   );

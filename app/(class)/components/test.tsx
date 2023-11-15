@@ -1,6 +1,5 @@
 import { Button, Center, Link, Stack, Text } from "@chakra-ui/react";
 import React from "react";
-import { AiOutlineMore } from "react-icons/ai";
 import { BsBarChartLine } from "react-icons/bs";
 import { useParams } from "next/navigation";
 import axios from "axios";
@@ -8,6 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import { ClassVariant, FetchedClassInfo, FetchedTestInfo } from "@/utils/types";
 import { item } from "@/utils/animations";
+import MoreOptions from "./moreOptions";
 
 export default function Test({
   variant,
@@ -25,7 +25,8 @@ export default function Test({
       course: "",
       section: "",
       year: 0,
-      subject: "",
+      program: "",
+      variant: ClassVariant.default,
     };
     await axios.get(`/api/class/${class_id}`).then((res) => {
       classInfo = res.data;
@@ -98,13 +99,19 @@ export default function Test({
           <Text fontWeight="semibold" fontSize=".9rem">
             {testInfo.testName}
           </Text>
-          <Text fontSize=".8rem" fontWeight="medium" opacity={0.8}>
+          <Text
+            fontSize=".8rem"
+            paddingTop=".2rem"
+            fontWeight="medium"
+            opacity={0.8}
+          >
             {`${testInfo.totalQuestions} Total Questions`}
           </Text>
+          <Text fontSize=".7rem" fontWeight="medium" opacity={0.6}>
+            {`${testInfo.questionType}`}
+          </Text>
         </Stack>
-        <Center p=".1rem" cursor="pointer" fontSize="1.2rem" opacity=".8">
-          <AiOutlineMore />
-        </Center>
+        <MoreOptions id={testInfo.id} />
       </Stack>
       <Stack direction="row" w="100%" align="end" justify="end">
         <Text
@@ -118,9 +125,29 @@ export default function Test({
           {`${classData?.course} ${classData?.year}`}
         </Text>
         <Stack color={textColorVariant()} direction="row" spacing={4}>
-          <Center p=".1rem" fontSize="1.2rem" cursor="pointer" opacity=".8">
+          <Center
+            as={Link}
+            href={`${class_id}/test/${testInfo.id}/overview/statistics`}
+            p=".1rem"
+            fontSize="1.2rem"
+            cursor="pointer"
+            opacity=".8"
+          >
             <BsBarChartLine />
           </Center>
+          <Button
+            as={Link}
+            href={`${class_id}/test/${testInfo.id}/grade`}
+            bg="transparent"
+            border="1px solid"
+            borderColor="palette.background"
+            color="palette.background"
+            p=".5rem 1rem"
+            fontSize=".8rem"
+            h="fit-content"
+          >
+            Graded Tests
+          </Button>
           <Button
             as={Link}
             href={`${class_id}/test/${testInfo.id}`}

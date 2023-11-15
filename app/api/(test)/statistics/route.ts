@@ -30,7 +30,6 @@ const getQuestionsMostStudentsGotRight = (
 ): QuestionResult[] => {
   const questionsRightCount: number[] = Array(correctAnswer.length).fill(0);
 
-  // Create an array to store the names of students who picked the correct answer for each question
   const studentsPickedRight: string[][] = correctAnswer.map(() => []);
 
   studentsAnswers.forEach((studentAnswer) => {

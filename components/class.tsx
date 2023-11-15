@@ -1,5 +1,4 @@
-import { Center, Stack, Text } from "@chakra-ui/react";
-import { AiOutlineScan } from "react-icons/ai";
+import { Button, Center, Stack, Text } from "@chakra-ui/react";
 import { BsBarChartLine } from "react-icons/bs";
 import { motion } from "framer-motion";
 import { useSetRecoilState } from "recoil";
@@ -71,7 +70,6 @@ export default function Class({
       boxShadow="0 2px 5px rgba(0, 0, 50, .2)"
       as={motion.div}
       variants={animationItem}
-      onClick={handleClick}
     >
       <Stack
         direction="row"
@@ -88,7 +86,7 @@ export default function Class({
             {`${classInfo.program} ${classInfo.year}`}
           </Text>
         </Stack>
-        <MoreOptions />
+        <MoreOptions id={classInfo.id} />
       </Stack>
       <Stack direction="row" w="100%" align="end" justify="end">
         <Text
@@ -105,9 +103,16 @@ export default function Class({
           <Center p=".1rem" fontSize="1.2rem" cursor="pointer" opacity=".8">
             <BsBarChartLine />
           </Center>
-          <Center p=".1rem" cursor="pointer" fontSize="1.2rem" opacity=".8">
-            <AiOutlineScan />
-          </Center>
+          <Button
+            bg="palette.background"
+            color="palette.text"
+            p=".5rem 1rem"
+            fontSize=".8rem"
+            h="fit-content"
+            onClick={handleClick}
+          >
+            Open
+          </Button>
         </Stack>
       </Stack>
     </Stack>

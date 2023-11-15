@@ -18,7 +18,33 @@ export async function POST(request: Request) {
           where: { rollNumber: grade.roll_number },
         });
 
-        // Step 2: Create the StudentGrade record with the obtained studentId
+        if (!student) {
+          return NextResponse.json(
+            {
+              message: `Student with rollNumber ${grade.roll_number} not found.`,
+            },
+            { status: 404 },
+          );
+        }
+
+        // Step 2: Check if the student is already graded
+        const existingGrade = await prisma.studentGrade.findFirst({
+          where: {
+            studentId: student.id,
+            testId,
+          },
+        });
+
+        if (existingGrade) {
+          return NextResponse.json(
+            {
+              message: `Student with rollNumber ${grade.roll_number} is already graded.`,
+            },
+            { status: 400 },
+          );
+        }
+
+        // Step 3: Create the StudentGrade record with the obtained studentId
         return prisma.studentGrade.create({
           data: {
             processedImage: grade.processed_image,
@@ -26,13 +52,11 @@ export async function POST(request: Request) {
             numberOfCorrect: grade.number_of_correct,
             numberOfIncorrect: grade.number_of_incorrect,
             testId,
-            studentId: student!.id,
+            studentId: student.id,
           },
         });
       }),
     );
-
-    // newGrades is an array of the created StudentGrade records
 
     return NextResponse.json(newGrades);
   } catch (err) {

@@ -41,6 +41,7 @@ export default function OverviewPage() {
     queryFn: getGrade,
   });
 
+  console.log(grade?.test?.questionType);
   console.log(grade);
 
   return (
@@ -61,7 +62,10 @@ export default function OverviewPage() {
           />
         </Skeleton>
         <Skeleton isLoaded={!isLoading} borderRadius=".5rem">
-          <Streaks />
+          <Streaks
+            correctIndices={grade?.test?.answerIndices}
+            studentIndices={grade?.answerIndices}
+          />
         </Skeleton>
         <Skeleton isLoaded={!isLoading} borderRadius=".5rem">
           <Correct correct={grade?.numberOfCorrect} />
@@ -81,6 +85,7 @@ export default function OverviewPage() {
                   <AnswerItem
                     index={index}
                     key={index}
+                    questionType={grade.test?.questionType}
                     correctAnswerIndex={grade.test?.answerIndices[index]}
                     answerIndex={grade.answerIndices![index]}
                     numberOfChoices={grade.test?.numberOfChoices}

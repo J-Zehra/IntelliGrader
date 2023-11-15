@@ -23,6 +23,7 @@ export async function GET(request: Request) {
           select: {
             answerIndices: true,
             numberOfChoices: true,
+            questionType: true,
           },
         },
         student: true,

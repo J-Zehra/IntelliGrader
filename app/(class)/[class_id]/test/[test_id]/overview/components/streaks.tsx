@@ -2,25 +2,34 @@ import { Center, Divider, Stack, Text, WrapItem } from "@chakra-ui/react";
 // import { useRecoilValue } from "recoil";
 // import { gradeState } from "@/state/gradeState";
 
-export default function Streaks() {
+export default function Streaks({
+  correctIndices,
+  studentIndices,
+}: {
+  correctIndices: number[] | undefined;
+  studentIndices: number[] | undefined;
+}) {
   // const gradeInfo = useRecoilValue(gradeState);
 
-  // const identifyHighestStreaks = () => {
-  //   let currentStreak = 0;
-  //   let highestStreak = 0;
+  let currentStreak = 0;
+  let maxStreak = 0;
 
-  //   gradeInfo.gradedAnswerIndices.forEach((item) => {
-  //     if (item === 0) {
-  //       currentStreak += 1;
-  //       if (currentStreak > highestStreak) {
-  //         highestStreak = currentStreak;
-  //       }
-  //     } else {
-  //       currentStreak = 0;
-  //     }
-  //   });
-  //   return highestStreak;
-  // };
+  if (correctIndices && studentIndices) {
+    for (let i = 0; i < correctIndices.length; i += 1) {
+      const isCorrect = correctIndices![i] === studentIndices![i];
+
+      if (isCorrect) {
+        currentStreak += 1;
+        // Update maxStreak if needed
+        if (currentStreak > maxStreak) {
+          maxStreak = currentStreak;
+        }
+      } else {
+        // Reset currentStreak on incorrect answer
+        currentStreak = 0;
+      }
+    }
+  }
 
   return (
     <WrapItem
@@ -35,7 +44,7 @@ export default function Streaks() {
     >
       <Center w="100%" flex={10}>
         <Text fontSize="2rem" fontWeight="bold">
-          0
+          {maxStreak}
         </Text>
       </Center>
       <Divider borderColor="rgba(0, 0, 0, .3)" />

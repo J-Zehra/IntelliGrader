@@ -1,0 +1,20 @@
+/* eslint-disable import/prefer-default-export */
+import { NextResponse } from "next/server";
+import prisma from "@/libs/prismadb";
+
+export async function DELETE(
+  request: Request,
+  { params }: { params: { id: string } },
+) {
+  const { id } = params;
+  console.log("ClassID", id);
+  try {
+    const deletedTest = await prisma.class.delete({
+      where: { id },
+    });
+
+    return NextResponse.json(deletedTest);
+  } catch (err) {
+    return NextResponse.json({ message: "POST Error", err }, { status: 500 });
+  }
+}

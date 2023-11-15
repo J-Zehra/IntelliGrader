@@ -2,16 +2,18 @@
 import { NextResponse } from "next/server";
 import prisma from "@/libs/prismadb";
 
-export async function GET(
+export async function DELETE(
   request: Request,
   { params }: { params: { id: string } },
 ) {
   const { id } = params;
   try {
-    const classInfo = await prisma.class.findFirst({ where: { id } });
+    const deletedTest = await prisma.test.delete({
+      where: { id },
+    });
 
-    return NextResponse.json(classInfo);
+    return NextResponse.json(deletedTest);
   } catch (err) {
-    return NextResponse.json({ message: "GET Error", err }, { status: 400 });
+    return NextResponse.json({ message: "POST Error", err }, { status: 500 });
   }
 }

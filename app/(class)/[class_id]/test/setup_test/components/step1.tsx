@@ -32,8 +32,14 @@ export default function Step1() {
   const handleQuestionTypeChange = (
     e: React.ChangeEvent<HTMLSelectElement>,
   ) => {
+    const value = e.target.value as QuestionType;
+    if (value === QuestionType.trueOrFalse) {
+      const testInfoCopy = { ...testInfo };
+      testInfoCopy.numberOfChoices = 2;
+      setTestInfo(testInfoCopy);
+    }
     const testInfoCopy = { ...testInfo };
-    testInfoCopy.questionType = e.target.value as QuestionType;
+    testInfoCopy.questionType = value;
     setTestInfo(testInfoCopy);
   };
 

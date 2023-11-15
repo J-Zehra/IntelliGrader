@@ -5,7 +5,8 @@ import { useRecoilState } from "recoil";
 import { setupTestState } from "@/state/setupTestState";
 
 function convertToLetter(index: number) {
-  return String.fromCharCode("A".charCodeAt(0) + index);
+  if (index === 0) return "True";
+  return "False";
 }
 
 export default function TrueOrFalse() {

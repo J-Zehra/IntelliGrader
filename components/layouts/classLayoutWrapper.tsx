@@ -43,7 +43,7 @@ export default function ClassLayoutWrapper({
             color="palette.button.primary"
             cursor="pointer"
             borderRadius=".2rem"
-            onClick={() => navigate.back()}
+            onClick={() => navigate.push("/")}
           >
             <BsArrowReturnLeft />
           </IconButton>

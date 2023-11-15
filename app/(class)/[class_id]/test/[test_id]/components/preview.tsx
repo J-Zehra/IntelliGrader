@@ -27,7 +27,13 @@ import { FetchedGradeInfo } from "@/utils/types";
 import ScanningAnimation from "../../../../../../public/scanning_animation_2.json";
 import ScanButton from "./scanButton";
 
-export default function Preview({ answer }: { answer: number[] | undefined }) {
+export default function Preview({
+  answer,
+  numberOfChoices,
+}: {
+  answer: number[] | undefined;
+  numberOfChoices: number | undefined;
+}) {
   const toast = useToast();
   const { test_id } = useParams();
   const currentPath = usePathname();
@@ -78,6 +84,7 @@ export default function Preview({ answer }: { answer: number[] | undefined }) {
       }
 
       formData.append("answer", JSON.stringify(answer));
+      formData.append("numberOfChoices", JSON.stringify(numberOfChoices));
       return formData;
     }
 
