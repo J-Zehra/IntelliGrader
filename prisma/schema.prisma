@@ -78,7 +78,7 @@ model Test {
   updatedAt       DateTime     @updatedAt
 
   studentGrade     StudentGrade[]
-  class           Class @relation(fields: [classId], references: [id])
+  class           Class @relation(fields: [classId], references: [id], onDelete: Cascade)
 }
 
 model Account {
