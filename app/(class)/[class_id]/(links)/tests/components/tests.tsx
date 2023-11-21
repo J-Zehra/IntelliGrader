@@ -5,9 +5,9 @@ import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { ClassVariant, FetchedTestInfo } from "@/utils/types";
-import EmptyTest from "./emptyTest";
+import EmptyTest from "@/app/(class)/[class_id]/(links)/components/emptyTest";
 import Test from "./test";
-import TestsLoading from "../[class_id]/test/[test_id]/components/testsLoading";
+import TestsLoading from "../../../(tests)/[test_id]/components/testsLoading";
 
 export default function Tests() {
   const navigate = useRouter();
@@ -21,7 +21,7 @@ export default function Tests() {
     queryKey: ["tests"],
     queryFn: async () => {
       let tests: FetchedTestInfo[] = [];
-      await axios.get(`api/tests/class_tests/${class_id}`).then((res) => {
+      await axios.get(`/api/tests/class_tests/${class_id}`).then((res) => {
         tests = res.data;
       });
 
@@ -56,7 +56,7 @@ export default function Tests() {
   };
 
   return (
-    <Stack spacing={6} mt={5}>
+    <Stack spacing={6}>
       <Stack direction="row" w="100%" justify="space-between" align="center">
         <Text fontSize=".8rem" fontWeight="medium">
           Tests
@@ -66,7 +66,7 @@ export default function Tests() {
           w="fit-content"
           fontSize=".7rem"
           p=".5rem .8rem"
-          onClick={() => navigate.push(`${class_id}/test/setup_test`)}
+          onClick={() => navigate.push("setup_test")}
           leftIcon={<IoMdAdd style={{ fontSize: "1rem" }} />}
         >
           Setup Test

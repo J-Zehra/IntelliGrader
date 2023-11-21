@@ -4,7 +4,7 @@ import axios from "axios";
 import React from "react";
 import { FaDeleteLeft } from "react-icons/fa6";
 import Lottie from "react-lottie-player";
-import loadingAnimation from "../../../public/signing_up.json";
+import loadingAnimation from "../../../../../public/signing_up.json";
 
 export default function MoreOptions({ id }: { id: string }) {
   const toast = useToast();

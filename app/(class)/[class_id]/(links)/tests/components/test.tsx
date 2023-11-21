@@ -1,13 +1,14 @@
-import { Button, Center, Link, Stack, Text } from "@chakra-ui/react";
+import { Button, Center, Divider, Link, Stack, Text } from "@chakra-ui/react";
 import React from "react";
 import { BsBarChartLine } from "react-icons/bs";
 import { useParams } from "next/navigation";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
+import moment from "moment";
 import { ClassVariant, FetchedClassInfo, FetchedTestInfo } from "@/utils/types";
 import { item } from "@/utils/animations";
-import MoreOptions from "./moreOptions";
+import MoreOptions from "@/app/(class)/[class_id]/(links)/components/moreOptions";
 
 export default function Test({
   variant,
@@ -77,6 +78,8 @@ export default function Test({
     return textColor;
   };
 
+  console.log(classData);
+
   return (
     <Stack
       bg={bgVariant()}
@@ -96,24 +99,30 @@ export default function Test({
         align="start"
       >
         <Stack spacing={0.1}>
-          <Text fontWeight="semibold" fontSize=".9rem">
-            {testInfo.testName}
-          </Text>
-          <Text
-            fontSize=".8rem"
-            paddingTop=".2rem"
-            fontWeight="medium"
-            opacity={0.8}
+          <Stack
+            direction="row"
+            paddingBottom=".4rem"
+            align="center"
+            spacing={2}
           >
-            {`${testInfo.totalQuestions} Total Questions`}
-          </Text>
-          <Text fontSize=".7rem" fontWeight="medium" opacity={0.6}>
-            {`${testInfo.questionType}`}
-          </Text>
+            <Text fontWeight="bold" fontSize=".9rem">
+              {testInfo.testName}
+            </Text>
+            <Divider
+              opacity={0.2}
+              orientation="vertical"
+              h="1rem"
+              borderColor="palette.light"
+            />
+            <Text fontSize=".7rem" fontWeight="medium" opacity={0.6}>
+              {`${testInfo.questionType}`}
+            </Text>
+          </Stack>
+          <Divider borderColor="palette.light" opacity={0.2} />
         </Stack>
         <MoreOptions id={testInfo.id} />
       </Stack>
-      <Stack direction="row" w="100%" align="end" justify="end">
+      <Stack direction="row" w="100%" align="end" justify="space-between">
         <Text
           fontWeight="black"
           fontSize="4rem"
@@ -124,10 +133,19 @@ export default function Test({
         >
           {`${classData?.course} ${classData?.year}`}
         </Text>
+        <Text
+          fontSize=".7rem"
+          paddingTop=".2rem"
+          fontWeight="medium"
+          opacity={0.6}
+          color="palette.background"
+        >
+          {`${moment(testInfo.createdAt).startOf("hour").fromNow()}`}
+        </Text>
         <Stack color={textColorVariant()} direction="row" spacing={4}>
           <Center
             as={Link}
-            href={`${class_id}/test/${testInfo.id}/overview/statistics`}
+            href={`${class_id}/${testInfo.id}/overview/statistics`}
             p=".1rem"
             fontSize="1.2rem"
             cursor="pointer"
@@ -137,27 +155,14 @@ export default function Test({
           </Center>
           <Button
             as={Link}
-            href={`${class_id}/test/${testInfo.id}/grade`}
-            bg="transparent"
-            border="1px solid"
-            borderColor="palette.background"
-            color="palette.background"
-            p=".5rem 1rem"
-            fontSize=".8rem"
-            h="fit-content"
-          >
-            Graded Tests
-          </Button>
-          <Button
-            as={Link}
-            href={`${class_id}/test/${testInfo.id}`}
+            href={`${class_id}/${testInfo.id}/scan`}
             bg="palette.background"
             color="palette.text"
             p=".5rem 1rem"
             fontSize=".8rem"
             h="fit-content"
           >
-            Use
+            Open
           </Button>
         </Stack>
       </Stack>

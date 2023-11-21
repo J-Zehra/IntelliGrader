@@ -46,7 +46,7 @@ export default function SetupTest() {
         testName: "",
         totalQuestions: 0,
       });
-      navigate.push(`/${class_id}/test/${data.data.id}`);
+      navigate.push(`/${class_id}/${data.data.id}/scan`);
     },
   });
 

@@ -13,6 +13,21 @@ export enum QuestionType {
   combination = "Combination",
 }
 
+export enum ClassNavLink {
+  home = "Home",
+  tests = "Tests",
+  students = "Students",
+  statistics = "Statistics",
+}
+
+export enum TestNavLink {
+  settings = "Settings",
+  file = "File",
+  scan = "Scan",
+  grades = "Grades",
+  statistics = "statistics",
+}
+
 export type UploadedFile = {
   image: File | null;
   imageUrl: string;
@@ -95,6 +110,8 @@ export type FetchedClassInfo = {
   section: string;
   year: number;
   program: string;
+  createdAt?: string;
+  updatedAt?: string;
   variant: ClassVariant;
 };
 
@@ -106,6 +123,8 @@ export type FetchedTestInfo = {
   questionType: QuestionType;
   numberOfChoices: number;
   answerIndices: number[];
+  createdAt?: string;
+  updatedAt?: string;
   points: number;
 };
 
@@ -130,4 +149,14 @@ export type FetchedSingleGrade = {
     numberOfChoices: number;
     questionType: QuestionType;
   };
+};
+
+export type FetchedStudentInfo = {
+  id: string;
+  lastName: string;
+  firstName: string;
+  middleName: string;
+  rollNumber: number;
+  createdAt?: string;
+  updatedAt?: string;
 };

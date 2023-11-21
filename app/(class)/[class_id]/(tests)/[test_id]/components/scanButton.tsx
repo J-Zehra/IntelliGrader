@@ -1,24 +1,23 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Button } from "@chakra-ui/react";
+import { Button, Center } from "@chakra-ui/react";
 import React, { ChangeEvent, useRef } from "react";
 import { useSetRecoilState } from "recoil";
+import { useRouter } from "next/navigation";
 import { fileState } from "@/state/fileState";
 
 export default function ScanButton({
   isLoading,
-  variant,
   icon,
-  text,
 }: {
-  text: string;
   isLoading: boolean;
-  variant: string;
   icon: React.ReactElement;
 }) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const setImage = useSetRecoilState(fileState);
+  const navigate = useRouter();
 
   const openCamera = () => {
+    navigate.push("scan");
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
@@ -47,16 +46,19 @@ export default function ScanButton({
 
   return (
     <>
-      <Button
-        w="fit-content"
-        variant={variant}
-        disabled={isLoading}
+      <Center
+        p=".8rem"
+        fontSize="1.8rem"
+        borderRadius="2rem"
+        marginBottom="3rem"
+        bg="palette.accent"
+        border="5px solid"
+        color="palette.background"
+        borderColor="palette.background"
         onClick={openCamera}
-        leftIcon={icon}
-        p="1.5rem 1rem"
       >
-        {text}
-      </Button>
+        {icon}
+      </Center>
       <input
         type="file"
         accept="image/*"

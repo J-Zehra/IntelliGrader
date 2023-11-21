@@ -1,36 +1,18 @@
 "use client";
 
+import { ReactNode } from "react";
 import { Box, IconButton, Stack, Text } from "@chakra-ui/react";
-import { usePathname, useRouter } from "next/navigation";
-import React, { ReactNode, useEffect, useState } from "react";
 import { BsArrowReturnLeft } from "react-icons/bs";
-import { useRecoilValue } from "recoil";
-import { headerState } from "@/state/headerState";
-import BottomNavbar from "@/app/(class)/[class_id]/(links)/components/bottomNavbar";
+import { useRouter } from "next/navigation";
+import BottomNavbar from "@/app/(class)/[class_id]/(tests)/[test_id]/components/bottomNavbar";
 import CustomContainer from "../reusables/customContainer";
 
-export default function ClassLayoutWrapper({
+export default function TestLayoutWrapper({
   children,
 }: {
   children: ReactNode;
 }) {
   const navigate = useRouter();
-  const pathName = usePathname();
-
-  const header = useRecoilValue(headerState);
-  const [headerTitle, setHeaderTitle] = useState<string>();
-
-  const segments = pathName.split("/").filter(Boolean);
-
-  useEffect(() => {
-    if (segments[0] && !segments[1]) {
-      setHeaderTitle(header);
-    } else if (segments[2] === "setup_test") {
-      setHeaderTitle("Setup Test");
-    } else if (segments[2] !== "setup_test") {
-      setHeaderTitle("Final Examination");
-    }
-  }, [header, segments]);
 
   return (
     <CustomContainer>
@@ -55,7 +37,7 @@ export default function ClassLayoutWrapper({
               fontWeight="semibold"
               opacity=".8"
             >
-              {headerTitle}
+              Title
             </Text>
             <Box w=".5rem" h=".5rem" bg="palette.accent" borderRadius="5rem" />
           </Stack>

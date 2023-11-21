@@ -31,7 +31,7 @@ export default function CreateClass() {
     mutationKey: ["create-class"],
     onSuccess: (data) => {
       setHeaderTitle(data.data.subject);
-      navigate.push(`/${data.data.id}`);
+      navigate.push(`/${data.data.id}/dashboard`);
     },
   });
 

@@ -57,7 +57,7 @@ export default function Class({
 
   const handleClick = () => {
     setHeader(classInfo.course);
-    navigate.push(`/${classInfo.id}`);
+    navigate.push(`/${classInfo.id}/dashboard`);
   };
 
   return (

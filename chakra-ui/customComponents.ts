@@ -25,6 +25,7 @@ export const CustomButton = defineStyleConfig({
       p: "1.5rem",
       fontSize: ".9rem",
       fontWeight: "bold",
+      borderRadius: ".8rem",
       _hover: { bg: "palette.button.background_hover" },
     },
   },
