@@ -7,7 +7,7 @@ import { useQuery } from "@tanstack/react-query";
 import { ClassVariant, FetchedTestInfo } from "@/utils/types";
 import EmptyTest from "@/app/(class)/[class_id]/(links)/components/emptyTest";
 import Test from "./test";
-import TestsLoading from "../../../(tests)/[test_id]/components/testsLoading";
+import TestsLoading from "./testsLoading";
 
 export default function Tests() {
   const navigate = useRouter();

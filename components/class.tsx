@@ -64,7 +64,7 @@ export default function Class({
     <Stack
       bg={bgVariant()}
       p=".8rem"
-      borderRadius=".5rem"
+      borderRadius="1rem"
       pos="relative"
       overflow="hidden"
       boxShadow="0 2px 5px rgba(0, 0, 50, .2)"

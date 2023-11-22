@@ -2,11 +2,10 @@
 import { AiOutlineEye } from "react-icons/ai";
 import { Box, Button, Divider, Stack, Text } from "@chakra-ui/react";
 import Image from "next/image";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { Grade } from "@/utils/types";
 
-export default function StudentGradeItemRest({ grade }: { grade: Grade }) {
-  const { class_id, test_id } = useParams();
+export default function StudentGradeItem({ grade }: { grade: Grade }) {
   const navigate = useRouter();
 
   const calculateAccuracy = () => {
@@ -18,14 +17,13 @@ export default function StudentGradeItemRest({ grade }: { grade: Grade }) {
     <Stack
       p=".5rem"
       borderRadius=".5rem"
-      bg="palette.light"
+      bg="palette.accent"
       w="100%"
       h="5.5rem"
       direction="row"
       align="center"
       justify="space-between"
-      color="palette.text"
-      boxShadow="2px 2px 4px rgba(0, 0, 100, .2)"
+      color="palette.background"
     >
       <Stack direction="row" w="100%" h="100%" spacing={2.5}>
         <Box h="100%" w="3rem" bg="palette.light" borderRadius=".4rem">
@@ -48,16 +46,14 @@ export default function StudentGradeItemRest({ grade }: { grade: Grade }) {
           </Text>
           <Stack direction="row" align="center" spacing={3}>
             <Button
-              bg="palette.accent"
-              color="palette.background"
+              bg="palette.background"
+              color="palette.accent"
               fontSize=".6rem"
               h="fit-content"
               maxWidth="fit-content"
               p=".6rem .7rem"
               onClick={() =>
-                navigate.push(
-                  `/${class_id}/test/${test_id}/overview/${grade.student.rollNumber}`,
-                )
+                navigate.push(`overview/${grade.student.rollNumber}`)
               }
               leftIcon={<AiOutlineEye />}
             >
@@ -78,7 +74,7 @@ export default function StudentGradeItemRest({ grade }: { grade: Grade }) {
         <Text fontSize="2rem" fontWeight="bold">
           {grade.numberOfCorrect}
         </Text>
-        <Divider mb={2} borderColor="palette.text" />
+        <Divider mb={2} />
         <Text fontSize=".8rem">{grade.answerIndices.length}</Text>
       </Stack>
     </Stack>
