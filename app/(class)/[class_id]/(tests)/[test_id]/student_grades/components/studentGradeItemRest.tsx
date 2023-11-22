@@ -43,7 +43,9 @@ export default function StudentGradeItemRest({ grade }: { grade: Grade }) {
         </Box>
         <Stack h="100%" justify="space-between">
           <Text fontSize=".8rem" fontWeight="semibold">
-            {`${grade.student.lastName}, ${grade.student.firstName} ${grade.student.middleName}`}
+            {`${grade.student.lastName}, ${
+              grade.student.firstName
+            } ${grade.student.middleName.charAt(0)}.`}
           </Text>
           <Stack direction="row" align="center" spacing={3}>
             <Button
