@@ -31,7 +31,7 @@ export default function StudentGrades() {
 
   console.log(studentGrades);
   return (
-    <Stack spacing={2} paddingBottom="8rem">
+    <Stack spacing={2} paddingBottom="10rem">
       <Stack direction="row" w="100%" justify="space-between" align="center">
         <Text fontSize=".8rem" fontWeight="normal">
           Total of {studentGrades?.length}{" "}
