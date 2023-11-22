@@ -145,7 +145,7 @@ export default function Test({
         <Stack color={textColorVariant()} direction="row" spacing={4}>
           <Center
             as={Link}
-            href={`${class_id}/${testInfo.id}/overview/statistics`}
+            href={`${testInfo.id}/overview/statistics`}
             p=".1rem"
             fontSize="1.2rem"
             cursor="pointer"
@@ -155,7 +155,7 @@ export default function Test({
           </Center>
           <Button
             as={Link}
-            href={`${class_id}/${testInfo.id}/scan`}
+            href={`${testInfo.id}/scan`}
             bg="palette.background"
             color="palette.text"
             p=".5rem 1rem"
