@@ -29,7 +29,6 @@ export default function TestSetupLayoutWrapper({
   const steps = [
     { title: "First", description: "Contact Info" },
     { title: "Second", description: "Date & Time" },
-    { title: "Third", description: "Select Rooms" },
   ];
 
   const activeStep = useRecoilValue(setupTestStepState);

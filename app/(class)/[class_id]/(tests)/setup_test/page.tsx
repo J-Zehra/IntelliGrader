@@ -8,27 +8,50 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
-import { QuestionType, TestInfo } from "@/utils/types";
+import { TestInfo } from "@/utils/types";
 import { headerState } from "@/state/headerState";
 import { setupTestStepState } from "@/state/stepState";
 import { setupTestState } from "@/state/setupTestState";
 import Loading from "@/components/loading";
 import Step1 from "./components/step1";
 import Step2 from "./components/step2";
-import Step3 from "./components/step3";
 import Confimation from "./components/confimation";
 
 export default function SetupTest() {
   const navigate = useRouter();
   const setHeader = useSetRecoilState(headerState);
   const { class_id } = useParams();
-
   const toast = useToast();
+
   const [testInfo, setTestInfo] = useRecoilState(setupTestState);
   const [activeStep, setActiveStep] = useRecoilState(setupTestStepState);
 
   const createTest = (data: TestInfo) => {
     return axios.post("/api/create_test", data);
+  };
+
+  const validate = () => {
+    let isError = false;
+
+    // Check if test name is empty
+    if (!testInfo.testName) {
+      isError = true;
+    }
+
+    // Check each part for completeness if the part number is selected
+    testInfo.parts.forEach((part) => {
+      if (
+        part.numberOfChoices === 0 ||
+        part.points === 0 ||
+        part.totalNumber === 0
+      ) {
+        isError = true;
+      }
+    });
+
+    console.log(isError);
+
+    return isError;
   };
 
   const mutateTest = useMutation({
@@ -40,11 +63,8 @@ export default function SetupTest() {
       setTestInfo({
         answerIndices: [],
         classId: "",
-        numberOfChoices: 0,
-        points: 0,
-        questionType: QuestionType.multipleChoice,
         testName: "",
-        totalQuestions: 0,
+        parts: [],
       });
       navigate.push(`/${class_id}/${data.data.id}/scan`);
     },
@@ -52,12 +72,7 @@ export default function SetupTest() {
 
   const handleNext = () => {
     if (activeStep === 0) {
-      if (
-        !testInfo.testName ||
-        testInfo.totalQuestions === 0 ||
-        (testInfo.questionType !== QuestionType.trueOrFalse &&
-          testInfo.numberOfChoices === 0)
-      ) {
+      if (validate()) {
         toast({
           title: "Incomplete Field",
           description: "Please fill all the fields",
@@ -69,27 +84,16 @@ export default function SetupTest() {
       }
       setActiveStep((prev) => prev + 1);
     } else if (activeStep === 1) {
-      if (testInfo.answerIndices.length !== testInfo.totalQuestions) {
-        toast({
-          title: "Incomplete Answer",
-          description: "Please select all the answers",
-          status: "error",
-          duration: 3000,
-        });
+      // if (testInfo.answerIndices.length !== testInfo.totalQuestions) {
+      //   toast({
+      //     title: "Incomplete Answer",
+      //     description: "Please select all the answers",
+      //     status: "error",
+      //     duration: 3000,
+      //   });
 
-        return;
-      }
-      setActiveStep((prev) => prev + 1);
-    } else if (activeStep === 2) {
-      if (testInfo.points === 0) {
-        toast({
-          title: "Points not selected",
-          description: "Please select points for the questions",
-          status: "error",
-          duration: 3000,
-        });
-        return;
-      }
+      //   return;
+      // }
       setActiveStep((prev) => prev + 1);
     } else if (activeStep === 3) {
       const newTestInfo = { ...testInfo };
@@ -98,12 +102,12 @@ export default function SetupTest() {
     }
   };
 
-  const steps = [<Step1 />, <Step2 />, <Step3 />, <Confimation />];
+  const steps = [<Step1 />, <Step2 />, <Confimation />];
 
   return (
     <>
       {mutateTest.isLoading ? <Loading message="Creating Test" /> : ""}
-      <Stack mt="3rem" spacing="1.2rem">
+      <Stack mt="3rem" spacing="1.2rem" paddingBottom="2rem">
         {steps[activeStep]}
         <Stack direction="row" align="center" justify="end" spacing="1rem">
           <Button

@@ -10,7 +10,7 @@ export default function Header() {
   const path = usePathname();
   const navigate = useRouter();
 
-  if (path === "/signin" || path === "/signup") return null;
+  if (path === "/signin" || path === "/signup" || path === "/pdf") return null;
 
   return (
     <Box

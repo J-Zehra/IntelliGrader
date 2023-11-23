@@ -28,6 +28,14 @@ export enum TestNavLink {
   statistics = "statistics",
 }
 
+export type QuestionPart = {
+  partNumber: number;
+  questionType: QuestionType;
+  numberOfChoices: number;
+  points: number;
+  totalNumber: number;
+};
+
 export type UploadedFile = {
   image: File | null;
   imageUrl: string;
@@ -45,11 +53,8 @@ export type ClassInfo = {
 export type TestInfo = {
   classId: string;
   testName: string;
-  totalQuestions: number;
-  numberOfChoices: number;
   answerIndices: number[];
-  points: number;
-  questionType: QuestionType;
+  parts: QuestionPart[];
 };
 
 export type StudentInfo = {
