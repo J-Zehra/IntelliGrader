@@ -161,3 +161,20 @@ export type FetchedStudentInfo = {
   createdAt?: string;
   updatedAt?: string;
 };
+
+export type FetchedTestInfoToGeneratePaper = {
+  testName: string;
+  testParts: {
+    questionType: QuestionType;
+    numberOfChoices: number;
+    totalNumber: number;
+  };
+  class: {
+    students: {
+      firstName: string;
+      lastName: string;
+      middleName: string;
+      rollNumber: number;
+    }[];
+  };
+};

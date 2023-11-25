@@ -23,8 +23,7 @@ export default function Step1() {
     }));
   };
 
-  const createDefaultPart = (partNumber: number): QuestionPart => ({
-    partNumber,
+  const createDefaultPart = (): QuestionPart => ({
     questionType: QuestionType.multipleChoice,
     numberOfChoices: 0,
     points: 0, // Add a default value for points if needed
@@ -37,7 +36,7 @@ export default function Step1() {
       parts: Array.from({ length: value }, (_, index) =>
         index < prevTestInfo.parts.length
           ? prevTestInfo.parts[index]
-          : createDefaultPart(index + 1),
+          : createDefaultPart(),
       ),
     }));
   };
@@ -123,7 +122,7 @@ export default function Step1() {
       parts: Array.from({ length: 1 }, (_, index) =>
         index < prevTestInfo.parts.length
           ? prevTestInfo.parts[index]
-          : createDefaultPart(index + 1),
+          : createDefaultPart(),
       ),
     }));
   }, [setTestInfo]);
