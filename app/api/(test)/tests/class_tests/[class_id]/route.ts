@@ -13,6 +13,9 @@ export async function GET(
   try {
     const testInfo = await prisma.test.findMany({
       where: { classId: class_id },
+      include: {
+        testParts: true,
+      },
     });
 
     return NextResponse.json(testInfo);

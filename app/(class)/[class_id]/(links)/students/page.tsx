@@ -2,6 +2,7 @@
 
 /* eslint-disable @typescript-eslint/naming-convention */
 import {
+  Box,
   Button,
   Center,
   IconButton,
@@ -160,10 +161,26 @@ export default function StudentsPage() {
           );
         })
       )}
+      <Box paddingTop="1rem" w="100%">
+        <Button
+          w="100%"
+          bg="transparent"
+          color="palette.accent"
+          border="1px solid"
+          borderColor="palette.accent"
+          boxShadow="none"
+        >
+          Generate Test Paper
+        </Button>
+      </Box>
       {isAddModalopen ? (
         <AddStudentModal
           classId={class_id as string}
-          lastRollNumber={students![students!.length - 1].rollNumber}
+          lastRollNumber={
+            students!.length > 0
+              ? students![students!.length - 1].rollNumber
+              : 0
+          }
           isOpen={isAddModalopen}
           onClose={onAddModalClose}
         />

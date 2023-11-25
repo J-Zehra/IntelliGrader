@@ -66,19 +66,27 @@ model StudentGrade {
 }
 
 model Test {
-  id              String @id @default(cuid()) @map("_id")
+  id              String       @id @default(cuid()) @map("_id")
   testName        String
-  totalQuestions  Int
-  numberOfChoices Int
-  answerIndices   Int[]
-  points          Int
-  questionType    String
   classId         String
+  answerIndices   Int[]
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
 
-  studentGrade     StudentGrade[]
-  class           Class @relation(fields: [classId], references: [id], onDelete: Cascade)
+  testParts       TestPart[]
+  studentGrade    StudentGrade[]
+  class           Class        @relation(fields: [classId], references: [id], onDelete: Cascade)
+
+}
+
+model TestPart {
+  id              String       @id @default(cuid()) @map("_id")
+  questionType    String       
+  numberOfChoices Int?         
+  points          Int?
+  totalNumber     Int
+  testId          String      
+  test            Test         @relation(fields: [testId], references: [id], onDelete: Cascade)
 }
 
 model Account {

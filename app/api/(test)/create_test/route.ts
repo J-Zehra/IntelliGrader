@@ -6,34 +6,23 @@ import { TestInfo } from "@/utils/types";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const {
-      answerIndices,
-      classId,
-      numberOfChoices,
-      points,
-      testName,
-      totalQuestions,
-      questionType,
-    } = body as TestInfo;
-
-    console.log(
-      answerIndices,
-      classId,
-      numberOfChoices,
-      points,
-      testName,
-      totalQuestions,
-    );
+    const { answerIndices, classId, testName, parts } = body as TestInfo;
 
     const newTest = await prisma.test.create({
       data: {
         answerIndices,
         classId,
-        numberOfChoices,
-        points,
         testName,
-        totalQuestions,
-        questionType,
+        testParts: {
+          create: parts.map((part) => {
+            return {
+              questionType: part.questionType,
+              totalNumber: part.totalNumber,
+              numberOfChoices: part.numberOfChoices,
+              points: part.points,
+            };
+          }),
+        },
       },
     });
 

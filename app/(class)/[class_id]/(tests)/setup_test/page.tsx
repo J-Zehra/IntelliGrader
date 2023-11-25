@@ -16,6 +16,10 @@ import Loading from "@/components/loading";
 import Step1 from "./components/step1";
 import Step2 from "./components/step2";
 import Confimation from "./components/confimation";
+import {
+  isAnswerSheetComplete,
+  isBasicInfoComplete,
+} from "./components/validations";
 
 export default function SetupTest() {
   const navigate = useRouter();
@@ -28,30 +32,6 @@ export default function SetupTest() {
 
   const createTest = (data: TestInfo) => {
     return axios.post("/api/create_test", data);
-  };
-
-  const validate = () => {
-    let isError = false;
-
-    // Check if test name is empty
-    if (!testInfo.testName) {
-      isError = true;
-    }
-
-    // Check each part for completeness if the part number is selected
-    testInfo.parts.forEach((part) => {
-      if (
-        part.numberOfChoices === 0 ||
-        part.points === 0 ||
-        part.totalNumber === 0
-      ) {
-        isError = true;
-      }
-    });
-
-    console.log(isError);
-
-    return isError;
   };
 
   const mutateTest = useMutation({
@@ -72,7 +52,7 @@ export default function SetupTest() {
 
   const handleNext = () => {
     if (activeStep === 0) {
-      if (validate()) {
+      if (isBasicInfoComplete(testInfo)) {
         toast({
           title: "Incomplete Field",
           description: "Please fill all the fields",
@@ -84,18 +64,18 @@ export default function SetupTest() {
       }
       setActiveStep((prev) => prev + 1);
     } else if (activeStep === 1) {
-      // if (testInfo.answerIndices.length !== testInfo.totalQuestions) {
-      //   toast({
-      //     title: "Incomplete Answer",
-      //     description: "Please select all the answers",
-      //     status: "error",
-      //     duration: 3000,
-      //   });
+      if (!isAnswerSheetComplete(testInfo)) {
+        toast({
+          title: "Incomplete Answer",
+          description: "Please select all the answers",
+          status: "error",
+          duration: 3000,
+        });
 
-      //   return;
-      // }
+        return;
+      }
       setActiveStep((prev) => prev + 1);
-    } else if (activeStep === 3) {
+    } else if (activeStep === 2) {
       const newTestInfo = { ...testInfo };
       newTestInfo.classId = class_id as string;
       mutateTest.mutate(newTestInfo);

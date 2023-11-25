@@ -29,11 +29,17 @@ export enum TestNavLink {
 }
 
 export type QuestionPart = {
-  partNumber: number;
   questionType: QuestionType;
   numberOfChoices: number;
   points: number;
   totalNumber: number;
+};
+
+export type TestInfo = {
+  classId: string;
+  testName: string;
+  answerIndices: number[];
+  parts: QuestionPart[];
 };
 
 export type UploadedFile = {
@@ -48,13 +54,6 @@ export type ClassInfo = {
   program: string;
   variant: ClassVariant;
   students: StudentInfo[];
-};
-
-export type TestInfo = {
-  classId: string;
-  testName: string;
-  answerIndices: number[];
-  parts: QuestionPart[];
 };
 
 export type StudentInfo = {
@@ -124,13 +123,10 @@ export type FetchedTestInfo = {
   id: string;
   classId: string;
   testName: string;
-  totalQuestions: number;
-  questionType: QuestionType;
-  numberOfChoices: number;
   answerIndices: number[];
+  testParts: QuestionPart[];
   createdAt?: string;
   updatedAt?: string;
-  points: number;
 };
 
 export type FetchedGradeInfo = {

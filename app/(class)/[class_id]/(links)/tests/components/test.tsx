@@ -87,6 +87,7 @@ export default function Test({
       borderRadius="1rem"
       pos="relative"
       overflow="hidden"
+      paddingInline="1rem"
       boxShadow="0 2px 5px rgba(0, 0, 50, .2)"
       as={motion.div}
       variants={item}
@@ -115,7 +116,7 @@ export default function Test({
               borderColor="palette.light"
             />
             <Text fontSize=".7rem" fontWeight="medium" opacity={0.6}>
-              {`${testInfo.questionType}`}
+              {`${testInfo.testParts.length} parts`}
             </Text>
           </Stack>
           <Divider borderColor="palette.light" opacity={0.2} />
