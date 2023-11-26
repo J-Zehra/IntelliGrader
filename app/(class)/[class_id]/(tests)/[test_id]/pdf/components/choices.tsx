@@ -37,9 +37,6 @@ export default function Choices({
           </Text>
         );
       })}
-      <Text>B</Text>
-      <Text>C</Text>
-      <Text>D</Text>
     </View>
   );
 }

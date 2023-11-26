@@ -1,6 +1,7 @@
 import { Text, View } from "@react-pdf/renderer";
 
-export default function ControlNumber({ number }: { number: string }) {
+export default function ControlNumber({ number }: { number: number }) {
+  const controlNumber = number < 10 ? `0${number}` : number.toString();
   return (
     <View
       style={{
@@ -20,7 +21,7 @@ export default function ControlNumber({ number }: { number: string }) {
           border: "1px solid black",
         }}
       >
-        <Text style={{ fontSize: ".20in" }}>{number}</Text>
+        <Text style={{ fontSize: ".20in" }}>{controlNumber}</Text>
       </View>
     </View>
   );

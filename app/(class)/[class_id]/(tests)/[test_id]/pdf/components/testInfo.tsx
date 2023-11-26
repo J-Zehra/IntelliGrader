@@ -3,14 +3,14 @@ import { Text, View } from "@react-pdf/renderer";
 
 export default function TestInfo({
   name,
-  subject,
+  course,
   date,
-  section,
+  programAndSection,
 }: {
   name: string;
-  subject: string;
+  course: string;
   date: string | undefined;
-  section: string;
+  programAndSection: string;
 }) {
   return (
     <View
@@ -24,22 +24,22 @@ export default function TestInfo({
     >
       <View style={{ gap: ".25in" }}>
         <View style={{ flexDirection: "row", gap: ".1in" }}>
-          <Text>Name: </Text>
-          <View style={{ width: "3in", borderBottom: "1px solid #B3B3B3" }} />
+          <Text style={{ opacity: 0.6 }}>Name: </Text>
+          <Text style={{ fontWeight: "semibold" }}>{name}</Text>
         </View>
         <View style={{ flexDirection: "row", gap: ".1in" }}>
-          <Text>Subject: </Text>
-          <View style={{ width: "3in", borderBottom: "1px solid #B3B3B3" }} />
+          <Text style={{ opacity: 0.6 }}>Program and Section: </Text>
+          <Text style={{ fontWeight: "semibold" }}>{programAndSection}</Text>
         </View>
       </View>
       <View style={{ gap: ".25in" }}>
         <View style={{ flexDirection: "row", gap: ".1in" }}>
-          <Text>Date: </Text>
+          <Text style={{ opacity: 0.6 }}>Date: </Text>
           <View style={{ width: "2in", borderBottom: "1px solid #B3B3B3" }} />
         </View>
         <View style={{ flexDirection: "row", gap: ".1in" }}>
-          <Text>Section: </Text>
-          <View style={{ width: "2in", borderBottom: "1px solid #B3B3B3" }} />
+          <Text style={{ opacity: 0.6 }}>Course: </Text>
+          <Text style={{ fontWeight: "semibold" }}>{course}</Text>
         </View>
       </View>
     </View>

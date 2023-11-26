@@ -164,12 +164,11 @@ export type FetchedStudentInfo = {
 
 export type FetchedTestInfoToGeneratePaper = {
   testName: string;
-  testParts: {
-    questionType: QuestionType;
-    numberOfChoices: number;
-    totalNumber: number;
-  };
+  testParts: QuestionPart[];
   class: {
+    course: string;
+    program: string;
+    section: string;
     students: {
       firstName: string;
       lastName: string;

@@ -21,7 +21,14 @@ export async function GET(
           },
         },
         testName: true,
-        class: { select: { students: true } },
+        class: {
+          select: {
+            students: true,
+            course: true,
+            program: true,
+            section: true,
+          },
+        },
       },
     });
 

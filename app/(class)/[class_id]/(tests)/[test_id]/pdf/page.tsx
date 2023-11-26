@@ -8,15 +8,14 @@ import {
   View,
   StyleSheet,
   PDFViewer,
+  Text,
 } from "@react-pdf/renderer";
 import axios from "axios";
 import { useParams } from "next/navigation";
-import { Text } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
-import { FetchedTestInfoToGeneratePaper, QuestionType } from "@/utils/types";
+import { FetchedTestInfoToGeneratePaper } from "@/utils/types";
 import ControlNumber from "./components/controlNumber";
 import TestInfo from "./components/testInfo";
-import Choices from "./components/choices";
 import Bubbles from "./components/bubbles";
 
 const styles = StyleSheet.create({
@@ -51,7 +50,7 @@ export default function PDFPage() {
   console.log(testData);
 
   if (isLoading) {
-    return <Text>Loading</Text>;
+    return <div>Loading</div>;
   }
 
   return (
@@ -60,7 +59,19 @@ export default function PDFPage() {
         {testData?.class?.students?.map((student) => {
           return (
             <Page size="A4" style={styles.page}>
-              <ControlNumber number={student.rollNumber.toString()} />
+              <View
+                style={{
+                  width: "100%",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <Text style={{ fontWeight: "bold", fontSize: ".2in" }}>
+                  {testData.testName}
+                </Text>
+                <ControlNumber number={student.rollNumber} />
+              </View>
               <View
                 style={{
                   marginTop: ".2in",
@@ -69,41 +80,16 @@ export default function PDFPage() {
                 }}
               />
               <TestInfo
-                name="Jazen Marana"
-                subject="Programming"
-                section="2"
+                name={`${student.firstName} ${student.middleName.charAt(0)}. ${
+                  student.lastName
+                }`}
+                course={testData.class!.course}
+                programAndSection={`${testData.class!.program} ${
+                  testData.class!.section
+                }`}
                 date=""
               />
-              <View
-                style={{
-                  marginTop: ".6in",
-                  flexDirection: "row",
-                  gap: ".5in",
-                  paddingHorizontal: ".2in",
-                }}
-              >
-                <Choices
-                  type={QuestionType.multipleChoice}
-                  numberOfChoices={4}
-                />
-                <Choices
-                  type={QuestionType.multipleChoice}
-                  numberOfChoices={4}
-                />
-              </View>
-              <View
-                style={{
-                  marginTop: ".2in",
-                  height: "75%",
-                  border: "1px solid black",
-                  flexDirection: "row",
-                  gap: ".5in",
-                  paddingHorizontal: ".2in",
-                }}
-              >
-                <Bubbles />
-                <Bubbles />
-              </View>
+              <Bubbles test={testData.testParts!} />
             </Page>
           );
         })}
