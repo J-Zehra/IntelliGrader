@@ -2,7 +2,6 @@
 
 /* eslint-disable @typescript-eslint/naming-convention */
 import {
-  Button,
   Center,
   IconButton,
   Stack,
@@ -20,6 +19,7 @@ import { FetchedStudentInfo } from "@/utils/types";
 import AddStudentModal from "./components/addStudentsModal";
 import Loading from "./components/loading";
 import EditStudentModal from "./components/editStudentModal";
+import UploadCSV from "./components/uploadCSV";
 
 export default function StudentsPage() {
   const { class_id } = useParams();
@@ -98,15 +98,14 @@ export default function StudentsPage() {
         <Text fontSize=".8rem" opacity={0.8}>
           {students?.length} total students
         </Text>
-        <Button
-          w="fit-content"
-          fontSize=".7rem"
-          p=".5rem .8rem"
-          onClick={onAddModalOpen}
-          leftIcon={<IoMdAdd style={{ fontSize: "1rem" }} />}
-        >
-          Add Student
-        </Button>
+        <Stack direction="row" align="center">
+          <UploadCSV />
+          <IconButton
+            aria-label="Edit"
+            onClick={onAddModalOpen}
+            icon={<IoMdAdd style={{ fontSize: "1rem" }} />}
+          />
+        </Stack>
       </Stack>
       {isLoading ? (
         <Loading />
