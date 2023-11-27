@@ -78,7 +78,7 @@ export default function GradeButton({
       formData.append("answer", JSON.stringify(testData!.answerIndices));
       formData.append(
         "numberOfChoices",
-        JSON.stringify(testData!.numberOfChoices),
+        JSON.stringify(testData!.testParts![0].numberOfChoices),
       );
       return formData;
     }
