@@ -16,6 +16,7 @@ export async function GET(request: Request) {
             student: true,
           },
         },
+        testParts: true,
       },
     });
 
@@ -23,7 +24,11 @@ export async function GET(request: Request) {
       throw new Error("Test not found");
     }
 
-    const { totalQuestions } = test;
+    const { testParts } = test;
+    const totalQuestions = testParts.reduce(
+      (sum, part) => sum + part.totalNumber,
+      0,
+    );
     const questionTally: number[] = Array(totalQuestions).fill(0);
 
     test.studentGrade.forEach((studentGrade) => {
