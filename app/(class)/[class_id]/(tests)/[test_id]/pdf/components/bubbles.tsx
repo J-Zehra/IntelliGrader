@@ -1,37 +1,15 @@
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable no-restricted-syntax */
-import { Text, View } from "@react-pdf/renderer";
+import { View } from "@react-pdf/renderer";
 import React from "react";
-import { QuestionPart, QuestionType } from "@/utils/types";
-
-type ExtendedQuestion = {
-  questionType: QuestionType;
-  numberOfChoices: number;
-};
-
-function createExtendedArray(parts: QuestionPart[]): ExtendedQuestion[] {
-  const extendedArray: ExtendedQuestion[] = [];
-
-  for (const part of parts) {
-    for (let i = 0; i < part.totalNumber; i += 1) {
-      extendedArray.push({
-        questionType: part.questionType,
-        numberOfChoices: part.numberOfChoices,
-      });
-    }
-  }
-
-  return extendedArray;
-}
+import { QuestionPart } from "@/utils/types";
+import Parts from "./parts";
 
 export default function Bubbles({ test }: { test: QuestionPart[] }) {
-  const combinedParts = createExtendedArray(test);
-
-  console.log(combinedParts);
-
-  // Split the combined parts into two columns with a maximum of 25 items per column
-  const column1 = combinedParts.slice(0, 25);
-  const column2 = combinedParts.slice(25);
+  const part1 = test[0];
+  const part2 = test[1] || null;
+  const part3 = test[2] || null;
+  const part4 = test[3] || null;
 
   return (
     <View
@@ -41,81 +19,99 @@ export default function Bubbles({ test }: { test: QuestionPart[] }) {
         border: "1px solid black",
         flexDirection: "row",
         gap: ".5in",
-        paddingHorizontal: ".2in",
+        paddingHorizontal: ".25in",
       }}
     >
-      {/* Column 1 */}
       <View
         style={{
-          fontSize: ".16in",
           flex: 1,
-          gap: ".2in",
-          paddingVertical: ".2in",
+          flexDirection: "column",
+          height: "100%",
+          gap: ".4in",
+          justifyContent: "space-between",
+          paddingVertical: ".25in",
         }}
       >
-        {column1.map((item, index) => (
-          <View
-            key={index}
-            style={{
-              flexDirection: "row",
-              gap: ".25in",
-              justifyContent: "flex-start",
-              alignItems: "center",
-            }}
-          >
-            <Text style={{ textAlign: "center", paddingRight: ".1in" }}>
-              {index + 1 < 10 ? `0${index + 1}` : index + 1}
-            </Text>
-            {[...Array(item.numberOfChoices)].map((choice, choiceIndex) => (
-              <View
-                key={choiceIndex}
-                style={{
-                  width: ".25in",
-                  height: ".25in",
-                  border: "1px solid black",
-                  borderRadius: "2in",
-                }}
-              />
-            ))}
-          </View>
-        ))}
+        {/* Part 1 */}
+        <View
+          style={{
+            fontSize: ".16in",
+            flex: 1,
+            gap: ".07in",
+          }}
+        >
+          {[...Array(part1.totalNumber)].map((_, index) => (
+            <Parts
+              index={index}
+              key={index}
+              numberOfChoices={part1.numberOfChoices}
+            />
+          ))}
+        </View>
+
+        {/* Part 2 */}
+        <View
+          style={{
+            fontSize: ".16in",
+            flex: 1,
+            gap: ".07in",
+          }}
+        >
+          {[...Array(part2.totalNumber)].map((_, index) => (
+            <Parts
+              index={index}
+              key={index}
+              numberOfChoices={part2.numberOfChoices}
+            />
+          ))}
+        </View>
       </View>
 
-      {/* Column 2 */}
       <View
         style={{
-          fontSize: ".16in",
           flex: 1,
-          gap: ".2in",
-          paddingVertical: ".2in",
+          flexDirection: "column",
+          height: "100%",
+          gap: ".4in",
+          justifyContent: "space-between",
+          paddingVertical: ".25in",
         }}
       >
-        {column2.map((item, index) => (
-          <View
-            key={index}
-            style={{
-              flexDirection: "row",
-              gap: ".25in",
-              justifyContent: "flex-start",
-              alignItems: "center",
-            }}
-          >
-            <Text style={{ textAlign: "center", paddingRight: ".1in" }}>
-              {index + 26 < 10 ? `0${index + 26}` : index + 26}
-            </Text>
-            {[...Array(item.numberOfChoices)].map((choice, choiceIndex) => (
-              <View
-                key={choiceIndex}
-                style={{
-                  width: ".25in",
-                  height: ".25in",
-                  border: "1px solid black",
-                  borderRadius: "2in",
-                }}
+        {/* Part 3 */}
+        <View
+          style={{
+            fontSize: ".16in",
+            flex: 1,
+            gap: ".07in",
+          }}
+        >
+          {part3 &&
+            [...Array(part3.totalNumber)].map((_, index) => (
+              <Parts
+                index={index}
+                key={index}
+                numberOfChoices={part3.numberOfChoices}
               />
             ))}
-          </View>
-        ))}
+        </View>
+
+        {/* Part 4 */}
+        <View
+          style={{
+            fontSize: ".16in",
+            flex: 1,
+            gap: ".07in",
+          }}
+        >
+          {part4 &&
+            [...Array(part4.totalNumber)].map((_, index) => (
+              <Parts
+                index={index}
+                key={index}
+                numberOfChoices={part4.numberOfChoices}
+              />
+            ))}
+        </View>
       </View>
     </View>
   );

@@ -146,6 +146,8 @@ export default function Step1() {
           <Text paddingRight="1rem">Parts</Text>
           <Radio value="1">1</Radio>
           <Radio value="2">2</Radio>
+          <Radio value="3">3</Radio>
+          <Radio value="4">4</Radio>
         </Stack>
       </RadioGroup>
       <Divider paddingTop="1rem" />
@@ -170,7 +172,6 @@ export default function Step1() {
               <option value="5">5</option>
               <option value="10">10</option>
               <option value="15">15</option>
-              <option value="20">20</option>
             </Select>
             <Select
               color="rgba(0, 0, 0, .6)"
