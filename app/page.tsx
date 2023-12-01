@@ -32,6 +32,8 @@ export default function Home() {
     if (isSuccess && data.length > 0) return <ClassesList classesData={data} />;
   };
 
+  console.log(data);
+
   return (
     <CustomContainer>
       <Stack pt="7rem" spacing={10}>

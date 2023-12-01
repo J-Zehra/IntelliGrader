@@ -3,7 +3,7 @@
 import { Button, useToast } from "@chakra-ui/react";
 import React from "react";
 import { AiOutlineScan } from "react-icons/ai";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import imageCompression, { Options } from "browser-image-compression";
@@ -18,7 +18,6 @@ export default function GradeButton({
 }) {
   const toast = useToast();
   const { test_id } = useParams();
-  const currentPath = usePathname();
   const navigate = useRouter();
   const files = useRecoilValue(fileState);
 
@@ -50,7 +49,7 @@ export default function GradeButton({
         duration: 3000,
       });
 
-      navigate.push(`${currentPath}/grade`);
+      navigate.push("student_grades");
     },
   });
 
@@ -77,9 +76,10 @@ export default function GradeButton({
 
       formData.append("answer", JSON.stringify(testData!.answerIndices));
 
-      const numberOfChoices = testData?.testParts?.map(
+      const numberOfChoices = testData!.testParts!.map(
         (part) => part.numberOfChoices || 0,
       );
+
       formData.append("numberOfChoices", JSON.stringify(numberOfChoices));
       return formData;
     }

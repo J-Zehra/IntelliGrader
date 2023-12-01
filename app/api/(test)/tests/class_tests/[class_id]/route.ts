@@ -8,13 +8,12 @@ export async function GET(
   { params }: { params: { class_id: string } },
 ) {
   const { class_id } = params;
-  console.log(class_id);
 
   try {
     const testInfo = await prisma.test.findMany({
       where: { classId: class_id },
       include: {
-        testParts: true,
+        _count: { select: { testParts: true } },
       },
     });
 

@@ -147,8 +147,7 @@ export type FetchedSingleGrade = {
   student: StudentInfo;
   test: {
     answerIndices: number[];
-    numberOfChoices: number;
-    questionType: QuestionType;
+    testParts: QuestionPart[];
   };
 };
 

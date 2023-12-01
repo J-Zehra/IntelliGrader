@@ -1,5 +1,5 @@
 import {
-  Box,
+  Button,
   Center,
   IconButton,
   Stack,
@@ -14,6 +14,7 @@ import { classInfoState } from "@/state/classInfoState";
 import { StudentInfo } from "@/utils/types";
 import AddStudentModal from "./addStudentModal";
 import EditStudentModal from "./editStudentModal";
+import UploadCSV from "./uploadCSV";
 
 export default function Step2() {
   const {
@@ -96,21 +97,22 @@ export default function Step2() {
           </Stack>
         );
       })}
-      <Box paddingTop="1rem">
-        <Center
-          h="4rem"
-          border="1px dashed"
-          borderColor="palette.accent"
-          borderRadius=".5rem"
+      <Stack paddingTop="1rem" spacing=".8rem">
+        <UploadCSV />
+        <Button
+          borderRadius=".8rem"
           w="100%"
+          h="3.5rem"
+          bg="palette.light"
+          color="palette.accent"
+          boxShadow="none"
           gap="1rem"
           onClick={onAddModalOpen}
-          color="palette.accent"
+          leftIcon={<AiOutlinePlus />}
         >
-          <AiOutlinePlus />
-          <Text>Add Student</Text>
-        </Center>
-      </Box>
+          Add Student
+        </Button>
+      </Stack>
 
       {isAddModalopen ? (
         <AddStudentModal isOpen={isAddModalopen} onClose={onAddModalClose} />

@@ -1,12 +1,9 @@
 import { Button, Center, Divider, Link, Stack, Text } from "@chakra-ui/react";
 import React from "react";
 import { BsBarChartLine } from "react-icons/bs";
-import { useParams } from "next/navigation";
-import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import moment from "moment";
-import { ClassVariant, FetchedClassInfo, FetchedTestInfo } from "@/utils/types";
+import { ClassVariant, FetchedTestInfo } from "@/utils/types";
 import { item } from "@/utils/animations";
 import MoreOptions from "@/app/(class)/[class_id]/(links)/components/moreOptions";
 
@@ -17,30 +14,6 @@ export default function Test({
   variant: ClassVariant;
   testInfo: FetchedTestInfo;
 }) {
-  // eslint-disable-next-line @typescript-eslint/naming-convention
-  const { class_id } = useParams();
-
-  const getClass = async () => {
-    let classInfo: FetchedClassInfo = {
-      id: "",
-      course: "",
-      section: "",
-      year: 0,
-      program: "",
-      variant: ClassVariant.default,
-    };
-    await axios.get(`/api/class/${class_id}`).then((res) => {
-      classInfo = res.data;
-    });
-
-    return classInfo;
-  };
-
-  const { data: classData } = useQuery({
-    queryKey: ["class"],
-    queryFn: getClass,
-  });
-
   const bgVariant = () => {
     let background = "";
 
@@ -77,8 +50,6 @@ export default function Test({
 
     return textColor;
   };
-
-  console.log(classData);
 
   return (
     <Stack
@@ -132,7 +103,7 @@ export default function Test({
           left="1rem"
           bottom={-4}
         >
-          {`${classData?.course} ${classData?.year}`}
+          {testInfo.testName}
         </Text>
         <Text
           fontSize=".7rem"
