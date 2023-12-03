@@ -8,7 +8,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import imageCompression, { Options } from "browser-image-compression";
 import { useRecoilValue } from "recoil";
-import { FetchedGradeInfo, FetchedTestInfo } from "@/utils/types";
+import { FetchedGradeInfo, FetchedTestInfoToProcess } from "@/utils/types";
 import { fileState } from "@/state/fileState";
 
 export default function GradeButton({
@@ -22,7 +22,7 @@ export default function GradeButton({
   const files = useRecoilValue(fileState);
 
   const getTest = async () => {
-    let test: Partial<FetchedTestInfo> = {};
+    let test: Partial<FetchedTestInfoToProcess> = {};
     await axios.get(`/api/tests/${test_id}`).then((res) => {
       test = res.data;
     });

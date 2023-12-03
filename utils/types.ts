@@ -129,6 +129,16 @@ export type FetchedTestInfo = {
   updatedAt?: string;
 };
 
+export type FetchedTestInfoToProcess = {
+  id: string;
+  classId: string;
+  testName: string;
+  answerIndices: number[];
+  testParts: QuestionPart[];
+  createdAt?: string;
+  updatedAt?: string;
+};
+
 export type FetchedGradeInfo = {
   id: string;
   roll_number: number;
