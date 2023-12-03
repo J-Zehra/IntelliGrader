@@ -124,7 +124,7 @@ export type FetchedTestInfo = {
   classId: string;
   testName: string;
   answerIndices: number[];
-  testParts: QuestionPart[];
+  _count: { testParts: number };
   createdAt?: string;
   updatedAt?: string;
 };

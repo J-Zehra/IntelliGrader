@@ -15,13 +15,15 @@ import { useParams } from "next/navigation";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { Statistics } from "@/utils/types";
-import ClassAccuracy from "../overview/components/classAccuracy";
-import ClassAverage from "../overview/components/classAverage";
+import ClassAccuracy from "./components/classAccuracy";
+import ClassAverage from "./components/classAverage";
 import HighestScore from "../overview/components/highestScore";
 import LowestScore from "../overview/components/lowestScore";
-import MostPickedAnswerItem from "../overview/components/mostPickedAnswerItem";
-import CommonyMistakesAnswerItem from "../overview/components/commonMistakesAnswerItem";
-import PolarAreaChart from "../overview/components/polarAreaChart";
+import MostPickedAnswerItem from "./components/mostPickedAnswerItem";
+import CommonyMistakesAnswerItem from "./components/commonMistakesAnswerItem";
+import TallyOfScores from "./components/tallyOfScores";
+import DownloadReport from "./components/downloadReport";
+// import PolarAreaChart from "./components/polarAreaChart";
 
 export default function StatisticsPage() {
   // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -72,7 +74,11 @@ export default function StatisticsPage() {
         <Text fontSize=".8rem" paddingBottom="2rem" fontWeight="medium">
           Score Distribution
         </Text>
-        <PolarAreaChart />
+        {/* <PolarAreaChart /> */}
+        <TallyOfScores />
+        <Stack w="100%" paddingTop="1rem" justify="end">
+          <DownloadReport />
+        </Stack>
       </Box>
       <Stack mt={10} spacing={5}>
         <Text fontSize=".8rem" fontWeight="medium">

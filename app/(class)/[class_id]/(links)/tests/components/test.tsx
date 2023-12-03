@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 import { Button, Center, Divider, Link, Stack, Text } from "@chakra-ui/react";
 import React from "react";
 import { BsBarChartLine } from "react-icons/bs";
@@ -87,7 +88,7 @@ export default function Test({
               borderColor="palette.light"
             />
             <Text fontSize=".7rem" fontWeight="medium" opacity={0.6}>
-              {`${testInfo.testParts.length} parts`}
+              {`${testInfo._count.testParts} parts`}
             </Text>
           </Stack>
           <Divider borderColor="palette.light" opacity={0.2} />

@@ -29,6 +29,8 @@ export default function Tests() {
     },
   });
 
+  console.log(testData);
+
   const renderTests = () => {
     if (isLoading) {
       return <TestsLoading />;

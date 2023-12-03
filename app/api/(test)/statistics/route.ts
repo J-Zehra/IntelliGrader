@@ -145,13 +145,13 @@ export async function GET(request: Request) {
     const questionsMostGotRight = getQuestionsMostStudentsGotRight(
       correctAnswerIndices?.answerIndices!,
       studentsAnswerData,
-      3,
+      5,
     );
 
     const questionsMostGotWrong = getQuestionsMostStudentsGotWrong(
       correctAnswerIndices?.answerIndices!,
       studentsAnswerData,
-      3,
+      5,
     );
 
     const accuracy = calculateAccuracy(

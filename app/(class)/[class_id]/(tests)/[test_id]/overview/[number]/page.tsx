@@ -1,3 +1,4 @@
+/* eslint-disable no-plusplus */
 /* eslint-disable react/no-array-index-key */
 
 "use client";
@@ -24,6 +25,7 @@ import AnswerItem from "../components/answerItem";
 export default function OverviewPage() {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   const { test_id, number } = useParams();
+  let cumulativePartIndex = -1;
 
   const getGrade = async () => {
     const data = { testId: test_id, rollNumber: number };
@@ -40,9 +42,6 @@ export default function OverviewPage() {
     queryKey: ["individual-grade", number, test_id],
     queryFn: getGrade,
   });
-
-  console.log(grade?.test?.questionType);
-  console.log(grade);
 
   return (
     <Box pos="relative">
@@ -78,20 +77,25 @@ export default function OverviewPage() {
         <Text fontSize=".8rem" fontWeight="medium">
           Answers Overview
         </Text>
-        <Stack spacing={2}>
+        <Stack spacing={2} paddingBottom="10rem">
           {grade
-            ? [...Array(grade.answerIndices?.length)].map((_, index) => {
-                return (
-                  <AnswerItem
-                    index={index}
-                    key={index}
-                    questionType={grade.test?.questionType}
-                    correctAnswerIndex={grade.test?.answerIndices[index]}
-                    answerIndex={grade.answerIndices![index]}
-                    numberOfChoices={grade.test?.numberOfChoices}
-                  />
-                );
-              })
+            ? grade.test?.testParts.map((part, index) =>
+                [...Array(part.totalNumber)].map((_, partIndex) => {
+                  cumulativePartIndex += 1;
+                  return (
+                    <AnswerItem
+                      key={`${index}-${partIndex}`}
+                      index={cumulativePartIndex}
+                      questionType={part.questionType}
+                      correctAnswerIndex={
+                        grade.test?.answerIndices[cumulativePartIndex]
+                      }
+                      answerIndex={grade.answerIndices![cumulativePartIndex]}
+                      numberOfChoices={part.numberOfChoices}
+                    />
+                  );
+                }),
+              )
             : [0.8, 0.6, 0.4].map((item) => {
                 return (
                   <Skeleton
