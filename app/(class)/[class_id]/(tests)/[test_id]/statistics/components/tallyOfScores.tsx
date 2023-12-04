@@ -68,7 +68,7 @@ export default function TallyOfScores() {
                   {index + 1}
                 </Td>
                 <Td p=" 1rem 2rem">{score}</Td>
-                <Td p=" 1rem 2rem">{score / testInfo.totalStudents!}</Td>
+                <Td p=" 1rem 2rem">{testInfo.totalStudents! - score}</Td>
                 <Td p=" 1rem 1.5rem">
                   {Math.round((score / testInfo.totalStudents!) * 100)}%
                 </Td>

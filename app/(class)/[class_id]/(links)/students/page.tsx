@@ -16,6 +16,7 @@ import React, { useState } from "react";
 import { AiOutlineEdit } from "react-icons/ai";
 import { IoMdAdd, IoMdRemove } from "react-icons/io";
 import { FetchedStudentInfo } from "@/utils/types";
+import { queryClient } from "@/components/wrappers/queryWrapper";
 import AddStudentModal from "./components/addStudentsModal";
 import Loading from "./components/loading";
 import EditStudentModal from "./components/editStudentModal";
@@ -58,21 +59,32 @@ export default function StudentsPage() {
     return axios.delete(`/api/delete_student/${id}`);
   };
 
+  const {
+    data: students,
+    isLoading,
+    refetch,
+  } = useQuery<FetchedStudentInfo[]>({
+    queryKey: ["students", class_id],
+    queryFn: getStudents,
+  });
+
   const mutateStudent = useMutation({
     mutationFn: deleteTest,
     mutationKey: ["delete-student"],
-    onSuccess: () => {
+    onSuccess: ({ data }) => {
+      queryClient.setQueryData(["students", class_id], (oldData) => {
+        const newData = (oldData as FetchedStudentInfo[]).filter(
+          (student) => student.id !== data.id,
+        );
+        return newData;
+      });
+
       toast({
         title: "Success",
         status: "success",
         duration: 3000,
       });
     },
-  });
-
-  const { data: students, isLoading } = useQuery<FetchedStudentInfo[]>({
-    queryKey: ["students", class_id],
-    queryFn: getStudents,
   });
 
   const handleRemove = (id: string) => {
@@ -84,6 +96,8 @@ export default function StudentsPage() {
     setSelectedStudentToEdit(student);
     onEditModalOpen();
   };
+
+  console.log("Students", students);
 
   return (
     <Stack>
@@ -99,7 +113,7 @@ export default function StudentsPage() {
           {students?.length} total students
         </Text>
         <Stack direction="row" align="center">
-          <UploadCSV />
+          <UploadCSV refetch={refetch} />
           <IconButton
             aria-label="Edit"
             onClick={onAddModalOpen}

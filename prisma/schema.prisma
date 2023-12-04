@@ -61,7 +61,7 @@ model StudentGrade {
   studentId     String
   testId         String
 
-  student  Student @relation(fields: [studentId], references: [id])
+  student  Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
   test  Test @relation(fields: [testId], references: [id], onDelete: Cascade)
 }
 

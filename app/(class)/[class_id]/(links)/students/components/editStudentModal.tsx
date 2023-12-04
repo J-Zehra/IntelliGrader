@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import {
   Button,
   Input,
@@ -14,7 +15,9 @@ import {
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import React, { useState } from "react";
+import { useParams } from "next/navigation";
 import { FetchedStudentInfo } from "@/utils/types";
+import { queryClient } from "@/components/wrappers/queryWrapper";
 
 export default function EditStudentModal({
   isOpen,
@@ -25,6 +28,7 @@ export default function EditStudentModal({
   onClose: () => void;
   student: FetchedStudentInfo;
 }) {
+  const { class_id } = useParams();
   const [firstName, setFirstName] = useState<string>(student.firstName);
   const [lastName, setLastName] = useState<string>(student.lastName);
   const [middleName, setMiddleName] = useState<string>(student.middleName);
@@ -37,7 +41,11 @@ export default function EditStudentModal({
   const mutateStudent = useMutation({
     mutationFn: addStudent,
     mutationKey: ["edit-student"],
-    onSuccess: () => {
+    onSuccess: ({ data }) => {
+      queryClient.setQueryData(["students", class_id], (oldData) => [
+        ...(oldData as FetchedStudentInfo[]),
+        data,
+      ]);
       onClose();
     },
   });

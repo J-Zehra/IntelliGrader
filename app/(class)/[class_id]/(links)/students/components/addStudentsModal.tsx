@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 import {
   Button,
   Input,
@@ -14,7 +15,9 @@ import {
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import React, { useState } from "react";
-import { StudentInfo } from "@/utils/types";
+import { useParams } from "next/navigation";
+import { FetchedStudentInfo, StudentInfo } from "@/utils/types";
+import { queryClient } from "@/components/wrappers/queryWrapper";
 
 export default function AddStudentModal({
   isOpen,
@@ -27,6 +30,7 @@ export default function AddStudentModal({
   lastRollNumber: number;
   classId: string;
 }) {
+  const { class_id } = useParams();
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [middleName, setMiddleName] = useState<string>("");
@@ -39,7 +43,11 @@ export default function AddStudentModal({
   const mutateStudent = useMutation({
     mutationFn: addStudent,
     mutationKey: ["add-student"],
-    onSuccess: () => {
+    onSuccess: ({ data }) => {
+      queryClient.setQueryData(["students", class_id], (oldData) => [
+        ...(oldData as FetchedStudentInfo[]),
+        data,
+      ]);
       onClose();
     },
   });

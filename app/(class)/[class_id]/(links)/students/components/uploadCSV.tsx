@@ -2,11 +2,17 @@
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-prototype-builtins */
 import { Button } from "@chakra-ui/react";
-import { useMutation } from "@tanstack/react-query";
+import {
+  QueryObserverResult,
+  RefetchOptions,
+  RefetchQueryFilters,
+  useMutation,
+} from "@tanstack/react-query";
 import axios from "axios";
 import { useParams } from "next/navigation";
 import { MdOutlineFileUpload } from "react-icons/md";
 import { useCSVReader } from "react-papaparse";
+import { FetchedStudentInfo } from "@/utils/types";
 
 type StudentName = {
   firstName: string;
@@ -38,7 +44,13 @@ const transformData = (data: any[]) => {
   return objectsArray as unknown as StudentName[];
 };
 
-export default function UploadCSV() {
+export default function UploadCSV({
+  refetch,
+}: {
+  refetch: <TPageData>(
+    options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined,
+  ) => Promise<QueryObserverResult<FetchedStudentInfo[], unknown>>;
+}) {
   const { CSVReader } = useCSVReader();
   const { class_id } = useParams();
 
@@ -50,6 +62,7 @@ export default function UploadCSV() {
     mutationFn: addStudents,
     mutationKey: ["add-students"],
     onSuccess: () => {
+      refetch();
       console.log("Success");
     },
   });

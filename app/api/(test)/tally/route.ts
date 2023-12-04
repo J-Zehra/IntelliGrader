@@ -41,26 +41,33 @@ export async function GET(request: Request) {
 
     const questionTally: number[] = Array(totalQuestions).fill(0);
 
-    const studentGrades: StudentGrade[] = Array(totalStudents).fill({
-      student: "",
-      answerIndices: [],
-    });
+    const studentGrades: StudentGrade[] = test.studentGrade.map(
+      (studentGrade) => {
+        const { firstName, lastName, middleName } = studentGrade.student;
+        console.log("Last Name", lastName);
 
-    test.studentGrade.forEach((studentGrade, i) => {
-      const { firstName, lastName, middleName } = studentGrade.student;
-      studentGrades[i].student = `${lastName}, ${firstName} ${
-        middleName ? middleName.charAt(0) : ""
-      }.`;
+        const formattedName = `${lastName}, ${firstName} ${
+          middleName ? middleName.charAt(0) : ""
+        }.`;
 
-      studentGrade.answerIndices.forEach((answer, index) => {
-        if (answer === test.answerIndices[index]) {
-          studentGrades[i].answerIndices[index] = 1;
-          questionTally[index] += 1; // remove unnecessary assignment
-        } else {
-          studentGrades[i].answerIndices[index] = 0;
-        }
-      });
-    });
+        const answerIndices = studentGrade.answerIndices.map(
+          (answer, index) => {
+            if (answer === test.answerIndices[index]) {
+              questionTally[index] += 1;
+              return 1;
+            }
+            return 0;
+          },
+        );
+
+        return {
+          student: formattedName,
+          answerIndices,
+        };
+      },
+    );
+
+    // Now studentGrades should contain the correct data for each student.
 
     return NextResponse.json({
       tally: questionTally,

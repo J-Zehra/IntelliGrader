@@ -5,6 +5,7 @@ import React from "react";
 import { FaDeleteLeft } from "react-icons/fa6";
 import Lottie from "react-lottie-player";
 import loadingAnimation from "../public/signing_up.json";
+import { queryClient } from "./wrappers/queryWrapper";
 
 export default function MoreOptions({ id }: { id: string }) {
   const toast = useToast();
@@ -16,7 +17,14 @@ export default function MoreOptions({ id }: { id: string }) {
   const mutateTest = useMutation({
     mutationFn: deleteClass,
     mutationKey: ["delete-class", id],
-    onSuccess: () => {
+    onSuccess: ({ data }) => {
+      queryClient.setQueryData(["classes"], (oldData) => {
+        const newData = (oldData as any[]).filter(
+          (item) => item.id !== data.id,
+        );
+        return newData;
+      });
+
       toast({
         title: "Success",
         status: "success",

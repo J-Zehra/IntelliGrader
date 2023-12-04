@@ -1,12 +1,26 @@
 import { Center, useToast } from "@chakra-ui/react";
-import { useMutation } from "@tanstack/react-query";
+import {
+  QueryObserverResult,
+  RefetchOptions,
+  RefetchQueryFilters,
+  useMutation,
+} from "@tanstack/react-query";
 import axios from "axios";
 import React from "react";
 import { FaDeleteLeft } from "react-icons/fa6";
 import Lottie from "react-lottie-player";
+import { FetchedTestInfo } from "@/utils/types";
 import loadingAnimation from "../../../../../public/signing_up.json";
 
-export default function MoreOptions({ id }: { id: string }) {
+export default function MoreOptions({
+  id,
+  refetch,
+}: {
+  id: string;
+  refetch: <TPageData>(
+    options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined,
+  ) => Promise<QueryObserverResult<FetchedTestInfo[], unknown>>;
+}) {
   const toast = useToast();
 
   const deleteTest = (testId: string) => {
@@ -17,6 +31,7 @@ export default function MoreOptions({ id }: { id: string }) {
     mutationFn: deleteTest,
     mutationKey: ["delete-test", id],
     onSuccess: () => {
+      refetch();
       toast({
         title: "Success",
         status: "success",
