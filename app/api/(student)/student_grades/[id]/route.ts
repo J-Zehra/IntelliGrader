@@ -23,6 +23,11 @@ export async function GET(
             rollNumber: true,
           },
         },
+        test: {
+          select: {
+            answerIndices: true,
+          },
+        },
       },
     });
 

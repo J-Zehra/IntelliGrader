@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unstable-nested-components */
 /* eslint-disable @typescript-eslint/naming-convention */
 
 "use client";
@@ -9,10 +10,12 @@ import {
   StyleSheet,
   PDFViewer,
   Text,
+  PDFDownloadLink,
 } from "@react-pdf/renderer";
 import axios from "axios";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
+import { useMediaQuery } from "@chakra-ui/react";
 import { FetchedTestInfoToGeneratePaper } from "@/utils/types";
 import ControlNumber from "./components/controlNumber";
 import TestInfo from "./components/testInfo";
@@ -34,6 +37,7 @@ const styles = StyleSheet.create({
 
 export default function PDFPage() {
   const { test_id } = useParams();
+  const [isLargerThan30] = useMediaQuery("(min-width: 30em)");
 
   const { data: testData, isLoading } = useQuery({
     queryKey: ["generate-paper"],
@@ -53,8 +57,8 @@ export default function PDFPage() {
     return <div>Loading</div>;
   }
 
-  return (
-    <PDFViewer style={styles.viewer}>
+  function BubbleSheetDoc() {
+    return (
       <Document>
         {testData?.class?.students?.map((student) => {
           return (
@@ -94,6 +98,20 @@ export default function PDFPage() {
           );
         })}
       </Document>
+    );
+  }
+
+  if (!isLargerThan30) {
+    return (
+      <PDFDownloadLink document={<BubbleSheetDoc />} fileName="Bubble Sheet">
+        Download
+      </PDFDownloadLink>
+    );
+  }
+
+  return (
+    <PDFViewer style={styles.viewer}>
+      <BubbleSheetDoc />
     </PDFViewer>
   );
 }

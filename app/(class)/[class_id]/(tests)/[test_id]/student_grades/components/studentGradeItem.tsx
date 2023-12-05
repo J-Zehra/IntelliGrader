@@ -78,7 +78,7 @@ export default function StudentGradeItem({ grade }: { grade: Grade }) {
             {grade.numberOfCorrect}
           </Text>
           <Divider mb={2} />
-          <Text fontSize=".8rem">{grade.answerIndices.length}</Text>
+          <Text fontSize=".8rem">{grade.test.answerIndices.length}</Text>
         </Stack>
       </Stack>
       <Image
