@@ -1,0 +1,12 @@
+Remaining Tasks
+    UI
+        - Class Statistics
+        - Settings (Change Answer Sheet, Generate PDF UI)
+        - Delete Student Grades
+        - Profile
+        - Sort Grades
+        - Student Empty State
+    
+    SERVER
+        - Handle Unshaded Number
+        - Handle Image Processing Error

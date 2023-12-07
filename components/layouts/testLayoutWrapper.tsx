@@ -1,10 +1,16 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+
 "use client";
 
 import { ReactNode } from "react";
 import { Box, IconButton, Stack, Text } from "@chakra-ui/react";
 import { BsArrowReturnLeft } from "react-icons/bs";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import BottomNavbar from "@/app/(class)/[class_id]/(tests)/[test_id]/components/bottomNavbar";
+import {
+  prefetchStatistics,
+  prefetchStudentGrades,
+} from "@/app/(class)/[class_id]/(tests)/[test_id]/components/prefetch";
 import CustomContainer from "../reusables/customContainer";
 
 export default function TestLayoutWrapper({
@@ -13,6 +19,10 @@ export default function TestLayoutWrapper({
   children: ReactNode;
 }) {
   const navigate = useRouter();
+  const { class_id, test_id } = useParams();
+
+  prefetchStatistics(test_id as string);
+  prefetchStudentGrades(test_id as string);
 
   return (
     <CustomContainer>
@@ -26,7 +36,7 @@ export default function TestLayoutWrapper({
             color="palette.button.primary"
             cursor="pointer"
             borderRadius=".2rem"
-            onClick={() => navigate.back()}
+            onClick={() => navigate.push(`/${class_id}/tests`)}
           >
             <BsArrowReturnLeft />
           </IconButton>

@@ -1,12 +1,16 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+
 "use client";
 
 import { Box, IconButton, Stack, Text } from "@chakra-ui/react";
-import { usePathname, useRouter } from "next/navigation";
-import React, { ReactNode, useEffect, useState } from "react";
+import { useParams, useRouter } from "next/navigation";
+import React, { ReactNode } from "react";
 import { BsArrowReturnLeft } from "react-icons/bs";
-import { useRecoilValue } from "recoil";
-import { headerState } from "@/state/headerState";
 import BottomNavbar from "@/app/(class)/[class_id]/(links)/components/bottomNavbar";
+import {
+  prefetchStudents,
+  prefetchTests,
+} from "@/app/(class)/[class_id]/(links)/components/prefetch";
 import CustomContainer from "../reusables/customContainer";
 
 export default function ClassLayoutWrapper({
@@ -15,22 +19,10 @@ export default function ClassLayoutWrapper({
   children: ReactNode;
 }) {
   const navigate = useRouter();
-  const pathName = usePathname();
+  const { class_id } = useParams();
 
-  const header = useRecoilValue(headerState);
-  const [headerTitle, setHeaderTitle] = useState<string>();
-
-  const segments = pathName.split("/").filter(Boolean);
-
-  useEffect(() => {
-    if (segments[0] && !segments[1]) {
-      setHeaderTitle(header);
-    } else if (segments[2] === "setup_test") {
-      setHeaderTitle("Setup Test");
-    } else if (segments[2] !== "setup_test") {
-      setHeaderTitle("Final Examination");
-    }
-  }, [header, segments]);
+  prefetchTests(class_id as string);
+  prefetchStudents(class_id as string);
 
   return (
     <CustomContainer>
@@ -44,7 +36,7 @@ export default function ClassLayoutWrapper({
             color="palette.button.primary"
             cursor="pointer"
             borderRadius=".2rem"
-            onClick={() => navigate.back()}
+            onClick={() => navigate.push("/")}
           >
             <BsArrowReturnLeft />
           </IconButton>
@@ -55,7 +47,7 @@ export default function ClassLayoutWrapper({
               fontWeight="semibold"
               opacity=".8"
             >
-              {headerTitle}
+              Finals
             </Text>
             <Box w=".5rem" h=".5rem" bg="palette.accent" borderRadius="5rem" />
           </Stack>

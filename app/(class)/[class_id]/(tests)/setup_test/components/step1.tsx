@@ -23,11 +23,21 @@ export default function Step1() {
     }));
   };
 
+  const handlePassingGradeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const grade = parseInt(e.target.value, 10);
+    if (grade >= 40 && grade <= 100) {
+      setTestInfo((prevTestInfo) => ({
+        ...prevTestInfo,
+        passingGrade: parseInt(e.target.value, 10),
+      }));
+    }
+  };
+
   const createDefaultPart = (): QuestionPart => ({
     questionType: QuestionType.multipleChoice,
     numberOfChoices: 0,
-    points: 0, // Add a default value for points if needed
-    totalNumber: 0, // Add a default value for totalNumber if needed
+    points: 0,
+    totalNumber: 0,
   });
 
   const handleNumberOfPartsChange = (value: number) => {
@@ -205,6 +215,23 @@ export default function Step1() {
             />
           </Stack>
         ))}
+      </Stack>
+      <Divider paddingTop="1rem" />
+      <Stack>
+        <Text paddingBottom="1rem" color="palette.text" fontWeight="semibold">
+          Passing Grade (Percentage)
+        </Text>
+        <Input
+          placeholder="Percentage"
+          type="number"
+          bg="gray.100"
+          h="3.5rem"
+          min={40}
+          max={100}
+          maxLength={3}
+          defaultValue={50}
+          onChange={handlePassingGradeChange}
+        />
       </Stack>
     </>
   );

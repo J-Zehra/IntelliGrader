@@ -38,6 +38,7 @@ export type QuestionPart = {
 export type TestInfo = {
   classId: string;
   testName: string;
+  passingGrade: number;
   answerIndices: number[];
   parts: QuestionPart[];
 };
@@ -100,7 +101,7 @@ export type QuestionsMostGotWrong = {
 
 export type Statistics = {
   accuracy: number;
-  average: number;
+  passingRate: number;
   highest: number;
   lowest: number;
   questionsMostGotRight: QuestionsMostGotRight[];
@@ -124,6 +125,7 @@ export type FetchedTestInfo = {
   id: string;
   classId: string;
   testName: string;
+  passingGrade: number;
   answerIndices: number[];
   _count: { testParts: number };
   createdAt?: string;

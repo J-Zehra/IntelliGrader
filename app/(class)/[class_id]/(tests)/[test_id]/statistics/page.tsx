@@ -16,13 +16,13 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { Statistics } from "@/utils/types";
 import ClassAccuracy from "./components/classAccuracy";
-import ClassAverage from "./components/classAverage";
 import HighestScore from "../overview/components/highestScore";
 import LowestScore from "../overview/components/lowestScore";
 import MostPickedAnswerItem from "./components/mostPickedAnswerItem";
 import CommonyMistakesAnswerItem from "./components/commonMistakesAnswerItem";
 import TallyOfScores from "./components/tallyOfScores";
 import DownloadReport from "./components/downloadReport";
+import ClassPassingRate from "./components/classPassingRate";
 // import PolarAreaChart from "./components/polarAreaChart";
 
 export default function StatisticsPage() {
@@ -61,7 +61,7 @@ export default function StatisticsPage() {
           <ClassAccuracy accuracy={statistics?.accuracy} />
         </Skeleton>
         <Skeleton isLoaded={!isLoading} borderRadius=".5rem">
-          <ClassAverage average={statistics?.average} />
+          <ClassPassingRate passingRate={statistics?.passingRate} />
         </Skeleton>
         <Skeleton isLoaded={!isLoading} borderRadius=".5rem">
           <HighestScore score={statistics?.highest} />

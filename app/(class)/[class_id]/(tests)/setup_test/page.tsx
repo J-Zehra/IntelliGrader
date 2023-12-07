@@ -45,6 +45,7 @@ export default function SetupTest() {
         classId: "",
         testName: "",
         parts: [],
+        passingGrade: 50,
       });
       navigate.push(`/${class_id}/${data.data.id}/scan`);
     },

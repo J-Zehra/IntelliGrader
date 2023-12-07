@@ -3,6 +3,11 @@ import { NextResponse } from "next/server";
 import prisma from "@/libs/prismadb";
 import { FetchedGradeInfo } from "@/utils/types";
 
+const isPassed = (passingGrade: number, rate: number) => {
+  if (rate > passingGrade) return true;
+  return false;
+};
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
@@ -18,6 +23,11 @@ export async function POST(request: Request) {
           where: { rollNumber: grade.roll_number },
         });
 
+        const test = await prisma.test.findFirst({
+          where: { id: testId! },
+          select: { passingGrade: true },
+        });
+
         if (!student) {
           return NextResponse.json(
             {
@@ -26,6 +36,10 @@ export async function POST(request: Request) {
             { status: 404 },
           );
         }
+
+        const rate = Math.round(
+          (grade.number_of_correct / grade.answer_indices.length) * 100,
+        );
 
         // Step 2: Check if the student is already graded
         const existingGrade = await prisma.studentGrade.findFirst({
@@ -51,6 +65,7 @@ export async function POST(request: Request) {
             answerIndices: grade.answer_indices,
             numberOfCorrect: grade.number_of_correct,
             numberOfIncorrect: grade.number_of_incorrect,
+            status: isPassed(test?.passingGrade!, rate) ? "Passed" : "Failed",
             testId,
             studentId: student.id,
           },

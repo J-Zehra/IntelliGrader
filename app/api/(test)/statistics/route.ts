@@ -4,12 +4,17 @@
 import { NextResponse } from "next/server";
 import prisma from "@/libs/prismadb";
 
-const calculateAccuracy = (totalCorrect: number, totalIncorrect: number) => {
-  return Math.round((totalCorrect / (totalCorrect + totalIncorrect)) * 100);
+const calculateAccuracy = (
+  totalCorrect: number,
+  totalNumberOfQuestions: number,
+) => {
+  return Math.round(
+    (totalCorrect / (totalCorrect + totalNumberOfQuestions)) * 100,
+  );
 };
 
-const calculateAverage = (totalStudent: number, totalCorrect: number) => {
-  return Math.round(totalCorrect / totalStudent);
+const calculatePassingRate = (totalStudent: number, totalPassed: number) => {
+  return Math.round(totalPassed / totalStudent) * 100;
 };
 
 interface QuestionResult {
@@ -117,6 +122,10 @@ export async function GET(request: Request) {
       _sum: { numberOfIncorrect: true, numberOfCorrect: true },
     });
 
+    const totalPassed = await prisma.studentGrade.count({
+      where: { AND: [{ testId: testId! }, { status: "Passed" }] },
+    });
+
     const point = await prisma.studentGrade.aggregate({
       where: { testId: testId! },
       _max: { numberOfCorrect: true },
@@ -156,14 +165,14 @@ export async function GET(request: Request) {
 
     const accuracy = calculateAccuracy(
       total._sum.numberOfCorrect!,
-      total._sum.numberOfIncorrect!,
+      correctAnswerIndices?.answerIndices.length!,
     );
 
-    const average = calculateAverage(totalStudent, total._sum.numberOfCorrect!);
+    const passingRate = calculatePassingRate(totalStudent, totalPassed);
 
     const responseData = {
       accuracy,
-      average,
+      passingRate,
       highest: point._max.numberOfCorrect!,
       lowest: point._min.numberOfCorrect!,
       questionsMostGotRight,

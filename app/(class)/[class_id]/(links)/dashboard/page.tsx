@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+
 "use client";
 
 import { Stack } from "@chakra-ui/react";

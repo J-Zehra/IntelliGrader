@@ -9,5 +9,6 @@ export const setupTestState = atom<TestInfo>({
     testName: "",
     answerIndices: [],
     parts: [],
+    passingGrade: 50,
   },
 });
