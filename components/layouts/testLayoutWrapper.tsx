@@ -5,7 +5,9 @@
 import { ReactNode } from "react";
 import { Box, IconButton, Stack, Text } from "@chakra-ui/react";
 import { BsArrowReturnLeft } from "react-icons/bs";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
 import BottomNavbar from "@/app/(class)/[class_id]/(tests)/[test_id]/components/bottomNavbar";
 import {
   prefetchStatistics,
@@ -19,10 +21,33 @@ export default function TestLayoutWrapper({
   children: ReactNode;
 }) {
   const navigate = useRouter();
+  const path = usePathname();
   const { class_id, test_id } = useParams();
 
   prefetchStatistics(test_id as string);
   prefetchStudentGrades(test_id as string);
+
+  const handleBackNavigation = () => {
+    if (path.includes("overview")) {
+      navigate.back();
+    } else {
+      navigate.push(`/${class_id}/tests`);
+    }
+  };
+
+  const getTest = async () => {
+    let test: { testName: string } = { testName: "" };
+    await axios.get(`/api/tests/name/${test_id}`).then((res) => {
+      test = res.data;
+    });
+
+    return test;
+  };
+
+  const { data: testData } = useQuery({
+    queryKey: ["test-name"],
+    queryFn: getTest,
+  });
 
   return (
     <CustomContainer>
@@ -36,7 +61,7 @@ export default function TestLayoutWrapper({
             color="palette.button.primary"
             cursor="pointer"
             borderRadius=".2rem"
-            onClick={() => navigate.push(`/${class_id}/tests`)}
+            onClick={handleBackNavigation}
           >
             <BsArrowReturnLeft />
           </IconButton>
@@ -47,7 +72,7 @@ export default function TestLayoutWrapper({
               fontWeight="semibold"
               opacity=".8"
             >
-              Title
+              {testData?.testName}
             </Text>
             <Box w=".5rem" h=".5rem" bg="palette.accent" borderRadius="5rem" />
           </Stack>

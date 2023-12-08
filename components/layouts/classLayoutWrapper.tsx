@@ -6,6 +6,8 @@ import { Box, IconButton, Stack, Text } from "@chakra-ui/react";
 import { useParams, useRouter } from "next/navigation";
 import React, { ReactNode } from "react";
 import { BsArrowReturnLeft } from "react-icons/bs";
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 import BottomNavbar from "@/app/(class)/[class_id]/(links)/components/bottomNavbar";
 import {
   prefetchClassRanking,
@@ -30,6 +32,20 @@ export default function ClassLayoutWrapper({
   prefetchPassingRateDistribution(class_id as string);
   prefetchClassRanking(class_id as string);
 
+  const getClass = async () => {
+    let test: { course: string } = { course: "" };
+    await axios.get(`/api/class/name/${class_id}`).then((res) => {
+      test = res.data;
+    });
+
+    return test;
+  };
+
+  const { data: classData } = useQuery({
+    queryKey: ["class-name"],
+    queryFn: getClass,
+  });
+
   return (
     <CustomContainer>
       <Stack pt="6.5rem" w="100%" align="center" spacing="1rem" h="100vh">
@@ -53,7 +69,7 @@ export default function ClassLayoutWrapper({
               fontWeight="semibold"
               opacity=".8"
             >
-              Finals
+              {classData?.course}
             </Text>
             <Box w=".5rem" h=".5rem" bg="palette.accent" borderRadius="5rem" />
           </Stack>
