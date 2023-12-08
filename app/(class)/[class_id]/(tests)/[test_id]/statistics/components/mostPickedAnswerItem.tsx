@@ -9,7 +9,9 @@ function convertToLetter(index: number) {
 
 export default function MostPickedAnswerItem({
   item,
+  numberOfChoices,
 }: {
+  numberOfChoices: number;
   item: QuestionsMostGotRight;
 }) {
   return (
@@ -37,7 +39,7 @@ export default function MostPickedAnswerItem({
           align="center"
           justify="space-between"
         >
-          {[...Array(5)].map((_, index) => {
+          {[...Array(numberOfChoices)].map((_, index) => {
             return (
               <Radio
                 opacity={0.8}

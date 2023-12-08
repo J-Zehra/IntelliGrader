@@ -9,17 +9,25 @@ import {
   View,
   StyleSheet,
   PDFViewer,
-  Text,
   PDFDownloadLink,
+  Text,
 } from "@react-pdf/renderer";
 import axios from "axios";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import { useMediaQuery } from "@chakra-ui/react";
+import {
+  Button,
+  Stack,
+  useMediaQuery,
+  Text as ChakraText,
+} from "@chakra-ui/react";
+import Lottie from "react-lottie-player";
 import { FetchedTestInfoToGeneratePaper } from "@/utils/types";
+import Loading from "@/components/loading";
 import ControlNumber from "./components/controlNumber";
 import TestInfo from "./components/testInfo";
 import Bubbles from "./components/bubbles";
+import DoneAnimation from "../../../../../../public/done_animation.json";
 
 const styles = StyleSheet.create({
   page: {
@@ -54,7 +62,7 @@ export default function PDFPage() {
   console.log(testData);
 
   if (isLoading) {
-    return <div>Loading</div>;
+    return <Loading message="Generating" />;
   }
 
   function BubbleSheetDoc() {
@@ -103,9 +111,25 @@ export default function PDFPage() {
 
   if (!isLargerThan30) {
     return (
-      <PDFDownloadLink document={<BubbleSheetDoc />} fileName="Bubble Sheet">
-        Download
-      </PDFDownloadLink>
+      <Stack align="center" w="100%" spacing="1.5rem">
+        <Lottie
+          loop
+          animationData={DoneAnimation}
+          play
+          style={{ width: 200, height: 200 }}
+        />
+        <ChakraText
+          fontSize="1rem"
+          opacity=".6"
+          fontWeight="semibold"
+          color="palette.button.primary"
+        >
+          Answer Sheet Ready to Download.
+        </ChakraText>
+        <PDFDownloadLink document={<BubbleSheetDoc />} fileName="Bubble Sheet">
+          <Button>Download</Button>
+        </PDFDownloadLink>
+      </Stack>
     );
   }
 

@@ -1,9 +1,10 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/jsx-props-no-spreading */
 import { Box, Center, Stack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
-import { useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { useRecoilValue } from "recoil";
 import { TestNavLink } from "@/utils/types";
 import { fileState } from "@/state/fileState";
@@ -13,6 +14,8 @@ import FileUploadButton from "./fileUploadButton";
 
 export default function BottomNavbar() {
   const router = useRouter();
+  const { class_id, test_id } = useParams();
+  const path = usePathname();
   const image = useRecoilValue(fileState);
   const [activeBottomNav, setActiveBottomNav] = useState<TestNavLink>(
     TestNavLink.scan,
@@ -42,6 +45,10 @@ export default function BottomNavbar() {
   }, [router]);
 
   if (image.length > 0) {
+    return null;
+  }
+
+  if (path === `/${class_id}/${test_id}/pdf`) {
     return null;
   }
 

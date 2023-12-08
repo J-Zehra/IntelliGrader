@@ -9,8 +9,10 @@ function convertToLetter(index: number) {
 
 export default function CommonyMistakesAnswerItem({
   item,
+  numberOfChoices,
 }: {
   item: QuestionsMostGotWrong;
+  numberOfChoices: number;
 }) {
   return (
     <Stack bg="palette.light" direction="row" borderRadius=".5rem">
@@ -37,7 +39,7 @@ export default function CommonyMistakesAnswerItem({
           align="center"
           justify="space-between"
         >
-          {[...Array(5)].map((_, index) => {
+          {[...Array(numberOfChoices)].map((_, index) => {
             return (
               <Radio
                 opacity={0.8}

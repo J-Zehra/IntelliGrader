@@ -1,23 +1,78 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+
 "use client";
 
-import { Button, Stack } from "@chakra-ui/react";
+import { Button, Skeleton, Stack, Text } from "@chakra-ui/react";
 import { RiAiGenerate } from "react-icons/ri";
-import { useRouter } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
+import { FetchedTestInfo } from "@/utils/types";
+import AnswerSheet from "./components/answerSheet";
 
 export default function SettingsPage() {
   const navigate = useRouter();
-  // const {
-  //   isOpen: isGenerateModalOpen,
-  //   onClose: onGenerateModalClose,
-  //   onOpen: onGenerateModalOpen,
-  // } = useDisclosure();
+  const { test_id } = useParams();
+
+  const getTest = async () => {
+    let grade: Partial<FetchedTestInfo> = {};
+    await axios.get(`/api/tests/${test_id}`).then((res) => {
+      grade = res.data;
+    });
+
+    return grade;
+  };
+
+  const { data: test, isLoading } = useQuery({
+    queryKey: ["test-info", test_id],
+    queryFn: getTest,
+  });
 
   const handleGenerate = () => {
     navigate.push("pdf");
   };
 
   return (
-    <Stack>
+    <Stack spacing="2rem" paddingBottom="10rem">
+      <Text fontSize=".8rem">Test Information</Text>
+      <Skeleton borderRadius="1rem" isLoaded={!isLoading}>
+        <Stack
+          p="1.2rem"
+          boxShadow="2px 2px 10px rgba(0, 0, 100, .1)"
+          borderRadius="1rem"
+        >
+          <Stack direction="row" justify="space-between" align="center">
+            <Text fontSize=".9rem">Test Name</Text>
+            <Text color="palette.accent" fontWeight="semibold">
+              {test?.testName}
+            </Text>
+          </Stack>
+          <Stack direction="row" justify="space-between" align="center">
+            <Text fontSize=".9rem">Status</Text>
+            <Text color="palette.accent" fontWeight="semibold">
+              {test?.status}
+            </Text>
+          </Stack>
+          <Stack direction="row" justify="space-between" align="center">
+            <Text>Passing Grade (%)</Text>
+            <Text color="palette.accent" fontWeight="semibold">
+              {test?.passingGrade}
+            </Text>
+          </Stack>
+          <Stack direction="row" justify="space-between" align="center">
+            <Text>Total Questions</Text>
+            <Text color="palette.accent" fontWeight="semibold">
+              {test?.answerIndices?.length}
+            </Text>
+          </Stack>
+          <Stack direction="row" justify="space-between" align="center">
+            <Text>Parts</Text>
+            <Text color="palette.accent" fontWeight="semibold">
+              {test?.testParts?.length}
+            </Text>
+          </Stack>
+        </Stack>
+      </Skeleton>
       <Button
         w="100%"
         bg="transparent"
@@ -30,12 +85,11 @@ export default function SettingsPage() {
       >
         Generate Test Paper
       </Button>
-      {/* {isGenerateModalOpen ? (
-        <ChooseStudentModal
-          isOpen={isGenerateModalOpen}
-          onClose={onGenerateModalClose}
-        />
-      ) : null} */}
+      <Text fontSize=".8rem">Answer Sheet</Text>
+      <AnswerSheet
+        testPart={test?.testParts}
+        answerIndices={test?.answerIndices}
+      />
     </Stack>
   );
 }

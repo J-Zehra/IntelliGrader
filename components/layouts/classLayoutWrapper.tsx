@@ -8,6 +8,9 @@ import React, { ReactNode } from "react";
 import { BsArrowReturnLeft } from "react-icons/bs";
 import BottomNavbar from "@/app/(class)/[class_id]/(links)/components/bottomNavbar";
 import {
+  prefetchClassRanking,
+  prefetchPassingRateDistribution,
+  prefetchStatistics,
   prefetchStudents,
   prefetchTests,
 } from "@/app/(class)/[class_id]/(links)/components/prefetch";
@@ -23,6 +26,9 @@ export default function ClassLayoutWrapper({
 
   prefetchTests(class_id as string);
   prefetchStudents(class_id as string);
+  prefetchStatistics(class_id as string);
+  prefetchPassingRateDistribution(class_id as string);
+  prefetchClassRanking(class_id as string);
 
   return (
     <CustomContainer>

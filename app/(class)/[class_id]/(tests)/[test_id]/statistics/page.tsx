@@ -88,7 +88,11 @@ export default function StatisticsPage() {
           {statistics
             ? statistics?.questionsMostGotWrong?.map((item) => {
                 return (
-                  <CommonyMistakesAnswerItem key={item.index} item={item} />
+                  <CommonyMistakesAnswerItem
+                    key={item.index}
+                    item={item}
+                    numberOfChoices={5}
+                  />
                 );
               })
             : [0.8, 0.6, 0.4].map((item) => {
@@ -110,7 +114,13 @@ export default function StatisticsPage() {
           <Stack spacing={2}>
             {statistics
               ? statistics?.questionsMostGotRight?.map((item) => {
-                  return <MostPickedAnswerItem key={item.index} item={item} />;
+                  return (
+                    <MostPickedAnswerItem
+                      key={item.index}
+                      item={item}
+                      numberOfChoices={5}
+                    />
+                  );
                 })
               : [0.8, 0.6, 0.4].map((item) => {
                   return (

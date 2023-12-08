@@ -31,3 +31,57 @@ export const prefetchStudents = async (id: string) => {
     queryFn: getStudents,
   });
 };
+
+export const prefetchStatistics = async (id: string) => {
+  const getStatistics = async () => {
+    let grade: Partial<
+      { accuracy: number; studentName: string; id: string }[]
+    > = [];
+    await axios.get(`/api/ranking/${id}`).then((res) => {
+      grade = res.data;
+    });
+
+    return grade;
+  };
+
+  await queryClient.prefetchQuery({
+    queryKey: ["class-ranking", id],
+    queryFn: getStatistics,
+  });
+};
+
+export const prefetchPassingRateDistribution = async (id: string) => {
+  const getPassingRates = async () => {
+    let grade: Partial<{ testName: string; passingRate: number }[]> = [];
+    await axios
+      .get(`/api/class_passing_rate_distribution/${id}`)
+      .then((res) => {
+        grade = res.data;
+      });
+
+    return grade;
+  };
+
+  await queryClient.prefetchQuery({
+    queryKey: ["passing-rate-distribution", id],
+    queryFn: getPassingRates,
+  });
+};
+
+export const prefetchClassRanking = async (id: string) => {
+  const getClassRanking = async () => {
+    let grade: Partial<
+      { accuracy: number; studentName: string; id: string }[]
+    > = [];
+    await axios.get(`/api/ranking/${id}`).then((res) => {
+      grade = res.data;
+    });
+
+    return grade;
+  };
+
+  await queryClient.prefetchQuery({
+    queryKey: ["class-ranking", id],
+    queryFn: getClassRanking,
+  });
+};

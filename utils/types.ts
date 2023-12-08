@@ -126,8 +126,10 @@ export type FetchedTestInfo = {
   classId: string;
   testName: string;
   passingGrade: number;
+  status: string;
   answerIndices: number[];
-  _count: { testParts: number };
+  testParts?: QuestionPart[];
+  _count?: { testParts: number };
   createdAt?: string;
   updatedAt?: string;
 };
