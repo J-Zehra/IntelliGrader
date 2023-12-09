@@ -14,7 +14,7 @@ export default function Bubbles({ test }: { test: QuestionPart[] }) {
   return (
     <View
       style={{
-        marginTop: ".4in",
+        marginTop: ".2in",
         height: "80%",
         border: "1px solid black",
         flexDirection: "row",

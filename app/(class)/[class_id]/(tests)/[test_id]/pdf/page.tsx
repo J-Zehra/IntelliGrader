@@ -71,26 +71,6 @@ export default function PDFPage() {
         {testData?.class?.students?.map((student) => {
           return (
             <Page size="A4" style={styles.page}>
-              <View
-                style={{
-                  width: "100%",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <Text style={{ fontWeight: "bold", fontSize: ".2in" }}>
-                  {testData.testName}
-                </Text>
-                <ControlNumber number={student.rollNumber} />
-              </View>
-              <View
-                style={{
-                  marginTop: ".2in",
-                  width: "100%",
-                  borderBottom: "1px solid #E2E2E2",
-                }}
-              />
               <TestInfo
                 name={`${student.firstName} ${student.middleName.charAt(0)}. ${
                   student.lastName
@@ -101,6 +81,27 @@ export default function PDFPage() {
                 }`}
                 date=""
               />
+              <View
+                style={{
+                  marginTop: ".2in",
+                  width: "100%",
+                  borderBottom: "1px solid #E2E2E2",
+                }}
+              />
+              <View
+                style={{
+                  width: "100%",
+                  flexDirection: "row",
+                  marginTop: ".4in",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <Text style={{ fontWeight: "bold", fontSize: ".2in" }}>
+                  {testData.testName}
+                </Text>
+                <ControlNumber number={student.rollNumber} />
+              </View>
               <Bubbles test={testData.testParts!} />
             </Page>
           );
