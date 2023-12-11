@@ -18,9 +18,18 @@ export async function POST(request: Request) {
 
     const newGrades = await Promise.all(
       grades.map(async (grade) => {
-        // Step 1: Fetch the student by rollNumber to get the studentId
         const student = await prisma.student.findUnique({
           where: { rollNumber: grade.roll_number },
+        });
+
+        if (!student) {
+          return null;
+        }
+
+        const existingStudentGrade = await prisma.studentGrade.findFirst({
+          where: {
+            AND: [{ testId }, { student: { rollNumber: grade.roll_number } }],
+          },
         });
 
         const test = await prisma.test.findFirst({
@@ -28,37 +37,25 @@ export async function POST(request: Request) {
           select: { passingGrade: true },
         });
 
-        if (!student) {
-          return NextResponse.json(
-            {
-              message: `Student with rollNumber ${grade.roll_number} not found.`,
-            },
-            { status: 404 },
-          );
-        }
-
         const rate = Math.round(
           (grade.number_of_correct / grade.answer_indices.length) * 100,
         );
 
-        // Step 2: Check if the student is already graded
-        const existingGrade = await prisma.studentGrade.findFirst({
-          where: {
-            studentId: student.id,
-            testId,
-          },
-        });
-
-        if (existingGrade) {
-          return NextResponse.json(
-            {
-              message: `Student with rollNumber ${grade.roll_number} is already graded.`,
+        if (existingStudentGrade) {
+          return prisma.studentGrade.update({
+            where: { id: existingStudentGrade.id },
+            data: {
+              processedImage: grade.processed_image,
+              answerIndices: grade.answer_indices,
+              numberOfCorrect: grade.number_of_correct,
+              numberOfIncorrect: grade.number_of_incorrect,
+              status: isPassed(test?.passingGrade!, rate) ? "Passed" : "Failed",
+              testId,
+              studentId: student.id,
             },
-            { status: 400 },
-          );
+          });
         }
 
-        // Step 3: Create the StudentGrade record with the obtained studentId
         return prisma.studentGrade.create({
           data: {
             processedImage: grade.processed_image,
@@ -73,7 +70,9 @@ export async function POST(request: Request) {
       }),
     );
 
-    return NextResponse.json(newGrades);
+    const validGrades = newGrades.filter((grade) => grade !== null);
+
+    return NextResponse.json(validGrades);
   } catch (err) {
     return NextResponse.json({ message: "POST Error", err }, { status: 500 });
   }

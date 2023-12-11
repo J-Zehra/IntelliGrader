@@ -61,7 +61,7 @@ export default function GradeButton({
 
     setLoading(true);
     const options: Options = {
-      maxSizeMB: 1,
+      maxSizeMB: 0.5,
       useWebWorker: true,
       maxWidthOrHeight: 850,
     };

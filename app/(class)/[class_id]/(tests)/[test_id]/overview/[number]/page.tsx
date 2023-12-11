@@ -5,17 +5,20 @@
 
 import {
   Box,
+  Button,
   Skeleton,
   SkeletonText,
   Stack,
   Text,
   Wrap,
+  useToast,
 } from "@chakra-ui/react";
 import React from "react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
-import { useQuery } from "@tanstack/react-query";
-import { FetchedSingleGrade } from "@/utils/types";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { FetchedGradeInfo, FetchedSingleGrade } from "@/utils/types";
+import { queryClient } from "@/components/wrappers/queryWrapper";
 import Accuracy from "../components/accuracy";
 import Streaks from "../components/streaks";
 import Correct from "../components/correct";
@@ -25,6 +28,8 @@ import AnswerItem from "../components/answerItem";
 export default function OverviewPage() {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   const { test_id, number } = useParams();
+  const toast = useToast();
+  const navigate = useRouter();
   let cumulativePartIndex = -1;
 
   const getGrade = async () => {
@@ -41,6 +46,32 @@ export default function OverviewPage() {
   const { data: grade, isLoading } = useQuery({
     queryKey: ["individual-grade", number, test_id],
     queryFn: getGrade,
+  });
+
+  const deleteStudentGrade = () => {
+    const data = { testId: test_id, rollNumber: number };
+    return axios.delete("/api/delete_student_grade", { params: data });
+  };
+
+  const mutateRecord = useMutation({
+    mutationFn: deleteStudentGrade,
+    mutationKey: ["delete-record"],
+    onSuccess: ({ data }) => {
+      queryClient.setQueryData(["get-student-grades", test_id], (oldData) => {
+        const newData = (oldData as FetchedGradeInfo[]).filter(
+          (g) => g.id !== data.id,
+        );
+        return newData;
+      });
+
+      toast({
+        title: "Success",
+        status: "success",
+        duration: 3000,
+      });
+
+      navigate.back();
+    },
   });
 
   return (
@@ -107,6 +138,20 @@ export default function OverviewPage() {
                   />
                 );
               })}
+          <Box paddingTop="1rem">
+            <Button
+              bg="transparent"
+              color="red"
+              boxShadow="none"
+              w="100%"
+              border="1px solid red"
+              isLoading={mutateRecord.isLoading}
+              onClick={() => mutateRecord.mutate()}
+              _hover={{ bg: "rgba(200, 0, 0, .1)" }}
+            >
+              Delete Record
+            </Button>
+          </Box>
         </Stack>
       </Stack>
     </Box>
