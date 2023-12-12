@@ -11,15 +11,16 @@ const isPassed = (passingGrade: number, rate: number) => {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { grades, testId } = body as {
+    const { grades, testId, classId } = body as {
       grades: FetchedGradeInfo[];
       testId: string;
+      classId: string;
     };
 
     const newGrades = await Promise.all(
       grades.map(async (grade) => {
-        const student = await prisma.student.findUnique({
-          where: { rollNumber: grade.roll_number },
+        const student = await prisma.student.findFirst({
+          where: { AND: [{ rollNumber: grade.roll_number }, { classId }] },
         });
 
         if (!student) {

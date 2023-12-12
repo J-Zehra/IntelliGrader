@@ -17,7 +17,7 @@ export default function GradeButton({
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const toast = useToast();
-  const { test_id } = useParams();
+  const { test_id, class_id } = useParams();
   const navigate = useRouter();
   const files = useRecoilValue(fileState);
 
@@ -33,7 +33,7 @@ export default function GradeButton({
   const { data: testData } = useQuery({ queryKey: ["test"], queryFn: getTest });
 
   const createStudentGrade = (grades: FetchedGradeInfo[]) => {
-    const data = { testId: test_id, grades };
+    const data = { testId: test_id, grades, classId: class_id };
     return axios.post("/api/create_student_grade", data);
   };
 
