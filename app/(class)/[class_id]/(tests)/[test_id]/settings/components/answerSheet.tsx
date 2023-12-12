@@ -77,8 +77,10 @@ export default function AnswerSheet({
                         key={`${partIndex}-${questionIndex}-${choiceIndex}`}
                         opacity={0.8}
                         isChecked={
-                          choiceIndex ===
-                          answerIndices![questionIndex * (partIndex + 1)]
+                          answerIndices &&
+                          answerIndices[
+                            questionIndex + partIndex * part.totalNumber
+                          ] === choiceIndex
                         }
                         borderColor="palette.text"
                       >

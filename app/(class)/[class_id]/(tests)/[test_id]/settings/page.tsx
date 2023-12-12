@@ -43,31 +43,31 @@ export default function SettingsPage() {
         >
           <Stack direction="row" justify="space-between" align="center">
             <Text fontSize=".9rem">Test Name</Text>
-            <Text color="palette.accent" fontWeight="semibold">
+            <Text color="palette.accent" fontSize=".9rem" fontWeight="semibold">
               {test?.testName}
             </Text>
           </Stack>
           <Stack direction="row" justify="space-between" align="center">
             <Text fontSize=".9rem">Status</Text>
-            <Text color="palette.accent" fontWeight="semibold">
+            <Text color="palette.accent" fontSize=".9rem" fontWeight="semibold">
               {test?.status}
             </Text>
           </Stack>
           <Stack direction="row" justify="space-between" align="center">
-            <Text>Passing Grade (%)</Text>
-            <Text color="palette.accent" fontWeight="semibold">
+            <Text fontSize=".9rem">Passing Grade (%)</Text>
+            <Text color="palette.accent" fontSize=".9rem" fontWeight="semibold">
               {test?.passingGrade}
             </Text>
           </Stack>
           <Stack direction="row" justify="space-between" align="center">
-            <Text>Total Questions</Text>
-            <Text color="palette.accent" fontWeight="semibold">
+            <Text fontSize=".9rem">Total Questions</Text>
+            <Text color="palette.accent" fontSize=".9rem" fontWeight="semibold">
               {test?.answerIndices?.length}
             </Text>
           </Stack>
           <Stack direction="row" justify="space-between" align="center">
-            <Text>Parts</Text>
-            <Text color="palette.accent" fontWeight="semibold">
+            <Text fontSize=".9rem">Parts</Text>
+            <Text color="palette.accent" fontSize=".9rem" fontWeight="semibold">
               {test?.testParts?.length}
             </Text>
           </Stack>
