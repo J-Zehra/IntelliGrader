@@ -18,7 +18,9 @@ export default function Parts({
         alignItems: "center",
       }}
     >
-      <Text style={{ textAlign: "center", paddingRight: ".1in" }}>
+      <Text
+        style={{ textAlign: "center", fontSize: ".1in", paddingRight: ".1in" }}
+      >
         {index + 1 < 10 ? `0${index + 1}` : index + 1}
       </Text>
       {[...Array(numberOfChoices)].map((choice, choiceIndex) => (
