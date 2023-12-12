@@ -52,60 +52,66 @@ export default function AnswerItem({
         </Text>
       </Center>
       <Box flex={10}>
-        <Stack
-          direction="row"
-          h="100%"
-          w="100%"
-          paddingInline="1rem"
-          align="center"
-          spacing={3}
-        >
-          {[...Array(numberOfChoices)].map((_, index2) => {
-            return (
-              <Radio
-                opacity={0.8}
-                isChecked={
-                  isCorrect()
-                    ? answerIndex === index2
-                    : correctAnswerIndex === index2 || answerIndex === index2
-                }
-                colorScheme={
-                  isCorrect()
-                    ? "green"
-                    : answerIndex === index2
-                    ? "green"
-                    : correctAnswerIndex === index2
-                    ? "red"
-                    : ""
-                }
-                key={index2}
-                isReadOnly
-                borderColor="palette.text"
-              >
-                <Text
-                  opacity={0.6}
-                  fontWeight={
-                    answerIndex === index2 || correctAnswerIndex === index2
-                      ? "bold"
-                      : "semibold"
+        {answerIndex === -1 ? (
+          <Text>Unshaded</Text>
+        ) : answerIndex === -2 ? (
+          <Text>Multi Shaded</Text>
+        ) : (
+          <Stack
+            direction="row"
+            h="100%"
+            w="100%"
+            paddingInline="1rem"
+            align="center"
+            spacing={3}
+          >
+            {[...Array(numberOfChoices)].map((_, index2) => {
+              return (
+                <Radio
+                  opacity={0.8}
+                  isChecked={
+                    isCorrect()
+                      ? answerIndex === index2
+                      : correctAnswerIndex === index2 || answerIndex === index2
                   }
-                  fontSize="1rem"
-                  color={
-                    answerIndex === index2 && (isCorrect() || !isCorrect())
+                  colorScheme={
+                    isCorrect()
                       ? "green"
-                      : correctAnswerIndex === index2 && !isCorrect()
+                      : answerIndex === index2
+                      ? "green"
+                      : correctAnswerIndex === index2
                       ? "red"
-                      : "palette.text"
+                      : ""
                   }
+                  key={index2}
+                  isReadOnly
+                  borderColor="palette.text"
                 >
-                  {questionType === QuestionType.trueOrFalse
-                    ? convertToTorF(index2)
-                    : convertToLetter(index2)}
-                </Text>
-              </Radio>
-            );
-          })}
-        </Stack>
+                  <Text
+                    opacity={0.6}
+                    fontWeight={
+                      answerIndex === index2 || correctAnswerIndex === index2
+                        ? "bold"
+                        : "semibold"
+                    }
+                    fontSize="1rem"
+                    color={
+                      answerIndex === index2 && (isCorrect() || !isCorrect())
+                        ? "green"
+                        : correctAnswerIndex === index2 && !isCorrect()
+                        ? "red"
+                        : "palette.text"
+                    }
+                  >
+                    {questionType === QuestionType.trueOrFalse
+                      ? convertToTorF(index2)
+                      : convertToLetter(index2)}
+                  </Text>
+                </Radio>
+              );
+            })}
+          </Stack>
+        )}
       </Box>
     </Stack>
   );

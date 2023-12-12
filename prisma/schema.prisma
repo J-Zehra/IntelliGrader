@@ -42,7 +42,7 @@ model Student {
   lastName  String
   firstName  String
   middleName  String
-  rollNumber Int @unique
+  rollNumber Int
   classId     String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
