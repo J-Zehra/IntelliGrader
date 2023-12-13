@@ -10,6 +10,7 @@ import {
   ModalOverlay,
   Stack,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useRecoilState } from "recoil";
@@ -22,6 +23,7 @@ export default function AddStudentModal({
   isOpen: boolean;
   onClose: () => void;
 }) {
+  const toast = useToast();
   const [classInfo, setClassInfo] = useRecoilState(classInfoState);
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
@@ -31,6 +33,18 @@ export default function AddStudentModal({
   );
 
   const handleSave = () => {
+    if (!firstName || !lastName) {
+      toast({
+        title: "Incomplete Fields.",
+        description: "Please fill all required the fields.",
+        duration: 3000,
+        position: "top",
+        status: "error",
+      });
+
+      return;
+    }
+
     const studentData = {
       firstName,
       lastName,
@@ -79,7 +93,7 @@ export default function AddStudentModal({
               onChange={(e) => setFirstName(e.target.value)}
             />
             <Input
-              placeholder="Middle Name"
+              placeholder="Middle Name (Optional)"
               type="text"
               border="1px solid"
               borderColor="gray.100"

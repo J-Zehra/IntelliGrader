@@ -60,7 +60,7 @@ export default function BottomNavbar() {
         position="fixed"
         bottom="2rem"
         bg="palette.light"
-        boxShadow="2px 2px 10px rgba(0, 0, 100, .5)"
+        boxShadow="2px 2px 8px rgba(0, 0, 100, .2)"
         borderRadius="1.3rem"
       >
         <Stack

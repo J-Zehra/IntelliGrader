@@ -23,7 +23,7 @@ type StudentGrade = {
 export default function TallyOfScores() {
   const { test_id } = useParams();
 
-  const getStatistics = async () => {
+  const getTally = async () => {
     const data = { testId: test_id };
     let responseData: Partial<{
       tally: number[];
@@ -40,7 +40,7 @@ export default function TallyOfScores() {
 
   const { data: testInfo } = useQuery({
     queryKey: ["tally", test_id],
-    queryFn: getStatistics,
+    queryFn: getTally,
   });
 
   return (

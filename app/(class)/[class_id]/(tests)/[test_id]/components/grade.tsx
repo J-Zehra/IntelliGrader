@@ -1,25 +1,27 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Button, useToast } from "@chakra-ui/react";
+import { Button } from "@chakra-ui/react";
 import React from "react";
 import { AiOutlineScan } from "react-icons/ai";
 import { useParams, useRouter } from "next/navigation";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import imageCompression, { Options } from "browser-image-compression";
-import { useRecoilValue } from "recoil";
-import { FetchedGradeInfo, FetchedTestInfoToProcess } from "@/utils/types";
+import { useRecoilState, useSetRecoilState } from "recoil";
+import { FetchedTestInfoToProcess } from "@/utils/types";
 import { fileState } from "@/state/fileState";
+import { localGradeInfo } from "@/state/localGradeInfo";
+import { socket } from "../socket";
 
 export default function GradeButton({
   setLoading,
 }: {
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-  const toast = useToast();
-  const { test_id, class_id } = useParams();
+  const { test_id } = useParams();
   const navigate = useRouter();
-  const files = useRecoilValue(fileState);
+  const [files, setFiles] = useRecoilState(fileState);
+  const setLocalGradeInfo = useSetRecoilState(localGradeInfo);
 
   const getTest = async () => {
     let test: Partial<FetchedTestInfoToProcess> = {};
@@ -31,27 +33,6 @@ export default function GradeButton({
   };
 
   const { data: testData } = useQuery({ queryKey: ["test"], queryFn: getTest });
-
-  const createStudentGrade = (grades: FetchedGradeInfo[]) => {
-    const data = { testId: test_id, grades, classId: class_id };
-    return axios.post("/api/create_student_grade", data);
-  };
-
-  const mutateStudentGrade = useMutation({
-    mutationFn: createStudentGrade,
-    mutationKey: ["create-student-grade", test_id],
-    onSuccess: () => {
-      setLoading(false);
-
-      toast({
-        title: "Success",
-        status: "success",
-        duration: 3000,
-      });
-
-      navigate.push("student_grades");
-    },
-  });
 
   const handleSubmit = async () => {
     if (!files || !testData) {
@@ -67,47 +48,43 @@ export default function GradeButton({
     };
 
     async function compressAndAppendImages() {
-      const formData = new FormData();
-      for (let index = 0; index < files.length; index += 1) {
-        const { image } = files[index];
+      const compressionPromises = files.map(async (file) => {
+        const { image } = file;
         const compressedFile = await imageCompression(image!, options);
-        formData.append("images", compressedFile);
-      }
 
-      formData.append("answer", JSON.stringify(testData!.answerIndices));
+        return new Promise((resolve) => {
+          const reader = new FileReader();
+          reader.onload = (e) => {
+            const dataUrl = e.target?.result as string;
+            resolve(dataUrl);
+          };
+          reader.readAsDataURL(compressedFile!);
+        });
+      });
+
+      const images = await Promise.all(compressionPromises);
 
       const numberOfChoices = testData!.testParts!.map(
         (part) => part.numberOfChoices || 0,
       );
 
-      formData.append("numberOfChoices", JSON.stringify(numberOfChoices));
-      return formData;
+      const data = {
+        images,
+        answer: testData!.answerIndices,
+        numberOfChoices,
+      };
+      return data;
     }
 
-    compressAndAppendImages().then((formData) => {
-      axios
-        .post(
-          "https://intelli-grader-backend-43b270ab373f.herokuapp.com/process",
-          formData,
-        )
-        .then((res) => {
-          const { data } = res;
-          console.log(data);
-
-          // STORE IN DATABASE
-          mutateStudentGrade.mutate(data);
-        })
-        .catch((err) => {
-          setLoading(false);
-          toast({
-            title: err.response.data.error,
-            description: "Please take a clear picture",
-            status: "error",
-            duration: 10000,
-          });
-
-          console.log(err);
-        });
+    compressAndAppendImages().then((data) => {
+      socket.emit("grade", data);
+      socket.on("grade_result", (d) => {
+        console.log(d);
+        setLocalGradeInfo(d);
+        setFiles([]);
+        navigate.push("local_student_grades");
+        // mutateStudentGrade.mutate(d);
+      });
     });
   };
 

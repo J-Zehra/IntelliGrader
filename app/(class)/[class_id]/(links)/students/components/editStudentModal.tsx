@@ -42,16 +42,17 @@ export default function EditStudentModal({
     mutationFn: addStudent,
     mutationKey: ["edit-student"],
     onSuccess: ({ data }) => {
-      queryClient.setQueryData(["students", class_id], (oldData) => [
-        ...(oldData as FetchedStudentInfo[]),
-        data,
-      ]);
+      queryClient.setQueryData(["students", class_id], (oldData) => {
+        return (oldData as FetchedStudentInfo[]).map((item) =>
+          item.id === data.id ? { ...item, ...data } : item,
+        );
+      });
       onClose();
     },
   });
 
   const handleSave = () => {
-    if (!firstName || !lastName || !middleName) {
+    if (!firstName || !lastName) {
       return;
     }
 

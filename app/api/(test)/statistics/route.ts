@@ -7,14 +7,16 @@ import prisma from "@/libs/prismadb";
 const calculateAccuracy = (
   totalCorrect: number,
   totalNumberOfQuestions: number,
+  totalStudent: number,
 ) => {
   return Math.round(
-    (totalCorrect / (totalCorrect + totalNumberOfQuestions)) * 100,
+    ((totalCorrect / (totalCorrect + totalNumberOfQuestions)) * 100) /
+      totalStudent,
   );
 };
 
 const calculatePassingRate = (totalStudent: number, totalPassed: number) => {
-  return Math.round(totalPassed / totalStudent) * 100;
+  return Math.round((totalPassed / totalStudent) * 100);
 };
 
 interface QuestionResult {
@@ -166,9 +168,15 @@ export async function GET(request: Request) {
     const accuracy = calculateAccuracy(
       total._sum.numberOfCorrect!,
       correctAnswerIndices?.answerIndices.length!,
+      totalStudent,
     );
 
+    console.log(totalPassed);
+    console.log(totalStudent);
+
     const passingRate = calculatePassingRate(totalStudent, totalPassed);
+
+    console.log(passingRate);
 
     const responseData = {
       accuracy,

@@ -11,6 +11,7 @@ import {
   ModalOverlay,
   Stack,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
@@ -31,6 +32,7 @@ export default function AddStudentModal({
   classId: string;
 }) {
   const { class_id } = useParams();
+  const toast = useToast();
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [middleName, setMiddleName] = useState<string>("");
@@ -53,7 +55,14 @@ export default function AddStudentModal({
   });
 
   const handleSave = () => {
-    if (!firstName || !lastName || !middleName) {
+    if (!firstName || !lastName) {
+      toast({
+        title: "Incomplete Fields.",
+        description: "Please fill all required the fields.",
+        duration: 3000,
+        position: "top",
+        status: "error",
+      });
       return;
     }
 

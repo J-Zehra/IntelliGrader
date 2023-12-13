@@ -151,6 +151,7 @@ export type FetchedGradeInfo = {
   number_of_incorrect: number;
   answer_indices: number[];
   processed_image: string;
+  status: string;
 };
 
 export type FetchedSingleGrade = {

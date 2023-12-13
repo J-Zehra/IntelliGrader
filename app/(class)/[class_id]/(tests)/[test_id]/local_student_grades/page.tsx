@@ -4,16 +4,28 @@
 
 "use client";
 
-import { Select, Skeleton, Stack, Text } from "@chakra-ui/react";
-import { useParams } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
+import {
+  Button,
+  Select,
+  Skeleton,
+  Stack,
+  Text,
+  useToast,
+} from "@chakra-ui/react";
+import { useParams, useRouter } from "next/navigation";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { Grade } from "@/utils/types";
+import { useRecoilValue } from "recoil";
+import { FetchedGradeInfo, Grade } from "@/utils/types";
+import { localGradeInfo } from "@/state/localGradeInfo";
 import StudentGradeItemRest from "./components/studentGradeItemRest";
 import StudentGradeItem from "./components/studentGradeItem";
 
-export default function StudentGrades() {
-  const { test_id } = useParams();
+export default function LocalStudentGrades() {
+  const { test_id, class_id } = useParams();
+  const toast = useToast();
+  const navigate = useRouter();
+  const localGrade = useRecoilValue(localGradeInfo);
 
   const getStudentGrades = async () => {
     const id = test_id;
@@ -30,14 +42,36 @@ export default function StudentGrades() {
     queryKey: ["get-student-grades", test_id],
   });
 
+  const createStudentGrade = (grades: FetchedGradeInfo[]) => {
+    const data = { testId: test_id, grades, classId: class_id };
+    return axios.post("/api/create_student_grade", data);
+  };
+
+  const mutateStudentGrade = useMutation({
+    mutationFn: createStudentGrade,
+    mutationKey: ["create-student-grade", test_id],
+    onSuccess: () => {
+      toast({
+        title: "Successly saved",
+        status: "success",
+        duration: 3000,
+      });
+      navigate.push("student_grades");
+    },
+  });
+
+  const handleSave = () => {
+    mutateStudentGrade.mutate(localGrade);
+  };
+
   console.log(studentGrades);
 
   return (
     <Stack spacing={2} paddingBottom="10rem">
       <Stack direction="row" w="100%" justify="space-between" align="center">
         <Text fontSize=".8rem" fontWeight="normal">
-          Total of {studentGrades?.length}{" "}
-          {studentGrades && studentGrades?.length < 2 ? "paper" : "papers"}
+          Total of {studentGrades?.length || localGrade.length}
+          {studentGrades?.length || localGrade.length < 2 ? "paper" : "papers"}
         </Text>
         <Select placeholder="Sort" w="6rem" fontSize=".8rem" colorScheme="red">
           <option value="option1" style={{ fontSize: ".8rem" }}>
@@ -48,17 +82,11 @@ export default function StudentGrades() {
       </Stack>
       <Stack marginTop={10} spacing={3}>
         {!isLoading
-          ? studentGrades?.map((grades: Grade, index) => {
+          ? localGrade.map((grades: FetchedGradeInfo, index) => {
               return index === 0 ? (
-                <StudentGradeItem
-                  grade={grades}
-                  key={grades.student.rollNumber}
-                />
+                <StudentGradeItem grade={grades} key={grades.roll_number} />
               ) : (
-                <StudentGradeItemRest
-                  grade={grades}
-                  key={grades.student.rollNumber}
-                />
+                <StudentGradeItemRest grade={grades} key={grades.roll_number} />
               );
             })
           : [0.8, 0.6, 0.4].map((item) => {
@@ -73,6 +101,9 @@ export default function StudentGrades() {
               );
             })}
       </Stack>
+      <Button onClick={handleSave} isLoading={mutateStudentGrade.isLoading}>
+        Save Records
+      </Button>
     </Stack>
   );
 }

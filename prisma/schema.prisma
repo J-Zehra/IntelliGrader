@@ -41,7 +41,7 @@ model Student {
   id        String   @id @default(cuid()) @map("_id")
   lastName  String
   firstName  String
-  middleName  String
+  middleName  String?
   rollNumber Int
   classId     String
   createdAt DateTime @default(now())

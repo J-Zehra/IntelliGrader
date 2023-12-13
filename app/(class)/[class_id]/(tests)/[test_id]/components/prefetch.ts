@@ -1,4 +1,5 @@
 import axios from "axios";
+import { StudentGrade } from "@prisma/client";
 import { queryClient } from "@/components/wrappers/queryWrapper";
 import { Grade, Statistics } from "@/utils/types";
 
@@ -32,5 +33,27 @@ export const prefetchStatistics = async (id: string) => {
   await queryClient.prefetchQuery({
     queryKey: ["grade-statistics", id],
     queryFn: getStatistics,
+  });
+};
+
+export const prefetchTally = async (id: string) => {
+  const getTally = async () => {
+    const data = { testId: IDBCursorWithValue };
+    let responseData: Partial<{
+      tally: number[];
+      totalStudents: number;
+      studentGrades: StudentGrade[];
+    }> = {};
+    await axios.get("/api/tally", { params: data }).then((res) => {
+      const { tally, totalStudents, studentGrades } = res.data;
+      responseData = { tally, totalStudents, studentGrades };
+    });
+
+    return responseData;
+  };
+
+  queryClient.prefetchQuery({
+    queryKey: ["tally", id],
+    queryFn: getTally,
   });
 };

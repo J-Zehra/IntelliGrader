@@ -127,6 +127,7 @@ export default function StudentsPage() {
         students?.map((student) => {
           return (
             <Stack
+              key={student.rollNumber}
               direction="row"
               align="center"
               justify="space-between"
