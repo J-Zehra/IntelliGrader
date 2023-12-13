@@ -31,7 +31,7 @@ const getQuestionsMostStudentsGotRight = (
   correctAnswer: number[],
   studentsAnswers: {
     answerIndices: number[];
-    student: { lastName: string; firstName: string; middleName: string };
+    student: { lastName: string; firstName: string; middleName?: string };
   }[],
   topCount: number,
 ): QuestionResult[] => {
@@ -44,7 +44,7 @@ const getQuestionsMostStudentsGotRight = (
       if (answer === correctAnswer[index]) {
         questionsRightCount[index]++;
         studentsPickedRight[index].push(
-          `${studentAnswer.student.firstName} ${studentAnswer.student.middleName} ${studentAnswer.student.lastName}`,
+          `${studentAnswer.student.firstName} ${studentAnswer.student.lastName}`,
         );
       }
     });
@@ -85,7 +85,7 @@ const getQuestionsMostStudentsGotWrong = (
       if (answer !== correctAnswer[index]) {
         questionsWrongCount[index]++;
         studentsPickedWrong[index].push(
-          `${studentAnswer.student.firstName} ${studentAnswer.student?.middleName} ${studentAnswer.student.lastName}`,
+          `${studentAnswer.student.firstName} ${studentAnswer.student.lastName}`,
         );
       } else {
         mostPickedAnswers[index]++;
