@@ -31,7 +31,7 @@ const getQuestionsMostStudentsGotRight = (
   correctAnswer: number[],
   studentsAnswers: {
     answerIndices: number[];
-    student: { lastName: string; firstName: string; middleName?: string };
+    student: { lastName: string; firstName: string };
   }[],
   topCount: number,
 ): QuestionResult[] => {
@@ -70,7 +70,7 @@ const getQuestionsMostStudentsGotWrong = (
   correctAnswer: number[],
   studentsAnswers: {
     answerIndices: number[];
-    student: { lastName: string; firstName: string; middleName?: string };
+    student: { lastName: string; firstName: string };
   }[],
   topCount: number,
 ): QuestionResult[] => {
@@ -141,7 +141,6 @@ export async function GET(request: Request) {
         student: {
           select: {
             lastName: true,
-            middleName: true,
             firstName: true,
           },
         },
