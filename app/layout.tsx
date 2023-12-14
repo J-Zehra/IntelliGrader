@@ -1,13 +1,10 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import ThemeWrapper from "@/components/wrappers/themeWrapper";
 import Header from "@/components/header";
 import StateWrapper from "@/components/wrappers/stateWrapper";
 import QueryWrapper from "@/components/wrappers/queryWrapper";
 import SessionWrapper from "@/components/wrappers/sessionWrapper";
-
-const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
   manifest: "/manifest.json",
@@ -24,7 +21,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body>
         <SpeedInsights />
         <ThemeWrapper>
           <SessionWrapper>

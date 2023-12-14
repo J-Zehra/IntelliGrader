@@ -1,33 +1,27 @@
 {
-  "theme_color": "#035EDD",
-  "background_color": "#FAFCFF",
+  "id": "ScoreTech",
+  "name": "IntelliGrader",
+  "description": "Online Grading App",
+  "short_name": "IG",
+  "theme_color": "#6a809f",
+  "background_color": "#fafcff",
   "display": "standalone",
   "scope": "/",
-  "start_url": "/signin",
-  "name": "IntelliGrader",
-  "prefer_related_application": true,
-  "description": "IntelliGrader: Advancing Test Scoring through AI and Image Recognition",
-  "short_name": "IntelliGrader",
+  "start_url": "/",
+  "orientation": "portrait",
+  "prefer_related_applications": true,
   "icons": [
     {
       "src": "/icon-192x192.png",
       "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "/icon-256x256.png",
-      "sizes": "256x256",
-      "type": "image/png"
-    },
-    {
-      "src": "/icon-384x384.png",
-      "sizes": "384x384",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     },
     {
       "src": "/icon-512x512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }
