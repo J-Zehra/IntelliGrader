@@ -92,7 +92,7 @@ export default function PDFPage() {
                 style={{
                   width: "100%",
                   flexDirection: "row",
-                  marginTop: ".4in",
+                  marginTop: ".2in",
                   justifyContent: "space-between",
                   alignItems: "center",
                 }}

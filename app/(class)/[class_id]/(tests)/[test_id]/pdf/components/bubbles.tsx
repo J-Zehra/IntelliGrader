@@ -14,14 +14,54 @@ export default function Bubbles({ test }: { test: QuestionPart[] }) {
   return (
     <View
       style={{
-        marginTop: ".2in",
+        marginTop: ".4in",
         height: "80%",
-        border: "1px solid black",
         flexDirection: "row",
         gap: ".5in",
+        position: "relative",
         paddingHorizontal: ".25in",
       }}
     >
+      <View
+        style={{
+          position: "absolute",
+          top: "-.15in",
+          left: "-.15in",
+          width: ".3in",
+          height: ".3in",
+          border: "7.5px solid black",
+        }}
+      />
+      <View
+        style={{
+          position: "absolute",
+          top: "-.15in",
+          right: "-.15in",
+          width: ".3in",
+          height: ".3in",
+          border: "7.5px solid black",
+        }}
+      />
+      <View
+        style={{
+          position: "absolute",
+          bottom: "-.15in",
+          left: "-.15in",
+          width: ".3in",
+          height: ".3in",
+          border: "7.5px solid black",
+        }}
+      />
+      <View
+        style={{
+          position: "absolute",
+          bottom: "-.15in",
+          right: "-.15in",
+          width: ".3in",
+          height: ".3in",
+          border: "7.5px solid black",
+        }}
+      />
       <View
         style={{
           flex: 1,
