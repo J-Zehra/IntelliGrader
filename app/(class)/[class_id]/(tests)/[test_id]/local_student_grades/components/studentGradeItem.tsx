@@ -81,18 +81,6 @@ export default function StudentGradeItem({
               </Text>
             </Skeleton>
             <Stack direction="row" align="center" spacing={3}>
-              <Button
-                bg="palette.background"
-                color="palette.accent"
-                fontSize=".6rem"
-                h="fit-content"
-                maxWidth="fit-content"
-                p=".6rem .7rem"
-                onClick={() => navigate.push(`overview/${grade.roll_number}`)}
-                leftIcon={<AiOutlineEye />}
-              >
-                View Details
-              </Button>
               <Stack align="center" spacing={0.1}>
                 <Text fontSize=".5rem" fontWeight="medi2um" opacity={0.7}>
                   Accuracy

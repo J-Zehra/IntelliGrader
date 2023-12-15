@@ -5,8 +5,6 @@ import React from "react";
 import { AiOutlineScan } from "react-icons/ai";
 import { useParams, useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import axios from "axios";
-import imageCompression, { Options } from "browser-image-compression";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { FetchedTestInfoToProcess } from "@/utils/types";
 import { fileState } from "@/state/fileState";
@@ -41,16 +39,33 @@ export default function GradeButton({
     }
 
     setLoading(true);
-    const options: Options = {
-      maxSizeMB: 0.5,
-      useWebWorker: true,
-      maxWidthOrHeight: 850,
-    };
 
-    async function compressAndAppendImages() {
-      const compressionPromises = files.map(async (file) => {
+    async function scaleImage(image: File, targetWidth: number) {
+      return new Promise((resolve) => {
+        const img = new Image();
+        img.onload = () => {
+          const aspectRatio = img.width / img.height;
+          const targetHeight = targetWidth / aspectRatio;
+
+          const canvas = document.createElement("canvas");
+          canvas.width = targetWidth;
+          canvas.height = targetHeight;
+
+          const ctx = canvas.getContext("2d");
+          ctx!.drawImage(img, 0, 0, targetWidth, targetHeight);
+
+          canvas.toBlob((blob) => {
+            resolve(blob);
+          }, "image/jpeg"); // You can change the format as needed
+        };
+        img.src = URL.createObjectURL(image);
+      });
+    }
+
+    async function compressAndScaleImages() {
+      const scalingPromises = files.map(async (file) => {
         const { image } = file;
-        const compressedFile = await imageCompression(image!, options);
+        const scaledImage = await scaleImage(image!, 600);
 
         return new Promise((resolve) => {
           const reader = new FileReader();
@@ -58,25 +73,25 @@ export default function GradeButton({
             const dataUrl = e.target?.result as string;
             resolve(dataUrl);
           };
-          reader.readAsDataURL(compressedFile!);
+          reader.readAsDataURL(scaledImage as Blob);
         });
       });
 
-      const images = await Promise.all(compressionPromises);
+      const scaledImages = await Promise.all(scalingPromises);
 
       const numberOfChoices = testData!.testParts!.map(
         (part) => part.numberOfChoices || 0,
       );
 
       const data = {
-        images,
+        images: scaledImages,
         answer: testData!.answerIndices,
         numberOfChoices,
       };
       return data;
     }
 
-    compressAndAppendImages().then((data) => {
+    compressAndScaleImages().then((data) => {
       socket.emit("grade", data);
       socket.on("grade_result", (d) => {
         console.log(d);

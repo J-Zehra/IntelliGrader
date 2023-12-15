@@ -4,20 +4,14 @@
 
 "use client";
 
-import {
-  Button,
-  Select,
-  Skeleton,
-  Stack,
-  Text,
-  useToast,
-} from "@chakra-ui/react";
+import { Button, Skeleton, Stack, Text, useToast } from "@chakra-ui/react";
 import { useParams, useRouter } from "next/navigation";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useRecoilValue } from "recoil";
 import { FetchedGradeInfo, Grade } from "@/utils/types";
 import { localGradeInfo } from "@/state/localGradeInfo";
+import Loading from "@/components/loading";
 import StudentGradeItemRest from "./components/studentGradeItemRest";
 import StudentGradeItem from "./components/studentGradeItem";
 
@@ -68,42 +62,48 @@ export default function LocalStudentGrades() {
 
   return (
     <Stack spacing={2} paddingBottom="10rem">
-      <Stack direction="row" w="100%" justify="space-between" align="center">
-        <Text fontSize=".8rem" fontWeight="normal">
-          Total of {studentGrades?.length || localGrade.length}
-          {studentGrades?.length || localGrade.length < 2 ? "paper" : "papers"}
-        </Text>
-        <Select placeholder="Sort" w="6rem" fontSize=".8rem" colorScheme="red">
-          <option value="option1" style={{ fontSize: ".8rem" }}>
-            Highest
-          </option>
-          <option value="option2">Lowest</option>
-        </Select>
-      </Stack>
-      <Stack marginTop={10} spacing={3}>
-        {!isLoading
-          ? localGrade.map((grades: FetchedGradeInfo, index) => {
-              return index === 0 ? (
-                <StudentGradeItem grade={grades} key={grades.roll_number} />
-              ) : (
-                <StudentGradeItemRest grade={grades} key={grades.roll_number} />
-              );
-            })
-          : [0.8, 0.6, 0.4].map((item) => {
-              return (
-                <Skeleton
-                  isLoaded={!isLoading}
-                  key={item}
-                  opacity={item}
-                  borderRadius=".5rem"
-                  h="5rem"
-                />
-              );
-            })}
-      </Stack>
-      <Button onClick={handleSave} isLoading={mutateStudentGrade.isLoading}>
-        Save Records
-      </Button>
+      {mutateStudentGrade.isLoading ? (
+        <Loading message="Saving..." />
+      ) : (
+        <>
+          <Stack
+            direction="row"
+            w="100%"
+            justify="space-between"
+            align="center"
+          >
+            <Text fontSize=".8rem" fontWeight="normal">
+              Total of {localGrade.length}
+              {localGrade.length < 2 ? " paper" : " papers"}
+            </Text>
+          </Stack>
+          <Stack marginTop={10} spacing={3}>
+            {!isLoading
+              ? localGrade.map((grades: FetchedGradeInfo, index) => {
+                  return index === 0 ? (
+                    <StudentGradeItem grade={grades} key={grades.roll_number} />
+                  ) : (
+                    <StudentGradeItemRest
+                      grade={grades}
+                      key={grades.roll_number}
+                    />
+                  );
+                })
+              : [0.8, 0.6, 0.4].map((item) => {
+                  return (
+                    <Skeleton
+                      isLoaded={!isLoading}
+                      key={item}
+                      opacity={item}
+                      borderRadius=".5rem"
+                      h="5rem"
+                    />
+                  );
+                })}
+          </Stack>
+          <Button onClick={handleSave}>Save Records</Button>
+        </>
+      )}
     </Stack>
   );
 }

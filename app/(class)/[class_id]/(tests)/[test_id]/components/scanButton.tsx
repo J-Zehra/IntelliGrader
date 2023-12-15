@@ -1,9 +1,11 @@
+/* eslint-disable no-new */
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import { Button, Center } from "@chakra-ui/react";
+import { Center } from "@chakra-ui/react";
 import React, { ChangeEvent, useRef } from "react";
 import { useSetRecoilState } from "recoil";
 import { useRouter } from "next/navigation";
 import { fileState } from "@/state/fileState";
+import Compressor from "compressorjs";
 
 export default function ScanButton({
   isLoading,
@@ -30,13 +32,18 @@ export default function ScanButton({
         const fileList = Array.from(files);
 
         fileList.forEach((file) => {
-          setImage((prev) => [
-            {
-              image: file,
-              imageUrl: URL.createObjectURL(file),
+          new Compressor(file, {
+            quality: 0.8,
+            success: (result) => {
+              setImage((prev) => [
+                {
+                  image: result as File,
+                  imageUrl: URL.createObjectURL(result),
+                },
+                ...prev,
+              ]);
             },
-            ...prev,
-          ]);
+          });
         });
       }
     };

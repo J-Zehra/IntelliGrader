@@ -9,6 +9,8 @@ import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Grade } from "@/utils/types";
+import { FaCheck } from "react-icons/fa6";
+import { FaTimes } from "react-icons/fa";
 import StudentGradeItemRest from "./components/studentGradeItemRest";
 import StudentGradeItem from "./components/studentGradeItem";
 
@@ -30,6 +32,9 @@ export default function StudentGrades() {
     queryKey: ["get-student-grades", test_id],
   });
 
+  const passed = studentGrades?.filter((grade) => grade.status === "Passed");
+  const failed = studentGrades?.filter((grade) => grade.status === "Failed");
+
   console.log(studentGrades);
 
   return (
@@ -46,15 +51,53 @@ export default function StudentGrades() {
           <option value="option2">Lowest</option>
         </Select>
       </Stack>
-      <Stack marginTop={10} spacing={3}>
+      <Stack paddingTop="1.5rem" direction="row" align="center">
+        {passed && passed?.length > 0 ? (
+          <>
+            <Text fontSize=".8rem">Passed</Text>
+            <FaCheck />
+          </>
+        ) : null}
+      </Stack>
+      <Stack marginTop={1} spacing={3}>
         {!isLoading
-          ? studentGrades?.map((grades: Grade, index) => {
+          ? passed?.map((grades: Grade, index) => {
               return index === 0 ? (
                 <StudentGradeItem
                   grade={grades}
                   key={grades.student.rollNumber}
                 />
               ) : (
+                <StudentGradeItemRest
+                  grade={grades}
+                  key={grades.student.rollNumber}
+                />
+              );
+            })
+          : [0.8, 0.6, 0.4].map((item) => {
+              return (
+                <Skeleton
+                  isLoaded={!isLoading}
+                  key={item}
+                  opacity={item}
+                  borderRadius=".5rem"
+                  h="5rem"
+                />
+              );
+            })}
+      </Stack>
+      <Stack paddingTop="1.5rem" direction="row" align="center">
+        {failed && failed?.length > 0 ? (
+          <>
+            <Text fontSize=".8rem">Failed</Text>
+            <FaTimes />
+          </>
+        ) : null}
+      </Stack>
+      <Stack marginTop={1} spacing={3}>
+        {!isLoading
+          ? failed?.map((grades: Grade) => {
+              return (
                 <StudentGradeItemRest
                   grade={grades}
                   key={grades.student.rollNumber}

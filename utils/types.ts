@@ -75,6 +75,7 @@ export type Grade = {
   numberOfWrong: number;
   answerIndices: number[];
   student: StudentInfo;
+  status: string;
   test: { answerIndices: number[] };
 };
 
