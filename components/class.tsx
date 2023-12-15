@@ -6,6 +6,7 @@ import { useRouter } from "next/navigation";
 import { ClassVariant, FetchedClassInfo } from "@/utils/types";
 import { item as animationItem } from "@/utils/animations";
 import { headerState } from "@/state/headerState";
+import moment from "moment";
 import MoreOptions from "./moreOptions";
 
 export default function Class({
@@ -99,20 +100,31 @@ export default function Class({
         >
           {`${classInfo.program} ${classInfo.year}`}
         </Text>
-        <Stack color={textColorVariant()} direction="row" spacing={4}>
-          <Center p=".1rem" fontSize="1.2rem" cursor="pointer" opacity=".8">
-            <BsBarChartLine />
-          </Center>
-          <Button
-            bg="palette.background"
-            color="palette.text"
-            p=".5rem 1rem"
-            fontSize=".8rem"
-            h="fit-content"
-            onClick={handleClick}
-          >
-            Open
-          </Button>
+        <Stack
+          w="100%"
+          direction="row"
+          color="palette.background"
+          align="center"
+          justify="space-between"
+        >
+          <Text fontSize=".8rem" fontWeight="light" opacity={0.8}>
+            {moment(classInfo.createdAt).fromNow()}
+          </Text>
+          <Stack color={textColorVariant()} direction="row" spacing={4}>
+            <Center p=".1rem" fontSize="1.2rem" cursor="pointer" opacity=".8">
+              <BsBarChartLine />
+            </Center>
+            <Button
+              bg="palette.background"
+              color="palette.text"
+              p=".5rem 1rem"
+              fontSize=".8rem"
+              h="fit-content"
+              onClick={handleClick}
+            >
+              Open
+            </Button>
+          </Stack>
         </Stack>
       </Stack>
     </Stack>

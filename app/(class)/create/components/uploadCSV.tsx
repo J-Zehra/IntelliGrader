@@ -25,12 +25,31 @@ const transformData = (data: any[]) => {
     .filter((row) => !isRowEmpty(row))
     .map((row) => {
       const obj: Record<string, any> = {};
+      let hasRequiredFields = false; // Flag to check if required fields are present
+
       row.forEach((value: string, index: number) => {
         // Use attributes from the first row as keys
         obj[attributes[index]] = value;
+
+        // Check if firstName and lastName are present
+        if (
+          attributes[index] === "firstName" &&
+          value.trim() !== "" &&
+          attributes.includes("lastName") &&
+          row[attributes.indexOf("lastName")].trim() !== ""
+        ) {
+          hasRequiredFields = true;
+        }
       });
+
+      // If required fields are not present, return null
+      if (!hasRequiredFields) {
+        return null;
+      }
+
       return obj;
-    });
+    })
+    .filter(Boolean); // Filter out null values
 
   return objectsArray as unknown as StudentName[];
 };

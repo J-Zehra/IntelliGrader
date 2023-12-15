@@ -97,7 +97,7 @@ export default function Test({
               borderColor="palette.light"
             />
             <Text fontSize=".7rem" fontWeight="medium" opacity={0.6}>
-              {`${testInfo._count.testParts} parts`}
+              {`${testInfo._count?.testParts} parts`}
             </Text>
           </Stack>
           <Divider borderColor="palette.light" opacity={0.2} />
@@ -122,7 +122,7 @@ export default function Test({
           opacity={0.6}
           color="palette.background"
         >
-          {`${moment(testInfo.createdAt).startOf("hour").fromNow()}`}
+          {`${moment(testInfo.createdAt).fromNow()}`}
         </Text>
         <Stack color={textColorVariant()} direction="row" spacing={4}>
           <Center

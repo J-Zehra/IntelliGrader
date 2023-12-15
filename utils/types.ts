@@ -162,6 +162,8 @@ export type FetchedSingleGrade = {
   numberOfIncorrect: number;
   answerIndices: number[];
   student: StudentInfo;
+  createAt: string;
+  updatedAt: string;
   test: {
     answerIndices: number[];
     testParts: QuestionPart[];

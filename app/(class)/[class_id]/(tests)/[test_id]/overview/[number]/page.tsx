@@ -19,6 +19,7 @@ import axios from "axios";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { FetchedGradeInfo, FetchedSingleGrade } from "@/utils/types";
 import { queryClient } from "@/components/wrappers/queryWrapper";
+import moment from "moment";
 import Accuracy from "../components/accuracy";
 import Streaks from "../components/streaks";
 import Correct from "../components/correct";
@@ -84,6 +85,9 @@ export default function OverviewPage() {
         </SkeletonText>
         <Text fontWeight="medium">performance for this test</Text>
       </Stack>
+      <Text fontWeight="medium" fontSize=".8rem" paddingTop="1rem">
+        {moment(grade?.createAt).calendar()}
+      </Text>
       <Wrap justify="center" pt={8} spacing={5}>
         <Skeleton isLoaded={!isLoading} borderRadius=".5rem">
           <Accuracy
