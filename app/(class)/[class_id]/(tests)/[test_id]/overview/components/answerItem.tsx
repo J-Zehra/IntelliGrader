@@ -53,14 +53,14 @@ export default function AnswerItem({
       </Center>
       <Box flex={10}>
         {answerIndex === -1 ? (
-          <Center h="100%" w="100%">
-            <Text color="palette.light" fontWeight="semibold">
+          <Center h="100%" justifyContent="start" paddingLeft="1rem" w="100%">
+            <Text color="palette.text" opacity={0.6} fontWeight="semibold">
               UNSHADED
             </Text>
           </Center>
         ) : answerIndex === -2 ? (
-          <Center h="100%" w="100%">
-            <Text color="palette.light" fontWeight="semibold">
+          <Center h="100%" justifyContent="start" paddingLeft="1rem" w="100%">
+            <Text color="palette.text" opacity={0.6} fontWeight="semibold">
               MULTI SHADED
             </Text>
           </Center>
