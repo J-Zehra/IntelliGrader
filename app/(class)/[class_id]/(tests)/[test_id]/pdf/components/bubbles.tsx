@@ -27,9 +27,9 @@ export default function Bubbles({ test }: { test: QuestionPart[] }) {
           position: "absolute",
           top: "-.15in",
           left: "-.15in",
-          width: ".3in",
-          height: ".3in",
-          border: "7.5px solid black",
+          width: ".25in",
+          height: ".25in",
+          border: "6.5px solid black",
         }}
       />
       <View
@@ -37,9 +37,9 @@ export default function Bubbles({ test }: { test: QuestionPart[] }) {
           position: "absolute",
           top: "-.15in",
           right: "-.15in",
-          width: ".3in",
-          height: ".3in",
-          border: "7.5px solid black",
+          width: ".25in",
+          height: ".25in",
+          border: "6.5px solid black",
         }}
       />
       <View
@@ -47,9 +47,9 @@ export default function Bubbles({ test }: { test: QuestionPart[] }) {
           position: "absolute",
           bottom: "-.15in",
           left: "-.15in",
-          width: ".3in",
-          height: ".3in",
-          border: "7.5px solid black",
+          width: ".25in",
+          height: ".25in",
+          border: "6.5px solid black",
         }}
       />
       <View
@@ -57,9 +57,9 @@ export default function Bubbles({ test }: { test: QuestionPart[] }) {
           position: "absolute",
           bottom: "-.15in",
           right: "-.15in",
-          width: ".3in",
-          height: ".3in",
-          border: "7.5px solid black",
+          width: ".25in",
+          height: ".25in",
+          border: "6.5px solid black",
         }}
       />
       <View
@@ -97,13 +97,14 @@ export default function Bubbles({ test }: { test: QuestionPart[] }) {
             gap: ".07in",
           }}
         >
-          {[...Array(part2.totalNumber)].map((_, index) => (
-            <Parts
-              index={index}
-              key={index}
-              numberOfChoices={part2.numberOfChoices}
-            />
-          ))}
+          {part2 &&
+            [...Array(part2.totalNumber)].map((_, index) => (
+              <Parts
+                index={index}
+                key={index}
+                numberOfChoices={part2.numberOfChoices}
+              />
+            ))}
         </View>
       </View>
 
