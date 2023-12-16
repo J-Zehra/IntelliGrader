@@ -1,6 +1,6 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Button } from "@chakra-ui/react";
+import { Button, useToast } from "@chakra-ui/react";
 import React from "react";
 import { AiOutlineScan } from "react-icons/ai";
 import { useParams, useRouter } from "next/navigation";
@@ -19,6 +19,7 @@ export default function GradeButton({
 }) {
   const { test_id } = useParams();
   const navigate = useRouter();
+  const toast = useToast();
   const [files, setFiles] = useRecoilState(fileState);
   const setLocalGradeInfo = useSetRecoilState(localGradeInfo);
 
@@ -96,10 +97,18 @@ export default function GradeButton({
       socket.emit("grade", data);
       socket.on("grade_result", (d) => {
         console.log(d);
+
+        if (d.status === "invalid") {
+          toast({
+            title: "Invalid",
+            position: "bottom",
+            status: "error",
+          });
+          return;
+        }
         setLocalGradeInfo(d);
         setFiles([]);
         navigate.push("local_student_grades");
-        // mutateStudentGrade.mutate(d);
       });
     });
   };
