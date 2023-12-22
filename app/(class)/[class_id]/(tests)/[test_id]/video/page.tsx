@@ -10,7 +10,7 @@ export default function VideoPage() {
   return (
     <Box w="100%" bg="rgba(0, 0, 0, .1)" h="100vh">
       <Image
-        src="http://127.0.0.1:5000/video_feed"
+        src="https://intelli-grader-backend-43b270ab373f.herokuapp.com/video_feed"
         alt="Camera Feed"
         style={{ width: "100%", height: "100%" }}
       />
