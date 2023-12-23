@@ -13,7 +13,6 @@ import { fileState } from "@/state/fileState";
 import { FetchedTestInfo } from "@/utils/types";
 import { queryClient } from "@/components/wrappers/queryWrapper";
 import Preview from "../components/preview";
-import { socket } from "../socket";
 
 export default function ScanPage() {
   const { test_id } = useParams();
@@ -33,10 +32,6 @@ export default function ScanPage() {
     };
     prefetchClassInfo();
   }, [test_id]);
-
-  socket.on("connect_emit", (data) => {
-    console.log(data);
-  });
 
   if (image.length > 0) {
     return <Preview />;
