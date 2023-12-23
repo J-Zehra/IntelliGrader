@@ -1,18 +1,33 @@
-/* eslint-disable no-constant-condition */
-/* eslint-disable no-await-in-loop */
-/* eslint-disable jsx-a11y/media-has-caption */
-
 "use client";
 
-import { Box, Image } from "@chakra-ui/react";
+import { Box } from "@chakra-ui/react";
+import { useEffect, useRef } from "react";
+import Webcam from "react-webcam";
+import { socket } from "../socket";
 
 export default function VideoPage() {
+  const webcamRef = useRef<Webcam>(null);
+
+  useEffect(() => {
+    const captureFrame = () => {
+      const imageSrc = webcamRef.current?.getScreenshot();
+      if (imageSrc) {
+        socket.emit("image", imageSrc);
+      }
+    };
+
+    const interval = setInterval(captureFrame, 100); // Adjust the interval as needed
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <Box w="100%" bg="rgba(0, 0, 0, .1)" h="100vh">
-      <Image
-        src="https://intelli-grader-backend-43b270ab373f.herokuapp.com/video_feed"
-        alt="Camera Feed"
-        style={{ width: "100%", height: "100%" }}
+      <Webcam
+        audio={false}
+        ref={webcamRef}
+        screenshotFormat="image/jpeg"
+        videoConstraints={{ facingMode: "environment" }}
       />
     </Box>
   );
