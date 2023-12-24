@@ -1,7 +1,7 @@
 "use client";
 
-import { Box } from "@chakra-ui/react";
-import { useEffect, useRef } from "react";
+import { Box, Text } from "@chakra-ui/react";
+import { useEffect, useRef, useState } from "react";
 import Webcam from "react-webcam";
 import { useSetRecoilState } from "recoil";
 import { localGradeInfo } from "@/state/localGradeInfo";
@@ -11,6 +11,7 @@ import { socket } from "../socket";
 export default function VideoPage() {
   const setLocalGradesInfo = useSetRecoilState(localGradeInfo);
   const navigate = useRouter();
+  const [openCamera, setOpenCamera] = useState<boolean>(true);
   const webcamRef = useRef<Webcam>(null);
 
   useEffect(() => {
@@ -28,6 +29,7 @@ export default function VideoPage() {
 
   socket.on("request_test_data", (data) => {
     console.log(data);
+    setOpenCamera(false);
 
     const testData = {
       rollNumberSection: data.rollNumberSection,
@@ -55,18 +57,22 @@ export default function VideoPage() {
       bg="rgba(0, 0, 0, .1)"
       h="100vh"
     >
-      <Webcam
-        audio={false}
-        ref={webcamRef}
-        screenshotFormat="image/jpeg"
-        minScreenshotHeight={910}
-        minScreenshotWidth={595}
-        videoConstraints={{
-          facingMode: "environment",
-          aspectRatio: 4 / 3,
-        }}
-        allowFullScreen
-      />
+      {openCamera ? (
+        <Webcam
+          audio={false}
+          ref={webcamRef}
+          screenshotFormat="image/jpeg"
+          minScreenshotHeight={910}
+          minScreenshotWidth={595}
+          videoConstraints={{
+            facingMode: "environment",
+            aspectRatio: 4 / 3,
+          }}
+          allowFullScreen
+        />
+      ) : (
+        <Text>Processing</Text>
+      )}
     </Box>
   );
 }
