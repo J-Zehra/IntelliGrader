@@ -63,8 +63,6 @@ export default function VideoPage() {
         minScreenshotWidth={595}
         videoConstraints={{
           facingMode: "environment",
-          height: 910,
-          width: 595,
           aspectRatio: 4 / 3,
         }}
         allowFullScreen
