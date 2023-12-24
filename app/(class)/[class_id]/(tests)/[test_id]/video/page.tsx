@@ -58,7 +58,7 @@ export default function VideoPage() {
       <Webcam
         audio={false}
         ref={webcamRef}
-        screenshotFormat="image/webp"
+        screenshotFormat="image/jpeg"
         minScreenshotHeight={910}
         minScreenshotWidth={595}
         videoConstraints={{
