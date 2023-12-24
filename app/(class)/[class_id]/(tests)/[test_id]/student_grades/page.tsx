@@ -4,7 +4,7 @@
 
 "use client";
 
-import { Select, Skeleton, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, Select, Skeleton, Stack, Text } from "@chakra-ui/react";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -35,8 +35,6 @@ export default function StudentGrades() {
   const passed = studentGrades?.filter((grade) => grade.status === "Passed");
   const failed = studentGrades?.filter((grade) => grade.status === "Failed");
 
-  console.log(studentGrades);
-
   return (
     <Stack spacing={2} paddingBottom="10rem">
       <Stack direction="row" w="100%" justify="space-between" align="center">
@@ -51,14 +49,15 @@ export default function StudentGrades() {
           <option value="option2">Lowest</option>
         </Select>
       </Stack>
-      <Stack paddingTop="1.5rem" direction="row" align="center">
-        {passed && passed?.length > 0 ? (
-          <>
-            <Text fontSize=".8rem">Passed</Text>
-            <FaCheck />
-          </>
-        ) : null}
-      </Stack>
+      <Box w="100%" paddingTop="1rem">
+        <Button w="100%">Generate Graded Tests</Button>
+      </Box>
+      {passed && passed?.length > 0 ? (
+        <Stack paddingTop="1.5rem" direction="row" align="center">
+          <Text fontSize=".8rem">Passed</Text>
+          <FaCheck />
+        </Stack>
+      ) : null}
       <Stack marginTop={1} spacing={3}>
         {!isLoading
           ? passed?.map((grades: Grade, index) => {
@@ -86,14 +85,12 @@ export default function StudentGrades() {
               );
             })}
       </Stack>
-      <Stack paddingTop="1.5rem" direction="row" align="center">
-        {failed && failed?.length > 0 ? (
-          <>
-            <Text fontSize=".8rem">Failed</Text>
-            <FaTimes />
-          </>
-        ) : null}
-      </Stack>
+      {failed && failed?.length > 0 ? (
+        <Stack paddingTop="1.5rem" direction="row" align="center">
+          <Text fontSize=".8rem">Failed</Text>
+          <FaTimes />
+        </Stack>
+      ) : null}
       <Stack marginTop={1} spacing={3}>
         {!isLoading
           ? failed?.map((grades: Grade) => {

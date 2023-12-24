@@ -8,6 +8,7 @@ import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { FetchedTestInfo } from "@/utils/types";
+import moment from "moment";
 import AnswerSheet from "./components/answerSheet";
 
 export default function SettingsPage() {
@@ -69,6 +70,12 @@ export default function SettingsPage() {
             <Text fontSize=".9rem">Parts</Text>
             <Text color="palette.accent" fontSize=".9rem" fontWeight="semibold">
               {test?.testParts?.length}
+            </Text>
+          </Stack>
+          <Stack direction="row" justify="space-between" align="center">
+            <Text fontSize=".9rem">Date Created</Text>
+            <Text color="palette.accent" fontSize=".9rem" fontWeight="semibold">
+              {moment(test?.createdAt).format("MMM Do YYYY")}
             </Text>
           </Stack>
         </Stack>

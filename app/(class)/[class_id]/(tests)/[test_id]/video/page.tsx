@@ -1,6 +1,6 @@
 "use client";
 
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Image, Stack } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import Webcam from "react-webcam";
 import { useSetRecoilState } from "recoil";
@@ -10,6 +10,8 @@ import { socket } from "../socket";
 
 export default function VideoPage() {
   const setLocalGradesInfo = useSetRecoilState(localGradeInfo);
+  const [rollNumberSection, setRollNumberSection] = useState("");
+  const [bubbleSection, setBubbleSection] = useState("");
   const navigate = useRouter();
   const [openCamera, setOpenCamera] = useState<boolean>(true);
   const webcamRef = useRef<Webcam>(null);
@@ -30,6 +32,8 @@ export default function VideoPage() {
   socket.on("request_test_data", (data) => {
     console.log(data);
     setOpenCamera(false);
+    setRollNumberSection(data.rollNumberSection);
+    setBubbleSection(data.bubbleSection);
 
     const testData = {
       rollNumberSection: data.rollNumberSection,
@@ -71,7 +75,32 @@ export default function VideoPage() {
           allowFullScreen
         />
       ) : (
-        <Text>Processing</Text>
+        <Stack w="100%">
+          <Image
+            alt="Processed Image"
+            src={`data:image/jpeg;base64, ${bubbleSection}`}
+            width={500}
+            height={500}
+            style={{
+              width: "100%",
+              height: "100%",
+              borderRadius: ".4rem",
+              opacity: 0.8,
+            }}
+          />
+          <Image
+            alt="Processed Image"
+            src={`data:image/jpeg;base64, ${rollNumberSection}`}
+            width={500}
+            height={500}
+            style={{
+              width: "100%",
+              height: "100%",
+              borderRadius: ".4rem",
+              opacity: 0.8,
+            }}
+          />
+        </Stack>
       )}
     </Box>
   );

@@ -108,6 +108,11 @@ export default function OverviewPage() {
           <Incorrect incorrect={grade?.numberOfIncorrect} />
         </Skeleton>
       </Wrap>
+
+      <Box paddingTop="1.5rem" w="100%">
+        <Button w="100%">Download</Button>
+      </Box>
+
       <Stack mt={10} spacing={5}>
         <Text fontSize=".8rem" fontWeight="medium">
           Answers Overview
