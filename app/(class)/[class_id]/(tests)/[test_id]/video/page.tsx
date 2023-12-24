@@ -65,9 +65,8 @@ export default function VideoPage() {
           facingMode: "environment",
           height: 910,
           width: 595,
+          aspectRatio: 4 / 3,
         }}
-        height="100%"
-        width="100%"
         allowFullScreen
       />
     </Box>
