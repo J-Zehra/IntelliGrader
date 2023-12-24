@@ -58,8 +58,14 @@ export default function VideoPage() {
       <Webcam
         audio={false}
         ref={webcamRef}
-        screenshotFormat="image/jpeg"
-        videoConstraints={{ facingMode: "environment", aspectRatio: 4 / 3 }}
+        screenshotFormat="image/webp"
+        minScreenshotHeight={910}
+        minScreenshotWidth={595}
+        videoConstraints={{
+          facingMode: "environment",
+          height: 910,
+          width: 595,
+        }}
         height="100%"
         width="100%"
         allowFullScreen
