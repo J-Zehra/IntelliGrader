@@ -19,7 +19,7 @@ export default function VideoPage() {
   useEffect(() => {
     const captureFrame = () => {
       const imageSrc = webcamRef.current?.getScreenshot();
-      if (imageSrc) {
+      if (imageSrc && !rollNumberSection && !bubbleSection) {
         socket.emit("image", imageSrc);
       }
     };
