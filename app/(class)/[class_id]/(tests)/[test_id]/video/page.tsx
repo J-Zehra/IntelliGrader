@@ -75,7 +75,7 @@ export default function VideoPage() {
           allowFullScreen
         />
       ) : (
-        <Stack w="100%">
+        <Stack w="100%" h="100%" p="1rem">
           <Image
             alt="Processed Image"
             src={`data:image/jpeg;base64, ${bubbleSection}`}
@@ -84,8 +84,6 @@ export default function VideoPage() {
             style={{
               width: "100%",
               height: "100%",
-              borderRadius: ".4rem",
-              opacity: 0.8,
             }}
           />
           <Image
@@ -96,8 +94,6 @@ export default function VideoPage() {
             style={{
               width: "100%",
               height: "100%",
-              borderRadius: ".4rem",
-              opacity: 0.8,
             }}
           />
         </Stack>
