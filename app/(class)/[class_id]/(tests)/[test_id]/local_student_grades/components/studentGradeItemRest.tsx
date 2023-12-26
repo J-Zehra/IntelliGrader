@@ -40,7 +40,7 @@ export default function StudentGradeItemRest({
 
   const { data: student, isLoading } = useQuery({
     queryFn: getStudent,
-    queryKey: ["get-student", class_id],
+    queryKey: ["get-student", class_id, grade.roll_number],
   });
 
   return (

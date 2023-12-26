@@ -96,7 +96,7 @@ export default function GradeButton({
     compressAndScaleImages().then((data) => {
       socket.emit("grade", data);
       socket.on("grade_result", (d) => {
-        console.log(d);
+        console.log("Result", d);
 
         if (d.status === "invalid") {
           toast({

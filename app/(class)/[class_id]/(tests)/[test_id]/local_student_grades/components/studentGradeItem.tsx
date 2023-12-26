@@ -41,10 +41,8 @@ export default function StudentGradeItem({
 
   const { data: student, isLoading } = useQuery({
     queryFn: getStudent,
-    queryKey: ["get-student", class_id],
+    queryKey: ["get-student", class_id, grade.roll_number],
   });
-
-  console.log(grade);
 
   return (
     <>

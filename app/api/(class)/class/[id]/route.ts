@@ -9,9 +9,9 @@ export async function GET(
 ) {
   const { id } = params;
   try {
-    const courseName = await prisma.class.findFirst({
+    const classInfo = await prisma.class.findFirst({
       where: { id },
-      select: { course: true },
+      select: { course: true, program: true },
     });
 
     const totalStudents = await prisma.student.count({
@@ -28,7 +28,8 @@ export async function GET(
     });
 
     const data = {
-      course: courseName?.course,
+      program: classInfo?.program,
+      course: classInfo?.course,
       totalStudents,
       totalTests,
       totalTestSCompleted: totalTestSCompleted._count.status,

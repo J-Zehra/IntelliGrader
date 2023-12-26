@@ -4,12 +4,12 @@
 
 "use client";
 
-import { Button, Skeleton, Stack, Text, useToast } from "@chakra-ui/react";
+import { Button, Stack, Text, useToast } from "@chakra-ui/react";
 import { useParams, useRouter } from "next/navigation";
-import { useMutation, useQuery } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { useRecoilValue } from "recoil";
-import { FetchedGradeInfo, Grade } from "@/utils/types";
+import { FetchedGradeInfo } from "@/utils/types";
 import { localGradeInfo } from "@/state/localGradeInfo";
 import Loading from "@/components/loading";
 import StudentGradeItemRest from "./components/studentGradeItemRest";
@@ -20,21 +20,6 @@ export default function LocalStudentGrades() {
   const toast = useToast();
   const navigate = useRouter();
   const localGrade = useRecoilValue(localGradeInfo);
-
-  const getStudentGrades = async () => {
-    const id = test_id;
-    let studentGrade: Grade[] = [];
-    await axios.get(`/api/student_grades/${id}`).then((res) => {
-      studentGrade = res.data;
-    });
-
-    return studentGrade;
-  };
-
-  const { data: studentGrades, isLoading } = useQuery({
-    queryFn: getStudentGrades,
-    queryKey: ["get-student-grades", test_id],
-  });
 
   const createStudentGrade = (grades: FetchedGradeInfo[]) => {
     const data = { testId: test_id, grades, classId: class_id };
@@ -58,8 +43,6 @@ export default function LocalStudentGrades() {
     mutateStudentGrade.mutate(localGrade);
   };
 
-  console.log(studentGrades);
-
   return (
     <Stack spacing={2} paddingBottom="10rem">
       {mutateStudentGrade.isLoading ? (
@@ -78,28 +61,13 @@ export default function LocalStudentGrades() {
             </Text>
           </Stack>
           <Stack marginTop={10} spacing={3}>
-            {!isLoading
-              ? localGrade.map((grades: FetchedGradeInfo, index) => {
-                  return index === 0 ? (
-                    <StudentGradeItem grade={grades} key={grades.roll_number} />
-                  ) : (
-                    <StudentGradeItemRest
-                      grade={grades}
-                      key={grades.roll_number}
-                    />
-                  );
-                })
-              : [0.8, 0.6, 0.4].map((item) => {
-                  return (
-                    <Skeleton
-                      isLoaded={!isLoading}
-                      key={item}
-                      opacity={item}
-                      borderRadius=".5rem"
-                      h="5rem"
-                    />
-                  );
-                })}
+            {localGrade.map((grades: FetchedGradeInfo, index) => {
+              return index === 0 ? (
+                <StudentGradeItem grade={grades} key={grades.roll_number} />
+              ) : (
+                <StudentGradeItemRest grade={grades} key={grades.roll_number} />
+              );
+            })}
           </Stack>
           <Button onClick={handleSave}>Save Records</Button>
         </>

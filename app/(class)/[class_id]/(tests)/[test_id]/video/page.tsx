@@ -27,7 +27,7 @@ export default function VideoPage() {
     const interval = setInterval(captureFrame, 100); // Adjust the interval as needed
 
     return () => clearInterval(interval);
-  }, []);
+  }, [bubbleSection, rollNumberSection]);
 
   socket.on("request_test_data", (data) => {
     console.log(data);
