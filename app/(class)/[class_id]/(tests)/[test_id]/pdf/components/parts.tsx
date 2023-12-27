@@ -27,8 +27,8 @@ export default function Parts({
         <View
           key={choiceIndex}
           style={{
-            width: ".20in",
-            height: ".20in",
+            width: ".15in",
+            height: ".15in",
             border: "1px solid black",
             borderRadius: "2in",
           }}

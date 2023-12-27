@@ -26,6 +26,7 @@ export async function GET(
         test: {
           select: {
             answerIndices: true,
+            testParts: true,
           },
         },
       },

@@ -3,18 +3,22 @@
 
 "use client";
 
+import Loading from "@/components/loading";
+import { FetchedTestInfoToGeneratePaper, Grade } from "@/utils/types";
 import {
   Document,
-  Page,
-  View,
-  StyleSheet,
-  PDFViewer,
   PDFDownloadLink,
+  PDFViewer,
+  StyleSheet,
+  Page,
   Text,
+  View,
+  Image,
 } from "@react-pdf/renderer";
+import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useParams } from "next/navigation";
-import { useQuery } from "@tanstack/react-query";
+import React from "react";
 import {
   Button,
   Stack,
@@ -22,12 +26,10 @@ import {
   Text as ChakraText,
 } from "@chakra-ui/react";
 import Lottie from "react-lottie-player";
-import { FetchedTestInfoToGeneratePaper } from "@/utils/types";
-import Loading from "@/components/loading";
-import ControlNumber from "./components/controlNumber";
-import TestInfo from "./components/testInfo";
-import Bubbles from "./components/bubbles";
-import DoneAnimation from "../../../../../../public/done_animation.json";
+import ControlNumber from "../components/controlNumber";
+import TestInfo from "../components/testInfo";
+import DoneAnimation from "../../../../../../../public/done_animation.json";
+import GradedBubbles from "../components/gradedBubbles";
 
 const styles = StyleSheet.create({
   page: {
@@ -43,11 +45,26 @@ const styles = StyleSheet.create({
   },
 });
 
-export default function PDFPage() {
+export default function GradedPDF() {
   const { test_id } = useParams();
   const [isLargerThan30] = useMediaQuery("(min-width: 30em)");
 
-  const { data: testData, isLoading } = useQuery({
+  const getStudentGrades = async () => {
+    const id = test_id;
+    let studentGrade: Grade[] = [];
+    await axios.get(`/api/student_grades/${id}`).then((res) => {
+      studentGrade = res.data;
+    });
+
+    return studentGrade;
+  };
+
+  const { data: studentGrades, isLoading } = useQuery({
+    queryFn: getStudentGrades,
+    queryKey: ["get-student-grades", test_id],
+  });
+
+  const { data: testData, isLoading: isTestDataLoading } = useQuery({
     queryKey: ["generate-paper"],
     queryFn: async () => {
       let test: Partial<FetchedTestInfoToGeneratePaper> = {};
@@ -59,16 +76,16 @@ export default function PDFPage() {
     },
   });
 
-  console.log(testData);
+  console.log(studentGrades);
 
-  if (isLoading) {
+  if (isLoading || isTestDataLoading) {
     return <Loading message="Generating" />;
   }
 
   function BubbleSheetDoc() {
     return (
       <Document>
-        {testData?.class?.students?.map((student) => {
+        {studentGrades?.map((student) => {
           return (
             <Page size={[8.5 * 72, 13 * 72]} style={styles.page}>
               <View
@@ -80,9 +97,29 @@ export default function PDFPage() {
                 }}
               >
                 <Text style={{ fontWeight: "bold", fontSize: ".2in" }}>
-                  {testData.testName}
+                  {testData!.testName}
                 </Text>
-                <ControlNumber number={student.rollNumber} />
+                <Text
+                  style={{
+                    fontWeight: "bold",
+                    fontSize: ".35in",
+                    color: student.status === "Passed" ? "#259358" : "#C81A1A",
+                    marginLeft: ".5in",
+                  }}
+                >
+                  {`${student.numberOfCorrect}/${student.answerIndices.length}`}
+                </Text>
+                <Image
+                  src={
+                    student.status === "Passed" ? "/passed.png" : "/failed.png"
+                  }
+                  style={{
+                    width: "1.2in",
+                    marginLeft: ".5in",
+                    transform: "rotate(-15deg)",
+                  }}
+                />
+                <ControlNumber number={student.student.rollNumber} />
               </View>
               <View
                 style={{
@@ -93,16 +130,18 @@ export default function PDFPage() {
                 }}
               />
               <TestInfo
-                name={`${student.firstName} ${student.middleName.charAt(0)}. ${
-                  student.lastName
+                name={`${
+                  student.student.firstName
+                } ${student.student.middleName.charAt(0)}. ${
+                  student.student.lastName
                 }`}
-                course={testData.class!.course}
-                programAndSection={`${testData.class!.program} ${
-                  testData.class!.section
+                course={testData!.class!.course}
+                programAndSection={`${testData!.class!.program} ${
+                  testData!.class!.section
                 }`}
                 date=""
               />
-              <Bubbles test={testData.testParts!} />
+              <GradedBubbles test={testData!.testParts!} grade={student} />
             </Page>
           );
         })}
@@ -129,7 +168,7 @@ export default function PDFPage() {
         </ChakraText>
         <PDFDownloadLink
           document={<BubbleSheetDoc />}
-          fileName={`${testData?.class?.program} | ${testData?.testName} - Bubble Sheet`}
+          fileName={`${testData?.class?.program} | ${testData?.testName} - Graded Test Papers`}
         >
           <Button>Download</Button>
         </PDFDownloadLink>

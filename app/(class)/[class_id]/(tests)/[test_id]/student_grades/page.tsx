@@ -5,7 +5,7 @@
 "use client";
 
 import { Box, Button, Select, Skeleton, Stack, Text } from "@chakra-ui/react";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Grade } from "@/utils/types";
@@ -16,6 +16,7 @@ import StudentGradeItem from "./components/studentGradeItem";
 
 export default function StudentGrades() {
   const { test_id } = useParams();
+  const navigate = useRouter();
 
   const getStudentGrades = async () => {
     const id = test_id;
@@ -50,7 +51,9 @@ export default function StudentGrades() {
         </Select>
       </Stack>
       <Box w="100%" paddingTop="1rem">
-        <Button w="100%">Generate Graded Tests</Button>
+        <Button w="100%" onClick={() => navigate.push("pdf/graded")}>
+          Generate Graded Tests
+        </Button>
       </Box>
       {passed && passed?.length > 0 ? (
         <Stack paddingTop="1.5rem" direction="row" align="center">
