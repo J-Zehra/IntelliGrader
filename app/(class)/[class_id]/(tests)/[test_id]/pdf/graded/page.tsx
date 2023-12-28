@@ -26,6 +26,7 @@ import {
   Text as ChakraText,
 } from "@chakra-ui/react";
 import Lottie from "react-lottie-player";
+import moment from "moment";
 import ControlNumber from "../components/controlNumber";
 import TestInfo from "../components/testInfo";
 import DoneAnimation from "../../../../../../../public/done_animation.json";
@@ -139,7 +140,7 @@ export default function GradedPDF() {
                 programAndSection={`${testData!.class!.program} ${
                   testData!.class!.section
                 }`}
-                date=""
+                date={moment(student.createdAt).format("MMM Do YYYY")}
               />
               <GradedBubbles test={testData!.testParts!} grade={student} />
             </Page>

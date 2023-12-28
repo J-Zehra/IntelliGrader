@@ -35,7 +35,7 @@ export default function TestInfo({
       <View style={{ gap: ".25in" }}>
         <View style={{ flexDirection: "row", gap: ".1in" }}>
           <Text style={{ opacity: 0.6 }}>Date: </Text>
-          <View style={{ width: "2in", borderBottom: "1px solid #B3B3B3" }} />
+          <Text style={{ fontWeight: "semibold" }}>{date}</Text>
         </View>
         <View style={{ flexDirection: "row", gap: ".1in" }}>
           <Text style={{ opacity: 0.6 }}>Course: </Text>

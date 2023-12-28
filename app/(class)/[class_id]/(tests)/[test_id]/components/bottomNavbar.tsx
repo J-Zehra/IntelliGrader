@@ -48,7 +48,10 @@ export default function BottomNavbar() {
     return null;
   }
 
-  if (path === `/${class_id}/${test_id}/pdf`) {
+  if (
+    path === `/${class_id}/${test_id}/pdf` ||
+    path === `/${class_id}/${test_id}/pdf/graded`
+  ) {
     return null;
   }
 

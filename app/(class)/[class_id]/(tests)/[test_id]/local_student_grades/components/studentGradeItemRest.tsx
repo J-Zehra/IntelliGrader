@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { AiOutlineEye } from "react-icons/ai";
-import { Box, Button, Divider, Skeleton, Stack, Text } from "@chakra-ui/react";
+import { Box, Divider, Skeleton, Stack, Text } from "@chakra-ui/react";
 import Image from "next/image";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { FetchedGradeInfo } from "@/utils/types";
@@ -12,7 +11,6 @@ export default function StudentGradeItemRest({
 }: {
   grade: FetchedGradeInfo;
 }) {
-  const navigate = useRouter();
   const { class_id } = useParams();
 
   const calculateAccuracy = () => {
@@ -78,18 +76,6 @@ export default function StudentGradeItemRest({
             </Text>
           </Skeleton>
           <Stack direction="row" align="center" spacing={3}>
-            <Button
-              bg="palette.accent"
-              color="palette.background"
-              fontSize=".6rem"
-              h="fit-content"
-              maxWidth="fit-content"
-              p=".6rem .7rem"
-              onClick={() => navigate.push(`overview/${grade.roll_number}`)}
-              leftIcon={<AiOutlineEye />}
-            >
-              View Details
-            </Button>
             <Stack align="center" spacing={0.1}>
               <Text fontSize=".5rem" fontWeight="medi2um" opacity={0.7}>
                 Accuracy

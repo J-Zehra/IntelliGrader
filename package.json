@@ -50,7 +50,7 @@
     "recoil": "^0.7.7",
     "socket.io": "^4.7.2",
     "socket.io-client": "^4.7.2",
-    "swiper": "^10.2.0",
+    "swiper": "^10.3.1",
     "typescript": "5.1.6",
     "utf-8-validate": "^5.0.10",
     "validator": "^13.11.0",

@@ -61,6 +61,8 @@ model StudentGrade {
   status        String @default("Passed")
   studentId     String
   testId         String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
   student  Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
   test  Test @relation(fields: [testId], references: [id], onDelete: Cascade)
