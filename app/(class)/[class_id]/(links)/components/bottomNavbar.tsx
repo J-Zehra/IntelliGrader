@@ -1,16 +1,17 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Box, Stack, Text } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { ClassNavLink } from "@/utils/types";
+import { useRecoilState } from "recoil";
+import { classActiveNavState } from "@/state/classActiveNav";
 import { navlinks } from "./navlinks";
 
 export default function BottomNavbar() {
   const { class_id } = useParams();
   const router = useRouter();
-  const [activeBottomNav, setActiveBottomNav] = useState<ClassNavLink>(
-    ClassNavLink.home,
-  );
+  const [activeBottomNav, setActiveBottomNav] =
+    useRecoilState(classActiveNavState);
 
   const handleChangeNav = (label: ClassNavLink, link: string) => {
     setActiveBottomNav(label);

@@ -8,14 +8,16 @@ import { Box, Button, Select, Skeleton, Stack, Text } from "@chakra-ui/react";
 import { useParams, useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { Grade } from "@/utils/types";
+import { Grade, TestNavLink } from "@/utils/types";
 import { FaCheck } from "react-icons/fa6";
 import { FaTimes } from "react-icons/fa";
+import useTestObserver from "@/hooks/useTestObserver";
 import StudentGradeItemRest from "./components/studentGradeItemRest";
 import StudentGradeItem from "./components/studentGradeItem";
 
 export default function StudentGrades() {
   const { test_id } = useParams();
+  const { ref } = useTestObserver(TestNavLink.grades);
   const navigate = useRouter();
 
   const getStudentGrades = async () => {
@@ -37,7 +39,7 @@ export default function StudentGrades() {
   const failed = studentGrades?.filter((grade) => grade.status === "Failed");
 
   return (
-    <Stack spacing={2} paddingBottom="10rem">
+    <Stack spacing={2} paddingBottom="10rem" ref={ref}>
       <Stack direction="row" w="100%" justify="space-between" align="center">
         <Text fontSize=".8rem" fontWeight="normal">
           Total of {studentGrades?.length}{" "}

@@ -7,12 +7,14 @@ import { RiAiGenerate } from "react-icons/ri";
 import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-import { FetchedTestInfo } from "@/utils/types";
+import { FetchedTestInfo, TestNavLink } from "@/utils/types";
 import moment from "moment";
+import useTestObserver from "@/hooks/useTestObserver";
 import AnswerSheet from "./components/answerSheet";
 
 export default function SettingsPage() {
   const navigate = useRouter();
+  const { ref } = useTestObserver(TestNavLink.settings);
   const { test_id } = useParams();
 
   const getTest = async () => {
@@ -34,7 +36,7 @@ export default function SettingsPage() {
   };
 
   return (
-    <Stack spacing="2rem" paddingBottom="10rem">
+    <Stack spacing="2rem" paddingBottom="10rem" ref={ref}>
       <Text fontSize=".8rem">Test Information</Text>
       <Skeleton borderRadius="1rem" isLoaded={!isLoading}>
         <Stack

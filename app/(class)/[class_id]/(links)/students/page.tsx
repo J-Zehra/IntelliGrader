@@ -15,14 +15,16 @@ import { useParams } from "next/navigation";
 import React, { useState } from "react";
 import { AiOutlineEdit } from "react-icons/ai";
 import { IoMdAdd, IoMdRemove } from "react-icons/io";
-import { FetchedStudentInfo } from "@/utils/types";
+import { ClassNavLink, FetchedStudentInfo } from "@/utils/types";
 import { queryClient } from "@/components/wrappers/queryWrapper";
+import useObserver from "@/hooks/useObserver";
 import AddStudentModal from "./components/addStudentsModal";
 import Loading from "./components/loading";
 import EditStudentModal from "./components/editStudentModal";
 import UploadCSV from "./components/uploadCSV";
 
 export default function StudentsPage() {
+  const { ref } = useObserver(ClassNavLink.students);
   const { class_id } = useParams();
   const toast = useToast();
   const [studentId, setStudentId] = useState<string>("");
@@ -100,7 +102,7 @@ export default function StudentsPage() {
   console.log("Students", students);
 
   return (
-    <Stack>
+    <Stack ref={ref}>
       <Stack
         direction="row"
         w="100%"

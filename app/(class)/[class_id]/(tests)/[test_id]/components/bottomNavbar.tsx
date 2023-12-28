@@ -2,12 +2,13 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/jsx-props-no-spreading */
 import { Box, Center, Stack, Text } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import { useParams, usePathname, useRouter } from "next/navigation";
-import { useRecoilValue } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { TestNavLink } from "@/utils/types";
 import { fileState } from "@/state/fileState";
+import { testActiveNavState } from "@/state/testActiveNav";
 import { navlinks } from "./navlinks";
 import ScanButton from "./scanButton";
 import FileUploadButton from "./fileUploadButton";
@@ -17,9 +18,8 @@ export default function BottomNavbar() {
   const { class_id, test_id } = useParams();
   const path = usePathname();
   const image = useRecoilValue(fileState);
-  const [activeBottomNav, setActiveBottomNav] = useState<TestNavLink>(
-    TestNavLink.scan,
-  );
+  const [activeBottomNav, setActiveBottomNav] =
+    useRecoilState(testActiveNavState);
 
   const handleClick = (label: TestNavLink, link: string | undefined) => {
     if (link) {

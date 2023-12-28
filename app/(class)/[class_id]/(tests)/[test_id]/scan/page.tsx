@@ -10,13 +10,15 @@ import axios from "axios";
 import { useParams } from "next/navigation";
 import { useEffect } from "react";
 import { fileState } from "@/state/fileState";
-import { FetchedTestInfo } from "@/utils/types";
+import { FetchedTestInfo, TestNavLink } from "@/utils/types";
 import { queryClient } from "@/components/wrappers/queryWrapper";
+import useTestObserver from "@/hooks/useTestObserver";
 import Preview from "../components/preview";
 
 export default function ScanPage() {
   const { test_id } = useParams();
   const image = useRecoilValue(fileState);
+  const { ref } = useTestObserver(TestNavLink.scan);
 
   useEffect(() => {
     const getTest = async () => {
@@ -38,7 +40,7 @@ export default function ScanPage() {
   }
 
   return (
-    <Stack align="center" spacing="5rem" pt="2.5rem" justify="center">
+    <Stack align="center" spacing="5rem" pt="2.5rem" justify="center" ref={ref}>
       <Stack align="center">
         <Image
           src="/scan.svg"

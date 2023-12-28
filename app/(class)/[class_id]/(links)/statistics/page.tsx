@@ -7,6 +7,8 @@ import { Skeleton, Stack, Text, Wrap } from "@chakra-ui/react";
 import { useParams } from "next/navigation";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
+import { ClassNavLink } from "@/utils/types";
+import useObserver from "@/hooks/useObserver";
 import AreaChart from "./components/areaChart";
 import TotalPassingRate from "./components/totalPassingRate";
 import TotalClassAccuracy from "./components/totalClassAccuracy";
@@ -14,6 +16,7 @@ import StudentRankings from "./components/studentRankings";
 
 export default function StatisticsPage() {
   const { class_id } = useParams();
+  const { ref } = useObserver(ClassNavLink.statistics);
 
   const getStatistics = async () => {
     let grade: Partial<{ accuracy: number; passingRate: number }> = {};
@@ -30,7 +33,7 @@ export default function StatisticsPage() {
   });
 
   return (
-    <Stack spacing="3rem" paddingBlock="1rem 10rem">
+    <Stack spacing="3rem" paddingBlock="1rem 10rem" ref={ref}>
       <Wrap justify="center">
         <Skeleton isLoaded={!isLoading} borderRadius=".5rem">
           <TotalPassingRate rate={statistics?.passingRate} />

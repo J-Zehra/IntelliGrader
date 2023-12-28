@@ -14,7 +14,8 @@ import React from "react";
 import { useParams } from "next/navigation";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-import { Statistics } from "@/utils/types";
+import { Statistics, TestNavLink } from "@/utils/types";
+import useTestObserver from "@/hooks/useTestObserver";
 import ClassAccuracy from "./components/classAccuracy";
 import HighestScore from "../overview/components/highestScore";
 import LowestScore from "../overview/components/lowestScore";
@@ -28,6 +29,7 @@ import ClassPassingRate from "./components/classPassingRate";
 export default function StatisticsPage() {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   const { test_id } = useParams();
+  const { ref } = useTestObserver(TestNavLink.statistics);
 
   const getStatistics = async () => {
     const data = { testId: test_id };
@@ -47,7 +49,7 @@ export default function StatisticsPage() {
   console.log(statistics);
 
   return (
-    <Box pos="relative" paddingBottom="10rem">
+    <Box pos="relative" paddingBottom="10rem" ref={ref}>
       <Stack direction="row" align="center" fontSize=".8rem" spacing={1}>
         <SkeletonText isLoaded={!isLoading} noOfLines={1}>
           <Text color="palette.accent" fontWeight="semibold">
