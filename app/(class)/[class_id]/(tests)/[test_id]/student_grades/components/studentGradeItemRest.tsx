@@ -75,10 +75,10 @@ export default function StudentGradeItemRest({ grade }: { grade: Grade }) {
       </Stack>
       <Stack spacing={0.1} paddingInline="1rem" align="center">
         <Text fontSize="2rem" fontWeight="bold">
-          {grade.numberOfCorrect}
+          {grade.totalScore}
         </Text>
         <Divider mb={2} borderColor="palette.text" />
-        <Text fontSize=".8rem">{grade.test.answerIndices.length}</Text>
+        <Text fontSize=".8rem">{grade.totalPerfectScore}</Text>
       </Stack>
     </Stack>
   );

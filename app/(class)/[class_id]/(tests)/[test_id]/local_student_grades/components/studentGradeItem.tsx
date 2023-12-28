@@ -92,10 +92,10 @@ export default function StudentGradeItem({
         </Stack>
         <Stack spacing={0.1} paddingInline="1rem" align="center">
           <Text fontSize="2rem" fontWeight="bold">
-            {grade.number_of_correct}
+            {grade.total_score}
           </Text>
           <Divider mb={2} />
-          <Text fontSize=".8rem">{grade.answer_indices.length}</Text>
+          <Text fontSize=".8rem">{grade.total_perfect_score}</Text>
         </Stack>
       </Stack>
       <Image

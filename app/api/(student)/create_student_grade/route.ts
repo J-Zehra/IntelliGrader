@@ -35,7 +35,7 @@ export async function POST(request: Request) {
 
         const test = await prisma.test.findFirst({
           where: { id: testId! },
-          select: { passingGrade: true },
+          select: { passingGrade: true, testParts: true },
         });
 
         const rate = Math.round(
@@ -48,6 +48,8 @@ export async function POST(request: Request) {
             data: {
               processedImage: grade.processed_image,
               answerIndices: grade.answer_indices,
+              totalScore: grade.total_score,
+              totalPerfectScore: grade.total_perfect_score,
               numberOfCorrect: grade.number_of_correct,
               numberOfIncorrect: grade.number_of_incorrect,
               status: isPassed(test?.passingGrade!, rate) ? "Passed" : "Failed",
@@ -61,6 +63,8 @@ export async function POST(request: Request) {
           data: {
             processedImage: grade.processed_image,
             answerIndices: grade.answer_indices,
+            totalScore: grade.total_score,
+            totalPerfectScore: grade.total_perfect_score,
             numberOfCorrect: grade.number_of_correct,
             numberOfIncorrect: grade.number_of_incorrect,
             status: isPassed(test?.passingGrade!, rate) ? "Passed" : "Failed",

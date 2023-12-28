@@ -72,10 +72,12 @@ export type ProcessedImageData = {
 export type Grade = {
   processedImage: string;
   numberOfCorrect: number;
-  numberOfWrong: number;
+  numberOfIncorrect: number;
   answerIndices: number[];
   student: StudentInfo;
   status: string;
+  totalScore: number;
+  totalPerfectScore: number;
   createdAt: string;
   test: { answerIndices: number[]; testParts?: QuestionPart };
 };
@@ -154,6 +156,8 @@ export type FetchedGradeInfo = {
   answer_indices: number[];
   processed_image: string;
   status: string;
+  total_score: number;
+  total_perfect_score: number;
 };
 
 export type FetchedSingleGrade = {

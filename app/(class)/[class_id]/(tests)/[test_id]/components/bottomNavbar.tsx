@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/jsx-props-no-spreading */
-import { Box, Center, Stack } from "@chakra-ui/react";
+import { Box, Center, Stack, Text } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 
 import { useParams, usePathname, useRouter } from "next/navigation";
@@ -95,6 +95,9 @@ export default function BottomNavbar() {
                 {...style(nav.label)}
               >
                 {nav.icon}
+                {activeBottomNav === nav.label ? (
+                  <Text fontSize=".7rem">{nav.label}</Text>
+                ) : null}
               </Stack>
             );
           })}

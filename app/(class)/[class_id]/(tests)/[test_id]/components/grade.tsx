@@ -81,14 +81,18 @@ export default function GradeButton({
 
       const scaledImages = await Promise.all(scalingPromises);
 
-      const numberOfChoices = testData!.testParts!.map(
-        (part) => part.numberOfChoices || 0,
-      );
+      const parts = testData!.testParts!.map((part) => {
+        return {
+          numberOfChoices: part.numberOfChoices || 0,
+          points: part.points || 0,
+          totalNumber: part.totalNumber || 0,
+        };
+      });
 
       const data = {
         images: scaledImages,
         answer: testData!.answerIndices,
-        numberOfChoices,
+        parts,
       };
       return data;
     }
