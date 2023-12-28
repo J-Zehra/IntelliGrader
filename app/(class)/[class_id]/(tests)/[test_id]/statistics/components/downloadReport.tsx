@@ -232,7 +232,7 @@ export default function DownloadReport() {
     utils.book_append_sheet(wb, ws, "Sheet1");
 
     // Save the file
-    const fileName = "example.xlsx";
+    const fileName = `${classData?.program}_${test?.testName}_Report.xlsx`;
     writeFile(wb, fileName);
   };
 

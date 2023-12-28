@@ -2,7 +2,7 @@
 import { Button, Divider, Skeleton, Stack, Text } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { IoMdAdd } from "react-icons/io";
 
 type ClassOverview = {
@@ -14,6 +14,7 @@ type ClassOverview = {
 
 export default function OverviewCard() {
   const { class_id } = useParams();
+  const navigate = useRouter();
 
   const { data, isLoading } = useQuery<ClassOverview>({
     queryKey: ["class"],
@@ -30,7 +31,7 @@ export default function OverviewCard() {
   return (
     <Skeleton isLoaded={!isLoading} borderRadius="1.5rem">
       <Stack
-        boxShadow="2px 4px 10px rgba(0, 0, 100, .2)"
+        boxShadow="5px 5px 10px rgba(0, 0, 100, .08)"
         p="1.2rem"
         borderRadius="1.5rem"
       >
@@ -87,6 +88,7 @@ export default function OverviewCard() {
             boxShadow="none"
             borderColor="palette.accent"
             w="100%"
+            onClick={() => navigate.push("students")}
             leftIcon={<IoMdAdd />}
           >
             Add Student

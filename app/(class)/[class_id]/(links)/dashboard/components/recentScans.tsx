@@ -63,7 +63,7 @@ export default function RecentScans() {
                     w="100%"
                     h="15rem"
                     bg="palette.background"
-                    boxShadow="2px 5px 15px rgba(0, 0, 100, .1)"
+                    boxShadow="5px 5px 10px rgba(0, 0, 100, .08)"
                   >
                     <Box flex={2} w="100%" h="70%">
                       <Image

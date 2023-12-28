@@ -39,7 +39,7 @@ export default function SettingsPage() {
       <Skeleton borderRadius="1rem" isLoaded={!isLoading}>
         <Stack
           p="1.2rem"
-          boxShadow="2px 2px 10px rgba(0, 0, 100, .1)"
+          boxShadow="5px 5px 12px rgba(0, 0, 100, .08)"
           borderRadius="1rem"
         >
           <Stack direction="row" justify="space-between" align="center">
