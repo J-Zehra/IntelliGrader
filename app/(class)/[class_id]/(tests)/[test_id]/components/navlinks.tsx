@@ -12,7 +12,7 @@ export const navlinks = [
   {
     icon: <CiCircleInfo opacity={0.8} />,
     label: TestNavLink.settings,
-    link: "settings",
+    link: "about",
   },
   {
     icon: <CiFileOn opacity={0.8} />,

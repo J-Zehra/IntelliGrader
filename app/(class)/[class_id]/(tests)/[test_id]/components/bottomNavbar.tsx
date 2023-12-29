@@ -4,7 +4,7 @@
 import { Box, Center, Stack, Text } from "@chakra-ui/react";
 import { useEffect } from "react";
 
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { TestNavLink } from "@/utils/types";
 import { fileState } from "@/state/fileState";
@@ -15,7 +15,6 @@ import FileUploadButton from "./fileUploadButton";
 
 export default function BottomNavbar() {
   const router = useRouter();
-  const { class_id, test_id } = useParams();
   const path = usePathname();
   const image = useRecoilValue(fileState);
   const [activeBottomNav, setActiveBottomNav] =
@@ -48,9 +47,12 @@ export default function BottomNavbar() {
     return null;
   }
 
+  console.log(path);
+
   if (
-    path === `/${class_id}/${test_id}/pdf` ||
-    path === `/${class_id}/${test_id}/pdf/graded`
+    path.includes("pdf") ||
+    path.includes("overview") ||
+    path.includes("local_student_grades")
   ) {
     return null;
   }

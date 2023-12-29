@@ -1,3 +1,4 @@
+/* eslint-disable no-unsafe-optional-chaining */
 /* eslint-disable no-plusplus */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable import/prefer-default-export */
@@ -155,13 +156,13 @@ export async function GET(request: Request) {
     const questionsMostGotRight = getQuestionsMostStudentsGotRight(
       correctAnswerIndices?.answerIndices!,
       studentsAnswerData,
-      5,
+      Math.round((25 / 100) * totalStudent),
     );
 
     const questionsMostGotWrong = getQuestionsMostStudentsGotWrong(
       correctAnswerIndices?.answerIndices!,
       studentsAnswerData,
-      5,
+      Math.round((25 / 100) * totalStudent),
     );
 
     const accuracy = calculateAccuracy(
@@ -170,12 +171,7 @@ export async function GET(request: Request) {
       totalStudent,
     );
 
-    console.log(totalPassed);
-    console.log(totalStudent);
-
     const passingRate = calculatePassingRate(totalStudent, totalPassed);
-
-    console.log(passingRate);
 
     const responseData = {
       accuracy,

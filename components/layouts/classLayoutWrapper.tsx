@@ -2,7 +2,7 @@
 
 "use client";
 
-import { Box, IconButton, Stack, Text } from "@chakra-ui/react";
+import { Box, IconButton, Skeleton, Stack, Text } from "@chakra-ui/react";
 import { useParams, useRouter } from "next/navigation";
 import React, { ReactNode } from "react";
 import { BsArrowReturnLeft } from "react-icons/bs";
@@ -33,7 +33,11 @@ export default function ClassLayoutWrapper({
   prefetchClassRanking(class_id as string);
 
   const getClass = async () => {
-    let test: { course: string } = { course: "" };
+    let test: { course: string; program: string; year: number } = {
+      course: "",
+      program: "",
+      year: 1,
+    };
     await axios.get(`/api/class/name/${class_id}`).then((res) => {
       test = res.data;
     });
@@ -41,7 +45,7 @@ export default function ClassLayoutWrapper({
     return test;
   };
 
-  const { data: classData } = useQuery({
+  const { data: classData, isLoading: isClassLoading } = useQuery({
     queryKey: ["class-name"],
     queryFn: getClass,
   });
@@ -62,16 +66,18 @@ export default function ClassLayoutWrapper({
           >
             <BsArrowReturnLeft />
           </IconButton>
-          <Stack direction="row" align="center">
-            <Text
-              fontSize=".9rem"
-              color="palette.button.primary"
-              fontWeight="semibold"
-              opacity=".8"
-            >
-              {classData?.course}
-            </Text>
-            <Box w=".5rem" h=".5rem" bg="palette.accent" borderRadius="5rem" />
+          <Stack direction="row" align="center" spacing="1.2rem">
+            <Skeleton isLoaded={!isClassLoading}>
+              <Text
+                fontSize=".9rem"
+                color="palette.button.primary"
+                fontWeight="semibold"
+                opacity=".8"
+              >
+                {`${classData?.course} | ${classData?.program} ${classData?.year}`}
+              </Text>
+            </Skeleton>
+            <Box w=".5rem" h="2rem" bg="palette.accent" borderRadius="5rem" />
           </Stack>
         </Stack>
         <Box h="100%" w="100%">

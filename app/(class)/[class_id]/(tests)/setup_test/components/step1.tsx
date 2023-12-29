@@ -182,6 +182,8 @@ export default function Step1() {
               <option value="5">5</option>
               <option value="10">10</option>
               <option value="15">15</option>
+              <option value="15">20</option>
+              <option value="15">25</option>
             </Select>
             <Select
               color="rgba(0, 0, 0, .6)"
@@ -197,7 +199,7 @@ export default function Step1() {
             </Select>
             {part.questionType !== QuestionType.trueOrFalse && (
               <Input
-                placeholder="Number of Choices"
+                placeholder="Number of Choices (maximum of 10)"
                 type="number"
                 bg="gray.100"
                 h="3.5rem"

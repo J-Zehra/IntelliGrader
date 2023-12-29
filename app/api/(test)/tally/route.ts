@@ -63,6 +63,7 @@ export async function GET(request: Request) {
         return {
           student: formattedName,
           answerIndices,
+          status: studentGrade.status,
         };
       },
     );

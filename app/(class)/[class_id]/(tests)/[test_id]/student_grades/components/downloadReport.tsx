@@ -10,6 +10,7 @@ import { utils, writeFile } from "xlsx-js-style";
 
 type StudentGrade = {
   student: string;
+  status: string;
   answerIndices: number[];
 };
 
@@ -85,43 +86,18 @@ export default function DownloadReport() {
       if (item === 1) {
         totalCount += 1;
       }
-      const question = { v: item, t: "s" };
-      data.push(question); // Push each question to data
     });
 
     const total = { v: totalCount, t: "s" };
     data.push(total);
 
+    const status = { v: grade.status, t: "s" };
+    data.push(status);
+
     return data;
   }) || []) as unknown[][];
 
   if (result) {
-    // ADD TALLY
-    const tallyData: unknown[] = [];
-    const tallyName = {
-      v: "TOTAL",
-      t: "s",
-      s: { font: { bold: true }, fill: { fgColor: { rgb: "D5D5D5" } } },
-    };
-    tallyData.push(tallyName);
-    let totalCount = 0;
-    testInfo?.tally?.forEach((item) => {
-      totalCount += item;
-      const tally = {
-        v: item,
-        t: "s",
-        s: { font: { bold: true }, fill: { fgColor: { rgb: "D5D5D5" } } },
-      };
-      tallyData.push(tally);
-    });
-
-    const tallyTotal = {
-      v: totalCount,
-      t: "s",
-      s: { font: { bold: true }, fill: { fgColor: { rgb: "D5D5D5" } } },
-    };
-    tallyData.push(tallyTotal);
-
     // ADD HEADER
     const headerData: unknown[] = [];
     const headerName = {
@@ -130,21 +106,20 @@ export default function DownloadReport() {
       s: { font: { bold: true }, fill: { fgColor: { rgb: "18C1AD" } } },
     };
     headerData.push(headerName);
-    [...Array(testInfo?.tally?.length)].forEach((_, index) => {
-      const header = {
-        v: `Q${index + 1}`,
-        t: "s",
-        s: { font: { bold: true }, fill: { fgColor: { rgb: "18C1AD" } } },
-      };
-      headerData.push(header);
-    });
 
     const totalHeader = {
-      v: "Total",
+      v: " Score",
       t: "s",
       s: { font: { bold: true }, fill: { fgColor: { rgb: "18C1AD" } } },
     };
     headerData.push(totalHeader);
+
+    const statusHeader = {
+      v: "Status",
+      t: "s",
+      s: { font: { bold: true }, fill: { fgColor: { rgb: "18C1AD" } } },
+    };
+    headerData.push(statusHeader);
 
     // TEST INFO
     const courseName = [
@@ -220,7 +195,6 @@ export default function DownloadReport() {
     result.unshift(testName);
     result.unshift(courseName);
     result.unshift(programName);
-    result.push(tallyData);
   }
 
   console.log(result);
@@ -232,21 +206,21 @@ export default function DownloadReport() {
     utils.book_append_sheet(wb, ws, "Sheet1");
 
     // Save the file
-    const fileName = `${classData?.program}_${test?.testName}_Full_Report.xlsx`;
+    const fileName = `${classData?.program}_${test?.testName}_Report.xlsx`;
     writeFile(wb, fileName);
   };
 
   if (isLoading || isTestLoading || isClassLoading) {
     return (
       <Button w="100%" isLoading>
-        Download Full Report
+        Download Report
       </Button>
     );
   }
 
   return (
     <Button w="100%" onClick={() => handleDownload(result)}>
-      Download Full Report
+      Download Report
     </Button>
   );
 }

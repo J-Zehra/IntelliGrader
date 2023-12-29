@@ -21,7 +21,7 @@ export enum ClassNavLink {
 }
 
 export enum TestNavLink {
-  settings = "Settings",
+  settings = "About",
   file = "File",
   scan = "Scan",
   grades = "Grades",

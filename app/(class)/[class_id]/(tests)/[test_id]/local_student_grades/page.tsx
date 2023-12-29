@@ -44,7 +44,7 @@ export default function LocalStudentGrades() {
   };
 
   return (
-    <Stack spacing={2} paddingBottom="10rem">
+    <Stack spacing={2} paddingBottom="2rem">
       {mutateStudentGrade.isLoading ? (
         <Loading message="Saving..." />
       ) : (

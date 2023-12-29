@@ -117,7 +117,7 @@ export default function OverviewPage() {
         <Text fontSize=".8rem" fontWeight="medium">
           Answers Overview
         </Text>
-        <Stack spacing={2} paddingBottom="10rem">
+        <Stack spacing={2} paddingBottom="2rem">
           {grade
             ? grade.test?.testParts.map((part, index) =>
                 [...Array(part.totalNumber)].map((_, partIndex) => {

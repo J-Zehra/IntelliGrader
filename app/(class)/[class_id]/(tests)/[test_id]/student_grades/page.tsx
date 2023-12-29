@@ -4,7 +4,7 @@
 
 "use client";
 
-import { Box, Button, Select, Skeleton, Stack, Text } from "@chakra-ui/react";
+import { Button, Skeleton, Stack, Text } from "@chakra-ui/react";
 import { useParams, useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -14,6 +14,7 @@ import { FaTimes } from "react-icons/fa";
 import useTestObserver from "@/hooks/useTestObserver";
 import StudentGradeItemRest from "./components/studentGradeItemRest";
 import StudentGradeItem from "./components/studentGradeItem";
+import DownloadReport from "./components/downloadReport";
 
 export default function StudentGrades() {
   const { test_id } = useParams();
@@ -45,18 +46,20 @@ export default function StudentGrades() {
           Total of {studentGrades?.length}{" "}
           {studentGrades && studentGrades?.length < 2 ? "paper" : "papers"}
         </Text>
-        <Select placeholder="Sort" w="6rem" fontSize=".8rem" colorScheme="red">
-          <option value="option1" style={{ fontSize: ".8rem" }}>
-            Highest
-          </option>
-          <option value="option2">Lowest</option>
-        </Select>
       </Stack>
-      <Box w="100%" paddingTop="1rem">
-        <Button w="100%" onClick={() => navigate.push("pdf/graded")}>
+      <Stack w="100%" paddingTop="1rem">
+        <DownloadReport />
+        <Button
+          w="100%"
+          bg="transparent"
+          color="palette.accent"
+          border="1px solid #035EDD"
+          boxShadow="none"
+          onClick={() => navigate.push("pdf/graded")}
+        >
           Generate Graded Tests
         </Button>
-      </Box>
+      </Stack>
       {passed && passed?.length > 0 ? (
         <Stack paddingTop="1.5rem" direction="row" align="center">
           <Text fontSize=".8rem">Passed</Text>

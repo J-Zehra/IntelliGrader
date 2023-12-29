@@ -12,7 +12,7 @@ export async function GET(
   try {
     const testInfo = await prisma.class.findFirst({
       where: { id },
-      select: { course: true },
+      select: { course: true, program: true, year: true },
     });
 
     return NextResponse.json(testInfo);

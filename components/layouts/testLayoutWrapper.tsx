@@ -3,7 +3,7 @@
 "use client";
 
 import { ReactNode } from "react";
-import { Box, IconButton, Stack, Text } from "@chakra-ui/react";
+import { Box, IconButton, Skeleton, Stack, Text } from "@chakra-ui/react";
 import { BsArrowReturnLeft } from "react-icons/bs";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
@@ -49,9 +49,27 @@ export default function TestLayoutWrapper({
     return test;
   };
 
-  const { data: testData } = useQuery({
+  const { data: testData, isLoading: isTestLoading } = useQuery({
     queryKey: ["test-name"],
     queryFn: getTest,
+  });
+
+  const getClass = async () => {
+    let test: { course: string; program: string; year: number } = {
+      course: "",
+      program: "",
+      year: 1,
+    };
+    await axios.get(`/api/class/name/${class_id}`).then((res) => {
+      test = res.data;
+    });
+
+    return test;
+  };
+
+  const { data: classData, isLoading: isClassLoading } = useQuery({
+    queryKey: ["class-name"],
+    queryFn: getClass,
   });
 
   return (
@@ -70,16 +88,30 @@ export default function TestLayoutWrapper({
           >
             <BsArrowReturnLeft />
           </IconButton>
-          <Stack direction="row" align="center">
-            <Text
-              fontSize=".9rem"
-              color="palette.button.primary"
-              fontWeight="semibold"
-              opacity=".8"
-            >
-              {testData?.testName}
-            </Text>
-            <Box w=".5rem" h=".5rem" bg="palette.accent" borderRadius="5rem" />
+          <Stack direction="row" spacing="1.2rem" align="center">
+            <Stack spacing={0.1} align="end">
+              <Skeleton isLoaded={!isTestLoading}>
+                <Text
+                  fontSize=".9rem"
+                  color="palette.button.primary"
+                  fontWeight="semibold"
+                  opacity=".8"
+                >
+                  {testData?.testName}
+                </Text>
+              </Skeleton>
+              <Skeleton isLoaded={!isClassLoading}>
+                <Text
+                  fontSize=".7rem"
+                  color="palette.button.primary"
+                  fontWeight="semibold"
+                  opacity=".8"
+                >
+                  {`${classData?.course} | ${classData?.program} ${classData?.year}`}
+                </Text>
+              </Skeleton>
+            </Stack>
+            <Box w=".5rem" h="2rem" bg="palette.accent" borderRadius="5rem" />
           </Stack>
         </Stack>
         <Box h="100%" w="100%">

@@ -39,7 +39,7 @@ export async function POST(request: Request) {
         });
 
         const rate = Math.round(
-          (grade.number_of_correct / grade.answer_indices.length) * 100,
+          (grade.total_score / grade.total_perfect_score) * 100,
         );
 
         if (existingStudentGrade) {
