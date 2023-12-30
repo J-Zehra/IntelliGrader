@@ -18,7 +18,7 @@ export default function ClassAccuracy({
     >
       <Center w="100%" flex={10}>
         <Text fontSize="2rem" fontWeight="bold">
-          {`${accuracy}%`}
+          {`${accuracy || 0}%`}
         </Text>
       </Center>
       <Divider />

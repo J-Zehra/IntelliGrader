@@ -16,7 +16,7 @@ export default function LowestScore({ score }: { score: number | undefined }) {
     >
       <Center w="100%" flex={10}>
         <Text fontSize="2rem" fontWeight="bold">
-          {score}
+          {score || 0}
         </Text>
       </Center>
       <Divider borderColor="rgba(0, 0, 0, .2)" />

@@ -99,7 +99,7 @@ export default function RecentScans() {
             })
           ) : (
             <Center>
-              <Text fontWeight="semibold" opacity={0.6}>
+              <Text fontWeight="medium" opacity={0.6}>
                 No recent scans
               </Text>
             </Center>

@@ -70,7 +70,7 @@ export default function TallyOfScores() {
                 <Td p=" 1rem 2rem">{score}</Td>
                 <Td p=" 1rem 2rem">{testInfo.totalStudents! - score}</Td>
                 <Td p=" 1rem 1.5rem">
-                  {Math.round((score / testInfo.totalStudents!) * 100)}%
+                  {Math.round((score / testInfo.totalStudents!) * 100) || 0}%
                 </Td>
               </Tr>
             );

@@ -58,7 +58,7 @@ export default function StudentRankings() {
                   fontWeight="bold"
                   fontSize="1.2rem"
                 >
-                  {student?.accuracy}%
+                  {student?.accuracy || 0}%
                 </Text>
               </Center>
             </Stack>

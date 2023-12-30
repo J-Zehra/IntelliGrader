@@ -20,7 +20,7 @@ export default function ClassPassingRate({
     >
       <Center w="100%" flex={10}>
         <Text fontSize="2rem" fontWeight="bold">
-          {passingRate}%
+          {passingRate || 0}%
         </Text>
       </Center>
       <Divider borderColor="rgba(0, 0, 0, .3)" />

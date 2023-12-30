@@ -25,6 +25,7 @@ export default function CommonyMistakesAnswerItem({
 }) {
   const { isOpen, onToggle } = useDisclosure();
   console.log(item);
+
   return (
     <>
       <Stack bg="palette.light" borderRadius=".5rem" direction="row">
