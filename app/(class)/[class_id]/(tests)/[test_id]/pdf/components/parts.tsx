@@ -51,7 +51,7 @@ export default function Parts({
           <Text
             style={{
               fontSize: ".08in",
-              opacity: 0.3,
+              opacity: 0.5,
             }}
           >
             {getLetterFromIndex(choiceIndex)}

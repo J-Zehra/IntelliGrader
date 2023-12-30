@@ -10,6 +10,7 @@ import { useRecoilState, useSetRecoilState } from "recoil";
 import { FetchedTestInfoToProcess } from "@/utils/types";
 import { fileState } from "@/state/fileState";
 import { localGradeInfo } from "@/state/localGradeInfo";
+import imageCompression, { Options } from "browser-image-compression";
 import { socket } from "../socket";
 
 export default function GradeButton({
@@ -42,41 +43,45 @@ export default function GradeButton({
 
     setLoading(true);
 
-    async function scaleImage(image: File, targetWidth: number) {
-      return new Promise((resolve) => {
-        const img = new Image();
-        img.onload = () => {
-          const aspectRatio = img.width / img.height;
-          const targetHeight = targetWidth / aspectRatio;
-
-          const canvas = document.createElement("canvas");
-          canvas.width = targetWidth;
-          canvas.height = targetHeight;
-
-          const ctx = canvas.getContext("2d");
-          ctx!.drawImage(img, 0, 0, targetWidth, targetHeight);
-
-          canvas.toBlob((blob) => {
-            resolve(blob);
-          }, "image/jpeg"); // You can change the format as needed
-        };
-        img.src = URL.createObjectURL(image);
-      });
-    }
-
     async function compressAndScaleImages() {
       const scalingPromises = files.map(async (file) => {
         const { image } = file;
-        const scaledImage = await scaleImage(image!, 600);
 
-        return new Promise((resolve) => {
-          const reader = new FileReader();
-          reader.onload = (e) => {
-            const dataUrl = e.target?.result as string;
-            resolve(dataUrl);
+        const options: Options = {
+          maxSizeMB: 1, // Adjust the maximum size in megabytes as needed
+          maxWidthOrHeight: 800, // Adjust the maximum width or height as needed
+          useWebWorker: true,
+        };
+
+        try {
+          const compressedImage = await imageCompression(image!, options);
+
+          const convertBlobToBase64 = (blob: Blob) => {
+            return new Promise((resolve) => {
+              const reader = new FileReader();
+              reader.onloadend = () => {
+                resolve(reader.result);
+              };
+              reader.readAsDataURL(blob);
+            });
           };
-          reader.readAsDataURL(scaledImage as Blob);
-        });
+
+          const base64String = await convertBlobToBase64(compressedImage);
+
+          const saveImageLocally = (base64Image: string, fileName: string) => {
+            const link = document.createElement("a");
+            link.href = base64Image;
+            link.download = fileName;
+            link.click();
+          };
+
+          saveImageLocally(base64String as string, "compressed_image.jpg");
+
+          return base64String;
+        } catch (error) {
+          console.error("Error compressing image:", error);
+          return null;
+        }
       });
 
       const scaledImages = await Promise.all(scalingPromises);
