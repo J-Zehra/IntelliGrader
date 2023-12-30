@@ -68,14 +68,14 @@ export default function GradeButton({
 
           const base64String = await convertBlobToBase64(compressedImage);
 
-          const saveImageLocally = (base64Image: string, fileName: string) => {
-            const link = document.createElement("a");
-            link.href = base64Image;
-            link.download = fileName;
-            link.click();
-          };
+          // const saveImageLocally = (base64Image: string, fileName: string) => {
+          //   const link = document.createElement("a");
+          //   link.href = base64Image;
+          //   link.download = fileName;
+          //   link.click();
+          // };
 
-          saveImageLocally(base64String as string, "compressed_image.jpg");
+          // saveImageLocally(base64String as string, "compressed_image.jpg");
 
           return base64String;
         } catch (error) {
@@ -107,12 +107,16 @@ export default function GradeButton({
       socket.on("grade_result", (d) => {
         console.log("Result", d);
 
-        if (d.status === "invalid") {
+        if (d[0].status === "error") {
           toast({
-            title: "Invalid",
+            title: "Error",
+            description: d[0].message,
             position: "bottom",
             status: "error",
+            duration: 2000,
           });
+
+          setLoading(false);
           return;
         }
         setLocalGradeInfo(d);
