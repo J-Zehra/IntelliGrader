@@ -21,37 +21,38 @@ export default function VideoPage() {
       const imageSrc = webcamRef.current?.getScreenshot();
       if (imageSrc && !rollNumberSection && !bubbleSection) {
         socket.emit("image", imageSrc);
+        socket.on("request_test_data", (data) => {
+          if (data.status === "failed") {
+            return;
+          }
+
+          setOpenCamera(false);
+          setRollNumberSection(data.rollNumberSection);
+          setBubbleSection(data.bubbleSection);
+
+          const testData = {
+            rollNumberSection: data.rollNumberSection,
+            bubbleSection: data.bubbleSection,
+            answer: [0, 1, 2, 2, 3, 3, 3],
+            numberOfChoices: [5, 5, 5, 5],
+          };
+
+          socket.emit("single_grade", testData);
+          socket.on("single_grade_data", (data2) => {
+            setLocalGradesInfo(data2);
+            console.log(data2);
+
+            socket.disconnect();
+            navigate.push("local_student_grades");
+          });
+        });
       }
     };
 
     const interval = setInterval(captureFrame, 100); // Adjust the interval as needed
 
     return () => clearInterval(interval);
-  }, [bubbleSection, rollNumberSection]);
-
-  socket.on("request_test_data", (data) => {
-    console.log(data);
-    setOpenCamera(false);
-    setRollNumberSection(data.rollNumberSection);
-    setBubbleSection(data.bubbleSection);
-
-    const testData = {
-      rollNumberSection: data.rollNumberSection,
-      bubbleSection: data.bubbleSection,
-      answer: [0, 1, 2, 2, 3, 3, 3],
-      numberOfChoices: [5, 5, 5, 5],
-    };
-
-    socket.emit("single_grade", testData);
-  });
-
-  socket.on("single_grade_data", (data) => {
-    setLocalGradesInfo(data);
-    console.log(data);
-
-    socket.disconnect();
-    navigate.push("local_student_grades");
-  });
+  }, [bubbleSection, navigate, rollNumberSection, setLocalGradesInfo]);
 
   return (
     <Box
@@ -66,8 +67,8 @@ export default function VideoPage() {
           audio={false}
           ref={webcamRef}
           screenshotFormat="image/jpeg"
-          minScreenshotHeight={910}
-          minScreenshotWidth={595}
+          minScreenshotHeight={800}
+          minScreenshotWidth={600}
           videoConstraints={{
             facingMode: "environment",
             aspectRatio: 4 / 3,
