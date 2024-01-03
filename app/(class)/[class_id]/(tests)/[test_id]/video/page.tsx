@@ -21,38 +21,52 @@ export default function VideoPage() {
       const imageSrc = webcamRef.current?.getScreenshot();
       if (imageSrc && !rollNumberSection && !bubbleSection) {
         socket.emit("image", imageSrc);
-        socket.on("request_test_data", (data) => {
-          if (data.status === "failed") {
-            return;
-          }
-
-          setOpenCamera(false);
-          setRollNumberSection(data.rollNumberSection);
-          setBubbleSection(data.bubbleSection);
-
-          const testData = {
-            rollNumberSection: data.rollNumberSection,
-            bubbleSection: data.bubbleSection,
-            answer: [0, 1, 2, 2, 3, 3, 3],
-            numberOfChoices: [5, 5, 5, 5],
-          };
-
-          socket.emit("single_grade", testData);
-          socket.on("single_grade_data", (data2) => {
-            setLocalGradesInfo(data2);
-            console.log(data2);
-
-            socket.disconnect();
-            navigate.push("local_student_grades");
-          });
-        });
       }
     };
 
-    const interval = setInterval(captureFrame, 100); // Adjust the interval as needed
+    const interval = setInterval(captureFrame, 100);
 
     return () => clearInterval(interval);
-  }, [bubbleSection, navigate, rollNumberSection, setLocalGradesInfo]);
+  }, [bubbleSection, rollNumberSection]);
+
+  useEffect(() => {
+    const handleRequestTestData = (data: any) => {
+      if (data.status === "failed") {
+        return;
+      }
+
+      setOpenCamera(false);
+      setRollNumberSection(data.rollNumberSection);
+      setBubbleSection(data.bubbleSection);
+
+      const testData = {
+        rollNumberSection: data.rollNumberSection,
+        bubbleSection: data.bubbleSection,
+        answer: [0, 1, 2, 2, 3, 3, 3],
+        numberOfChoices: [5, 5, 5, 5],
+      };
+
+      socket.emit("single_grade", testData);
+    };
+
+    const handleSingleGradeData = (data2: any) => {
+      setLocalGradesInfo(data2);
+      console.log(data2);
+
+      socket.disconnect();
+      navigate.push("local_student_grades");
+    };
+
+    // Attach event listeners
+    socket.on("request_test_data", handleRequestTestData);
+    socket.on("single_grade_data", handleSingleGradeData);
+
+    return () => {
+      // Remove event listeners when the component unmounts
+      socket.off("request_test_data", handleRequestTestData);
+      socket.off("single_grade_data", handleSingleGradeData);
+    };
+  }, [navigate, setLocalGradesInfo]);
 
   return (
     <Box

@@ -38,6 +38,9 @@ export default function RecentScans() {
   return (
     <Skeleton isLoaded={!isLoading} borderRadius="1rem">
       <Stack w="100%">
+        <Text fontSize=".9rem" fontWeight="medium" opacity={0.8}>
+          Recent Scans
+        </Text>
         <Swiper
           style={{ width: "100%", padding: "1rem" }}
           effect="coverflow"

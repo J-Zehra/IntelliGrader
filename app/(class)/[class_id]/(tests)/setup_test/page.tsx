@@ -63,6 +63,17 @@ export default function SetupTest() {
 
         return;
       }
+
+      if (testInfo.parts.some((item) => item.numberOfChoices > 10)) {
+        toast({
+          title: "Maximum Number Exceeded",
+          description: "Number of Choices should not exceed 10",
+          status: "error",
+          duration: 3000,
+        });
+
+        return;
+      }
       setActiveStep((prev) => prev + 1);
     } else if (activeStep === 1) {
       if (!isAnswerSheetComplete(testInfo)) {
