@@ -19,7 +19,10 @@ export default function VideoPage() {
 
   useEffect(() => {
     const captureFrame = () => {
-      const imageSrc = webcamRef.current?.getScreenshot();
+      const imageSrc = webcamRef.current?.getScreenshot({
+        width: 600,
+        height: 800,
+      });
       if (imageSrc && openCamera) {
         socket.emit("image", imageSrc, (cb: any) => {
           if (cb.status === "success") {
@@ -61,8 +64,6 @@ export default function VideoPage() {
           audio={false}
           ref={webcamRef}
           screenshotFormat="image/jpeg"
-          minScreenshotHeight={800}
-          minScreenshotWidth={600}
           videoConstraints={{
             facingMode: "environment",
             aspectRatio: 4 / 3,
