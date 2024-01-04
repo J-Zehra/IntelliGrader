@@ -1,18 +1,18 @@
 "use client";
 
-import { Box, Stack, Text } from "@chakra-ui/react";
+import { Box, Stack } from "@chakra-ui/react";
 import { useEffect, useRef, useState } from "react";
 import Webcam from "react-webcam";
 // import { useSetRecoilState } from "recoil";
 // import { localGradeInfo } from "@/state/localGradeInfo";
 // import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { socket } from "../socket";
 
 export default function VideoPage() {
-  const [status, setStatus] = useState("");
   // const setLocalGradesInfo = useSetRecoilState(localGradeInfo);
-  // const [rollNumberSection, setRollNumberSection] = useState("");
-  // const [bubbleSection, setBubbleSection] = useState("");
+  const [rollNumberSection, setRollNumberSection] = useState("");
+  const [bubbleSection, setBubbleSection] = useState("");
   // const navigate = useRouter();
   const [openCamera, setOpenCamera] = useState<boolean>(true);
   const webcamRef = useRef<Webcam>(null);
@@ -24,9 +24,8 @@ export default function VideoPage() {
         socket.emit("image", imageSrc, (cb: any) => {
           if (cb.status === "success") {
             setOpenCamera(false);
-            setStatus(cb.status);
-            // setRollNumberSection(data.rollNumberSection);
-            // setBubbleSection(data.bubbleSection);
+            setRollNumberSection(cb.rollNumberSection);
+            setBubbleSection(cb.bubbleSection);
 
             // const testData = {
             //   rollNumberSection: data.rollNumberSection,
@@ -72,8 +71,7 @@ export default function VideoPage() {
         />
       ) : (
         <Stack w="100%" h="100%" p="1rem">
-          <Text>{status}</Text>
-          {/* <Image
+          <Image
             alt="Processed Image"
             src={`data:image/jpeg;base64, ${bubbleSection}`}
             width={500}
@@ -92,7 +90,7 @@ export default function VideoPage() {
               width: "100%",
               height: "100%",
             }}
-          /> */}
+          />
         </Stack>
       )}
     </Box>
