@@ -1,5 +1,5 @@
 /* eslint-disable react/no-array-index-key */
-import { Image, Text, View } from "@react-pdf/renderer";
+import { Text, View } from "@react-pdf/renderer";
 
 function numberToArray(number: number) {
   // Convert the number to a string
@@ -37,21 +37,49 @@ export default function ControlNumber({ number }: { number: number }) {
           position: "relative",
         }}
       >
-        <Image
-          src="/rollNumberMarker.png"
-          style={{ position: "absolute", top: 0, left: 0, width: ".15in" }}
+        <View
+          style={{
+            position: "absolute",
+            top: 0,
+            left: 0,
+            transform: "rotate(25deg)",
+            width: ".25in",
+            height: ".25in",
+            border: "6.5px solid black",
+          }}
         />
-        <Image
-          src="/rollNumberMarker.png"
-          style={{ position: "absolute", top: 0, right: 0, width: ".15in" }}
+        <View
+          style={{
+            transform: "rotate(25deg)",
+            position: "absolute",
+            top: 0,
+            right: 0,
+            width: ".25in",
+            height: ".25in",
+            border: "6.5px solid black",
+          }}
         />
-        <Image
-          src="/rollNumberMarker.png"
-          style={{ position: "absolute", bottom: 0, left: 0, width: ".15in" }}
+        <View
+          style={{
+            transform: "rotate(25deg)",
+            position: "absolute",
+            bottom: 0,
+            right: 0,
+            width: ".25in",
+            height: ".25in",
+            border: "6.5px solid black",
+          }}
         />
-        <Image
-          src="/rollNumberMarker.png"
-          style={{ position: "absolute", bottom: 0, right: 0, width: ".15in" }}
+        <View
+          style={{
+            transform: "rotate(25deg)",
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            width: ".25in",
+            height: ".25in",
+            border: "6.5px solid black",
+          }}
         />
         <View
           style={{

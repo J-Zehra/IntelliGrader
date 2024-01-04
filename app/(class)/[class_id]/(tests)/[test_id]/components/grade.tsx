@@ -123,7 +123,6 @@ export default function GradeButton({
         setFiles([]);
         navigate.push("local_student_grades");
       });
-      socket.disconnect();
     });
   };
 
