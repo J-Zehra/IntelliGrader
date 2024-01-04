@@ -9,6 +9,7 @@ import Webcam from "react-webcam";
 import { socket } from "../socket";
 
 export default function VideoPage() {
+  const [status, setStatus] = useState("");
   // const setLocalGradesInfo = useSetRecoilState(localGradeInfo);
   // const [rollNumberSection, setRollNumberSection] = useState("");
   // const [bubbleSection, setBubbleSection] = useState("");
@@ -23,6 +24,7 @@ export default function VideoPage() {
         socket.emit("image", imageSrc, (cb: any) => {
           if (cb.status === "success") {
             setOpenCamera(false);
+            setStatus(cb.status);
             // setRollNumberSection(data.rollNumberSection);
             // setBubbleSection(data.bubbleSection);
 
@@ -70,7 +72,7 @@ export default function VideoPage() {
         />
       ) : (
         <Stack w="100%" h="100%" p="1rem">
-          <Text>Proccesing</Text>
+          <Text>{status}</Text>
           {/* <Image
             alt="Processed Image"
             src={`data:image/jpeg;base64, ${bubbleSection}`}
