@@ -18,7 +18,7 @@ export default function TestInfo({
         width: "100%",
         flexDirection: "row",
         fontSize: ".15in",
-        marginVertical: ".2in",
+        marginVertical: ".1in",
         justifyContent: "space-between",
       }}
     >

@@ -113,7 +113,7 @@ export default function GradeButton({
             description: d[0].message,
             position: "bottom",
             status: "error",
-            duration: 2000,
+            duration: 1000,
           });
 
           setLoading(false);
@@ -123,6 +123,7 @@ export default function GradeButton({
         setFiles([]);
         navigate.push("local_student_grades");
       });
+      socket.disconnect();
     });
   };
 

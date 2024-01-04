@@ -87,7 +87,7 @@ export default function PDFPage() {
               <View
                 style={{
                   marginTop: ".2in",
-                  marginBottom: ".2in",
+                  marginBottom: ".1in",
                   width: "100%",
                   borderBottom: "1px solid #E2E2E2",
                 }}
