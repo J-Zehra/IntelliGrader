@@ -74,6 +74,29 @@ export default function SetupTest() {
 
         return;
       }
+
+      if (testInfo.parts.some((item) => item.points < 1)) {
+        toast({
+          title: "Invalid Points",
+          description: "Points cannot be zero or negative",
+          status: "error",
+          duration: 3000,
+        });
+
+        return;
+      }
+
+      if (testInfo.parts.some((item) => item.points > 50)) {
+        toast({
+          title: "Invalid Points",
+          description: "Points are too big and might not be intended",
+          status: "error",
+          duration: 3000,
+        });
+
+        return;
+      }
+
       setActiveStep((prev) => prev + 1);
     } else if (activeStep === 1) {
       if (!isAnswerSheetComplete(testInfo)) {
