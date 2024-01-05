@@ -63,12 +63,12 @@ export default function VideoPage() {
         <Webcam
           audio={false}
           ref={webcamRef}
+          open={openCamera}
           screenshotFormat="image/jpeg"
           videoConstraints={{
             facingMode: "environment",
             aspectRatio: 4 / 3,
           }}
-          allowFullScreen
         />
       ) : (
         <Stack w="100%" h="100%" p="1rem">
@@ -77,20 +77,12 @@ export default function VideoPage() {
             src={`data:image/jpeg;base64, ${bubbleSection}`}
             width={500}
             height={500}
-            style={{
-              width: "100%",
-              height: "100%",
-            }}
           />
           <Image
             alt="Processed Image"
             src={`data:image/jpeg;base64, ${rollNumberSection}`}
             width={500}
             height={500}
-            style={{
-              width: "100%",
-              height: "100%",
-            }}
           />
         </Stack>
       )}
