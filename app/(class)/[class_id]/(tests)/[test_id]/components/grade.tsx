@@ -49,7 +49,7 @@ export default function GradeButton({
 
         const options: Options = {
           maxSizeMB: 1, // Adjust the maximum size in megabytes as needed
-          maxWidthOrHeight: 800, // Adjust the maximum width or height as needed
+          maxWidthOrHeight: 960, // Adjust the maximum width or height as needed
           useWebWorker: true,
         };
 
