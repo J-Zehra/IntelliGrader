@@ -20,8 +20,8 @@ export default function VideoPage() {
   useEffect(() => {
     const captureFrame = () => {
       const imageSrc = webcamRef.current?.getScreenshot({
-        width: 600,
-        height: 800,
+        width: 720,
+        height: 960,
       });
       if (imageSrc && openCamera) {
         socket.emit("image", imageSrc, (cb: any) => {
