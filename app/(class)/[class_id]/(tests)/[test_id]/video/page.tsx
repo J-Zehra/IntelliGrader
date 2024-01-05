@@ -18,30 +18,49 @@ export default function VideoPage() {
   const webcamRef = useRef<Webcam>(null);
 
   useEffect(() => {
-    const captureFrame = () => {
+    // const captureFrame = () => {
+    //   const imageSrc = webcamRef.current?.getScreenshot({
+    //     width: 720,
+    //     height: 960,
+    //   });
+    //   if (imageSrc && openCamera) {
+    //     socket.emit("image", imageSrc, (cb: any) => {
+    //       if (cb.status === "success") {
+    //         setOpenCamera(false);
+    //         setRollNumberSection(cb.rollNumberSection);
+    //         setBubbleSection(cb.bubbleSection);
+
+    //         // const testData = {
+    //         //   rollNumberSection: data.rollNumberSection,
+    //         //   bubbleSection: data.bubbleSection,
+    //         //   answer: [0, 1, 2, 2, 3, 3, 3],
+    //         //   numberOfChoices: [5, 5, 5, 5],
+    //         // };
+
+    //         // socket.emit("single_grade", testData, (processedTestData: any) => {
+    //         //   setLocalGradesInfo(processedTestData);
+    //         //   navigate.push("local_student_grades");
+    //         // });
+    //       }
+    //     });
+    //   }
+    // };
+
+    const captureFrame = async () => {
       const imageSrc = webcamRef.current?.getScreenshot({
         width: 720,
         height: 960,
       });
       if (imageSrc && openCamera) {
-        socket.emit("image", imageSrc, (cb: any) => {
-          if (cb.status === "success") {
-            setOpenCamera(false);
-            setRollNumberSection(cb.rollNumberSection);
-            setBubbleSection(cb.bubbleSection);
-
-            // const testData = {
-            //   rollNumberSection: data.rollNumberSection,
-            //   bubbleSection: data.bubbleSection,
-            //   answer: [0, 1, 2, 2, 3, 3, 3],
-            //   numberOfChoices: [5, 5, 5, 5],
-            // };
-
-            // socket.emit("single_grade", testData, (processedTestData: any) => {
-            //   setLocalGradesInfo(processedTestData);
-            //   navigate.push("local_student_grades");
-            // });
-          }
+        await new Promise<void>((resolve) => {
+          socket.emit("image", imageSrc, (cb: any) => {
+            if (cb.status === "success") {
+              setOpenCamera(false);
+              setRollNumberSection(cb.rollNumberSection);
+              setBubbleSection(cb.bubbleSection);
+            }
+            resolve();
+          });
         });
       }
     };
