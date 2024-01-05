@@ -42,50 +42,47 @@ export default function ControlNumber({ number }: { number: number }) {
             position: "absolute",
             top: 0,
             left: 0,
-            transform: "rotate(25deg)",
-            width: ".25in",
-            height: ".25in",
-            border: "6.5px solid black",
+
+            width: ".30in",
+            height: ".20in",
+            border: "6px solid black",
           }}
         />
         <View
           style={{
-            transform: "rotate(25deg)",
             position: "absolute",
             top: 0,
             right: 0,
-            width: ".25in",
-            height: ".25in",
-            border: "6.5px solid black",
+            width: ".30in",
+            height: ".20in",
+            border: "6px solid black",
           }}
         />
         <View
           style={{
-            transform: "rotate(25deg)",
             position: "absolute",
             bottom: 0,
             right: 0,
-            width: ".25in",
-            height: ".25in",
-            border: "6.5px solid black",
+            width: ".30in",
+            height: ".20in",
+            border: "6px solid black",
           }}
         />
         <View
           style={{
-            transform: "rotate(25deg)",
             position: "absolute",
             bottom: 0,
             left: 0,
-            width: ".25in",
-            height: ".25in",
-            border: "6.5px solid black",
+            width: ".30in",
+            height: ".20in",
+            border: "6px solid black",
           }}
         />
         <View
           style={{
             flexDirection: "column",
             gap: ".05in",
-            padding: ".2in .3in",
+            padding: ".2in .4in",
           }}
         >
           <View style={{ flexDirection: "row", gap: ".1in" }}>
