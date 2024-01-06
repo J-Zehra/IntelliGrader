@@ -4,7 +4,14 @@
 
 "use client";
 
-import { Button, Stack, Text, useToast } from "@chakra-ui/react";
+import {
+  Button,
+  Stack,
+  Text,
+  Wrap,
+  WrapItem,
+  useToast,
+} from "@chakra-ui/react";
 import { useParams, useRouter } from "next/navigation";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
@@ -12,6 +19,8 @@ import { useRecoilValue } from "recoil";
 import { FetchedGradeInfo } from "@/utils/types";
 import { localGradeInfo } from "@/state/localGradeInfo";
 import Loading from "@/components/loading";
+import { failedToScan } from "@/state/failedToScan";
+import Image from "next/image";
 import StudentGradeItemRest from "./components/studentGradeItemRest";
 import StudentGradeItem from "./components/studentGradeItem";
 
@@ -20,6 +29,7 @@ export default function LocalStudentGrades() {
   const toast = useToast();
   const navigate = useRouter();
   const localGrade = useRecoilValue(localGradeInfo);
+  const failedScan = useRecoilValue(failedToScan);
 
   const createStudentGrade = (grades: FetchedGradeInfo[]) => {
     const data = { testId: test_id, grades, classId: class_id };
@@ -69,7 +79,27 @@ export default function LocalStudentGrades() {
               );
             })}
           </Stack>
-          <Button onClick={handleSave}>Save Records</Button>
+          <Button onClick={handleSave}>Save Student Records</Button>
+          <Stack paddingTop="2rem">
+            <Text fontSize=".8rem" fontWeight="normal">
+              Failed To Scan
+            </Text>
+            <Wrap justify="start" gap="1rem">
+              {failedScan.map((item: { status: string; image: string }) => {
+                return (
+                  <WrapItem>
+                    <Image
+                      src={item.image}
+                      width={600}
+                      height={600}
+                      alt="Failed Scan Image"
+                      style={{ width: "5rem", borderRadius: "1rem" }}
+                    />
+                  </WrapItem>
+                );
+              })}
+            </Wrap>
+          </Stack>
         </>
       )}
     </Stack>

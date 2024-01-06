@@ -18,49 +18,30 @@ export default function VideoPage() {
   const webcamRef = useRef<Webcam>(null);
 
   useEffect(() => {
-    // const captureFrame = () => {
-    //   const imageSrc = webcamRef.current?.getScreenshot({
-    //     width: 720,
-    //     height: 960,
-    //   });
-    //   if (imageSrc && openCamera) {
-    //     socket.emit("image", imageSrc, (cb: any) => {
-    //       if (cb.status === "success") {
-    //         setOpenCamera(false);
-    //         setRollNumberSection(cb.rollNumberSection);
-    //         setBubbleSection(cb.bubbleSection);
-
-    //         // const testData = {
-    //         //   rollNumberSection: data.rollNumberSection,
-    //         //   bubbleSection: data.bubbleSection,
-    //         //   answer: [0, 1, 2, 2, 3, 3, 3],
-    //         //   numberOfChoices: [5, 5, 5, 5],
-    //         // };
-
-    //         // socket.emit("single_grade", testData, (processedTestData: any) => {
-    //         //   setLocalGradesInfo(processedTestData);
-    //         //   navigate.push("local_student_grades");
-    //         // });
-    //       }
-    //     });
-    //   }
-    // };
-
-    const captureFrame = async () => {
+    const captureFrame = () => {
       const imageSrc = webcamRef.current?.getScreenshot({
         width: 720,
         height: 960,
       });
       if (imageSrc && openCamera) {
-        await new Promise<void>((resolve) => {
-          socket.emit("image", imageSrc, (cb: any) => {
-            if (cb.status === "success") {
-              setOpenCamera(false);
-              setRollNumberSection(cb.rollNumberSection);
-              setBubbleSection(cb.bubbleSection);
-            }
-            resolve();
-          });
+        socket.emit("image", imageSrc, (cb: any) => {
+          if (cb.status === "success") {
+            setOpenCamera(false);
+            setRollNumberSection(cb.rollNumberSection);
+            setBubbleSection(cb.bubbleSection);
+
+            // const testData = {
+            //   rollNumberSection: data.rollNumberSection,
+            //   bubbleSection: data.bubbleSection,
+            //   answer: [0, 1, 2, 2, 3, 3, 3],
+            //   numberOfChoices: [5, 5, 5, 5],
+            // };
+
+            // socket.emit("single_grade", testData, (processedTestData: any) => {
+            //   setLocalGradesInfo(processedTestData);
+            //   navigate.push("local_student_grades");
+            // });
+          }
         });
       }
     };
@@ -82,12 +63,12 @@ export default function VideoPage() {
         <Webcam
           audio={false}
           ref={webcamRef}
-          open={openCamera}
           screenshotFormat="image/jpeg"
           videoConstraints={{
             facingMode: "environment",
             aspectRatio: 4 / 3,
           }}
+          allowFullScreen
         />
       ) : (
         <Stack w="100%" h="100%" p="1rem">
@@ -96,12 +77,20 @@ export default function VideoPage() {
             src={`data:image/jpeg;base64, ${bubbleSection}`}
             width={500}
             height={500}
+            style={{
+              width: "100%",
+              height: "100%",
+            }}
           />
           <Image
             alt="Processed Image"
             src={`data:image/jpeg;base64, ${rollNumberSection}`}
             width={500}
             height={500}
+            style={{
+              width: "100%",
+              height: "100%",
+            }}
           />
         </Stack>
       )}

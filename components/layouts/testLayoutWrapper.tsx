@@ -74,7 +74,7 @@ export default function TestLayoutWrapper({
 
   return (
     <CustomContainer>
-      <Stack pt="6.5rem" w="100%" align="center" spacing="1rem" h="100vh">
+      <Stack pt="5rem" w="100%" align="center" spacing="1rem" h="100vh">
         <Stack w="100%" direction="row" justify="space-between" align="center">
           <IconButton
             aria-label="Return"
@@ -90,7 +90,7 @@ export default function TestLayoutWrapper({
           </IconButton>
           <Stack direction="row" spacing="1.2rem" align="center">
             <Stack spacing={0.1} align="end">
-              <Skeleton isLoaded={!isTestLoading}>
+              <Skeleton isLoaded={!isTestLoading} borderRadius=".5rem">
                 <Text
                   fontSize=".9rem"
                   color="palette.button.primary"

@@ -64,7 +64,7 @@ export default function RecentScans() {
                     flexDir="column"
                     borderRadius="1rem"
                     w="100%"
-                    h="15rem"
+                    h="12rem"
                     bg="palette.background"
                     boxShadow="5px 5px 10px rgba(0, 0, 100, .08)"
                   >

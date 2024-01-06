@@ -34,6 +34,7 @@ export default function BottomNavbar() {
       bg="palette.light"
       boxShadow="5px 5px 10px rgba(0, 0, 100, .08)"
       borderRadius="1.3rem"
+      zIndex="overlay"
     >
       <Stack
         pos="absolute"

@@ -15,6 +15,7 @@ import {
   prefetchStatistics,
   prefetchStudents,
   prefetchTests,
+  prefetchUngradedStudents,
 } from "@/app/(class)/[class_id]/(links)/components/prefetch";
 import CustomContainer from "../reusables/customContainer";
 
@@ -24,13 +25,14 @@ export default function ClassLayoutWrapper({
   children: ReactNode;
 }) {
   const navigate = useRouter();
-  const { class_id } = useParams();
+  const { class_id, test_id } = useParams();
 
   prefetchTests(class_id as string);
   prefetchStudents(class_id as string);
   prefetchStatistics(class_id as string);
   prefetchPassingRateDistribution(class_id as string);
   prefetchClassRanking(class_id as string);
+  prefetchUngradedStudents(class_id as string, test_id as string);
 
   const getClass = async () => {
     let test: { course: string; program: string; year: number } = {
@@ -52,7 +54,7 @@ export default function ClassLayoutWrapper({
 
   return (
     <CustomContainer>
-      <Stack pt="6.5rem" w="100%" align="center" spacing="1rem" h="100vh">
+      <Stack pt="5rem" w="100%" align="center" spacing="1rem" h="100vh">
         <Stack w="100%" direction="row" justify="space-between" align="center">
           <IconButton
             aria-label="Return"
@@ -67,7 +69,7 @@ export default function ClassLayoutWrapper({
             <BsArrowReturnLeft />
           </IconButton>
           <Stack direction="row" align="center" spacing="1.2rem">
-            <Skeleton isLoaded={!isClassLoading}>
+            <Skeleton isLoaded={!isClassLoading} borderRadius=".5rem">
               <Text
                 fontSize=".9rem"
                 color="palette.button.primary"

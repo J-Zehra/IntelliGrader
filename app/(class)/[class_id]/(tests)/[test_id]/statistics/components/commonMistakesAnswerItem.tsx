@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/no-array-index-key */
 import {
@@ -9,8 +10,11 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import { QuestionsMostGotWrong } from "@/utils/types";
+import { FetchedStudentInfo, QuestionsMostGotWrong } from "@/utils/types";
 import { MdKeyboardDoubleArrowDown } from "react-icons/md";
+import { useParams } from "next/navigation";
+import axios from "axios";
+import { useQuery } from "@tanstack/react-query";
 
 function convertToLetter(index: number) {
   return String.fromCharCode("A".charCodeAt(0) + index);
@@ -25,6 +29,22 @@ export default function CommonyMistakesAnswerItem({
 }) {
   const { isOpen, onToggle } = useDisclosure();
   console.log(item);
+
+  const { class_id } = useParams();
+
+  const getStudents = async () => {
+    let data: FetchedStudentInfo[] = [];
+    await axios.get(`/api/students/${class_id}`).then((res) => {
+      data = res.data;
+    });
+
+    return data;
+  };
+
+  const { data: studentInfo } = useQuery({
+    queryKey: ["students", class_id],
+    queryFn: getStudents,
+  });
 
   return (
     <>
@@ -84,7 +104,7 @@ export default function CommonyMistakesAnswerItem({
             fontSize=".9rem"
             color="palette.button.primary"
             fontWeight="semibold"
-          >{`${item.studentCount} students got this wrong.`}</Text>
+          >{`${item.studentCount} out of ${studentInfo?.length} students got this wrong.`}</Text>
           <Stack paddingTop="1rem">
             {item.studentNames.map((student) => {
               return (

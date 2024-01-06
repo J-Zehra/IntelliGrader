@@ -11,6 +11,7 @@ import { FetchedTestInfoToProcess } from "@/utils/types";
 import { fileState } from "@/state/fileState";
 import { localGradeInfo } from "@/state/localGradeInfo";
 import imageCompression, { Options } from "browser-image-compression";
+import { failedToScan } from "@/state/failedToScan";
 import { socket } from "../socket";
 
 export default function GradeButton({
@@ -23,6 +24,7 @@ export default function GradeButton({
   const toast = useToast();
   const [files, setFiles] = useRecoilState(fileState);
   const setLocalGradeInfo = useSetRecoilState(localGradeInfo);
+  const setFailedScan = useSetRecoilState(failedToScan);
 
   const getTest = async () => {
     let test: Partial<FetchedTestInfoToProcess> = {};
@@ -107,7 +109,7 @@ export default function GradeButton({
       socket.on("grade_result", (d) => {
         console.log("Result", d);
 
-        if (d[0].status === "error") {
+        if (d.length === 1 && d[0].status === "error") {
           toast({
             title: "Error",
             description: d[0].message,
@@ -119,7 +121,13 @@ export default function GradeButton({
           setLoading(false);
           return;
         }
-        setLocalGradeInfo(d);
+
+        const success = d.filter((item: any) => item.status === "success");
+
+        const failed = d.filter((item: any) => item.status === "failed");
+
+        setLocalGradeInfo(success);
+        setFailedScan(failed);
         setFiles([]);
         navigate.push("local_student_grades");
       });

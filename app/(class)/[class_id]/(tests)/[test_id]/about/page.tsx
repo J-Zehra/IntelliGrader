@@ -11,6 +11,7 @@ import { FetchedTestInfo, TestNavLink } from "@/utils/types";
 import moment from "moment";
 import useTestObserver from "@/hooks/useTestObserver";
 import AnswerSheet from "./components/answerSheet";
+import UngradedStudents from "./components/ungradedStudents";
 
 export default function SettingsPage() {
   const navigate = useRouter();
@@ -51,12 +52,6 @@ export default function SettingsPage() {
             </Text>
           </Stack>
           <Stack direction="row" justify="space-between" align="center">
-            <Text fontSize=".9rem">Status</Text>
-            <Text color="palette.accent" fontSize=".9rem" fontWeight="semibold">
-              {test?.status}
-            </Text>
-          </Stack>
-          <Stack direction="row" justify="space-between" align="center">
             <Text fontSize=".9rem">Passing Grade (%)</Text>
             <Text color="palette.accent" fontSize=".9rem" fontWeight="semibold">
               {test?.passingGrade}
@@ -94,6 +89,10 @@ export default function SettingsPage() {
       >
         Generate Test Paper
       </Button>
+      <Stack spacing="1.5rem">
+        <Text fontSize=".8rem">Ungraded Students</Text>
+        <UngradedStudents />
+      </Stack>
       <Text fontSize=".8rem">Answer Sheet</Text>
       <AnswerSheet
         testPart={test?.testParts}

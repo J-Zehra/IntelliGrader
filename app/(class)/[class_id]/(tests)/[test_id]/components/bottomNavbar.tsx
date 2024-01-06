@@ -58,7 +58,7 @@ export default function BottomNavbar() {
   }
 
   return (
-    <Center w="100%">
+    <Center w="100%" zIndex="overlay">
       <Box
         w="90%"
         h="6rem"

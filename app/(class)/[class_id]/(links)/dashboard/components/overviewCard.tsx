@@ -42,40 +42,29 @@ export default function OverviewCard() {
           justify="space-around"
         >
           <Stack align="center" spacing={0}>
-            <Text fontSize="3rem" color="palette.accent" fontWeight="bold">
-              {data?.totalStudents}
+            <Text fontSize="4rem" color="palette.accent" fontWeight="bold">
+              {data?.totalStudents || 0}
             </Text>
-            <Text fontSize=".9rem" color="palette.text">
-              Students
+            <Text fontSize=".9rem" color="palette.accent">
+              Tests
             </Text>
           </Stack>
           <Divider
             borderColor="palette.light"
             orientation="vertical"
             h="5rem"
+            pos="absolute"
           />
           <Stack align="center" spacing={0}>
             <Text
-              fontSize="1.8rem"
+              fontSize="2rem"
               fontWeight="bold"
               color="palette.button.primary"
             >
-              {data?.totalTests}
+              {data?.totalTests || 0}
             </Text>
             <Text fontSize=".8rem" color="palette.text">
-              Tests
-            </Text>
-          </Stack>
-          <Stack align="center" spacing={0}>
-            <Text
-              fontSize="1.8rem"
-              fontWeight="bold"
-              color="palette.button.primary"
-            >
-              {data?.totalTestsCompleted || 0}
-            </Text>
-            <Text fontSize=".8rem" color="palette.text">
-              Tests Completed
+              Students
             </Text>
           </Stack>
         </Stack>

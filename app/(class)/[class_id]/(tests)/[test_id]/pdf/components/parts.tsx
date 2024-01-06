@@ -32,9 +32,15 @@ export default function Parts({
       }}
     >
       <Text
-        style={{ textAlign: "center", fontSize: ".1in", paddingRight: ".1in" }}
+        style={{
+          textAlign: "center",
+          fontSize: ".1in",
+          paddingRight: ".1in",
+          opacity: 0.5,
+          marginLeft: index + 1 < 10 ? ".055in" : "",
+        }}
       >
-        {index + 1 < 10 ? `0${index + 1}` : index + 1}
+        {index + 1}
       </Text>
       {[...Array(numberOfChoices)].map((_, choiceIndex) => (
         <View
