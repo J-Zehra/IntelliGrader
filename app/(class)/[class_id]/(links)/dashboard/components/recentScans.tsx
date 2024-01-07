@@ -36,7 +36,7 @@ export default function RecentScans() {
   console.log(studentGrades);
 
   return (
-    <Skeleton isLoaded={!isLoading} borderRadius="1rem">
+    <Skeleton isLoaded={!isLoading} borderRadius="1rem" paddingBottom="2rem">
       <Stack w="100%">
         <Text fontSize=".9rem" fontWeight="medium" opacity={0.8}>
           Recent Scans

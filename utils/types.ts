@@ -91,6 +91,7 @@ export type Teacher = {
 export type QuestionsMostGotRight = {
   index: number;
   studentCount: number;
+  numberOfChoices: number;
   correctAnswer: number;
   studentNames: string[];
 };
@@ -100,6 +101,7 @@ export type QuestionsMostGotWrong = {
   studentCount: number;
   mostPickedAnswer: number;
   correctAnswer: number;
+  numberOfChoices: number;
   studentNames: string[];
 };
 

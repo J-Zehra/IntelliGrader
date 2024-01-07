@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { FetchedTestInfo } from "@/utils/types";
+import { FetchedTestInfo, Statistics } from "@/utils/types";
 import { Button } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -71,6 +71,21 @@ export default function DownloadReport() {
     queryFn: getStatistics,
   });
 
+  const getMostCommon = async () => {
+    const data = { testId: test_id };
+    let grade: Partial<Statistics> = {};
+    await axios.get("/api/statistics", { params: data }).then((res) => {
+      grade = res.data;
+    });
+
+    return grade;
+  };
+
+  const { data: mostCommon, isLoading: isMostCommonLoading } = useQuery({
+    queryKey: ["grade-statistics", test_id],
+    queryFn: getMostCommon,
+  });
+
   const result: unknown[][] = (testInfo?.studentGrades?.map((grade) => {
     const data: unknown[] = [];
 
@@ -122,19 +137,75 @@ export default function DownloadReport() {
     };
     tallyData.push(tallyTotal);
 
+    // COMMON MISTAKES
+    const commonMistakes: unknown[] = [];
+    const commonMistakesName = {
+      v: "Common Mistakes",
+      t: "s",
+      s: { font: { bold: true }, fill: { fgColor: { rgb: "FD9999" } } },
+    };
+    commonMistakes.push(commonMistakesName);
+    testInfo?.tally?.forEach((item, index) => {
+      if (
+        mostCommon?.questionsMostGotWrong?.some((obj) => obj.index === index)
+      ) {
+        const common = {
+          v: item,
+          t: "s",
+          s: { font: { bold: true }, fill: { fgColor: { rgb: "FD9999" } } },
+        };
+        commonMistakes.push(common);
+      } else {
+        const common = {
+          v: "",
+          t: "s",
+          s: { font: { bold: true }, fill: { fgColor: { rgb: "FD9999" } } },
+        };
+        commonMistakes.push(common);
+      }
+    });
+
+    // MOST GOT CORRECT
+    const commonCorrect: unknown[] = [];
+    const commonCorrectName = {
+      v: "Common Correct",
+      t: "s",
+      s: { font: { bold: true }, fill: { fgColor: { rgb: "9BFD99" } } },
+    };
+    commonCorrect.push(commonCorrectName);
+    testInfo?.tally?.forEach((item, index) => {
+      if (
+        mostCommon?.questionsMostGotRight?.some((obj) => obj.index === index)
+      ) {
+        const common = {
+          v: item,
+          t: "s",
+          s: { font: { bold: true }, fill: { fgColor: { rgb: "9BFD99" } } },
+        };
+        commonCorrect.push(common);
+      } else {
+        const common = {
+          v: "",
+          t: "s",
+          s: { font: { bold: true }, fill: { fgColor: { rgb: "9BFD99" } } },
+        };
+        commonCorrect.push(common);
+      }
+    });
+
     // ADD HEADER
     const headerData: unknown[] = [];
     const headerName = {
       v: "STUDENT NAME",
       t: "s",
-      s: { font: { bold: true }, fill: { fgColor: { rgb: "18C1AD" } } },
+      s: { font: { bold: true }, fill: { fgColor: { rgb: "A799FD" } } },
     };
     headerData.push(headerName);
     [...Array(testInfo?.tally?.length)].forEach((_, index) => {
       const header = {
         v: `Q${index + 1}`,
         t: "s",
-        s: { font: { bold: true }, fill: { fgColor: { rgb: "18C1AD" } } },
+        s: { font: { bold: true }, fill: { fgColor: { rgb: "A799FD" } } },
       };
       headerData.push(header);
     });
@@ -142,7 +213,7 @@ export default function DownloadReport() {
     const totalHeader = {
       v: "Total",
       t: "s",
-      s: { font: { bold: true }, fill: { fgColor: { rgb: "18C1AD" } } },
+      s: { font: { bold: true }, fill: { fgColor: { rgb: "A799FD" } } },
     };
     headerData.push(totalHeader);
 
@@ -156,7 +227,7 @@ export default function DownloadReport() {
       {
         v: classData?.course,
         t: "s",
-        s: { font: { bold: true, color: { rgb: "168F81" } } },
+        s: { font: { bold: true, color: { rgb: "7E6CEA" } } },
       },
     ];
     const programName = [
@@ -168,7 +239,7 @@ export default function DownloadReport() {
       {
         v: classData?.program,
         t: "s",
-        s: { font: { bold: true, color: { rgb: "168F81" } } },
+        s: { font: { bold: true, color: { rgb: "7E6CEA" } } },
       },
     ];
     const testName = [
@@ -180,7 +251,7 @@ export default function DownloadReport() {
       {
         v: test?.testName,
         t: "s",
-        s: { font: { bold: true, color: { rgb: "168F81" } } },
+        s: { font: { bold: true, color: { rgb: "7E6CEA" } } },
       },
     ];
     const totalItems = [
@@ -188,7 +259,7 @@ export default function DownloadReport() {
       {
         v: testInfo?.tally?.length,
         t: "s",
-        s: { font: { bold: true, color: { rgb: "168F81" } } },
+        s: { font: { bold: true, color: { rgb: "7E6CEA" } } },
       },
     ];
     const passingGrade = [
@@ -196,7 +267,7 @@ export default function DownloadReport() {
       {
         v: `${test?.passingGrade}%`,
         t: "s",
-        s: { font: { bold: true, color: { rgb: "168F81" } } },
+        s: { font: { bold: true, color: { rgb: "7E6CEA" } } },
       },
     ];
     const dateCreated = [
@@ -208,7 +279,7 @@ export default function DownloadReport() {
       {
         v: moment(test?.createdAt).format("MMM Do YYYY"),
         t: "s",
-        s: { font: { bold: true, color: { rgb: "168F81" } } },
+        s: { font: { bold: true, color: { rgb: "7E6CEA" } } },
       },
     ];
 
@@ -221,6 +292,9 @@ export default function DownloadReport() {
     result.unshift(courseName);
     result.unshift(programName);
     result.push(tallyData);
+    result.push([]);
+    result.push(commonMistakes);
+    result.push(commonCorrect);
   }
 
   console.log(result);
@@ -236,7 +310,7 @@ export default function DownloadReport() {
     writeFile(wb, fileName);
   };
 
-  if (isLoading || isTestLoading || isClassLoading) {
+  if (isLoading || isTestLoading || isClassLoading || isMostCommonLoading) {
     return (
       <Button w="100%" isLoading>
         Download Full Report

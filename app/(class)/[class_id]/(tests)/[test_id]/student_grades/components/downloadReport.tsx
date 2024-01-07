@@ -91,7 +91,17 @@ export default function DownloadReport() {
     const total = { v: totalCount, t: "s" };
     data.push(total);
 
-    const status = { v: grade.status, t: "s" };
+    const status = {
+      v: grade.status,
+      t: "s",
+      s: {
+        font: {
+          color: {
+            rgb: grade.status === "passed" ? "35CB71" : "CB3535",
+          },
+        },
+      },
+    };
     data.push(status);
 
     return data;
@@ -103,21 +113,21 @@ export default function DownloadReport() {
     const headerName = {
       v: "STUDENT NAME",
       t: "s",
-      s: { font: { bold: true }, fill: { fgColor: { rgb: "18C1AD" } } },
+      s: { font: { bold: true }, fill: { fgColor: { rgb: "A799FD" } } },
     };
     headerData.push(headerName);
 
     const totalHeader = {
       v: " Score",
       t: "s",
-      s: { font: { bold: true }, fill: { fgColor: { rgb: "18C1AD" } } },
+      s: { font: { bold: true }, fill: { fgColor: { rgb: "A799FD" } } },
     };
     headerData.push(totalHeader);
 
     const statusHeader = {
       v: "Status",
       t: "s",
-      s: { font: { bold: true }, fill: { fgColor: { rgb: "18C1AD" } } },
+      s: { font: { bold: true }, fill: { fgColor: { rgb: "A799FD" } } },
     };
     headerData.push(statusHeader);
 
@@ -131,7 +141,7 @@ export default function DownloadReport() {
       {
         v: classData?.course,
         t: "s",
-        s: { font: { bold: true, color: { rgb: "168F81" } } },
+        s: { font: { bold: true, color: { rgb: "7E6CEA" } } },
       },
     ];
     const programName = [
@@ -143,7 +153,7 @@ export default function DownloadReport() {
       {
         v: classData?.program,
         t: "s",
-        s: { font: { bold: true, color: { rgb: "168F81" } } },
+        s: { font: { bold: true, color: { rgb: "7E6CEA" } } },
       },
     ];
     const testName = [
@@ -155,7 +165,7 @@ export default function DownloadReport() {
       {
         v: test?.testName,
         t: "s",
-        s: { font: { bold: true, color: { rgb: "168F81" } } },
+        s: { font: { bold: true, color: { rgb: "7E6CEA" } } },
       },
     ];
     const totalItems = [
@@ -163,7 +173,7 @@ export default function DownloadReport() {
       {
         v: testInfo?.tally?.length,
         t: "s",
-        s: { font: { bold: true, color: { rgb: "168F81" } } },
+        s: { font: { bold: true, color: { rgb: "7E6CEA" } } },
       },
     ];
     const passingGrade = [
@@ -171,7 +181,7 @@ export default function DownloadReport() {
       {
         v: `${test?.passingGrade}%`,
         t: "s",
-        s: { font: { bold: true, color: { rgb: "168F81" } } },
+        s: { font: { bold: true, color: { rgb: "7E6CEA" } } },
       },
     ];
     const dateCreated = [
@@ -183,7 +193,7 @@ export default function DownloadReport() {
       {
         v: moment(test?.createdAt).format("MMM Do YYYY"),
         t: "s",
-        s: { font: { bold: true, color: { rgb: "168F81" } } },
+        s: { font: { bold: true, color: { rgb: "7E6CEA" } } },
       },
     ];
 

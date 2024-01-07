@@ -11,7 +11,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { FetchedStudentInfo, QuestionsMostGotRight } from "@/utils/types";
-import { MdKeyboardDoubleArrowDown } from "react-icons/md";
+import { MdOutlineArrowDropDown } from "react-icons/md";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { useParams } from "next/navigation";
@@ -23,8 +23,10 @@ function convertToLetter(index: number) {
 export default function MostPickedAnswerItem({
   item,
   numberOfChoices,
+  index,
 }: {
   numberOfChoices: number;
+  index: number;
   item: QuestionsMostGotRight;
 }) {
   const { class_id } = useParams();
@@ -46,6 +48,38 @@ export default function MostPickedAnswerItem({
   const { isOpen, onToggle } = useDisclosure();
   return (
     <>
+      {index === 0 ? (
+        <Center
+          onClick={onToggle}
+          color="palette.button.primary"
+          fontSize="1.5rem"
+          transform={!isOpen ? "rotate(180deg)" : ""}
+        >
+          <MdOutlineArrowDropDown />
+        </Center>
+      ) : null}
+      {index === 0 ? (
+        <Collapse in={isOpen} animateOpacity>
+          <Stack bg="palette.light" borderRadius=".5rem" p="1rem">
+            <Text
+              fontSize=".9rem"
+              color="palette.button.primary"
+              fontWeight="semibold"
+            >{`${item.studentCount} out of ${studentInfo?.length} ${
+              item.studentCount > 1 ? "students" : "student"
+            } got these questions right.`}</Text>
+            <Stack paddingTop="1rem">
+              {item.studentNames.map((student) => {
+                return (
+                  <Text fontSize=".9rem" key={student}>
+                    {student}
+                  </Text>
+                );
+              })}
+            </Stack>
+          </Stack>
+        </Collapse>
+      ) : null}
       <Stack bg="palette.light" direction="row" borderRadius=".5rem">
         <Center
           flex={1}
@@ -70,25 +104,25 @@ export default function MostPickedAnswerItem({
             align="center"
             justify="space-between"
           >
-            {[...Array(numberOfChoices)].map((_, index) => {
+            {[...Array(numberOfChoices)].map((_, index2) => {
               return (
                 <Radio
                   opacity={0.8}
-                  isChecked={item.correctAnswer === index}
-                  colorScheme={item.correctAnswer === index ? "green" : ""}
-                  key={index}
+                  isChecked={item.correctAnswer === index2}
+                  colorScheme={item.correctAnswer === index2 ? "green" : ""}
+                  key={index2}
                   isReadOnly
                   borderColor="palette.text"
                 >
                   <Text
                     opacity={0.6}
                     fontWeight={
-                      item.correctAnswer === index ? "bold" : "semibold"
+                      item.correctAnswer === index2 ? "bold" : "semibold"
                     }
-                    color={item.correctAnswer === index ? "green" : ""}
+                    color={item.correctAnswer === index2 ? "green" : ""}
                     fontSize="1rem"
                   >
-                    {convertToLetter(index)}
+                    {convertToLetter(index2)}
                   </Text>
                 </Radio>
               );
@@ -96,32 +130,6 @@ export default function MostPickedAnswerItem({
           </Stack>
         </Box>
       </Stack>
-      <Collapse in={isOpen} animateOpacity>
-        <Stack bg="palette.light" borderRadius=".5rem" p="1rem">
-          <Text
-            fontSize=".9rem"
-            color="palette.button.primary"
-            fontWeight="semibold"
-          >{`${item.studentCount} out of ${studentInfo?.length} students got this right.`}</Text>
-          <Stack paddingTop="1rem">
-            {item.studentNames.map((student) => {
-              return (
-                <Text fontSize=".9rem" key={student}>
-                  {student}
-                </Text>
-              );
-            })}
-          </Stack>
-        </Stack>
-      </Collapse>
-      <Center
-        onClick={onToggle}
-        color="palette.button.primary"
-        fontSize="1.2rem"
-        transform={isOpen ? "rotate(180deg)" : ""}
-      >
-        <MdKeyboardDoubleArrowDown />
-      </Center>
     </>
   );
 }

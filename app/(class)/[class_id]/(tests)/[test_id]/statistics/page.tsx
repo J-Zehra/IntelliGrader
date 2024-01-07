@@ -45,7 +45,6 @@ export default function StatisticsPage() {
     queryKey: ["grade-statistics", test_id],
     queryFn: getStatistics,
   });
-
   console.log(statistics);
 
   return (
@@ -78,9 +77,6 @@ export default function StatisticsPage() {
         </Text>
         {/* <PolarAreaChart /> */}
         <TallyOfScores />
-        <Stack w="100%" paddingTop="1rem" justify="end">
-          <DownloadReport />
-        </Stack>
       </Box>
       <Stack mt={10} spacing={5}>
         <Text fontSize=".8rem" fontWeight="medium">
@@ -88,12 +84,13 @@ export default function StatisticsPage() {
         </Text>
         <Stack spacing={2}>
           {statistics
-            ? statistics?.questionsMostGotWrong?.map((item) => {
+            ? statistics?.questionsMostGotWrong?.map((item, index) => {
                 return (
                   <CommonyMistakesAnswerItem
                     key={item.index}
+                    index={index}
                     item={item}
-                    numberOfChoices={5}
+                    numberOfChoices={item.numberOfChoices}
                   />
                 );
               })
@@ -115,12 +112,13 @@ export default function StatisticsPage() {
           </Text>
           <Stack spacing={2}>
             {statistics
-              ? statistics?.questionsMostGotRight?.map((item) => {
+              ? statistics?.questionsMostGotRight?.map((item, index) => {
                   return (
                     <MostPickedAnswerItem
                       key={item.index}
                       item={item}
-                      numberOfChoices={5}
+                      index={index}
+                      numberOfChoices={item.numberOfChoices}
                     />
                   );
                 })
@@ -136,6 +134,9 @@ export default function StatisticsPage() {
                   );
                 })}
           </Stack>
+        </Stack>
+        <Stack w="100%" justify="end">
+          <DownloadReport />
         </Stack>
       </Stack>
     </Box>

@@ -1,9 +1,11 @@
+/* eslint-disable no-restricted-syntax */
 /* eslint-disable no-unsafe-optional-chaining */
 /* eslint-disable no-plusplus */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable import/prefer-default-export */
 import { NextResponse } from "next/server";
 import prisma from "@/libs/prismadb";
+import { QuestionPart } from "@/utils/types";
 
 const calculateAccuracy = (
   totalCorrect: number,
@@ -20,6 +22,24 @@ const calculatePassingRate = (totalStudent: number, totalPassed: number) => {
   return Math.round((totalPassed / totalStudent) * 100);
 };
 
+const getNumberOfChoices = (
+  testParts: QuestionPart[],
+  questionNumber: number,
+): number | undefined => {
+  let cumulativeTotal = 0;
+
+  for (const part of testParts) {
+    cumulativeTotal += part.totalNumber;
+
+    if (questionNumber <= cumulativeTotal) {
+      return part.numberOfChoices;
+    }
+  }
+
+  // Return undefined if the questionNumber is not found in the testParts array
+  return undefined;
+};
+
 interface QuestionResult {
   index: number;
   studentCount: number;
@@ -34,10 +54,11 @@ const getQuestionsMostStudentsGotRight = (
     answerIndices: number[];
     student: { lastName: string; firstName: string };
   }[],
-  topCount: number,
+  questionParts: QuestionPart[],
 ): QuestionResult[] => {
   const questionsRightCount: number[] = Array(correctAnswer.length).fill(0);
 
+  // Create an array to store the names of students who picked the correct answer for each question
   const studentsPickedRight: string[][] = correctAnswer.map(() => []);
 
   studentsAnswers.forEach((studentAnswer) => {
@@ -51,17 +72,19 @@ const getQuestionsMostStudentsGotRight = (
     });
   });
 
-  const sortedQuestionsRightCount = questionsRightCount
-    .map((count, index) => ({ count, index }))
-    .sort((a, b) => b.count - a.count);
+  // Find the highest frequency of correct answers
+  const maxCount = Math.max(...questionsRightCount);
 
-  const topRightQuestions: QuestionResult[] = sortedQuestionsRightCount
-    .slice(0, topCount)
+  // Filter questions with the highest frequency
+  const topRightQuestions: QuestionResult[] = questionsRightCount
+    .map((count, index) => ({ count, index }))
+    .filter(({ count }) => count === maxCount)
     .map(({ count, index }) => ({
       index,
       studentCount: count,
       studentNames: studentsPickedRight[index],
       correctAnswer: correctAnswer[index],
+      numberOfChoices: getNumberOfChoices(questionParts, index),
     }));
 
   return topRightQuestions;
@@ -73,7 +96,7 @@ const getQuestionsMostStudentsGotWrong = (
     answerIndices: number[];
     student: { lastName: string; firstName: string };
   }[],
-  topCount: number,
+  questionParts: QuestionPart[],
 ): QuestionResult[] => {
   const questionsWrongCount: number[] = Array(correctAnswer.length).fill(0);
   const mostPickedAnswers: number[] = Array(correctAnswer.length).fill(0);
@@ -94,19 +117,23 @@ const getQuestionsMostStudentsGotWrong = (
     });
   });
 
-  const sortedQuestionsWrongCount = questionsWrongCount
-    .map((count, index) => ({ count, index }))
-    .sort((a, b) => b.count - a.count);
+  // Find the highest frequency of wrong answers
+  const maxCount = Math.max(...questionsWrongCount);
 
-  const topWrongQuestions: QuestionResult[] = sortedQuestionsWrongCount
-    .slice(0, topCount)
+  // Filter questions with the highest frequency
+  const topWrongQuestions: QuestionResult[] = questionsWrongCount
+    .map((count, index) => ({ count, index }))
+    .filter(({ count }) => count === maxCount)
     .map(({ count, index }) => ({
       index,
       studentCount: count,
       studentNames: studentsPickedWrong[index],
       mostPickedAnswer: mostPickedAnswers[index],
       correctAnswer: correctAnswer[index],
+      numberOfChoices: getNumberOfChoices(questionParts, index),
     }));
+
+  console.log(topWrongQuestions);
 
   return topWrongQuestions;
 };
@@ -118,6 +145,9 @@ export async function GET(request: Request) {
   try {
     const totalStudent = await prisma.studentGrade.count({
       where: { testId: testId! },
+      orderBy: {
+        student: { lastName: "asc" },
+      },
     });
 
     const total = await prisma.studentGrade.aggregate({
@@ -150,19 +180,19 @@ export async function GET(request: Request) {
 
     const correctAnswerIndices = await prisma.test.findFirst({
       where: { id: testId! },
-      select: { answerIndices: true },
+      select: { answerIndices: true, testParts: true },
     });
 
     const questionsMostGotRight = getQuestionsMostStudentsGotRight(
       correctAnswerIndices?.answerIndices!,
       studentsAnswerData,
-      Math.round((25 / 100) * totalStudent),
+      correctAnswerIndices?.testParts as QuestionPart[],
     );
 
     const questionsMostGotWrong = getQuestionsMostStudentsGotWrong(
       correctAnswerIndices?.answerIndices!,
       studentsAnswerData,
-      Math.round((25 / 100) * totalStudent),
+      correctAnswerIndices?.testParts as QuestionPart[],
     );
 
     const accuracy = calculateAccuracy(

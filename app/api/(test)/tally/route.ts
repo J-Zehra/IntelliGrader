@@ -17,6 +17,9 @@ export async function GET(request: Request) {
       where: { id: testId! },
       include: {
         studentGrade: {
+          orderBy: {
+            student: { lastName: "asc" },
+          },
           include: {
             student: true,
           },

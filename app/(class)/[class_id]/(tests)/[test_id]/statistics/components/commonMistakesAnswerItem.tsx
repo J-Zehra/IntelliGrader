@@ -11,7 +11,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import { FetchedStudentInfo, QuestionsMostGotWrong } from "@/utils/types";
-import { MdKeyboardDoubleArrowDown } from "react-icons/md";
+import { MdOutlineArrowDropDown } from "react-icons/md";
 import { useParams } from "next/navigation";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
@@ -22,10 +22,12 @@ function convertToLetter(index: number) {
 
 export default function CommonyMistakesAnswerItem({
   item,
+  index,
   numberOfChoices,
 }: {
   item: QuestionsMostGotWrong;
   numberOfChoices: number;
+  index: number;
 }) {
   const { isOpen, onToggle } = useDisclosure();
   console.log(item);
@@ -48,6 +50,38 @@ export default function CommonyMistakesAnswerItem({
 
   return (
     <>
+      {index === 0 ? (
+        <>
+          <Collapse in={isOpen} animateOpacity>
+            <Stack bg="palette.light" borderRadius=".5rem" p="1rem">
+              <Text
+                fontSize=".9rem"
+                color="palette.button.primary"
+                fontWeight="semibold"
+              >{`${item.studentCount} out of ${studentInfo?.length} ${
+                item.studentCount > 1 ? "students" : "student"
+              } got these questions wrong.`}</Text>
+              <Stack paddingTop="1rem">
+                {item.studentNames.map((student) => {
+                  return (
+                    <Text fontSize=".9rem" key={student}>
+                      {student}
+                    </Text>
+                  );
+                })}
+              </Stack>
+            </Stack>
+          </Collapse>
+          <Center
+            onClick={onToggle}
+            color="palette.button.primary"
+            fontSize="1.5rem"
+            transform={!isOpen ? "rotate(180deg)" : ""}
+          >
+            <MdOutlineArrowDropDown />
+          </Center>
+        </>
+      ) : null}
       <Stack bg="palette.light" borderRadius=".5rem" direction="row">
         <Center
           flex={1}
@@ -72,25 +106,25 @@ export default function CommonyMistakesAnswerItem({
             align="center"
             justify="space-between"
           >
-            {[...Array(numberOfChoices)].map((_, index) => {
+            {[...Array(numberOfChoices)].map((_, index2) => {
               return (
                 <Radio
                   opacity={0.8}
-                  isChecked={item.correctAnswer === index}
-                  colorScheme={item.correctAnswer === index ? "red" : ""}
-                  key={index}
+                  isChecked={item.correctAnswer === index2}
+                  colorScheme={item.correctAnswer === index2 ? "red" : ""}
+                  key={index2}
                   isReadOnly
                   borderColor="palette.text"
                 >
                   <Text
                     opacity={0.6}
                     fontWeight={
-                      item.correctAnswer === index ? "bold" : "semibold"
+                      item.correctAnswer === index2 ? "bold" : "semibold"
                     }
-                    color={item.correctAnswer === index ? "red" : ""}
+                    color={item.correctAnswer === index2 ? "red" : ""}
                     fontSize="1rem"
                   >
-                    {convertToLetter(index)}
+                    {convertToLetter(index2)}
                   </Text>
                 </Radio>
               );
@@ -98,32 +132,6 @@ export default function CommonyMistakesAnswerItem({
           </Stack>
         </Box>
       </Stack>
-      <Collapse in={isOpen} animateOpacity>
-        <Stack bg="palette.light" borderRadius=".5rem" p="1rem">
-          <Text
-            fontSize=".9rem"
-            color="palette.button.primary"
-            fontWeight="semibold"
-          >{`${item.studentCount} out of ${studentInfo?.length} students got this wrong.`}</Text>
-          <Stack paddingTop="1rem">
-            {item.studentNames.map((student) => {
-              return (
-                <Text fontSize=".9rem" key={student}>
-                  {student}
-                </Text>
-              );
-            })}
-          </Stack>
-        </Stack>
-      </Collapse>
-      <Center
-        onClick={onToggle}
-        color="palette.button.primary"
-        fontSize="1.2rem"
-        transform={isOpen ? "rotate(180deg)" : ""}
-      >
-        <MdKeyboardDoubleArrowDown />
-      </Center>
     </>
   );
 }

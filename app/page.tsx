@@ -36,7 +36,7 @@ export default function Home() {
 
   return (
     <CustomContainer>
-      <Stack pt="7rem" spacing={10}>
+      <Stack pt="5rem" spacing={10}>
         <Stack w="100%" align="center" direction="row" justify="space-between">
           <Text fontSize=".9rem" fontWeight="semibold" opacity=".8">
             All classes
