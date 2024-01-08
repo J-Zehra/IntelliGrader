@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/jsx-props-no-spreading */
-import { Box, Center, Stack, Text } from "@chakra-ui/react";
+import { Box, Center, Stack, Text, useDisclosure } from "@chakra-ui/react";
 import { useEffect } from "react";
 
 import { usePathname, useRouter } from "next/navigation";
@@ -9,6 +9,10 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { TestNavLink } from "@/utils/types";
 import { fileState } from "@/state/fileState";
 import { testActiveNavState } from "@/state/testActiveNav";
+import {
+  MdOutlineKeyboardArrowDown,
+  MdOutlineKeyboardArrowUp,
+} from "react-icons/md";
 import { navlinks } from "./navlinks";
 import ScanButton from "./scanButton";
 import FileUploadButton from "./fileUploadButton";
@@ -17,6 +21,7 @@ export default function BottomNavbar() {
   const router = useRouter();
   const path = usePathname();
   const image = useRecoilValue(fileState);
+  const { isOpen: isToggled, onToggle } = useDisclosure();
   const [activeBottomNav, setActiveBottomNav] =
     useRecoilState(testActiveNavState);
 
@@ -68,6 +73,20 @@ export default function BottomNavbar() {
         boxShadow="5px 5px 12px rgba(0, 0, 100, .08)"
         borderRadius="1.3rem"
       >
+        <Box
+          onClick={onToggle}
+          pos="absolute"
+          top=".5rem"
+          opacity={0.6}
+          right="1rem"
+          fontSize="1.2rem"
+        >
+          {isToggled ? (
+            <MdOutlineKeyboardArrowUp />
+          ) : (
+            <MdOutlineKeyboardArrowDown />
+          )}
+        </Box>
         <Stack
           pos="absolute"
           bottom={0}

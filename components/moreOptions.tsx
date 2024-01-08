@@ -1,4 +1,4 @@
-import { Center, useToast } from "@chakra-ui/react";
+import { Center, useDisclosure, useToast } from "@chakra-ui/react";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import React from "react";
@@ -6,9 +6,11 @@ import { FaDeleteLeft } from "react-icons/fa6";
 import Lottie from "react-lottie-player";
 import loadingAnimation from "../public/signing_up.json";
 import { queryClient } from "./wrappers/queryWrapper";
+import ConfirmationModal from "./confirmationModal";
 
 export default function MoreOptions({ id }: { id: string }) {
   const toast = useToast();
+  const { isOpen, onClose, onOpen } = useDisclosure();
 
   const deleteClass = (classId: string) => {
     return axios.delete(`/api/delete_class/${classId}`);
@@ -49,8 +51,17 @@ export default function MoreOptions({ id }: { id: string }) {
   }
 
   return (
-    <Center zIndex={10} onClick={handleDeleteClass}>
-      <FaDeleteLeft />
-    </Center>
+    <>
+      {isOpen ? (
+        <ConfirmationModal
+          handleDeleteClass={handleDeleteClass}
+          isOpen={isOpen}
+          onClose={onClose}
+        />
+      ) : null}
+      <Center zIndex={10} onClick={onOpen}>
+        <FaDeleteLeft />
+      </Center>
+    </>
   );
 }

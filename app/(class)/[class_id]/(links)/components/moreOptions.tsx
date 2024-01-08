@@ -1,4 +1,4 @@
-import { Center, useToast } from "@chakra-ui/react";
+import { Center, useDisclosure, useToast } from "@chakra-ui/react";
 import {
   QueryObserverResult,
   RefetchOptions,
@@ -11,6 +11,7 @@ import { FaDeleteLeft } from "react-icons/fa6";
 import Lottie from "react-lottie-player";
 import { FetchedTestInfo } from "@/utils/types";
 import loadingAnimation from "../../../../../public/signing_up.json";
+import ConfirmationModal from "./confirmationModa";
 
 export default function MoreOptions({
   id,
@@ -22,6 +23,7 @@ export default function MoreOptions({
   ) => Promise<QueryObserverResult<FetchedTestInfo[], unknown>>;
 }) {
   const toast = useToast();
+  const { isOpen, onClose, onOpen } = useDisclosure();
 
   const deleteTest = (testId: string) => {
     return axios.delete(`/api/delete_test/${testId}`);
@@ -56,8 +58,17 @@ export default function MoreOptions({
   }
 
   return (
-    <Center zIndex={10} onClick={handleDeleteTest}>
-      <FaDeleteLeft />
-    </Center>
+    <>
+      {isOpen ? (
+        <ConfirmationModal
+          handleDeleteTest={handleDeleteTest}
+          isOpen={isOpen}
+          onClose={onClose}
+        />
+      ) : null}
+      <Center zIndex={10} onClick={onOpen}>
+        <FaDeleteLeft />
+      </Center>
+    </>
   );
 }
