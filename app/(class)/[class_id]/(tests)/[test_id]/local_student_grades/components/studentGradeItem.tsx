@@ -112,7 +112,9 @@ export default function StudentGradeItem({
           <Stack h="100%" justify="space-between">
             <Skeleton isLoaded={!isLoading} borderRadius=".5rem">
               <Text fontSize=".8rem" fontWeight="semibold">
-                {`${student?.lastName || "---"}, ${student?.firstName} || "---`}
+                {`${student?.lastName || "---"}, ${
+                  student?.firstName || "---"
+                }`}
               </Text>
             </Skeleton>
             <Stack direction="row" align="center" spacing={3}>
