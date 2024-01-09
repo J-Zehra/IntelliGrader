@@ -8,6 +8,8 @@ import {
   Radio,
   Stack,
   Text,
+  Wrap,
+  WrapItem,
   useDisclosure,
 } from "@chakra-ui/react";
 import { FetchedStudentInfo, QuestionsMostGotRight } from "@/utils/types";
@@ -96,38 +98,41 @@ export default function MostPickedAnswerItem({
           </Text>
         </Center>
         <Box flex={10}>
-          <Stack
+          <Wrap
             direction="row"
             h="100%"
             w="100%"
-            paddingInline="1rem"
+            padding="1rem"
+            spacing="1rem"
             align="center"
-            justify="space-between"
+            justify="space-start"
           >
             {[...Array(numberOfChoices)].map((_, index2) => {
               return (
-                <Radio
-                  opacity={0.8}
-                  isChecked={item.correctAnswer === index2}
-                  colorScheme={item.correctAnswer === index2 ? "green" : ""}
-                  key={index2}
-                  isReadOnly
-                  borderColor="palette.text"
-                >
-                  <Text
-                    opacity={0.6}
-                    fontWeight={
-                      item.correctAnswer === index2 ? "bold" : "semibold"
-                    }
-                    color={item.correctAnswer === index2 ? "green" : ""}
-                    fontSize="1rem"
+                <WrapItem>
+                  <Radio
+                    opacity={0.8}
+                    isChecked={item.correctAnswer === index2}
+                    colorScheme={item.correctAnswer === index2 ? "green" : ""}
+                    key={index2}
+                    isReadOnly
+                    borderColor="palette.text"
                   >
-                    {convertToLetter(index2)}
-                  </Text>
-                </Radio>
+                    <Text
+                      opacity={0.6}
+                      fontWeight={
+                        item.correctAnswer === index2 ? "bold" : "semibold"
+                      }
+                      color={item.correctAnswer === index2 ? "green" : ""}
+                      fontSize=".9rem"
+                    >
+                      {convertToLetter(index2)}
+                    </Text>
+                  </Radio>
+                </WrapItem>
               );
             })}
-          </Stack>
+          </Wrap>
         </Box>
       </Stack>
     </>

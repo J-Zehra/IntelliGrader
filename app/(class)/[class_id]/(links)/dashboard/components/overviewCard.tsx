@@ -69,7 +69,7 @@ export default function OverviewCard() {
           </Stack>
         </Stack>
         <Divider borderColor="palette.light" />
-        <Stack paddingTop="1rem" spacing={3} direction="row">
+        <Stack paddingTop="1rem" spacing={2} direction="row">
           <Button
             bg="transparent"
             color="palette.accent"
@@ -77,13 +77,14 @@ export default function OverviewCard() {
             boxShadow="none"
             borderColor="palette.accent"
             w="100%"
+            fontSize=".9rem"
             onClick={() => navigate.push("students")}
             leftIcon={<IoMdAdd />}
           >
-            Add Student
+            Student
           </Button>
           <Link href="setup_test">
-            <Button w="100%" leftIcon={<IoMdAdd />}>
+            <Button w="100%" leftIcon={<IoMdAdd />} fontSize=".9rem">
               Setup Test
             </Button>
           </Link>

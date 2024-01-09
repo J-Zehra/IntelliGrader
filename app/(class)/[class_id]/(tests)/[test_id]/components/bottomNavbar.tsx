@@ -13,6 +13,7 @@ import {
   MdOutlineKeyboardArrowDown,
   MdOutlineKeyboardArrowUp,
 } from "react-icons/md";
+import { motion } from "framer-motion";
 import { navlinks } from "./navlinks";
 import ScanButton from "./scanButton";
 import FileUploadButton from "./fileUploadButton";
@@ -72,6 +73,11 @@ export default function BottomNavbar() {
         bg="palette.light"
         boxShadow="5px 5px 12px rgba(0, 0, 100, .08)"
         borderRadius="1.3rem"
+        as={motion.div}
+        initial={{ y: 0 }}
+        animate={{
+          y: isToggled ? 95 : 0,
+        }}
       >
         <Box
           onClick={onToggle}
@@ -111,6 +117,7 @@ export default function BottomNavbar() {
                 key={nav.label}
                 align="center"
                 spacing={1}
+                fontSize="1.2rem"
                 transition="all .3s ease"
                 onClick={() => handleClick(nav.label, nav.link)}
                 {...style(nav.label)}

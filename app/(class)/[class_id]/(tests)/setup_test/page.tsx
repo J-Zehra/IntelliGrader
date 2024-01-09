@@ -122,7 +122,7 @@ export default function SetupTest() {
   return (
     <>
       {mutateTest.isLoading ? <Loading message="Creating Test" /> : ""}
-      <Stack mt="3rem" spacing="1.2rem" paddingBottom="2rem">
+      <Stack mt="2rem" spacing="1.2rem" paddingBottom="2rem">
         {steps[activeStep]}
         <Stack direction="row" align="center" justify="end" spacing="1rem">
           <Button

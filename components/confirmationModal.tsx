@@ -22,7 +22,7 @@ export default function ConfirmationModal({
   return (
     <Modal isOpen={isOpen} size="xs" onClose={onClose} isCentered>
       <ModalOverlay />
-      <ModalContent>
+      <ModalContent padding="0">
         <ModalHeader>Confirmation</ModalHeader>
         <ModalBody>
           <Text fontSize=".9rem">
@@ -42,12 +42,13 @@ export default function ConfirmationModal({
             borderColor="palette.accent"
             color="palette.accent"
             onClick={onClose}
+            padding="1.2rem"
             fontSize=".9rem"
             boxShadow="none"
           >
             Cancel
           </Button>
-          <Button fontSize=".9rem" onClick={handleDeleteClass}>
+          <Button padding="1.3rem" fontSize=".9rem" onClick={handleDeleteClass}>
             Confirm
           </Button>
         </ModalFooter>

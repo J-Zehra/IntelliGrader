@@ -1,5 +1,13 @@
 /* eslint-disable react/no-array-index-key */
-import { Center, Radio, RadioGroup, Stack, Text } from "@chakra-ui/react";
+import {
+  Center,
+  Radio,
+  RadioGroup,
+  Stack,
+  Text,
+  Wrap,
+  WrapItem,
+} from "@chakra-ui/react";
 import React, { useState } from "react";
 import { useRecoilState } from "recoil";
 import { setupTestState } from "@/state/setupTestState";
@@ -93,36 +101,38 @@ export default function AnswerSheet() {
                     )
                   }
                 >
-                  <Stack
+                  <Wrap
                     direction="row"
                     h="100%"
                     w="100%"
-                    paddingInline="1rem"
+                    p="1rem"
                     align="center"
                     justify="start"
-                    spacing="1.2rem"
+                    spacing="1rem"
                   >
                     {[...Array(part.numberOfChoices)].map((__, choiceIndex) => (
-                      <Radio
-                        key={`${partIndex}-${questionIndex}-${choiceIndex}`}
-                        opacity={0.8}
-                        value={choiceIndex.toString()}
-                        borderColor="palette.text"
-                      >
-                        <Text
-                          opacity={0.6}
-                          fontWeight="medium"
-                          color="palette.text"
-                          fontSize="1rem"
+                      <WrapItem>
+                        <Radio
+                          key={`${partIndex}-${questionIndex}-${choiceIndex}`}
+                          opacity={0.8}
+                          value={choiceIndex.toString()}
+                          borderColor="palette.text"
                         >
-                          {convertToLetter(
-                            choiceIndex,
-                            part.questionType === QuestionType.trueOrFalse,
-                          )}
-                        </Text>
-                      </Radio>
+                          <Text
+                            opacity={0.6}
+                            fontWeight="medium"
+                            color="palette.text"
+                            fontSize=".9rem"
+                          >
+                            {convertToLetter(
+                              choiceIndex,
+                              part.questionType === QuestionType.trueOrFalse,
+                            )}
+                          </Text>
+                        </Radio>
+                      </WrapItem>
                     ))}
-                  </Stack>
+                  </Wrap>
                 </RadioGroup>
               </Stack>
             ))}

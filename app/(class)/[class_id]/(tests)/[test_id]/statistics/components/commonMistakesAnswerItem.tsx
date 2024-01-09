@@ -8,6 +8,8 @@ import {
   Radio,
   Stack,
   Text,
+  Wrap,
+  WrapItem,
   useDisclosure,
 } from "@chakra-ui/react";
 import { FetchedStudentInfo, QuestionsMostGotWrong } from "@/utils/types";
@@ -30,8 +32,6 @@ export default function CommonyMistakesAnswerItem({
   index: number;
 }) {
   const { isOpen, onToggle } = useDisclosure();
-  console.log(item);
-
   const { class_id } = useParams();
 
   const getStudents = async () => {
@@ -98,38 +98,41 @@ export default function CommonyMistakesAnswerItem({
           </Text>
         </Center>
         <Box flex={10}>
-          <Stack
+          <Wrap
             direction="row"
             h="100%"
             w="100%"
-            paddingInline="1rem"
+            padding="1rem"
             align="center"
-            justify="space-between"
+            spacing="1rem"
+            justify="start"
           >
             {[...Array(numberOfChoices)].map((_, index2) => {
               return (
-                <Radio
-                  opacity={0.8}
-                  isChecked={item.correctAnswer === index2}
-                  colorScheme={item.correctAnswer === index2 ? "red" : ""}
-                  key={index2}
-                  isReadOnly
-                  borderColor="palette.text"
-                >
-                  <Text
-                    opacity={0.6}
-                    fontWeight={
-                      item.correctAnswer === index2 ? "bold" : "semibold"
-                    }
-                    color={item.correctAnswer === index2 ? "red" : ""}
-                    fontSize="1rem"
+                <WrapItem>
+                  <Radio
+                    opacity={0.8}
+                    isChecked={item.correctAnswer === index2}
+                    colorScheme={item.correctAnswer === index2 ? "red" : ""}
+                    key={index2}
+                    isReadOnly
+                    borderColor="palette.text"
                   >
-                    {convertToLetter(index2)}
-                  </Text>
-                </Radio>
+                    <Text
+                      fontSize=".9rem"
+                      opacity={0.6}
+                      fontWeight={
+                        item.correctAnswer === index2 ? "bold" : "semibold"
+                      }
+                      color={item.correctAnswer === index2 ? "red" : ""}
+                    >
+                      {convertToLetter(index2)}
+                    </Text>
+                  </Radio>
+                </WrapItem>
               );
             })}
-          </Stack>
+          </Wrap>
         </Box>
       </Stack>
     </>

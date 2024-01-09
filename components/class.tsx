@@ -83,7 +83,7 @@ export default function Class({
           <Text fontWeight="semibold" fontSize=".9rem">
             {classInfo.course}
           </Text>
-          <Text fontSize=".8rem" fontWeight="medium" opacity={0.8}>
+          <Text fontSize=".75rem" fontWeight="medium" opacity={0.8}>
             {`${classInfo.program} ${classInfo.year}`}
           </Text>
         </Stack>
@@ -107,7 +107,7 @@ export default function Class({
           align="center"
           justify="space-between"
         >
-          <Text fontSize=".8rem" fontWeight="light" opacity={0.8}>
+          <Text fontSize=".75rem" fontWeight="light" opacity={0.8}>
             {moment(classInfo.createdAt).fromNow()}
           </Text>
           <Stack color={textColorVariant()} direction="row" spacing={4}>

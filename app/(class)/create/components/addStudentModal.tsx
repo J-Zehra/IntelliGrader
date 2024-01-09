@@ -73,7 +73,7 @@ export default function AddStudentModal({
         </ModalHeader>
         <ModalCloseButton color="white" />
         <ModalBody>
-          <Stack pt={8} spacing={2.5}>
+          <Stack pt={5} spacing={2.5}>
             <Input
               placeholder="Last Name"
               type="text"
@@ -118,7 +118,7 @@ export default function AddStudentModal({
           </Stack>
         </ModalBody>
 
-        <ModalFooter>
+        <ModalFooter paddingTop={0}>
           <Button colorScheme="blue" onClick={handleSave}>
             Add
           </Button>

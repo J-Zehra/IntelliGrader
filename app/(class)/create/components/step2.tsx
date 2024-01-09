@@ -49,7 +49,7 @@ export default function Step2() {
   };
 
   return (
-    <Stack>
+    <Stack paddingBottom="2rem">
       {classInfo.students.map((student) => {
         return (
           <Stack

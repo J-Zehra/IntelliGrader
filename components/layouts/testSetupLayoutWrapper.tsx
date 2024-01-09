@@ -35,7 +35,7 @@ export default function TestSetupLayoutWrapper({
 
   return (
     <CustomContainer>
-      <Stack pt="6.5rem" w="100%" align="center" spacing="1rem" h="100vh">
+      <Stack pt="5rem" w="100%" align="center" spacing="1rem" h="100vh">
         <Stack w="100%" direction="row" justify="space-between" align="center">
           <IconButton
             aria-label="Return"
@@ -61,7 +61,7 @@ export default function TestSetupLayoutWrapper({
             <Box w=".5rem" h=".5rem" bg="palette.accent" borderRadius="5rem" />
           </Stack>
         </Stack>
-        <Stack pt="2rem" spacing="2.5rem" w="80%">
+        <Stack pt="1rem" spacing="2.5rem" w="80%">
           <Stepper size="lg" index={activeStep}>
             {steps.map((step) => (
               <Step key={step.title}>

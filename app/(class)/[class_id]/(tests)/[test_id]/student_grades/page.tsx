@@ -55,6 +55,7 @@ export default function StudentGrades() {
           color="palette.accent"
           border="1px solid #035EDD"
           boxShadow="none"
+          fontSize=".9rem"
           onClick={() => navigate.push("pdf/graded")}
         >
           Generate Graded Tests

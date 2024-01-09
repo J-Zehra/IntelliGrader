@@ -144,6 +144,7 @@ export default function Step1() {
         type="text"
         bg="gray.100"
         h="3.5rem"
+        fontSize=".9rem"
         value={testInfo.testName}
         onChange={handleTestNameChange}
       />
@@ -175,6 +176,7 @@ export default function Step1() {
               color="rgba(0, 0, 0, .6)"
               bg="gray.100"
               h="3.5rem"
+              fontSize=".9rem"
               placeholder="Number of Questions"
               value={part.totalNumber}
               onChange={(e) => handleNumberOfQuestionsChange(e, index)}
@@ -182,13 +184,14 @@ export default function Step1() {
               <option value="5">5</option>
               <option value="10">10</option>
               <option value="15">15</option>
-              <option value="15">20</option>
-              <option value="15">25</option>
+              <option value="20">20</option>
+              <option value="25">25</option>
             </Select>
             <Select
               color="rgba(0, 0, 0, .6)"
               bg="gray.100"
               h="3.5rem"
+              fontSize=".9rem"
               value={part.questionType}
               onChange={(e) => handleQuestionTypeChange(e, index)}
             >
@@ -203,6 +206,7 @@ export default function Step1() {
                 type="number"
                 bg="gray.100"
                 h="3.5rem"
+                fontSize=".9rem"
                 value={part.numberOfChoices === 0 ? "" : part.numberOfChoices}
                 onChange={(e) => handleNumberofChoicesChange(e, index)}
               />
@@ -212,6 +216,7 @@ export default function Step1() {
               type="number"
               bg="gray.100"
               h="3.5rem"
+              fontSize=".9rem"
               value={part.points === 0 ? "" : part.points}
               onChange={(e) => handlePointsChange(e, index)}
             />
@@ -227,6 +232,7 @@ export default function Step1() {
           placeholder="Percentage"
           type="number"
           bg="gray.100"
+          fontSize=".9rem"
           h="3.5rem"
           min={40}
           max={100}

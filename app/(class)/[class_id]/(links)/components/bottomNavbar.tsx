@@ -81,6 +81,7 @@ export default function BottomNavbar() {
               key={nav.label}
               align="center"
               spacing={1}
+              fontSize="1.3rem"
               transition="all .3s ease"
               color={
                 activeBottomNav === nav.label
@@ -91,7 +92,7 @@ export default function BottomNavbar() {
             >
               {nav.icon}
               {activeBottomNav === nav.label ? (
-                <Text fontSize=".8rem">{nav.label}</Text>
+                <Text fontSize=".75rem">{nav.label}</Text>
               ) : null}
             </Stack>
           );

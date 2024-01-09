@@ -29,7 +29,7 @@ export default function Step1() {
   };
 
   return (
-    <Stack spacing="1rem">
+    <Stack spacing=".5rem">
       <Input
         placeholder="Program"
         type="text"

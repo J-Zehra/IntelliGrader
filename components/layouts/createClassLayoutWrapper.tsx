@@ -62,7 +62,7 @@ export default function CreateClassLayoutWrapper({
             <Box w=".5rem" h=".5rem" bg="palette.accent" borderRadius="5rem" />
           </Stack>
         </Stack>
-        <Stack pt="2rem" w="100%" align="center" spacing="2.5rem">
+        <Stack w="100%" align="center" spacing="2.5rem">
           <Box w="75%">
             <Stepper size="lg" index={activeStep}>
               {steps.map((step) => (
