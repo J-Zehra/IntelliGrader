@@ -36,6 +36,8 @@ export default function SettingsPage() {
     navigate.push("pdf");
   };
 
+  console.log(test);
+
   return (
     <Stack spacing="2rem" paddingBottom="10rem" ref={ref}>
       <Text fontSize=".8rem">Test Information</Text>
@@ -63,12 +65,20 @@ export default function SettingsPage() {
               {test?.answerIndices?.length}
             </Text>
           </Stack>
-          <Stack direction="row" justify="space-between" align="center">
-            <Text fontSize=".9rem">Parts</Text>
-            <Text color="palette.accent" fontSize=".9rem" fontWeight="semibold">
-              {test?.testParts?.length}
-            </Text>
-          </Stack>
+          {test?.testParts?.map((part, index) => {
+            return (
+              <Stack direction="row" justify="space-between" align="center">
+                <Text fontSize=".9rem">Part {index + 1}</Text>
+                <Text
+                  color="palette.accent"
+                  fontSize=".9rem"
+                  fontWeight="semibold"
+                >
+                  {part.totalNumber * part.points}
+                </Text>
+              </Stack>
+            );
+          })}
           <Stack direction="row" justify="space-between" align="center">
             <Text fontSize=".9rem">Date Created</Text>
             <Text color="palette.accent" fontSize=".9rem" fontWeight="semibold">
