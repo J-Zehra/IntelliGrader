@@ -102,7 +102,7 @@ export default function StudentsPage() {
   console.log("Students", students);
 
   return (
-    <Stack ref={ref}>
+    <Stack w="100%" ref={ref}>
       <Stack
         direction="row"
         w="100%"
@@ -123,59 +123,64 @@ export default function StudentsPage() {
           />
         </Stack>
       </Stack>
-      {isLoading ? (
-        <Loading />
-      ) : (
-        students?.map((student) => {
-          return (
-            <Stack
-              key={student.rollNumber}
-              direction="row"
-              align="center"
-              justify="space-between"
-              borderRadius=".5rem"
-              spacing={1}
-            >
-              <Center
-                p=".5rem"
-                border="1px solid"
-                borderColor="palette.light"
-                bg="rgba(0, 0, 100, .01)"
-                borderRadius=".3rem"
-                flex={1}
+      <Center flexDir="column" gap=".5rem">
+        {isLoading ? (
+          <Loading />
+        ) : (
+          students?.map((student) => {
+            return (
+              <Stack
+                key={student.rollNumber}
+                direction="row"
+                w={{ base: "100%", sm: "25rem" }}
+                align="center"
+                justify="space-between"
+                borderRadius=".5rem"
+                spacing={1}
               >
-                <Text>{student.rollNumber}</Text>
-              </Center>
-              <Center
-                borderRadius=".3rem"
-                border="1px solid"
-                borderColor="palette.light"
-                bg="rgba(0, 0, 100, .01)"
-                p=".5rem 1rem"
-                justifyContent="start"
-                flex={3}
-              >
-                <Text>{student.lastName}</Text>
-              </Center>
-              <IconButton
-                bg="palette.light"
-                aria-label="Edit"
-                variant="outline"
-                onClick={() => handleEdit(student)}
-                icon={<AiOutlineEdit />}
-              />
-              <IconButton
-                bg="palette.light"
-                aria-label="Remove"
-                variant="outline"
-                isLoading={mutateStudent.isLoading && studentId === student.id}
-                onClick={() => handleRemove(student.id)}
-                icon={<IoMdRemove />}
-              />
-            </Stack>
-          );
-        })
-      )}
+                <Center
+                  p=".5rem"
+                  border="1px solid"
+                  borderColor="palette.light"
+                  bg="rgba(0, 0, 100, .01)"
+                  borderRadius=".3rem"
+                  flex={1}
+                >
+                  <Text>{student.rollNumber}</Text>
+                </Center>
+                <Center
+                  borderRadius=".3rem"
+                  border="1px solid"
+                  borderColor="palette.light"
+                  bg="rgba(0, 0, 100, .01)"
+                  p=".5rem 1rem"
+                  justifyContent="start"
+                  flex={3}
+                >
+                  <Text>{student.lastName}</Text>
+                </Center>
+                <IconButton
+                  bg="palette.light"
+                  aria-label="Edit"
+                  variant="outline"
+                  onClick={() => handleEdit(student)}
+                  icon={<AiOutlineEdit />}
+                />
+                <IconButton
+                  bg="palette.light"
+                  aria-label="Remove"
+                  variant="outline"
+                  isLoading={
+                    mutateStudent.isLoading && studentId === student.id
+                  }
+                  onClick={() => handleRemove(student.id)}
+                  icon={<IoMdRemove />}
+                />
+              </Stack>
+            );
+          })
+        )}
+      </Center>
       {isAddModalopen ? (
         <AddStudentModal
           classId={class_id as string}

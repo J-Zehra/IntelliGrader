@@ -29,7 +29,7 @@ export default function Step1() {
   };
 
   return (
-    <Stack spacing=".5rem">
+    <Stack spacing=".5rem" w={{ base: "100%", sm: "30rem" }}>
       <Input
         placeholder="Program"
         type="text"

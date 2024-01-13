@@ -2,7 +2,7 @@
 
 "use client";
 
-import { Stack } from "@chakra-ui/react";
+import { Center, Stack } from "@chakra-ui/react";
 import { ClassNavLink } from "@/utils/types";
 import useObserver from "@/hooks/useObserver";
 import OverviewCard from "./components/overviewCard";
@@ -11,9 +11,11 @@ import RecentScans from "./components/recentScans";
 export default function ClassDashboardPage() {
   const { ref } = useObserver(ClassNavLink.home);
   return (
-    <Stack spacing="2rem" ref={ref}>
-      <OverviewCard />
-      <RecentScans />
-    </Stack>
+    <Center w="100%">
+      <Stack spacing="2rem" w={{ base: "100%", sm: "25rem" }} ref={ref}>
+        <OverviewCard />
+        <RecentScans />
+      </Stack>
+    </Center>
   );
 }

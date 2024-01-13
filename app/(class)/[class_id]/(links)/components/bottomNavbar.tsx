@@ -33,7 +33,7 @@ export default function BottomNavbar() {
 
   return (
     <Box
-      w="85%"
+      w={{ base: "85%", sm: "25rem" }}
       h="6rem"
       position="fixed"
       bottom="2rem"

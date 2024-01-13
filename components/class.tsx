@@ -1,4 +1,4 @@
-import { Button, Center, Stack, Text } from "@chakra-ui/react";
+import { Button, Center, Stack, Text, WrapItem } from "@chakra-ui/react";
 import { BsBarChartLine } from "react-icons/bs";
 import { motion } from "framer-motion";
 import { useSetRecoilState } from "recoil";
@@ -62,12 +62,15 @@ export default function Class({
   };
 
   return (
-    <Stack
+    <WrapItem
       bg={bgVariant()}
       p=".8rem"
+      display="flex"
+      flexDirection="column"
       borderRadius="1rem"
       pos="relative"
       overflow="hidden"
+      w={{ base: "100%", sm: "18rem" }}
       boxShadow="0 2px 5px rgba(0, 0, 50, .2)"
       as={motion.div}
       variants={animationItem}
@@ -127,6 +130,6 @@ export default function Class({
           </Stack>
         </Stack>
       </Stack>
-    </Stack>
+    </WrapItem>
   );
 }

@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Button, Stack, Text } from "@chakra-ui/react";
+import { Button, Stack, Text, Wrap } from "@chakra-ui/react";
 import { IoMdAdd } from "react-icons/io";
 import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
@@ -30,8 +30,6 @@ export default function Tests() {
     },
   });
 
-  console.log(testData);
-
   const renderTests = () => {
     if (isLoading) {
       return <TestsLoading />;
@@ -43,7 +41,7 @@ export default function Tests() {
 
     if (isSuccess && testData.length > 0) {
       return (
-        <Stack>
+        <Wrap w="100%" justify="start">
           {testData.map((test) => {
             return (
               <Test
@@ -54,7 +52,7 @@ export default function Tests() {
               />
             );
           })}
-        </Stack>
+        </Wrap>
       );
     }
   };

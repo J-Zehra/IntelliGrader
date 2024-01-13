@@ -1,5 +1,13 @@
 /* eslint-disable no-underscore-dangle */
-import { Button, Center, Divider, Link, Stack, Text } from "@chakra-ui/react";
+import {
+  Button,
+  Center,
+  Divider,
+  Link,
+  Stack,
+  Text,
+  WrapItem,
+} from "@chakra-ui/react";
 import React from "react";
 import { BsBarChartLine } from "react-icons/bs";
 import { motion } from "framer-motion";
@@ -62,9 +70,11 @@ export default function Test({
   };
 
   return (
-    <Stack
+    <WrapItem
+      flexDir="column"
       bg={bgVariant()}
       p=".8rem"
+      w={{ base: "100%", sm: "20rem" }}
       borderRadius="1rem"
       pos="relative"
       overflow="hidden"
@@ -148,6 +158,6 @@ export default function Test({
           </Button>
         </Stack>
       </Stack>
-    </Stack>
+    </WrapItem>
   );
 }

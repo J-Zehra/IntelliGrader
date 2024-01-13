@@ -9,7 +9,7 @@ export default function TestsPage() {
   const { ref } = useObserver(ClassNavLink.tests);
   return (
     <div ref={ref}>
-      <Tests />;
+      <Tests />
     </div>
   );
 }

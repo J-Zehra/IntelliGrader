@@ -33,6 +33,7 @@ export default function OverviewCard() {
       <Stack
         boxShadow="5px 5px 10px rgba(0, 0, 100, .08)"
         p="1.2rem"
+        w="100%"
         borderRadius="1.5rem"
       >
         <Stack

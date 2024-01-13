@@ -1,6 +1,6 @@
 "use client";
 
-import { Stack, Button, useToast } from "@chakra-ui/react";
+import { Stack, Button, useToast, Center } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { AiOutlinePlus } from "react-icons/ai";
 import axios from "axios";
@@ -49,6 +49,8 @@ export default function CreateClass() {
         position: "top",
         status: "error",
       });
+
+      setActiveStep(0);
       return;
     }
 
@@ -63,10 +65,16 @@ export default function CreateClass() {
   const steps = [<Step1 />, <Step2 />];
 
   return (
-    <>
+    <Center flexDir="column">
       {mutateClass.isLoading ? <Loading message="Creating Class" /> : ""}
       {steps[activeStep]}
-      <Stack direction="row" align="center" justify="end" spacing="1rem">
+      <Stack
+        direction="row"
+        align="center"
+        w="100%"
+        justify="end"
+        spacing="1rem"
+      >
         <Button
           variant="ghost"
           fontSize=".9rem"
@@ -86,6 +94,6 @@ export default function CreateClass() {
           {activeStep === 0 ? "Next" : "Create Class"}
         </Button>
       </Stack>
-    </>
+    </Center>
   );
 }

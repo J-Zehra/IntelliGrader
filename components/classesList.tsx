@@ -1,4 +1,4 @@
-import { Stack } from "@chakra-ui/react";
+import { Wrap } from "@chakra-ui/react";
 import { motion } from "framer-motion";
 import { FetchedClassInfo } from "@/utils/types";
 import { container } from "@/utils/animations";
@@ -10,20 +10,17 @@ export default function ClassesList({
   classesData: FetchedClassInfo[];
 }) {
   return (
-    <Stack
+    <Wrap
       spacing={2}
       as={motion.div}
       variants={container}
       initial="hidden"
       animate="show"
+      w="100"
     >
       {classesData.map((classData) => (
-        <Class
-          key={classData.id}
-          variant={classData.variant}
-          classInfo={classData}
-        />
+        <Class variant={classData.variant} classInfo={classData} />
       ))}
-    </Stack>
+    </Wrap>
   );
 }

@@ -1,7 +1,7 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Button, useToast } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { AiOutlineScan } from "react-icons/ai";
 import { useParams, useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
@@ -22,6 +22,7 @@ export default function GradeButton({
   const { test_id } = useParams();
   const navigate = useRouter();
   const toast = useToast();
+  const [errorMessage, setErrorMessage] = useState("");
   const [files, setFiles] = useRecoilState(fileState);
   const setLocalGradeInfo = useSetRecoilState(localGradeInfo);
   const setFailedScan = useSetRecoilState(failedToScan);
@@ -50,8 +51,8 @@ export default function GradeButton({
         const { image } = file;
 
         const options: Options = {
-          maxSizeMB: 1, // Adjust the maximum size in megabytes as needed
-          maxWidthOrHeight: 960, // Adjust the maximum width or height as needed
+          maxSizeMB: 1,
+          maxWidthOrHeight: 960,
           useWebWorker: true,
         };
 
@@ -69,15 +70,6 @@ export default function GradeButton({
           };
 
           const base64String = await convertBlobToBase64(compressedImage);
-
-          // const saveImageLocally = (base64Image: string, fileName: string) => {
-          //   const link = document.createElement("a");
-          //   link.href = base64Image;
-          //   link.download = fileName;
-          //   link.click();
-          // };
-
-          // saveImageLocally(base64String as string, "compressed_image.jpg");
 
           return base64String;
         } catch (error) {
@@ -107,17 +99,8 @@ export default function GradeButton({
     compressAndScaleImages().then((data) => {
       socket.emit("grade", data);
       socket.on("grade_result", (d) => {
-        console.log("Result", d);
-
         if (d.length === 1 && d[0].status === "error") {
-          toast({
-            title: "Error",
-            description: d[0].message,
-            position: "bottom",
-            status: "error",
-            duration: 1000,
-          });
-
+          setErrorMessage(d[0].message);
           setLoading(false);
           return;
         }
@@ -133,6 +116,18 @@ export default function GradeButton({
       });
     });
   };
+
+  useEffect(() => {
+    if (errorMessage) {
+      toast({
+        title: "Error",
+        description: errorMessage,
+        position: "bottom",
+        status: "error",
+        duration: 3000,
+      });
+    }
+  }, [errorMessage, toast]);
 
   return (
     <Button leftIcon={<AiOutlineScan />} onClick={handleSubmit}>
