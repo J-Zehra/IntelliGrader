@@ -4,9 +4,11 @@
 import {
   Center,
   IconButton,
+  Image,
   Stack,
   Text,
   useDisclosure,
+  useMediaQuery,
   useToast,
 } from "@chakra-ui/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
@@ -99,7 +101,7 @@ export default function StudentsPage() {
     onEditModalOpen();
   };
 
-  console.log("Students", students);
+  const [isDesktopLayout] = useMediaQuery("(min-width: 40em)");
 
   return (
     <Stack w="100%" ref={ref}>
@@ -123,64 +125,77 @@ export default function StudentsPage() {
           />
         </Stack>
       </Stack>
-      <Center flexDir="column" gap=".5rem">
-        {isLoading ? (
-          <Loading />
-        ) : (
-          students?.map((student) => {
-            return (
-              <Stack
-                key={student.rollNumber}
-                direction="row"
-                w={{ base: "100%", sm: "25rem" }}
-                align="center"
-                justify="space-between"
-                borderRadius=".5rem"
-                spacing={1}
-              >
-                <Center
-                  p=".5rem"
-                  border="1px solid"
-                  borderColor="palette.light"
-                  bg="rgba(0, 0, 100, .01)"
-                  borderRadius=".3rem"
-                  flex={1}
+      <Stack
+        direction="row-reverse"
+        w="100%"
+        justify="space-around"
+        spacing="5rem"
+        paddingTop={isDesktopLayout ? "2rem" : ""}
+      >
+        <Center flexDir="column" gap=".5rem" w={isDesktopLayout ? "" : "100%"}>
+          {isLoading ? (
+            <Loading />
+          ) : (
+            students?.map((student) => {
+              return (
+                <Stack
+                  key={student.rollNumber}
+                  direction="row"
+                  w={{ base: "100%", sm: "25rem" }}
+                  align="center"
+                  justify="space-between"
+                  borderRadius=".5rem"
+                  spacing={1}
                 >
-                  <Text>{student.rollNumber}</Text>
-                </Center>
-                <Center
-                  borderRadius=".3rem"
-                  border="1px solid"
-                  borderColor="palette.light"
-                  bg="rgba(0, 0, 100, .01)"
-                  p=".5rem 1rem"
-                  justifyContent="start"
-                  flex={3}
-                >
-                  <Text>{student.lastName}</Text>
-                </Center>
-                <IconButton
-                  bg="palette.light"
-                  aria-label="Edit"
-                  variant="outline"
-                  onClick={() => handleEdit(student)}
-                  icon={<AiOutlineEdit />}
-                />
-                <IconButton
-                  bg="palette.light"
-                  aria-label="Remove"
-                  variant="outline"
-                  isLoading={
-                    mutateStudent.isLoading && studentId === student.id
-                  }
-                  onClick={() => handleRemove(student.id)}
-                  icon={<IoMdRemove />}
-                />
-              </Stack>
-            );
-          })
-        )}
-      </Center>
+                  <Center
+                    p=".5rem"
+                    border="1px solid"
+                    borderColor="palette.light"
+                    bg="rgba(0, 0, 100, .01)"
+                    borderRadius=".3rem"
+                    flex={1}
+                  >
+                    <Text>{student.rollNumber}</Text>
+                  </Center>
+                  <Center
+                    borderRadius=".3rem"
+                    border="1px solid"
+                    borderColor="palette.light"
+                    bg="rgba(0, 0, 100, .01)"
+                    p=".5rem 1rem"
+                    justifyContent="start"
+                    flex={3}
+                  >
+                    <Text>{student.lastName}</Text>
+                  </Center>
+                  <IconButton
+                    bg="palette.light"
+                    aria-label="Edit"
+                    variant="outline"
+                    onClick={() => handleEdit(student)}
+                    icon={<AiOutlineEdit />}
+                  />
+                  <IconButton
+                    bg="palette.light"
+                    aria-label="Remove"
+                    variant="outline"
+                    isLoading={
+                      mutateStudent.isLoading && studentId === student.id
+                    }
+                    onClick={() => handleRemove(student.id)}
+                    icon={<IoMdRemove />}
+                  />
+                </Stack>
+              );
+            })
+          )}
+        </Center>
+        {isDesktopLayout ? (
+          <Center flex={1}>
+            <Image src="/illustrations/students.svg" w="70%" opacity={0.8} />
+          </Center>
+        ) : null}
+      </Stack>
       {isAddModalopen ? (
         <AddStudentModal
           classId={class_id as string}

@@ -70,7 +70,7 @@ export default function Class({
       borderRadius="1rem"
       pos="relative"
       overflow="hidden"
-      w={{ base: "100%", sm: "18rem" }}
+      w={{ base: "100%", sm: "20rem" }}
       boxShadow="0 2px 5px rgba(0, 0, 50, .2)"
       as={motion.div}
       variants={animationItem}
@@ -83,10 +83,10 @@ export default function Class({
         align="start"
       >
         <Stack spacing={0.1}>
-          <Text fontWeight="semibold" fontSize=".9rem">
+          <Text fontWeight="semibold" fontSize="1rem">
             {classInfo.course}
           </Text>
-          <Text fontSize=".75rem" fontWeight="medium" opacity={0.8}>
+          <Text fontSize=".7rem" fontWeight="medium" opacity={0.8}>
             {`${classInfo.program} ${classInfo.year}`}
           </Text>
         </Stack>
@@ -95,7 +95,7 @@ export default function Class({
       <Stack direction="row" w="100%" align="end" justify="end">
         <Text
           fontWeight="black"
-          fontSize="4rem"
+          fontSize="5rem"
           opacity=".03"
           pos="absolute"
           left="1rem"
@@ -110,10 +110,20 @@ export default function Class({
           align="center"
           justify="space-between"
         >
-          <Text fontSize=".75rem" fontWeight="light" opacity={0.8}>
+          <Text
+            fontSize=".7rem"
+            alignSelf="end"
+            fontWeight="light"
+            opacity={0.8}
+          >
             {moment(classInfo.createdAt).fromNow()}
           </Text>
-          <Stack color={textColorVariant()} direction="row" spacing={4}>
+          <Stack
+            alignItems="end"
+            color={textColorVariant()}
+            direction="row"
+            spacing={4}
+          >
             <Center p=".1rem" fontSize="1.2rem" cursor="pointer" opacity=".8">
               <BsBarChartLine />
             </Center>

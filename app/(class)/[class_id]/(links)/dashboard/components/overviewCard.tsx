@@ -31,7 +31,7 @@ export default function OverviewCard() {
   return (
     <Skeleton isLoaded={!isLoading} borderRadius="1.5rem">
       <Stack
-        boxShadow="5px 5px 10px rgba(0, 0, 100, .08)"
+        boxShadow="5px 5px 10px rgba(0, 0, 100, .03)"
         p="1.2rem"
         w="100%"
         borderRadius="1.5rem"

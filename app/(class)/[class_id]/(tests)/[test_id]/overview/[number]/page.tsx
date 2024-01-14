@@ -6,11 +6,13 @@
 import {
   Box,
   Button,
+  Center,
   Skeleton,
   SkeletonText,
   Stack,
   Text,
   Wrap,
+  useMediaQuery,
   useToast,
 } from "@chakra-ui/react";
 import React from "react";
@@ -75,89 +77,93 @@ export default function OverviewPage() {
     },
   });
 
+  const [isDesktopLayout] = useMediaQuery("(min-width: 40em)");
+
   return (
-    <Box pos="relative">
-      <Stack direction="row" align="center" fontSize=".8rem" spacing={1}>
-        <SkeletonText isLoaded={!isLoading} noOfLines={1}>
-          <Text color="palette.accent" fontWeight="semibold">
-            {`${grade?.student?.lastName}'s`}
-          </Text>
-        </SkeletonText>
-        <Text fontWeight="medium">performance for this test</Text>
-      </Stack>
-      <Text fontWeight="medium" fontSize=".8rem" paddingTop="1rem">
-        {moment(grade?.createAt).calendar()}
-      </Text>
-      <Wrap justify="center" pt={8} spacing={5}>
-        <Skeleton isLoaded={!isLoading} borderRadius=".5rem">
-          <Accuracy
-            numberOfCorrect={grade?.numberOfCorrect}
-            total={grade?.answerIndices?.length}
-          />
-        </Skeleton>
-        <Skeleton isLoaded={!isLoading} borderRadius=".5rem">
-          <Streaks
-            correctIndices={grade?.test?.answerIndices}
-            studentIndices={grade?.answerIndices}
-          />
-        </Skeleton>
-        <Skeleton isLoaded={!isLoading} borderRadius=".5rem">
-          <Correct correct={grade?.numberOfCorrect} />
-        </Skeleton>
-        <Skeleton isLoaded={!isLoading} borderRadius=".5rem">
-          <Incorrect incorrect={grade?.numberOfIncorrect} />
-        </Skeleton>
-      </Wrap>
-      <Stack mt={10} spacing={5}>
-        <Text fontSize=".8rem" fontWeight="medium">
-          Answers Overview
+    <Center w="100%">
+      <Box pos="relative" w={isDesktopLayout ? "40rem" : "100%"}>
+        <Stack direction="row" align="center" fontSize=".8rem" spacing={1}>
+          <SkeletonText isLoaded={!isLoading} noOfLines={1}>
+            <Text color="palette.accent" fontWeight="semibold">
+              {`${grade?.student?.lastName}'s`}
+            </Text>
+          </SkeletonText>
+          <Text fontWeight="medium">performance for this test</Text>
+        </Stack>
+        <Text fontWeight="medium" fontSize=".8rem" paddingTop="1rem">
+          {moment(grade?.createAt).calendar()}
         </Text>
-        <Stack spacing={2} paddingBottom="2rem">
-          {grade
-            ? grade.test?.testParts.map((part, index) =>
-                [...Array(part.totalNumber)].map((_, partIndex) => {
-                  cumulativePartIndex += 1;
+        <Wrap justify="center" pt={8} spacing={5}>
+          <Skeleton isLoaded={!isLoading} borderRadius=".5rem">
+            <Accuracy
+              numberOfCorrect={grade?.numberOfCorrect}
+              total={grade?.answerIndices?.length}
+            />
+          </Skeleton>
+          <Skeleton isLoaded={!isLoading} borderRadius=".5rem">
+            <Streaks
+              correctIndices={grade?.test?.answerIndices}
+              studentIndices={grade?.answerIndices}
+            />
+          </Skeleton>
+          <Skeleton isLoaded={!isLoading} borderRadius=".5rem">
+            <Correct correct={grade?.numberOfCorrect} />
+          </Skeleton>
+          <Skeleton isLoaded={!isLoading} borderRadius=".5rem">
+            <Incorrect incorrect={grade?.numberOfIncorrect} />
+          </Skeleton>
+        </Wrap>
+        <Stack mt={10} spacing={5}>
+          <Text fontSize=".8rem" fontWeight="medium">
+            Answers Overview
+          </Text>
+          <Stack spacing={2} paddingBottom="2rem">
+            {grade
+              ? grade.test?.testParts.map((part, index) =>
+                  [...Array(part.totalNumber)].map((_, partIndex) => {
+                    cumulativePartIndex += 1;
+                    return (
+                      <AnswerItem
+                        key={`${index}-${partIndex}`}
+                        index={cumulativePartIndex}
+                        questionType={part.questionType}
+                        correctAnswerIndex={
+                          grade.test?.answerIndices[cumulativePartIndex]
+                        }
+                        answerIndex={grade.answerIndices![cumulativePartIndex]}
+                        numberOfChoices={part.numberOfChoices}
+                      />
+                    );
+                  }),
+                )
+              : [0.8, 0.6, 0.4].map((item) => {
                   return (
-                    <AnswerItem
-                      key={`${index}-${partIndex}`}
-                      index={cumulativePartIndex}
-                      questionType={part.questionType}
-                      correctAnswerIndex={
-                        grade.test?.answerIndices[cumulativePartIndex]
-                      }
-                      answerIndex={grade.answerIndices![cumulativePartIndex]}
-                      numberOfChoices={part.numberOfChoices}
+                    <Skeleton
+                      isLoaded={!isLoading}
+                      key={item}
+                      opacity={item}
+                      borderRadius=".5rem"
+                      h="4rem"
                     />
                   );
-                }),
-              )
-            : [0.8, 0.6, 0.4].map((item) => {
-                return (
-                  <Skeleton
-                    isLoaded={!isLoading}
-                    key={item}
-                    opacity={item}
-                    borderRadius=".5rem"
-                    h="4rem"
-                  />
-                );
-              })}
-          <Box paddingTop="1rem">
-            <Button
-              bg="transparent"
-              color="red"
-              boxShadow="none"
-              w="100%"
-              border="1px solid red"
-              isLoading={mutateRecord.isLoading}
-              onClick={() => mutateRecord.mutate()}
-              _hover={{ bg: "rgba(200, 0, 0, .1)" }}
-            >
-              Delete Record
-            </Button>
-          </Box>
+                })}
+            <Box paddingTop="1rem">
+              <Button
+                bg="transparent"
+                color="red"
+                boxShadow="none"
+                w="100%"
+                border="1px solid red"
+                isLoading={mutateRecord.isLoading}
+                onClick={() => mutateRecord.mutate()}
+                _hover={{ bg: "rgba(200, 0, 0, .1)" }}
+              >
+                Delete Record
+              </Button>
+            </Box>
+          </Stack>
         </Stack>
-      </Stack>
-    </Box>
+      </Box>
+    </Center>
   );
 }

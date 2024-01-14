@@ -18,7 +18,7 @@ export default function Header() {
       w="100%"
       zIndex={100}
       bg="palette.background"
-      boxShadow="0 5px 10px rgba(0, 0, 0, .05)"
+      boxShadow="0 5px 10px rgba(0, 0, 0, .02)"
     >
       <CustomContainer>
         <Stack direction="row" h="4rem" align="center" justify="space-between">

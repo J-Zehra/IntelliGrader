@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { FetchedTestInfo, Statistics } from "@/utils/types";
-import { Button } from "@chakra-ui/react";
+import { Button, useMediaQuery } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import moment from "moment";
@@ -297,8 +297,6 @@ export default function DownloadReport() {
     result.push(commonCorrect);
   }
 
-  console.log(result);
-
   const handleDownload = (data: unknown[][]) => {
     const ws = utils.aoa_to_sheet(data);
     ws["!cols"] = [{ wch: 25 }];
@@ -310,16 +308,21 @@ export default function DownloadReport() {
     writeFile(wb, fileName);
   };
 
+  const [isDesktopLayout] = useMediaQuery("(min-width: 40em)");
+
   if (isLoading || isTestLoading || isClassLoading || isMostCommonLoading) {
     return (
-      <Button w="100%" isLoading>
+      <Button w={isDesktopLayout ? "20rem" : "100%"} isLoading>
         Download Full Report
       </Button>
     );
   }
 
   return (
-    <Button w="100%" onClick={() => handleDownload(result)}>
+    <Button
+      w={isDesktopLayout ? "20rem" : "100%"}
+      onClick={() => handleDownload(result)}
+    >
       Download Full Report
     </Button>
   );

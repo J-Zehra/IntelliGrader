@@ -54,6 +54,7 @@ export default function BottomNavbar() {
         opacity={0.6}
         right="1rem"
         fontSize="1.2rem"
+        cursor="pointer"
       >
         {isToggled ? (
           <MdOutlineKeyboardArrowUp />
@@ -83,6 +84,7 @@ export default function BottomNavbar() {
               spacing={1}
               fontSize="1.3rem"
               transition="all .3s ease"
+              cursor="pointer"
               color={
                 activeBottomNav === nav.label
                   ? "palette.accent"

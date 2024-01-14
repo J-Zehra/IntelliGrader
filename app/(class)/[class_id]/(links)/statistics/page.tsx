@@ -3,7 +3,14 @@
 "use client";
 
 import React from "react";
-import { Center, Skeleton, Stack, Text, Wrap } from "@chakra-ui/react";
+import {
+  Center,
+  Skeleton,
+  Stack,
+  Text,
+  Wrap,
+  useMediaQuery,
+} from "@chakra-ui/react";
 import { useParams } from "next/navigation";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
@@ -32,27 +39,32 @@ export default function StatisticsPage() {
     queryFn: getStatistics,
   });
 
+  const [isDesktopLayout] = useMediaQuery("(min-width: 40em)");
+
   return (
     <Center w="100%">
       <Stack
         spacing="3rem"
-        paddingBlock="1rem 10rem"
+        paddingBlock={isDesktopLayout ? "1rem" : "1rem 10rem"}
         ref={ref}
-        w={{ base: "100%", sm: "30rem" }}
+        direction={{ base: "column", sm: "row" }}
+        w="100%"
       >
-        <Wrap justify="center">
-          <Skeleton isLoaded={!isLoading} borderRadius=".5rem">
-            <TotalPassingRate rate={statistics?.passingRate} />
-          </Skeleton>
-          <Skeleton isLoaded={!isLoading} borderRadius=".5rem">
-            <TotalClassAccuracy accuracy={statistics?.accuracy} />
-          </Skeleton>
-        </Wrap>
-        <Stack spacing="1.2rem">
-          <Text fontSize=".8rem">Passing Rate Distribution</Text>
-          <AreaChart />
+        <Stack flex={1} spacing="3rem">
+          <Wrap justify="center">
+            <Skeleton isLoaded={!isLoading} borderRadius=".5rem">
+              <TotalPassingRate rate={statistics?.passingRate} />
+            </Skeleton>
+            <Skeleton isLoaded={!isLoading} borderRadius=".5rem">
+              <TotalClassAccuracy accuracy={statistics?.accuracy} />
+            </Skeleton>
+          </Wrap>
+          <Stack spacing="1.2rem">
+            <Text fontSize=".8rem">Passing Rate Distribution</Text>
+            <AreaChart />
+          </Stack>
         </Stack>
-        <Stack spacing="1.2rem">
+        <Stack spacing="1.2rem" flex={1}>
           <Text fontSize=".8rem">Ranking</Text>
           <StudentRankings />
         </Stack>

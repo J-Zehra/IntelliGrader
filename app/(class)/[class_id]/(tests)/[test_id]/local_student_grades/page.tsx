@@ -6,10 +6,12 @@
 
 import {
   Button,
+  Center,
   Stack,
   Text,
   Wrap,
   WrapItem,
+  useMediaQuery,
   useToast,
 } from "@chakra-ui/react";
 import { useParams, useRouter } from "next/navigation";
@@ -53,55 +55,66 @@ export default function LocalStudentGrades() {
     mutateStudentGrade.mutate(localGrade);
   };
 
+  const [isDesktopLayout] = useMediaQuery("(min-width: 40em)");
+
   return (
-    <Stack spacing={2} paddingBottom="2rem">
-      {mutateStudentGrade.isLoading ? (
-        <Loading message="Saving..." />
-      ) : (
-        <>
-          <Stack
-            direction="row"
-            w="100%"
-            justify="space-between"
-            align="center"
-          >
-            <Text fontSize=".8rem" fontWeight="normal">
-              Total of {localGrade.length}
-              {localGrade.length < 2 ? " paper" : " papers"}
-            </Text>
-          </Stack>
-          <Stack marginTop={10} spacing={3}>
-            {localGrade.map((grades: FetchedGradeInfo, index) => {
-              return index === 0 ? (
-                <StudentGradeItem grade={grades} key={grades.roll_number} />
-              ) : (
-                <StudentGradeItemRest grade={grades} key={grades.roll_number} />
-              );
-            })}
-          </Stack>
-          <Button onClick={handleSave}>Save Student Records</Button>
-          <Stack paddingTop="2rem">
-            <Text fontSize=".8rem" fontWeight="normal">
-              Failed To Scan
-            </Text>
-            <Wrap justify="start" gap="1rem">
-              {failedScan.map((item: { status: string; image: string }) => {
-                return (
-                  <WrapItem>
-                    <Image
-                      src={item.image}
-                      width={600}
-                      height={600}
-                      alt="Failed Scan Image"
-                      style={{ width: "5rem", borderRadius: "1rem" }}
-                    />
-                  </WrapItem>
+    <Center w="100%">
+      <Stack
+        spacing={2}
+        paddingBottom="2rem"
+        w={isDesktopLayout ? "40rem" : "100%"}
+      >
+        {mutateStudentGrade.isLoading ? (
+          <Loading message="Saving..." />
+        ) : (
+          <>
+            <Stack
+              direction="row"
+              w="100%"
+              justify="space-between"
+              align="center"
+            >
+              <Text fontSize=".8rem" fontWeight="normal">
+                Total of {localGrade.length}
+                {localGrade.length < 2 ? " paper" : " papers"}
+              </Text>
+            </Stack>
+            <Stack marginTop={10} spacing={3}>
+              {localGrade.map((grades: FetchedGradeInfo, index) => {
+                return index === 0 ? (
+                  <StudentGradeItem grade={grades} key={grades.roll_number} />
+                ) : (
+                  <StudentGradeItemRest
+                    grade={grades}
+                    key={grades.roll_number}
+                  />
                 );
               })}
-            </Wrap>
-          </Stack>
-        </>
-      )}
-    </Stack>
+            </Stack>
+            <Button onClick={handleSave}>Save Student Records</Button>
+            <Stack paddingTop="2rem">
+              <Text fontSize=".8rem" fontWeight="normal">
+                Failed To Scan
+              </Text>
+              <Wrap justify="start" gap="1rem">
+                {failedScan.map((item: { status: string; image: string }) => {
+                  return (
+                    <WrapItem>
+                      <Image
+                        src={item.image}
+                        width={600}
+                        height={600}
+                        alt="Failed Scan Image"
+                        style={{ width: "5rem", borderRadius: "1rem" }}
+                      />
+                    </WrapItem>
+                  );
+                })}
+              </Wrap>
+            </Stack>
+          </>
+        )}
+      </Stack>
+    </Center>
   );
 }

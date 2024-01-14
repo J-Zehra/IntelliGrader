@@ -2,7 +2,13 @@
 
 "use client";
 
-import { Button, Stack, useToast } from "@chakra-ui/react";
+import {
+  Button,
+  Center,
+  Stack,
+  useMediaQuery,
+  useToast,
+} from "@chakra-ui/react";
 import { useParams, useRouter } from "next/navigation";
 import { AiOutlinePlus } from "react-icons/ai";
 import { useRecoilState, useSetRecoilState } from "recoil";
@@ -118,11 +124,17 @@ export default function SetupTest() {
   };
 
   const steps = [<Step1 />, <Step2 />, <Confimation />];
+  const [isDesktopLayout] = useMediaQuery("(min-width: 40em)");
 
   return (
-    <>
+    <Center w="100%">
       {mutateTest.isLoading ? <Loading message="Creating Test" /> : ""}
-      <Stack mt="2rem" spacing="1.2rem" paddingBottom="2rem">
+      <Stack
+        mt="2rem"
+        spacing="1.2rem"
+        paddingBottom="2rem"
+        w={isDesktopLayout ? "30rem" : "100%"}
+      >
         {steps[activeStep]}
         <Stack direction="row" align="center" justify="end" spacing="1rem">
           <Button
@@ -142,6 +154,6 @@ export default function SetupTest() {
           </Button>
         </Stack>
       </Stack>
-    </>
+    </Center>
   );
 }

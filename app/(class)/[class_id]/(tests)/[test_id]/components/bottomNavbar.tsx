@@ -66,7 +66,7 @@ export default function BottomNavbar() {
   return (
     <Center w="100%" zIndex="overlay">
       <Box
-        w="90%"
+        w={{ base: "90%", sm: "25rem" }}
         h="6rem"
         position="fixed"
         bottom="2rem"
@@ -84,6 +84,7 @@ export default function BottomNavbar() {
           pos="absolute"
           top=".5rem"
           opacity={0.6}
+          cursor="pointer"
           right="1rem"
           fontSize="1.2rem"
         >
@@ -117,6 +118,7 @@ export default function BottomNavbar() {
                 key={nav.label}
                 align="center"
                 spacing={1}
+                cursor="pointer"
                 fontSize="1.2rem"
                 transition="all .3s ease"
                 onClick={() => handleClick(nav.label, nav.link)}

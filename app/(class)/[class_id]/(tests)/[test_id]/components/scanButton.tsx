@@ -63,6 +63,7 @@ export default function ScanButton({
         color="palette.background"
         borderColor="palette.background"
         onClick={openCamera}
+        cursor="pointer"
       >
         {icon}
       </Center>

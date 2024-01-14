@@ -13,6 +13,7 @@ import {
   StepStatus,
   Stepper,
   Text,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import { useRecoilValue } from "recoil";
 import { BsArrowReturnLeft } from "react-icons/bs";
@@ -32,6 +33,7 @@ export default function TestSetupLayoutWrapper({
   ];
 
   const activeStep = useRecoilValue(setupTestStepState);
+  const [isDesktopLayout] = useMediaQuery("(min-width: 40em)");
 
   return (
     <CustomContainer>
@@ -61,7 +63,11 @@ export default function TestSetupLayoutWrapper({
             <Box w=".5rem" h=".5rem" bg="palette.accent" borderRadius="5rem" />
           </Stack>
         </Stack>
-        <Stack pt="1rem" spacing="2.5rem" w="80%">
+        <Stack
+          pt="1rem"
+          spacing="2.5rem"
+          w={isDesktopLayout ? "30rem" : "100%"}
+        >
           <Stepper size="lg" index={activeStep}>
             {steps.map((step) => (
               <Step key={step.title}>

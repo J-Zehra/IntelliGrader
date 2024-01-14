@@ -9,6 +9,7 @@ import {
   Stack,
   Text,
   Wrap,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import React from "react";
 import { useParams } from "next/navigation";
@@ -45,7 +46,8 @@ export default function StatisticsPage() {
     queryKey: ["grade-statistics", test_id],
     queryFn: getStatistics,
   });
-  console.log(statistics);
+
+  const [isDesktopLayout] = useMediaQuery("(min-width: 40em)");
 
   return (
     <Box pos="relative" paddingBottom="10rem" ref={ref}>
@@ -78,35 +80,40 @@ export default function StatisticsPage() {
         {/* <PolarAreaChart /> */}
         <TallyOfScores />
       </Box>
-      <Stack mt={10} spacing={5}>
-        <Text fontSize=".8rem" fontWeight="medium">
-          Common Mistakes
-        </Text>
-        <Stack spacing={2}>
-          {statistics
-            ? statistics?.questionsMostGotWrong?.map((item, index) => {
-                return (
-                  <CommonyMistakesAnswerItem
-                    key={item.index}
-                    index={index}
-                    item={item}
-                    numberOfChoices={item.numberOfChoices}
-                  />
-                );
-              })
-            : [0.8, 0.6, 0.4].map((item) => {
-                return (
-                  <Skeleton
-                    isLoaded={!isLoading}
-                    key={item}
-                    opacity={item}
-                    borderRadius=".5rem"
-                    h="4rem"
-                  />
-                );
-              })}
+      <Stack
+        direction={isDesktopLayout ? "row" : "column"}
+        spacing={isDesktopLayout ? "1rem" : ""}
+      >
+        <Stack mt={10} spacing={5} flex={1}>
+          <Text fontSize=".8rem" fontWeight="medium">
+            Common Mistakes
+          </Text>
+          <Stack spacing={2}>
+            {statistics
+              ? statistics?.questionsMostGotWrong?.map((item, index) => {
+                  return (
+                    <CommonyMistakesAnswerItem
+                      key={item.index}
+                      index={index}
+                      item={item}
+                      numberOfChoices={item.numberOfChoices}
+                    />
+                  );
+                })
+              : [0.8, 0.6, 0.4].map((item) => {
+                  return (
+                    <Skeleton
+                      isLoaded={!isLoading}
+                      key={item}
+                      opacity={item}
+                      borderRadius=".5rem"
+                      h="4rem"
+                    />
+                  );
+                })}
+          </Stack>
         </Stack>
-        <Stack mt={10} spacing={5}>
+        <Stack mt={10} spacing={5} flex={1}>
           <Text fontSize=".8rem" fontWeight="medium">
             Questions Most Got Right
           </Text>
@@ -135,9 +142,9 @@ export default function StatisticsPage() {
                 })}
           </Stack>
         </Stack>
-        <Stack w="100%" justify="end">
-          <DownloadReport />
-        </Stack>
+      </Stack>
+      <Stack w="100%" paddingTop="1rem" align="end">
+        <DownloadReport />
       </Stack>
     </Box>
   );
