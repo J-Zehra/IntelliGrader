@@ -21,7 +21,12 @@ export default function AuthLayoutWrapper({
   const pathName = usePathname();
 
   return (
-    <Stack w="100%" h="100vh" direction={isDesktopLayout ? "row" : "column"}>
+    <Stack
+      position="relative"
+      w="100%"
+      h="100vh"
+      direction={isDesktopLayout ? "row" : "column"}
+    >
       <Center flex={1}>
         <Image
           alt="logo"
@@ -42,12 +47,11 @@ export default function AuthLayoutWrapper({
         justifyContent="end"
         borderTopRadius={isDesktopLayout ? "0" : "2rem"}
         p="1.5rem"
-        position="relative"
       >
         {isDesktopLayout ? (
           <ChakraImage
             src="/auth_bg_2.png"
-            left={0}
+            left="15rem"
             top={0}
             zIndex={-1}
             h="100%"
