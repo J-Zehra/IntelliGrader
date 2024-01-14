@@ -110,11 +110,10 @@ export default function SinginPage() {
           )}
         </InputRightElement>
       </InputGroup>
-      <Box w="100%">
+      <Box w="100%" paddingTop=".6rem">
         <Button
           ref={ref}
           w="100%"
-          paddingTop=".6rem"
           bg="#1380FF"
           onClick={handleSubmit}
           color="palette.background"
