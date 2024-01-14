@@ -44,7 +44,7 @@ export default function OverviewCard() {
         >
           <Stack align="center" spacing={0}>
             <Text fontSize="4rem" color="palette.accent" fontWeight="bold">
-              {data?.totalStudents || 0}
+              {data?.totalTests || 0}
             </Text>
             <Text fontSize=".9rem" color="palette.accent">
               Tests
@@ -62,7 +62,7 @@ export default function OverviewCard() {
               fontWeight="bold"
               color="palette.button.primary"
             >
-              {data?.totalTests || 0}
+              {data?.totalStudents || 0}
             </Text>
             <Text fontSize=".8rem" color="palette.text">
               Students
