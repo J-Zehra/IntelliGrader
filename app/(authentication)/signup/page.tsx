@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  Box,
   Button,
   Input,
   InputGroup,
@@ -97,9 +98,10 @@ export default function SignupPage() {
   };
 
   return (
-    <Stack justifyContent="center" h="100%" spacing={3.5}>
+    <Stack justifyContent="center" w="100%" spacing={3.5}>
       {mutateTeacher.isLoading ? <Loading message="Signing you up" /> : null}
       <Input
+        borderRadius=".75rem"
         variant="primary"
         value={username}
         onChange={(e) => {
@@ -108,6 +110,7 @@ export default function SignupPage() {
         placeholder="Name"
       />
       <Input
+        borderRadius=".75rem"
         variant="primary"
         value={email}
         onChange={(e) => {
@@ -117,6 +120,7 @@ export default function SignupPage() {
       />
       <InputGroup>
         <Input
+          borderRadius=".75rem"
           variant="primary"
           value={password}
           onChange={(e) => {
@@ -142,6 +146,7 @@ export default function SignupPage() {
       </InputGroup>
       <InputGroup>
         <Input
+          borderRadius=".75rem"
           value={confirmPassword}
           onChange={(e) => {
             setConfirmPassword(e.target.value);
@@ -166,9 +171,16 @@ export default function SignupPage() {
           )}
         </InputRightElement>
       </InputGroup>
-      <Button bg="#1380FF" color="palette.background" onClick={handleSubmit}>
-        Sign up
-      </Button>
+      <Box paddingTop=".6rem" w="100%">
+        <Button
+          bg="#1380FF"
+          w="100%"
+          color="palette.background"
+          onClick={handleSubmit}
+        >
+          Sign up
+        </Button>
+      </Box>
       <Text textAlign="center" color="palette.light" fontSize=".9rem">
         Already have an account?{" "}
         <Link href="signin" style={{ color: "#75AFFF", fontWeight: "bold" }}>

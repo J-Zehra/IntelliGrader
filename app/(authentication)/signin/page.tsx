@@ -1,6 +1,7 @@
 "use client";
 
 import {
+  Box,
   Button,
   Divider,
   Input,
@@ -72,9 +73,10 @@ export default function SinginPage() {
   };
 
   return (
-    <Stack justifyContent="center" h="100%" spacing={3.5}>
+    <Stack justifyContent="center" w="100%" spacing={3.5}>
       {loading ? <Loading message="Signing you in" /> : null}
       <Input
+        borderRadius=".75rem"
         variant="primary"
         value={email}
         onChange={(e) => {
@@ -84,6 +86,7 @@ export default function SinginPage() {
       />
       <InputGroup>
         <Input
+          borderRadius=".75rem"
           variant="primary"
           placeholder="Password"
           value={password}
@@ -107,14 +110,18 @@ export default function SinginPage() {
           )}
         </InputRightElement>
       </InputGroup>
-      <Button
-        ref={ref}
-        bg="#1380FF"
-        onClick={handleSubmit}
-        color="palette.background"
-      >
-        Sign in
-      </Button>
+      <Box w="100%">
+        <Button
+          ref={ref}
+          w="100%"
+          paddingTop=".6rem"
+          bg="#1380FF"
+          onClick={handleSubmit}
+          color="palette.background"
+        >
+          Sign in
+        </Button>
+      </Box>
       <Text textAlign="center" color="palette.light" fontSize=".9rem">
         Doesn&apos;t have an account yet?
         <Link
