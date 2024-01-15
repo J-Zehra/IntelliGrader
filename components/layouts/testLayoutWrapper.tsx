@@ -32,7 +32,8 @@ export default function TestLayoutWrapper({
     if (
       path.includes("overview") ||
       path.includes("student_grades") ||
-      path.includes("local_student_grades")
+      path.includes("local_student_grades") ||
+      path.includes("pdf")
     ) {
       navigate.back();
     } else {

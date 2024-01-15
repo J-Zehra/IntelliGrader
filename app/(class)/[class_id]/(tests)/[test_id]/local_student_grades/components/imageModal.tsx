@@ -24,7 +24,7 @@ export default function ImageModal({
       allowPinchZoom
       onClose={onClose}
       isCentered
-      motionPreset="none"
+      motionPreset="slideInBottom"
     >
       <ModalOverlay />
       <ModalContent>

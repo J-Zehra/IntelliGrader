@@ -229,7 +229,12 @@ export default function DownloadReport() {
   }
 
   return (
-    <Button w="100%" fontSize=".9rem" onClick={() => handleDownload(result)}>
+    <Button
+      w="100%"
+      fontSize=".9rem"
+      boxShadow="none"
+      onClick={() => handleDownload(result)}
+    >
       Download Report
     </Button>
   );

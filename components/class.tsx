@@ -122,9 +122,15 @@ export default function Class({
             alignItems="end"
             color={textColorVariant()}
             direction="row"
-            spacing={4}
+            spacing="1.6rem"
           >
-            <Center p=".1rem" fontSize="1.2rem" cursor="pointer" opacity=".8">
+            <Center
+              p=".1rem"
+              fontSize="1.2rem"
+              cursor="pointer"
+              opacity=".8"
+              onClick={() => navigate.push(`/${classInfo.id}/statistics`)}
+            >
               <BsBarChartLine />
             </Center>
             <Button

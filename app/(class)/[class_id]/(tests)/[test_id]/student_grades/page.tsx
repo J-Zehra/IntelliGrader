@@ -64,7 +64,7 @@ export default function StudentGrades() {
         <Stack
           w="100%"
           paddingTop="1rem"
-          spacing={isDesktopLayout ? "1rem" : ""}
+          spacing={isDesktopLayout ? "1rem" : ".5rem"}
           direction={isDesktopLayout ? "row" : "column"}
         >
           <DownloadReport />
