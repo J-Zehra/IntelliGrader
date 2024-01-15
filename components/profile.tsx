@@ -4,7 +4,7 @@ import {
   Button,
   Menu,
   MenuButton,
-  MenuCommand,
+  // MenuCommand,
   MenuDivider,
   MenuGroup,
   MenuItem,
@@ -29,7 +29,7 @@ export default function Profile() {
           />
         </MenuButton>
         <MenuList p=".6rem">
-          <MenuGroup>
+          {/* <MenuGroup>
             <MenuItem justifyContent="space-between" w="100%">
               Profile
               <MenuCommand>
@@ -42,7 +42,7 @@ export default function Profile() {
               </MenuCommand>
             </MenuItem>
           </MenuGroup>
-          <MenuDivider mb="1rem" />
+          <MenuDivider mb="1rem" /> */}
           <MenuGroup fontSize=".9rem">
             <MenuItem onClick={() => navigate.push("/tutorial")}>
               Tutorial
