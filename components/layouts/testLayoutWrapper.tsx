@@ -100,7 +100,7 @@ export default function TestLayoutWrapper({
                   {testData?.testName}
                 </Text>
               </Skeleton>
-              <Skeleton isLoaded={!isClassLoading}>
+              <Skeleton isLoaded={!isClassLoading} borderRadius=".5rem">
                 <Text
                   fontSize=".7rem"
                   color="palette.button.primary"

@@ -11,6 +11,7 @@ import {
   Text,
   Wrap,
   WrapItem,
+  useDisclosure,
   useMediaQuery,
   useToast,
 } from "@chakra-ui/react";
@@ -23,8 +24,10 @@ import { localGradeInfo } from "@/state/localGradeInfo";
 import Loading from "@/components/loading";
 import { failedToScan } from "@/state/failedToScan";
 import Image from "next/image";
+import { useState } from "react";
 import StudentGradeItemRest from "./components/studentGradeItemRest";
 import StudentGradeItem from "./components/studentGradeItem";
+import ImageModal from "./components/imageModal";
 
 export default function LocalStudentGrades() {
   const { test_id, class_id } = useParams();
@@ -32,6 +35,9 @@ export default function LocalStudentGrades() {
   const navigate = useRouter();
   const localGrade = useRecoilValue(localGradeInfo);
   const failedScan = useRecoilValue(failedToScan);
+  const [selectedImage, setSelectedImage] = useState<string>("");
+
+  const { isOpen, onClose, onOpen } = useDisclosure();
 
   const createStudentGrade = (grades: FetchedGradeInfo[]) => {
     const data = { testId: test_id, grades, classId: class_id };
@@ -92,29 +98,39 @@ export default function LocalStudentGrades() {
               })}
             </Stack>
             <Button onClick={handleSave}>Save Student Records</Button>
-            <Stack paddingTop="2rem">
-              <Text fontSize=".8rem" fontWeight="normal">
-                Failed To Scan
-              </Text>
-              <Wrap justify="start" gap="1rem">
-                {failedScan.map((item: { status: string; image: string }) => {
-                  return (
-                    <WrapItem>
-                      <Image
-                        src={item.image}
-                        width={600}
-                        height={600}
-                        alt="Failed Scan Image"
-                        style={{ width: "5rem", borderRadius: "1rem" }}
-                      />
-                    </WrapItem>
-                  );
-                })}
-              </Wrap>
-            </Stack>
+            {failedScan.length > 0 ? (
+              <Stack paddingTop="2rem">
+                <Text fontSize=".8rem" fontWeight="normal">
+                  Failed To Scan
+                </Text>
+                <Wrap justify="start" gap="1rem">
+                  {failedScan.map((item: { status: string; image: string }) => {
+                    return (
+                      <WrapItem
+                        onClick={() => {
+                          setSelectedImage(item.image);
+                          onOpen();
+                        }}
+                      >
+                        <Image
+                          src={item.image}
+                          width={600}
+                          height={600}
+                          alt="Failed Scan Image"
+                          style={{ width: "5rem", borderRadius: "1rem" }}
+                        />
+                      </WrapItem>
+                    );
+                  })}
+                </Wrap>
+              </Stack>
+            ) : null}
           </>
         )}
       </Stack>
+      {isOpen ? (
+        <ImageModal image={selectedImage} isOpen={isOpen} onClose={onClose} />
+      ) : null}
     </Center>
   );
 }

@@ -2,7 +2,6 @@
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/jsx-props-no-spreading */
 import { Box, Center, Stack, Text, useDisclosure } from "@chakra-ui/react";
-import { useEffect } from "react";
 
 import { usePathname, useRouter } from "next/navigation";
 import { useRecoilState, useRecoilValue } from "recoil";
@@ -43,11 +42,11 @@ export default function BottomNavbar() {
     };
   };
 
-  useEffect(() => {
-    router.prefetch("settings");
-    router.prefetch("statistics");
-    router.prefetch("student_grades");
-  }, [router]);
+  // useEffect(() => {
+  //   router.prefetch("settings");
+  //   router.prefetch("statistics");
+  //   router.prefetch("student_grades");
+  // }, [router]);
 
   if (image.length > 0) {
     return null;

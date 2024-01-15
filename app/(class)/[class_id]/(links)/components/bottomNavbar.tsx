@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Box, Stack, Text, useDisclosure } from "@chakra-ui/react";
-import { useEffect } from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { ClassNavLink } from "@/utils/types";
 import { useRecoilState } from "recoil";
 import { classActiveNavState } from "@/state/classActiveNav";
@@ -13,7 +12,6 @@ import { motion } from "framer-motion";
 import { navlinks } from "./navlinks";
 
 export default function BottomNavbar() {
-  const { class_id } = useParams();
   const router = useRouter();
   const { isOpen: isToggled, onToggle } = useDisclosure();
   const [activeBottomNav, setActiveBottomNav] =
@@ -23,13 +21,6 @@ export default function BottomNavbar() {
     setActiveBottomNav(label);
     router.push(link);
   };
-
-  useEffect(() => {
-    router.prefetch(`/${class_id}/dashboard`);
-    router.prefetch(`/${class_id}/tests`);
-    router.prefetch(`/${class_id}/students`);
-    router.prefetch(`/${class_id}/statistics`);
-  }, [class_id, router]);
 
   return (
     <Box

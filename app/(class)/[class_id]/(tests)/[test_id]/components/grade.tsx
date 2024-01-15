@@ -12,7 +12,7 @@ import { fileState } from "@/state/fileState";
 import { localGradeInfo } from "@/state/localGradeInfo";
 import imageCompression, { Options } from "browser-image-compression";
 import { failedToScan } from "@/state/failedToScan";
-import { socket } from "../socket";
+// import { socket } from "../socket";
 
 export default function GradeButton({
   setLoading,
@@ -69,9 +69,9 @@ export default function GradeButton({
             });
           };
 
-          const base64String = await convertBlobToBase64(compressedImage);
+          const binaryString = await convertBlobToBase64(compressedImage);
 
-          return base64String;
+          return binaryString;
         } catch (error) {
           console.error("Error compressing image:", error);
           return null;
@@ -79,6 +79,7 @@ export default function GradeButton({
       });
 
       const scaledImages = await Promise.all(scalingPromises);
+      console.log(scaledImages);
 
       const parts = testData!.testParts!.map((part) => {
         return {
@@ -88,33 +89,47 @@ export default function GradeButton({
         };
       });
 
-      const data = {
-        images: scaledImages,
-        answer: testData!.answerIndices,
-        parts,
-      };
-      return data;
+      const formData = new FormData();
+      formData.append("images", JSON.stringify(scaledImages));
+      formData.append("answer", JSON.stringify(testData!.answerIndices));
+      formData.append("parts", JSON.stringify(parts));
+
+      return formData;
     }
 
-    compressAndScaleImages().then((data) => {
-      socket.emit("grade", data);
-      socket.on("grade_result", (d) => {
-        if (d.length === 1 && d[0].status === "error") {
-          setErrorMessage(d[0].message);
-          setLoading(false);
-          return;
-        }
+    try {
+      const data = await compressAndScaleImages();
+      axios
+        .post("http://127.0.0.1:5000/grade", data)
+        .then((res) => {
+          console.log(res);
+          const { data: responseData } = res;
+          console.log(responseData);
+          if (responseData.length === 1 && responseData[0].status === "error") {
+            setErrorMessage(responseData[0].message);
+            setLoading(false);
+            return;
+          }
 
-        const success = d.filter((item: any) => item.status === "success");
+          const success = responseData.filter(
+            (item: any) => item.status === "success",
+          );
+          const failed = responseData.filter(
+            (item: any) => item.status === "failed",
+          );
 
-        const failed = d.filter((item: any) => item.status === "failed");
-
-        setLocalGradeInfo(success);
-        setFailedScan(failed);
-        setFiles([]);
-        navigate.push("local_student_grades");
-      });
-    });
+          setLocalGradeInfo(success);
+          setFailedScan(failed);
+          setFiles([]);
+          navigate.push("local_student_grades");
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } catch (error) {
+      console.error("Error compressing and scaling images:", error);
+      setLoading(false);
+    }
   };
 
   useEffect(() => {

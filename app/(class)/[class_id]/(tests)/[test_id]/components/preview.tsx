@@ -55,6 +55,7 @@ export default function Preview() {
                 <Center
                   pos="absolute"
                   w="100%"
+                  flexDir="column"
                   zIndex={10}
                   h="100%"
                   left={0}
@@ -72,6 +73,7 @@ export default function Preview() {
           );
         })}
       </Wrap>
+
       <Stack direction="row" justify="end" align="center" spacing={2.5} pt={5}>
         <IconButton
           aria-label="Delete Icon"
