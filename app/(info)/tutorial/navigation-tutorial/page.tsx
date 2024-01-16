@@ -42,7 +42,7 @@ export default function NavigationTutorial() {
 
   return (
     <Stack>
-      <Text fontSize="1.6rem" fontWeight="bold" color="palette.accent">
+      <Text fontSize="1.8rem" fontWeight="bold" opacity={0.8}>
         NAVIGATION GUIDE
       </Text>
       <Text fontWeight="normal" opacity={0.8}>

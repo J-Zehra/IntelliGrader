@@ -129,6 +129,7 @@ export default function Class({
               fontSize="1.2rem"
               cursor="pointer"
               opacity=".8"
+              borderRadius=".5rem"
               onClick={() => navigate.push(`/${classInfo.id}/statistics`)}
             >
               <BsBarChartLine />

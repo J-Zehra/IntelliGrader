@@ -119,6 +119,8 @@ export default function BottomNavbar() {
                 spacing={1}
                 cursor="pointer"
                 fontSize="1.2rem"
+                borderRadius=".6rem"
+                _hover={{ opacity: 0.8 }}
                 transition="all .3s ease"
                 onClick={() => handleClick(nav.label, nav.link)}
                 {...style(nav.label)}

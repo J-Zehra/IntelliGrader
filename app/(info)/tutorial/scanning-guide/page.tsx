@@ -33,7 +33,7 @@ export default function ScanningGuide() {
   ];
   return (
     <Stack>
-      <Text fontSize="1.6rem" fontWeight="bold" color="palette.accent">
+      <Text fontSize="1.8rem" fontWeight="bold" opacity={0.8}>
         SCANNING GUIDE
       </Text>
       <Text fontWeight="normal" opacity={0.8}>

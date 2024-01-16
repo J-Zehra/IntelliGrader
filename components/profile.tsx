@@ -44,13 +44,22 @@ export default function Profile() {
           </MenuGroup>
           <MenuDivider mb="1rem" /> */}
           <MenuGroup fontSize=".9rem">
-            <MenuItem onClick={() => navigate.push("/tutorial")}>
+            <MenuItem
+              borderRadius=".6rem"
+              onClick={() => navigate.push("/tutorial")}
+            >
               Tutorial
             </MenuItem>
-            <MenuItem onClick={() => navigate.push("/privacy-policy")}>
+            <MenuItem
+              borderRadius=".6rem"
+              onClick={() => navigate.push("/privacy-policy")}
+            >
               Privacy Policy
             </MenuItem>
-            <MenuItem onClick={() => navigate.push("/terms-of-service")}>
+            <MenuItem
+              borderRadius=".6rem"
+              onClick={() => navigate.push("/terms-of-service")}
+            >
               Terms of Service
             </MenuItem>
           </MenuGroup>

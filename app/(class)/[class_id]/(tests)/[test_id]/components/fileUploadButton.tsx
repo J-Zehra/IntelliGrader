@@ -43,7 +43,13 @@ export default function FileUploadButton() {
 
   return (
     <Box>
-      <Center cursor="pointer" onClick={handleClick} fontSize="1.2rem">
+      <Center
+        cursor="pointer"
+        borderRadius=".6rem"
+        _hover={{ opacity: 0.8 }}
+        onClick={handleClick}
+        fontSize="1.2rem"
+      >
         <CiFileOn opacity={0.8} />
       </Center>
       <Input

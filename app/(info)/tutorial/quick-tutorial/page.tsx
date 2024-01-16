@@ -50,7 +50,7 @@ export default function QuickTutorialPage() {
 
   return (
     <Stack>
-      <Text fontSize="1.6rem" fontWeight="bold" color="palette.accent">
+      <Text fontSize="1.8rem" fontWeight="bold" opacity={0.8}>
         QUICK TUTORIAL
       </Text>
       <Text fontWeight="medium" opacity={0.8}>

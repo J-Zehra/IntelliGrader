@@ -76,6 +76,8 @@ export default function BottomNavbar() {
               fontSize="1.3rem"
               transition="all .3s ease"
               cursor="pointer"
+              _hover={{ opacity: 0.8 }}
+              borderRadius=".6rem"
               color={
                 activeBottomNav === nav.label
                   ? "palette.accent"

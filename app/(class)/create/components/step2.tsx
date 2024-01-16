@@ -1,17 +1,24 @@
 import {
   Button,
   Center,
+  Collapse,
+  Highlight,
   IconButton,
   Stack,
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
-import { AiOutlineEdit, AiOutlinePlus } from "react-icons/ai";
+import {
+  AiOutlineDownload,
+  AiOutlineEdit,
+  AiOutlinePlus,
+} from "react-icons/ai";
 import { useRecoilState } from "recoil";
 import { IoMdRemove } from "react-icons/io";
 import { classInfoState } from "@/state/classInfoState";
 import { StudentInfo } from "@/utils/types";
+import { CiCircleQuestion } from "react-icons/ci";
 import AddStudentModal from "./addStudentModal";
 import EditStudentModal from "./editStudentModal";
 import UploadCSV from "./uploadCSV";
@@ -35,6 +42,7 @@ export default function Step2() {
       rollNumber: 0,
     });
   const [classInfo, setClassInfo] = useRecoilState(classInfoState);
+  const [isNoteOpen, setIsNoteOpen] = useState(true);
 
   const handleRemove = (rollNumber: number) => {
     setClassInfo((prev) => ({
@@ -97,7 +105,39 @@ export default function Step2() {
           </Stack>
         );
       })}
-      <Stack paddingTop="1rem" spacing=".8rem">
+      <Stack spacing=".8rem">
+        <Center w="100%" justifyContent="end">
+          <IconButton
+            variant="outline"
+            aria-label="Note"
+            icon={<CiCircleQuestion />}
+            onClick={() => setIsNoteOpen((prev) => !prev)}
+          />
+        </Center>
+        <Collapse in={isNoteOpen}>
+          <Stack borderRadius="1rem" bg="palette.light" spacing="1rem" p="1rem">
+            <Text fontSize=".9rem">
+              <Highlight query="NOTE:" styles={{ fontWeight: "bold" }}>
+                NOTE: When uploading CSV file for students, make sure that the
+                columns are labeled [firstName, middleName, lastName].
+              </Highlight>
+            </Text>
+            <Button
+              fontSize=".9rem"
+              as="a"
+              target="+black"
+              download="sample.csv"
+              href="/samplecsv/sample.csv"
+              leftIcon={<AiOutlineDownload />}
+              variant="link"
+              w="fit-content"
+              minW="fit-content"
+              color="palette.button.primary"
+            >
+              Download Sample
+            </Button>
+          </Stack>
+        </Collapse>
         <UploadCSV />
         <Button
           borderRadius=".8rem"
