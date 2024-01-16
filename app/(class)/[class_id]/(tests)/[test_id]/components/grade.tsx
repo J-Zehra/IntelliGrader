@@ -105,7 +105,6 @@ export default function GradeButton({
 
     try {
       const data = await compressAndScaleImages();
-      console.log("DATA:", data);
       socket.emit("grade", data);
     } catch (error) {
       console.error("Error compressing and scaling images:", error);
@@ -127,7 +126,8 @@ export default function GradeButton({
 
   useEffect(() => {
     const onGradeEvent = (data: any) => {
-      if (data.length === 1 && data[0].status === "error") {
+      console.log("RETUEND", data);
+      if (data.length === 1 && data[0].status === "failed") {
         setErrorMessage(data[0].message);
         setLoading(false);
         return;
