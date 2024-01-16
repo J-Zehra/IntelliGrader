@@ -12,6 +12,7 @@ import { fileState } from "@/state/fileState";
 import { localGradeInfo } from "@/state/localGradeInfo";
 import imageCompression, { Options } from "browser-image-compression";
 import { failedToScan } from "@/state/failedToScan";
+import { socket } from "../socket";
 // import { socket } from "../socket";
 
 export default function GradeButton({
@@ -59,17 +60,21 @@ export default function GradeButton({
         try {
           const compressedImage = await imageCompression(image!, options);
 
-          const convertBlobToBase64 = (blob: Blob) => {
+          const convertBlobToUint8Array = (blob: Blob) => {
             return new Promise((resolve) => {
               const reader = new FileReader();
               reader.onloadend = () => {
-                resolve(reader.result);
+                const arrayBuffer = reader.result;
+                const uint8Array = new Uint8Array(
+                  arrayBuffer as ArrayBufferLike,
+                );
+                resolve(uint8Array);
               };
-              reader.readAsDataURL(blob);
+              reader.readAsArrayBuffer(blob);
             });
           };
 
-          const binaryString = await convertBlobToBase64(compressedImage);
+          const binaryString = await convertBlobToUint8Array(compressedImage);
 
           return binaryString;
         } catch (error) {
@@ -89,43 +94,19 @@ export default function GradeButton({
         };
       });
 
-      const formData = new FormData();
-      formData.append("images", JSON.stringify(scaledImages));
-      formData.append("answer", JSON.stringify(testData!.answerIndices));
-      formData.append("parts", JSON.stringify(parts));
+      const data = {
+        images: scaledImages,
+        answer: testData!.answerIndices,
+        parts,
+      };
 
-      return formData;
+      return data;
     }
 
     try {
       const data = await compressAndScaleImages();
-      axios
-        .post("https://intelli-grader-b-b4886838bad3.herokuapp.com/grade", data)
-        .then((res) => {
-          console.log(res);
-          const { data: responseData } = res;
-          console.log(responseData);
-          if (responseData.length === 1 && responseData[0].status === "error") {
-            setErrorMessage(responseData[0].message);
-            setLoading(false);
-            return;
-          }
-
-          const success = responseData.filter(
-            (item: any) => item.status === "success",
-          );
-          const failed = responseData.filter(
-            (item: any) => item.status === "failed",
-          );
-
-          setLocalGradeInfo(success);
-          setFailedScan(failed);
-          setFiles([]);
-          navigate.push("local_student_grades");
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      console.log("DATA:", data);
+      socket.emit("grade", data);
     } catch (error) {
       console.error("Error compressing and scaling images:", error);
       setLoading(false);
@@ -143,6 +124,30 @@ export default function GradeButton({
       });
     }
   }, [errorMessage, toast]);
+
+  useEffect(() => {
+    const onGradeEvent = (data: any) => {
+      if (data.length === 1 && data[0].status === "error") {
+        setErrorMessage(data[0].message);
+        setLoading(false);
+        return;
+      }
+
+      const success = data.filter((item: any) => item.status === "success");
+      const failed = data.filter((item: any) => item.status === "failed");
+
+      setLocalGradeInfo(success);
+      setFailedScan(failed);
+      setFiles([]);
+      navigate.push("local_student_grades");
+    };
+
+    socket.on("grade_result", onGradeEvent);
+
+    return () => {
+      socket.off("grade_result", onGradeEvent);
+    };
+  }, [navigate, setFailedScan, setFiles, setLoading, setLocalGradeInfo]);
 
   return (
     <Button leftIcon={<AiOutlineScan />} onClick={handleSubmit}>

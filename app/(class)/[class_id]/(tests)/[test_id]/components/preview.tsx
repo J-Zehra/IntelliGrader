@@ -1,6 +1,8 @@
 /* eslint-disable no-nested-ternary */
 import {
   Center,
+  // CircularProgress,
+  // CircularProgressLabel,
   IconButton,
   Image,
   Stack,
@@ -15,10 +17,27 @@ import { fileState } from "@/state/fileState";
 import ScanningAnimation from "../../../../../../public/scanning_animation_2.json";
 import GradeButton from "./grade";
 import AddMoreButton from "./addMoreButton";
+// import { socket } from "../socket";
 
 export default function Preview() {
   const [files, setFiles] = useRecoilState(fileState);
   const [loading, setLoading] = useState<boolean>(false);
+  // const [index, setIndex] = useState(0);
+
+  // useEffect(() => {
+  //   const onProgress = (data: any) => {
+  //     setIndex(data.index);
+  //     console.log("INDEX", data.index);
+  //   };
+
+  //   socket.on("progress", onProgress);
+
+  //   return () => {
+  //     socket.off("progress", onProgress);
+  //   };
+  // }, []);
+
+  // console.log("INDEX STATE", index);
 
   return (
     <Stack>
@@ -65,8 +84,18 @@ export default function Preview() {
                     loop
                     animationData={ScanningAnimation}
                     play
-                    style={{ width: 300, height: 300 }}
+                    style={{ width: 200, height: 200 }}
                   />
+                  {/* <CircularProgress
+                    value={Math.round((index / files.length) * 100)}
+                    size="5rem"
+                    color="blue"
+                  >
+                    <CircularProgressLabel
+                      fontWeight="bold"
+                      color="palette.accent"
+                    >{`${index}/${files.length}`}</CircularProgressLabel>
+                  </CircularProgress> */}
                 </Center>
               ) : null}
             </WrapItem>
