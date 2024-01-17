@@ -18,6 +18,7 @@ export async function POST(request: Request) {
     };
 
     const lastRollNumber = await prisma.student.aggregate({
+      where: { classId },
       _max: { rollNumber: true },
     });
 
