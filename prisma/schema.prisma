@@ -54,7 +54,7 @@ model Student {
 
 model StudentGrade {
   id         String @id @default(cuid()) @map("_id")
-  processedImage  String
+  processedImage  Bytes?
   numberOfCorrect Int
   totalScore  Int
   totalPerfectScore Int

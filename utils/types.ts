@@ -70,7 +70,7 @@ export type ProcessedImageData = {
 };
 
 export type Grade = {
-  processedImage: string;
+  processedImage: ArrayBuffer;
   numberOfCorrect: number;
   numberOfIncorrect: number;
   answerIndices: number[];
@@ -156,7 +156,7 @@ export type FetchedGradeInfo = {
   number_of_correct: number;
   number_of_incorrect: number;
   answer_indices: number[];
-  processed_image: string;
+  processed_image: ArrayBuffer;
   status: string;
   total_score: number;
   total_perfect_score: number;
@@ -164,7 +164,7 @@ export type FetchedGradeInfo = {
 
 export type FetchedSingleGrade = {
   id: string;
-  processedImage: string;
+  processedImage: ArrayBuffer;
   numberOfCorrect: number;
   numberOfIncorrect: number;
   answerIndices: number[];

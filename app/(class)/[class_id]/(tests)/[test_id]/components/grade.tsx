@@ -136,6 +136,9 @@ export default function GradeButton({
       const success = data.filter((item: any) => item.status === "success");
       const failed = data.filter((item: any) => item.status === "failed");
 
+      console.log("SUCCESS", success);
+      console.log("FAILED", failed);
+
       setLocalGradeInfo(success);
       setFailedScan(failed);
       setFiles([]);

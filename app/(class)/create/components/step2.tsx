@@ -108,8 +108,9 @@ export default function Step2() {
       <Stack spacing=".8rem">
         <Center w="100%" justifyContent="end">
           <IconButton
-            variant="outline"
+            variant={isNoteOpen ? "solid" : "outline"}
             aria-label="Note"
+            fontSize="1.5rem"
             icon={<CiCircleQuestion />}
             onClick={() => setIsNoteOpen((prev) => !prev)}
           />

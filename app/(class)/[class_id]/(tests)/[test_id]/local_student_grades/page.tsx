@@ -7,6 +7,9 @@
 import {
   Button,
   Center,
+  Collapse,
+  Highlight,
+  IconButton,
   Stack,
   Text,
   Wrap,
@@ -25,9 +28,11 @@ import Loading from "@/components/loading";
 import { failedToScan } from "@/state/failedToScan";
 import Image from "next/image";
 import { useState } from "react";
+import { CiCircleQuestion } from "react-icons/ci";
 import StudentGradeItemRest from "./components/studentGradeItemRest";
 import StudentGradeItem from "./components/studentGradeItem";
 import ImageModal from "./components/imageModal";
+import { createURL } from "../components/createUrl";
 
 export default function LocalStudentGrades() {
   const { test_id, class_id } = useParams();
@@ -35,7 +40,8 @@ export default function LocalStudentGrades() {
   const navigate = useRouter();
   const localGrade = useRecoilValue(localGradeInfo);
   const failedScan = useRecoilValue(failedToScan);
-  const [selectedImage, setSelectedImage] = useState<string>("");
+  const [selectedImage, setSelectedImage] = useState<Buffer>();
+  const [isNoteOpen, setIsNoteOpen] = useState(true);
 
   const { isOpen, onClose, onOpen } = useDisclosure();
 
@@ -85,7 +91,34 @@ export default function LocalStudentGrades() {
                 {localGrade.length < 2 ? " paper" : " papers"}
               </Text>
             </Stack>
-            <Stack marginTop={10} spacing={3}>
+            <Stack>
+              <Center w="100%" justifyContent="end">
+                <IconButton
+                  variant={isNoteOpen ? "solid" : "outline"}
+                  aria-label="Note"
+                  fontSize="1.4rem"
+                  borderColor="palette.light"
+                  icon={<CiCircleQuestion />}
+                  onClick={() => setIsNoteOpen((prev) => !prev)}
+                />
+              </Center>
+              <Collapse in={isNoteOpen}>
+                <Stack
+                  borderRadius="1rem"
+                  bg="palette.light"
+                  spacing="1rem"
+                  p="1rem"
+                >
+                  <Text fontSize=".9rem">
+                    <Highlight query="NOTE:" styles={{ fontWeight: "bold" }}>
+                      NOTE: Make sure to save all of your scanned test papers
+                      before leaving this page.
+                    </Highlight>
+                  </Text>
+                </Stack>
+              </Collapse>
+            </Stack>
+            <Stack marginTop={3} spacing={3} marginBottom="1rem">
               {localGrade.map((grades: FetchedGradeInfo, index) => {
                 return index === 0 ? (
                   <StudentGradeItem grade={grades} key={grades.roll_number} />
@@ -97,14 +130,16 @@ export default function LocalStudentGrades() {
                 );
               })}
             </Stack>
-            <Button onClick={handleSave}>Save Student Records</Button>
+            {localGrade.length > 0 ? (
+              <Button onClick={handleSave}>Save Successful Scans</Button>
+            ) : null}
             {failedScan.length > 0 ? (
               <Stack paddingTop="2rem">
                 <Text fontSize=".8rem" fontWeight="normal">
                   Failed To Scan
                 </Text>
                 <Wrap justify="start" gap="1rem">
-                  {failedScan.map((item: { status: string; image: string }) => {
+                  {failedScan.map((item: { status: string; image: Buffer }) => {
                     return (
                       <WrapItem
                         onClick={() => {
@@ -113,7 +148,7 @@ export default function LocalStudentGrades() {
                         }}
                       >
                         <Image
-                          src={item.image}
+                          src={createURL(item.image)}
                           width={600}
                           height={600}
                           alt="Failed Scan Image"
@@ -129,7 +164,11 @@ export default function LocalStudentGrades() {
         )}
       </Stack>
       {isOpen ? (
-        <ImageModal image={selectedImage} isOpen={isOpen} onClose={onClose} />
+        <ImageModal
+          image={createURL(selectedImage!)}
+          isOpen={isOpen}
+          onClose={onClose}
+        />
       ) : null}
     </Center>
   );

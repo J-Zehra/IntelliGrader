@@ -17,8 +17,10 @@ import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { FetchedGradeInfo } from "@/utils/types";
 import { useEffect, useState } from "react";
-import { CiCircleInfo } from "react-icons/ci";
+import { FaInfo } from "react-icons/fa6";
 import ErrorModal from "./errorModal";
+import ImageModal from "./imageModal";
+import { createURL } from "../../components/createUrl";
 
 export default function StudentGradeItem({
   grade,
@@ -57,6 +59,11 @@ export default function StudentGradeItem({
   });
 
   const { isOpen, onClose, onOpen } = useDisclosure();
+  const {
+    isOpen: isImageOpen,
+    onClose: onImageClose,
+    onOpen: onImageOpen,
+  } = useDisclosure();
   useEffect(() => {
     if (!isLoading && !student?.lastName) {
       setDoesNotExist(true);
@@ -72,6 +79,13 @@ export default function StudentGradeItem({
           rollNumber={grade.roll_number}
         />
       ) : null}
+      {isImageOpen ? (
+        <ImageModal
+          image={createURL(grade.processed_image)}
+          isOpen={isImageOpen}
+          onClose={onImageClose}
+        />
+      ) : null}
       <Stack
         p=".5rem"
         borderRadius=".5rem"
@@ -83,23 +97,20 @@ export default function StudentGradeItem({
         justify="space-between"
         color="palette.background"
         pos="relative"
+        opacity={doesNotExist ? 0.8 : 1}
+        border={doesNotExist ? "2px solid red" : ""}
       >
-        {doesNotExist ? (
-          <IconButton
-            pos="absolute"
-            aria-label="Error button"
-            colorScheme="red"
-            onClick={onOpen}
-            top=".5rem"
-            right=".5rem"
-            icon={<CiCircleInfo />}
-          />
-        ) : null}
         <Stack direction="row" w="100%" h="100%" spacing={2.5}>
-          <Box h="100%" w="3rem" bg="palette.light" borderRadius=".4rem">
+          <Box
+            h="100%"
+            w="3rem"
+            bg="palette.light"
+            onClick={onImageOpen}
+            borderRadius=".4rem"
+          >
             <Image
               alt="Processed Image"
-              src={`data:image/jpeg;base64, ${grade.processed_image}`}
+              src={createURL(grade.processed_image)}
               width={500}
               height={500}
               style={{
@@ -112,11 +123,22 @@ export default function StudentGradeItem({
           </Box>
           <Stack h="100%" justify="space-between">
             <Skeleton isLoaded={!isLoading} borderRadius=".5rem">
-              <Text fontSize=".8rem" fontWeight="semibold">
-                {`${student?.lastName || "---"}, ${
-                  student?.firstName || "---"
-                }`}
-              </Text>
+              {doesNotExist ? (
+                <IconButton
+                  aria-label="Error button"
+                  bg="red.500"
+                  minW="0"
+                  h="0"
+                  p="1rem"
+                  onClick={onOpen}
+                  fontSize="1rem"
+                  icon={<FaInfo />}
+                />
+              ) : (
+                <Text fontSize=".8rem" fontWeight="semibold">
+                  {student?.lastName}, {student?.firstName}
+                </Text>
+              )}
             </Skeleton>
             <Stack direction="row" align="center" spacing={3}>
               <Stack align="center" spacing={0.1}>
@@ -138,7 +160,7 @@ export default function StudentGradeItem({
           <Text fontSize=".8rem">{grade.total_perfect_score}</Text>
         </Stack>
       </Stack>
-      <Image
+      {/* <Image
         alt="Processed Image"
         src={`data:image/jpeg;base64, ${grade.processed_image}`}
         width={500}
@@ -149,7 +171,7 @@ export default function StudentGradeItem({
           borderRadius: ".4rem",
           opacity: 0.8,
         }}
-      />
+      /> */}
     </>
   );
 }

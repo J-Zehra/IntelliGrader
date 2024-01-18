@@ -23,7 +23,7 @@ export default function ErrorModal({
       <ModalContent>
         <ModalHeader>Notice</ModalHeader>
         <ModalCloseButton />
-        <ModalBody>
+        <ModalBody paddingBottom="1rem">
           <Text fontSize=".9rem">{`Student with roll number ${rollNumber} does not exist. Check if the number detected is correct or if the student exists`}</Text>
         </ModalBody>
       </ModalContent>
