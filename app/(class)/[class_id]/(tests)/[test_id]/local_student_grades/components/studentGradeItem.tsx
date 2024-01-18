@@ -5,6 +5,7 @@ import {
   Box,
   Button,
   Divider,
+  IconButton,
   Skeleton,
   Stack,
   Text,
@@ -84,15 +85,15 @@ export default function StudentGradeItem({
         pos="relative"
       >
         {doesNotExist ? (
-          <Box
+          <IconButton
             pos="absolute"
-            color="red"
+            aria-label="Error button"
+            colorScheme="red"
             onClick={onOpen}
-            top="1rem"
-            right="1rem"
-          >
-            <CiCircleInfo />
-          </Box>
+            top=".5rem"
+            right=".5rem"
+            icon={<CiCircleInfo />}
+          />
         ) : null}
         <Stack direction="row" w="100%" h="100%" spacing={2.5}>
           <Box h="100%" w="3rem" bg="palette.light" borderRadius=".4rem">

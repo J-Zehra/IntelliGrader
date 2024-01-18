@@ -3,6 +3,8 @@ import bcrypt from "bcrypt";
 import validator from "validator";
 import { Teacher } from "@/utils/types";
 import prisma from "@/libs/prismadb";
+import { Resend } from "resend";
+import { EmailTemplate } from "@/components/email-template";
 
 // eslint-disable-next-line import/prefer-default-export
 export async function POST(request: Request) {
@@ -77,9 +79,19 @@ export async function POST(request: Request) {
   const user = await prisma.user.create({
     data: {
       username,
-      email,
+      email: email.toLowerCase(),
+      emailVerified: false,
       password: hashedPassword,
     },
+  });
+
+  const resend = new Resend("re_UsjD8F6o_5q45mKN1tHnKtY97XR77pCmK");
+
+  await resend.emails.send({
+    from: "scoretech@intelligrader.org",
+    to: "jazencode@gmail.com",
+    subject: "Email Verification",
+    react: <EmailTemplate id={user.id} />,
   });
 
   return NextResponse.json(user);
