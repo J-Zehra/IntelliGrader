@@ -3,7 +3,7 @@
 import {
   Box,
   Button,
-  Divider,
+  // Divider,
   Input,
   InputGroup,
   InputRightElement,
@@ -17,7 +17,7 @@ import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { signIn } from "next-auth/react";
-import GoogleSignIn from "@/components/reusables/googleSignIn";
+// import GoogleSignIn from "@/components/reusables/googleSignIn";
 import useKeyCommand from "@/hooks/useKeyCommand";
 import Loading from "@/components/loading";
 
@@ -130,14 +130,14 @@ export default function SinginPage() {
           Sign up
         </Link>
       </Text>
-      <Stack opacity=".6" direction="row" alignItems="center">
+      {/* <Stack opacity=".6" direction="row" alignItems="center">
         <Divider />
         <Text color="palette.light">or</Text>
         <Divider />
       </Stack>
       <Stack w="100%" direction="row" justify="center">
         <GoogleSignIn />
-      </Stack>
+      </Stack> */}
     </Stack>
   );
 }
