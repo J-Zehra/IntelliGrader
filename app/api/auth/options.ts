@@ -39,6 +39,10 @@ const options: NextAuthOptions = {
           throw new Error("Email is not registered.");
         }
 
+        if (!user.emailVerified) {
+          throw new Error("Email is not yet verified.");
+        }
+
         // CHECK IF THE PASSWORD MATCHES
         const passwordMatch = await bcrypt.compare(
           credentials!.password,
