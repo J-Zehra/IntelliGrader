@@ -13,7 +13,7 @@ export default function VerifyEmailPage() {
   const toast = useToast();
 
   const handleMutateUser = () => {
-    return axios.put("/auth/verify", { id });
+    return axios.put("/api/auth/verify", { id });
   };
 
   const mutateUser = useMutation({
