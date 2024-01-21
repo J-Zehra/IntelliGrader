@@ -22,6 +22,7 @@ import useTestObserver from "@/hooks/useTestObserver";
 import StudentGradeItemRest from "./components/studentGradeItemRest";
 import StudentGradeItem from "./components/studentGradeItem";
 import DownloadReport from "./components/downloadReport";
+import EmptyGrades from "./components/emptyGrades";
 
 export default function StudentGrades() {
   const { test_id } = useParams();
@@ -38,7 +39,11 @@ export default function StudentGrades() {
     return studentGrade;
   };
 
-  const { data: studentGrades, isLoading } = useQuery({
+  const {
+    data: studentGrades,
+    isLoading,
+    isSuccess,
+  } = useQuery({
     queryFn: getStudentGrades,
     queryKey: ["get-student-grades", test_id],
   });
@@ -55,31 +60,41 @@ export default function StudentGrades() {
         ref={ref}
         w={isDesktopLayout ? "40rem" : "100%"}
       >
-        <Stack direction="row" w="100%" justify="space-between" align="center">
-          <Text fontSize=".8rem" fontWeight="normal">
-            Total of {studentGrades?.length}{" "}
-            {studentGrades && studentGrades?.length < 2 ? "paper" : "papers"}
-          </Text>
-        </Stack>
-        <Stack
-          w="100%"
-          paddingTop="1rem"
-          spacing={isDesktopLayout ? "1rem" : ".5rem"}
-          direction={isDesktopLayout ? "row" : "column"}
-        >
-          <DownloadReport />
-          <Button
+        {isSuccess && studentGrades.length < 1 ? <EmptyGrades /> : null}
+        {isSuccess && studentGrades?.length > 1 ? (
+          <Stack
+            direction="row"
             w="100%"
-            bg="transparent"
-            color="palette.accent"
-            border="1px solid #035EDD"
-            boxShadow="none"
-            fontSize=".9rem"
-            onClick={() => navigate.push("pdf/graded")}
+            justify="space-between"
+            align="center"
           >
-            Generate Graded Tests
-          </Button>
-        </Stack>
+            <Text fontSize=".8rem" fontWeight="normal">
+              Total of {studentGrades?.length}{" "}
+              {studentGrades && studentGrades?.length < 2 ? "paper" : "papers"}
+            </Text>
+          </Stack>
+        ) : null}
+        {isSuccess && studentGrades?.length > 1 ? (
+          <Stack
+            w="100%"
+            paddingTop="1rem"
+            spacing={isDesktopLayout ? "1rem" : ".5rem"}
+            direction={isDesktopLayout ? "row" : "column"}
+          >
+            <DownloadReport />
+            <Button
+              w="100%"
+              bg="transparent"
+              color="palette.accent"
+              border="1px solid #035EDD"
+              boxShadow="none"
+              fontSize=".9rem"
+              onClick={() => navigate.push("pdf/graded")}
+            >
+              Generate Graded Tests
+            </Button>
+          </Stack>
+        ) : null}
         {passed && passed?.length > 0 ? (
           <Stack paddingTop="1.5rem" direction="row" align="center">
             <Text fontSize=".8rem">Passed</Text>
@@ -108,7 +123,7 @@ export default function StudentGrades() {
                     key={item}
                     opacity={item}
                     borderRadius=".5rem"
-                    h="5rem"
+                    h="4rem"
                   />
                 );
               })}
@@ -136,7 +151,7 @@ export default function StudentGrades() {
                     key={item}
                     opacity={item}
                     borderRadius=".5rem"
-                    h="5rem"
+                    h="4rem"
                   />
                 );
               })}

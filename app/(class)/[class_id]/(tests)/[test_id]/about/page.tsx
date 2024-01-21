@@ -128,10 +128,18 @@ export default function SettingsPage() {
         </Stack>
       </Stack>
       <Text fontSize=".8rem">Answer Sheet</Text>
-      <AnswerSheet
-        testPart={test?.testParts}
-        answerIndices={test?.answerIndices}
-      />
+      {isLoading ? (
+        <Stack spacing={2}>
+          <Skeleton h="3.5rem" opacity={0.8} borderRadius=".5rem" />
+          <Skeleton h="3.5rem" opacity={0.5} borderRadius=".5rem" />
+          <Skeleton h="3.5rem" opacity={0.2} borderRadius=".5rem" />
+        </Stack>
+      ) : (
+        <AnswerSheet
+          testPart={test?.testParts}
+          answerIndices={test?.answerIndices}
+        />
+      )}
     </Stack>
   );
 }

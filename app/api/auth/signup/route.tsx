@@ -88,8 +88,8 @@ export async function POST(request: Request) {
   const resend = new Resend("re_UsjD8F6o_5q45mKN1tHnKtY97XR77pCmK");
 
   await resend.emails.send({
-    from: "scoretech@intelligrader.org",
-    to: "jazencode@gmail.com",
+    from: "ScoreTech <scoretech@intelligrader.org>",
+    to: email,
     subject: "Email Verification",
     react: <EmailTemplate id={user.id} />,
   });

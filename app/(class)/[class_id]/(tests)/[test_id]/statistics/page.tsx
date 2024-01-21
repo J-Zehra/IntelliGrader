@@ -42,7 +42,11 @@ export default function StatisticsPage() {
     return grade;
   };
 
-  const { data: statistics, isLoading } = useQuery({
+  const {
+    data: statistics,
+    isLoading,
+    isSuccess,
+  } = useQuery({
     queryKey: ["grade-statistics", test_id],
     queryFn: getStatistics,
   });
@@ -85,9 +89,11 @@ export default function StatisticsPage() {
         spacing={isDesktopLayout ? "1rem" : ""}
       >
         <Stack mt={10} spacing={5} flex={1}>
-          <Text fontSize=".8rem" fontWeight="medium">
-            Common Mistakes
-          </Text>
+          {isSuccess && statistics?.questionsMostGotWrong?.length! > 1 ? (
+            <Text fontSize=".8rem" fontWeight="medium">
+              Common Mistakes
+            </Text>
+          ) : null}
           <Stack spacing={2}>
             {statistics
               ? statistics?.questionsMostGotWrong?.map((item, index) => {
@@ -114,9 +120,11 @@ export default function StatisticsPage() {
           </Stack>
         </Stack>
         <Stack mt={10} spacing={5} flex={1}>
-          <Text fontSize=".8rem" fontWeight="medium">
-            Questions Most Got Right
-          </Text>
+          {isSuccess && statistics?.questionsMostGotRight?.length! > 1 ? (
+            <Text fontSize=".8rem" fontWeight="medium">
+              Questions Most Got Right
+            </Text>
+          ) : null}
           <Stack spacing={2}>
             {statistics
               ? statistics?.questionsMostGotRight?.map((item, index) => {

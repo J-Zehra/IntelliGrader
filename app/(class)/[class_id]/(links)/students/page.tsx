@@ -1,5 +1,6 @@
 "use client";
 
+/* eslint-disable no-nested-ternary */
 /* eslint-disable @typescript-eslint/naming-convention */
 import {
   Center,
@@ -24,6 +25,7 @@ import AddStudentModal from "./components/addStudentsModal";
 import Loading from "./components/loading";
 import EditStudentModal from "./components/editStudentModal";
 import UploadCSV from "./components/uploadCSV";
+import EmptyStudent from "../components/emptyStudent";
 
 export default function StudentsPage() {
   const { ref } = useObserver(ClassNavLink.students);
@@ -67,6 +69,7 @@ export default function StudentsPage() {
     data: students,
     isLoading,
     refetch,
+    isSuccess,
   } = useQuery<FetchedStudentInfo[]>({
     queryKey: ["students", class_id],
     queryFn: getStudents,
@@ -135,6 +138,8 @@ export default function StudentsPage() {
         <Center flexDir="column" gap=".5rem" w={isDesktopLayout ? "" : "100%"}>
           {isLoading ? (
             <Loading />
+          ) : isSuccess && students?.length < 1 ? (
+            <EmptyStudent />
           ) : (
             students?.map((student) => {
               return (

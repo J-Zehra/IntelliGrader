@@ -93,7 +93,7 @@ export default function AnswerItem({
                   }
                   key={index2}
                   isReadOnly
-                  borderColor="palette.text"
+                  borderColor="rgba(0, 0, 0, .6)"
                 >
                   <Text
                     opacity={0.6}

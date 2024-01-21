@@ -109,8 +109,8 @@ export type Statistics = {
   passingRate: number;
   highest: number;
   lowest: number;
-  questionsMostGotRight: QuestionsMostGotRight[];
-  questionsMostGotWrong: QuestionsMostGotWrong[];
+  questionsMostGotRight: QuestionsMostGotRight[] | undefined;
+  questionsMostGotWrong: QuestionsMostGotWrong[] | undefined;
 };
 
 // FETCHED TYPES

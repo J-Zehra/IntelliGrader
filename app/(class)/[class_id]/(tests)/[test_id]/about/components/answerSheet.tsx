@@ -84,14 +84,13 @@ export default function AnswerSheet({
                         <Radio
                           isReadOnly
                           key={`${partIndex}-${questionIndex}-${choiceIndex}`}
-                          opacity={0.8}
                           isChecked={
                             answerIndices &&
                             answerIndices[
                               questionIndex + partIndex * part.totalNumber
                             ] === choiceIndex
                           }
-                          borderColor="palette.text"
+                          borderColor="rgba(0, 0, 0, .6)"
                         >
                           <Text
                             opacity={0.6}

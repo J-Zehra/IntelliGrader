@@ -31,7 +31,7 @@ export default function TestLayoutWrapper({
   const handleBackNavigation = () => {
     if (
       path.includes("overview") ||
-      path.includes("student_grades") ||
+      path.includes("student_grades/") ||
       path.includes("local_student_grades") ||
       path.includes("pdf")
     ) {

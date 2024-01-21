@@ -49,9 +49,8 @@ export default function SignupPage() {
     mutationFn: createUser,
     mutationKey: ["create-user"],
     onSuccess: () => {
-      clearState();
-
       const encodedData = encodeURIComponent(email);
+      clearState();
       navigate.push(`/verify-notice/${encodedData}`);
     },
     onError: (error: AxiosError) => {

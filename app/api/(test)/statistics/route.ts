@@ -55,7 +55,11 @@ const getQuestionsMostStudentsGotRight = (
     student: { lastName: string; firstName: string };
   }[],
   questionParts: QuestionPart[],
-): QuestionResult[] => {
+): QuestionResult[] | undefined => {
+  if (studentsAnswers.length < 1) {
+    return;
+  }
+
   const questionsRightCount: number[] = Array(correctAnswer.length).fill(0);
 
   // Create an array to store the names of students who picked the correct answer for each question
@@ -97,7 +101,11 @@ const getQuestionsMostStudentsGotWrong = (
     student: { lastName: string; firstName: string };
   }[],
   questionParts: QuestionPart[],
-): QuestionResult[] => {
+): QuestionResult[] | undefined => {
+  if (studentsAnswers.length < 1) {
+    return;
+  }
+
   const questionsWrongCount: number[] = Array(correctAnswer.length).fill(0);
   const mostPickedAnswers: number[] = Array(correctAnswer.length).fill(0);
 
@@ -132,8 +140,6 @@ const getQuestionsMostStudentsGotWrong = (
       correctAnswer: correctAnswer[index],
       numberOfChoices: getNumberOfChoices(questionParts, index),
     }));
-
-  console.log(topWrongQuestions);
 
   return topWrongQuestions;
 };

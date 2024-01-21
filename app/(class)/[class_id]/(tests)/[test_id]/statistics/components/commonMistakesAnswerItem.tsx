@@ -116,7 +116,7 @@ export default function CommonyMistakesAnswerItem({
                     colorScheme={item.correctAnswer === index2 ? "red" : ""}
                     key={index2}
                     isReadOnly
-                    borderColor="palette.text"
+                    borderColor="rgba(0, 0, 0, .6)"
                   >
                     <Text
                       fontSize=".9rem"
