@@ -63,11 +63,7 @@ export default function TestSetupLayoutWrapper({
             <Box w=".5rem" h=".5rem" bg="palette.accent" borderRadius="5rem" />
           </Stack>
         </Stack>
-        <Stack
-          pt="1rem"
-          spacing="2.5rem"
-          w={isDesktopLayout ? "30rem" : "100%"}
-        >
+        <Stack pt="1rem" spacing="2.5rem" w={isDesktopLayout ? "30rem" : "80%"}>
           <Stepper size="lg" index={activeStep}>
             {steps.map((step) => (
               <Step key={step.title}>

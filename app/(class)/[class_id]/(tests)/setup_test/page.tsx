@@ -103,6 +103,17 @@ export default function SetupTest() {
         return;
       }
 
+      if (testInfo.passingGrade > 100 || testInfo.passingGrade < 0) {
+        toast({
+          title: "Invalid Passing Grade",
+          description: "Passing grade cannot be negative and greater that 100",
+          status: "error",
+          duration: 3000,
+        });
+
+        return;
+      }
+
       setActiveStep((prev) => prev + 1);
     } else if (activeStep === 1) {
       if (!isAnswerSheetComplete(testInfo)) {
@@ -142,7 +153,7 @@ export default function SetupTest() {
             display={activeStep === 0 ? "none" : "flex"}
             onClick={() => setActiveStep((prev) => prev - 1)}
           >
-            Cancel
+            Back
           </Button>
           <Button
             leftIcon={<AiOutlinePlus />}

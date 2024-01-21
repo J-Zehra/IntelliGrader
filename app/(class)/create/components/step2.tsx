@@ -78,7 +78,13 @@ export default function Step2() {
         />
       </Center>
       <Collapse in={isNoteOpen}>
-        <Stack borderRadius="1rem" bg="palette.light" spacing="1rem" p="1rem">
+        <Stack
+          borderRadius="1rem"
+          bg="palette.light"
+          spacing="1rem"
+          p="1rem"
+          marginBottom="1rem"
+        >
           <Text fontSize=".8rem" opacity={0.65}>
             <Highlight query="NOTE:" styles={{ fontWeight: "bold" }}>
               NOTE: When uploading CSV file for students, make sure that the

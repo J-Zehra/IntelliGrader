@@ -143,7 +143,7 @@ export default function Step1() {
         placeholder="Test Name"
         type="text"
         bg="gray.100"
-        h="3.5rem"
+        h="3rem"
         fontSize=".9rem"
         value={testInfo.testName}
         onChange={handleTestNameChange}
@@ -175,7 +175,7 @@ export default function Step1() {
             <Select
               color="rgba(0, 0, 0, .6)"
               bg="gray.100"
-              h="3.5rem"
+              h="3rem"
               fontSize=".9rem"
               placeholder="Number of Questions"
               value={part.totalNumber}
@@ -190,7 +190,7 @@ export default function Step1() {
             <Select
               color="rgba(0, 0, 0, .6)"
               bg="gray.100"
-              h="3.5rem"
+              h="3rem"
               fontSize=".9rem"
               value={part.questionType}
               onChange={(e) => handleQuestionTypeChange(e, index)}
@@ -205,7 +205,7 @@ export default function Step1() {
                 placeholder="Number of Choices (maximum of 10)"
                 type="number"
                 bg="gray.100"
-                h="3.5rem"
+                h="3rem"
                 fontSize=".9rem"
                 value={part.numberOfChoices === 0 ? "" : part.numberOfChoices}
                 onChange={(e) => handleNumberofChoicesChange(e, index)}
@@ -215,7 +215,7 @@ export default function Step1() {
               placeholder="Points"
               type="number"
               bg="gray.100"
-              h="3.5rem"
+              h="3rem"
               fontSize=".9rem"
               value={part.points === 0 ? "" : part.points}
               onChange={(e) => handlePointsChange(e, index)}
@@ -232,8 +232,8 @@ export default function Step1() {
           placeholder="Percentage"
           type="number"
           bg="gray.100"
+          h="3rem"
           fontSize=".9rem"
-          h="3.5rem"
           min={40}
           max={100}
           maxLength={3}
