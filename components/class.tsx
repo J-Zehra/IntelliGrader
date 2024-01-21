@@ -28,14 +28,9 @@ export default function Class({
         break;
       case ClassVariant.secondary:
         background = "linear-gradient(to left, #015BD5, #0AA6FF)";
-        // CODE
-        break;
-      case ClassVariant.tertiary:
-        background = "linear-gradient(to left, #3A8FFF, #B8E5FF)";
-        // CODE
         break;
       default:
-        background = "linear-gradient(to left, #D6E6FF, #FAFCFF)";
+        background = "linear-gradient(to left, #E2E8EF, #FAFCFF)";
     }
 
     return background;
@@ -50,7 +45,22 @@ export default function Class({
     ) {
       textColor = "palette.background";
     } else {
-      textColor = "palette.text";
+      textColor = "palette.button.primary";
+    }
+
+    return textColor;
+  };
+
+  const textButtonColorVariant = () => {
+    let textColor = "";
+
+    if (
+      variant === ClassVariant.primary ||
+      variant === ClassVariant.secondary
+    ) {
+      textColor = "palette.button.primary";
+    } else {
+      textColor = "palette.background";
     }
 
     return textColor;
@@ -71,7 +81,7 @@ export default function Class({
       pos="relative"
       overflow="hidden"
       w={{ base: "100%", sm: "20rem" }}
-      boxShadow="0 2px 5px rgba(0, 0, 50, .2)"
+      boxShadow="2px 2px 8px rgba(0, 0, 50, .1)"
       as={motion.div}
       variants={animationItem}
     >
@@ -96,7 +106,7 @@ export default function Class({
         <Text
           fontWeight="black"
           fontSize="5rem"
-          opacity=".03"
+          opacity=".015"
           pos="absolute"
           left="1rem"
           bottom={-4}
@@ -111,9 +121,9 @@ export default function Class({
           justify="space-between"
         >
           <Text
-            fontSize=".7rem"
+            fontSize=".6rem"
             alignSelf="end"
-            fontWeight="light"
+            color={textColorVariant()}
             opacity={0.8}
           >
             {moment(classInfo.createdAt).fromNow()}
@@ -135,8 +145,8 @@ export default function Class({
               <BsBarChartLine />
             </Center>
             <Button
-              bg="palette.background"
-              color="palette.text"
+              bg={textColorVariant()}
+              color={textButtonColorVariant()}
               p=".5rem 1rem"
               fontSize=".8rem"
               h="fit-content"
