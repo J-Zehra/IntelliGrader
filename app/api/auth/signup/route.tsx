@@ -85,7 +85,7 @@ export async function POST(request: Request) {
     },
   });
 
-  const resend = new Resend("re_UsjD8F6o_5q45mKN1tHnKtY97XR77pCmK");
+  const resend = new Resend(process.env.RESEND_API_KEY);
 
   await resend.emails.send({
     from: "ScoreTech <scoretech@intelligrader.org>",
