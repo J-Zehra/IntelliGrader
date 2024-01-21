@@ -54,6 +54,54 @@ export default function CreateClass() {
       return;
     }
 
+    if (classInfo.program.length > 10) {
+      toast({
+        title: "Invalid Program.",
+        description: "Please check if you input the wrong program.",
+        duration: 3000,
+        position: "top",
+        status: "error",
+      });
+
+      return;
+    }
+
+    if (classInfo.course.length > 30) {
+      toast({
+        title: "Character Limit Reached.",
+        description: "Please shorten your course name. 30 characters max.",
+        duration: 3000,
+        position: "top",
+        status: "error",
+      });
+
+      return;
+    }
+
+    if (classInfo.section.length > 30) {
+      toast({
+        title: "Character Limit Reached.",
+        description: "Please shorten your section name. 30 characters max.",
+        duration: 3000,
+        position: "top",
+        status: "error",
+      });
+
+      return;
+    }
+
+    if (classInfo.year > 10) {
+      toast({
+        title: "Invalid Year Level.",
+        description: "Please check if you input the wrong year.",
+        duration: 3000,
+        position: "top",
+        status: "error",
+      });
+
+      return;
+    }
+
     if (activeStep === 1) {
       mutateClass.mutate(classInfo);
       return;
@@ -72,16 +120,19 @@ export default function CreateClass() {
         direction="row"
         align="center"
         w="100%"
+        pt="1.5rem"
         justify="end"
         spacing="1rem"
       >
-        <Button
-          variant="ghost"
-          fontSize=".9rem"
-          onClick={() => navigate.back()}
-        >
-          Cancel
-        </Button>
+        {activeStep > 0 ? (
+          <Button
+            variant="ghost"
+            fontSize=".9rem"
+            onClick={() => setActiveStep((prev) => prev - 1)}
+          >
+            Back
+          </Button>
+        ) : null}
         <Button
           isLoading={mutateClass.isLoading}
           leftIcon={

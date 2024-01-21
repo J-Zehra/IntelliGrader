@@ -8,7 +8,7 @@ import {
   Text,
   useDisclosure,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   AiOutlineDownload,
   AiOutlineEdit,
@@ -56,8 +56,51 @@ export default function Step2() {
     onEditModalOpen();
   };
 
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIsNoteOpen(false);
+    }, 15000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, [isNoteOpen]);
+
   return (
     <Stack paddingBottom="2rem" w={{ base: "100%", sm: "30rem" }}>
+      <Center w="100%" justifyContent="end">
+        <IconButton
+          variant={isNoteOpen ? "solid" : "outline"}
+          aria-label="Note"
+          fontSize="1.5rem"
+          icon={<CiCircleQuestion />}
+          onClick={() => setIsNoteOpen((prev) => !prev)}
+        />
+      </Center>
+      <Collapse in={isNoteOpen}>
+        <Stack borderRadius="1rem" bg="palette.light" spacing="1rem" p="1rem">
+          <Text fontSize=".8rem" opacity={0.65}>
+            <Highlight query="NOTE:" styles={{ fontWeight: "bold" }}>
+              NOTE: When uploading CSV file for students, make sure that the
+              columns are labeled [firstName, middleName, lastName].
+            </Highlight>
+          </Text>
+          <Button
+            as="a"
+            target="+black"
+            download="sample.csv"
+            href="/samplecsv/sample.csv"
+            leftIcon={<AiOutlineDownload />}
+            variant="link"
+            fontSize=".8rem"
+            w="fit-content"
+            minW="fit-content"
+            color="palette.button.primary"
+          >
+            Download Sample
+          </Button>
+        </Stack>
+      </Collapse>
       {classInfo.students.map((student) => {
         return (
           <Stack
@@ -105,49 +148,16 @@ export default function Step2() {
           </Stack>
         );
       })}
-      <Stack spacing=".8rem">
-        <Center w="100%" justifyContent="end">
-          <IconButton
-            variant={isNoteOpen ? "solid" : "outline"}
-            aria-label="Note"
-            fontSize="1.5rem"
-            icon={<CiCircleQuestion />}
-            onClick={() => setIsNoteOpen((prev) => !prev)}
-          />
-        </Center>
-        <Collapse in={isNoteOpen}>
-          <Stack borderRadius="1rem" bg="palette.light" spacing="1rem" p="1rem">
-            <Text fontSize=".9rem">
-              <Highlight query="NOTE:" styles={{ fontWeight: "bold" }}>
-                NOTE: When uploading CSV file for students, make sure that the
-                columns are labeled [firstName, middleName, lastName].
-              </Highlight>
-            </Text>
-            <Button
-              fontSize=".9rem"
-              as="a"
-              target="+black"
-              download="sample.csv"
-              href="/samplecsv/sample.csv"
-              leftIcon={<AiOutlineDownload />}
-              variant="link"
-              w="fit-content"
-              minW="fit-content"
-              color="palette.button.primary"
-            >
-              Download Sample
-            </Button>
-          </Stack>
-        </Collapse>
+      <Stack spacing=".8rem" pt="1rem">
         <UploadCSV />
         <Button
           borderRadius=".8rem"
           w="100%"
           h="3.5rem"
+          fontSize=".9rem"
           bg="palette.light"
           color="palette.accent"
           boxShadow="none"
-          gap="1rem"
           onClick={onAddModalOpen}
           leftIcon={<AiOutlinePlus />}
         >

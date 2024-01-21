@@ -91,6 +91,7 @@ export default function UploadCSV() {
           color="palette.button.primary"
           boxShadow="none"
           h="3.5rem"
+          fontSize=".9rem"
           borderRadius=".8rem"
           leftIcon={<MdOutlineFileUpload />}
         >

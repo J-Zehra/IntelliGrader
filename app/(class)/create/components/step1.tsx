@@ -15,36 +15,36 @@ export default function Step1() {
         break;
       case ClassVariant.secondary:
         background = "linear-gradient(to left, #015BD5, #0AA6FF)";
-        // CODE
-        break;
-      case ClassVariant.tertiary:
-        background = "linear-gradient(to left, #3A8FFF, #B8E5FF)";
-        // CODE
         break;
       default:
-        background = "linear-gradient(to left, #D6E6FF, #FAFCFF)";
+        background = "linear-gradient(to left, #E2E8EF, #FAFCFF)";
     }
 
     return background;
   };
 
   return (
-    <Stack spacing=".5rem" w={{ base: "100%", sm: "30rem" }}>
+    <Stack spacing=".5rem" pt="1.5rem" w={{ base: "100%", sm: "30rem" }}>
       <Input
-        placeholder="Program"
+        placeholder="Program (acronym)"
         type="text"
         bg="gray.100"
-        h="3.5rem"
+        h="3rem"
+        fontSize=".9rem"
         value={classInfo.program}
         onChange={(e) =>
-          setClassInfo((prev) => ({ ...prev, program: e.target.value }))
+          setClassInfo((prev) => ({
+            ...prev,
+            program: e.target.value.toUpperCase(),
+          }))
         }
       />
       <Input
         placeholder="Course"
         type="text"
         bg="gray.100"
-        h="3.5rem"
+        h="3rem"
+        fontSize=".9rem"
         value={classInfo.course}
         onChange={(e) =>
           setClassInfo((prev) => ({ ...prev, course: e.target.value }))
@@ -54,7 +54,8 @@ export default function Step1() {
         placeholder="Section"
         type="text"
         bg="gray.100"
-        h="3.5rem"
+        h="3rem"
+        fontSize=".9rem"
         value={classInfo.section}
         onChange={(e) =>
           setClassInfo((prev) => ({ ...prev, section: e.target.value }))
@@ -63,8 +64,10 @@ export default function Step1() {
       <Input
         placeholder="Year"
         type="number"
+        maxLength={1}
         bg="gray.100"
-        h="3.5rem"
+        h="3rem"
+        fontSize=".9rem"
         value={!classInfo.year ? "" : classInfo.year}
         onChange={(e) =>
           setClassInfo((prev) => ({
@@ -74,14 +77,13 @@ export default function Step1() {
         }
       />
       <Stack direction="row" spacing={2} align="center" h="4rem">
-        <Text fontSize=".8rem" paddingRight="1rem">
+        <Text fontSize=".8rem" opacity={0.8} paddingRight="1rem">
           Choose Design Variant
         </Text>
         {[
           ClassVariant.default,
           ClassVariant.primary,
           ClassVariant.secondary,
-          ClassVariant.tertiary,
         ].map((item) => {
           return (
             <Box
@@ -90,7 +92,7 @@ export default function Step1() {
               h={classInfo.variant === item ? "2.5rem" : "2rem"}
               border={
                 classInfo.variant === item
-                  ? "1px solid rgba(0, 0, 100, .5)"
+                  ? "1px solid rgba(0, 80, 255, .5)"
                   : ""
               }
               opacity={classInfo.variant === item ? 1 : 0.9}
