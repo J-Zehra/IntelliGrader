@@ -11,7 +11,7 @@ export default function ClassDashboardPage() {
   const { ref } = useObserver(ClassNavLink.home);
   const [isDesktopLayout] = useMediaQuery("(min-width: 40em)");
   return (
-    <Stack w="100%" direction="row" spacing="10rem" paddingTop="2rem">
+    <Stack w="100%" direction="row" spacing="10rem" paddingTop="1rem">
       <Stack
         spacing="2rem"
         flex={1}
