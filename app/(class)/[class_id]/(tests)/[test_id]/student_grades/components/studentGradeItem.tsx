@@ -15,7 +15,7 @@ export default function StudentGradeItem({ grade }: { grade: Grade }) {
 
   return (
     <Stack
-      p=".5rem"
+      p=".5rem 1rem"
       borderRadius=".5rem"
       bg="palette.accent"
       w="100%"

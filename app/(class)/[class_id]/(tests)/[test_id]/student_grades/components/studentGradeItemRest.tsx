@@ -15,7 +15,7 @@ export default function StudentGradeItemRest({ grade }: { grade: Grade }) {
 
   return (
     <Stack
-      p=".5rem"
+      p=".5rem 1rem"
       borderRadius=".5rem"
       bg="palette.light"
       w="100%"
