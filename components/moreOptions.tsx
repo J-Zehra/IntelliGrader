@@ -1,4 +1,4 @@
-import { Center, useDisclosure, useToast } from "@chakra-ui/react";
+import { Center, useDisclosure } from "@chakra-ui/react";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import React from "react";
@@ -9,7 +9,6 @@ import { queryClient } from "./wrappers/queryWrapper";
 import ConfirmationModal from "./confirmationModal";
 
 export default function MoreOptions({ id }: { id: string }) {
-  const toast = useToast();
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   const deleteClass = (classId: string) => {
@@ -25,12 +24,6 @@ export default function MoreOptions({ id }: { id: string }) {
           (item) => item.id !== data.id,
         );
         return newData;
-      });
-
-      toast({
-        title: "Success",
-        status: "success",
-        duration: 3000,
       });
     },
   });

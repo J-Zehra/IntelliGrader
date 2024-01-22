@@ -58,6 +58,7 @@ export default function LocalStudentGrades() {
         title: "Successly saved",
         status: "success",
         duration: 3000,
+        position: "top",
       });
       navigate.push("student_grades");
     },

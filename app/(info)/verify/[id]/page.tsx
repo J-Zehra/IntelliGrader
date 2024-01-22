@@ -22,8 +22,10 @@ export default function VerifyEmailPage() {
     mutationKey: ["update-user", id],
     onSuccess: () => {
       toast({
-        title: "Verified",
+        title: "Verified!",
+        description: "You can now use your account.",
         status: "success",
+        position: "top",
         duration: 3000,
       });
       navigate.push("/signin");
@@ -55,6 +57,7 @@ export default function VerifyEmailPage() {
           <Button
             w="fit-content"
             fontSize=".9rem"
+            _loading={{ bg: "palette.accent" }}
             onClick={verifyEmail}
             loadingText="Verifying..."
             isLoading={mutateUser.isLoading}

@@ -13,7 +13,6 @@ import {
   Text,
   Wrap,
   useMediaQuery,
-  useToast,
 } from "@chakra-ui/react";
 import React from "react";
 import { useParams, useRouter } from "next/navigation";
@@ -31,7 +30,6 @@ import AnswerItem from "../components/answerItem";
 export default function OverviewPage() {
   // eslint-disable-next-line @typescript-eslint/naming-convention
   const { test_id, number } = useParams();
-  const toast = useToast();
   const navigate = useRouter();
   let cumulativePartIndex = -1;
 
@@ -65,12 +63,6 @@ export default function OverviewPage() {
           (g) => g.id !== data.id,
         );
         return newData;
-      });
-
-      toast({
-        title: "Success",
-        status: "success",
-        duration: 3000,
       });
 
       navigate.back();

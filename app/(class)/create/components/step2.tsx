@@ -107,53 +107,55 @@ export default function Step2() {
           </Button>
         </Stack>
       </Collapse>
-      {classInfo.students.map((student) => {
-        return (
-          <Stack
-            direction="row"
-            align="center"
-            justify="space-between"
-            borderRadius=".5rem"
-            spacing={1}
-          >
-            <Center
-              p=".5rem"
-              border="1px solid"
-              borderColor="palette.light"
-              bg="rgba(0, 0, 100, .01)"
-              borderRadius=".3rem"
-              flex={1}
+      <Stack>
+        {classInfo.students.map((student) => {
+          return (
+            <Stack
+              direction="row"
+              align="center"
+              justify="space-between"
+              borderRadius=".5rem"
+              spacing={1}
             >
-              <Text>{student.rollNumber}</Text>
-            </Center>
-            <Center
-              borderRadius=".3rem"
-              border="1px solid"
-              borderColor="palette.light"
-              bg="rgba(0, 0, 100, .01)"
-              p=".5rem 1rem"
-              justifyContent="start"
-              flex={3}
-            >
-              <Text>{student.lastName}</Text>
-            </Center>
-            <IconButton
-              bg="palette.light"
-              aria-label="Edit"
-              variant="outline"
-              onClick={() => handleEdit(student)}
-              icon={<AiOutlineEdit />}
-            />
-            <IconButton
-              bg="palette.light"
-              aria-label="Remove"
-              variant="outline"
-              onClick={() => handleRemove(student.rollNumber)}
-              icon={<IoMdRemove />}
-            />
-          </Stack>
-        );
-      })}
+              <Center
+                p=".5rem"
+                border="1px solid"
+                borderColor="palette.light"
+                bg="rgba(0, 0, 100, .01)"
+                borderRadius=".3rem"
+                flex={1}
+              >
+                <Text>{student.rollNumber}</Text>
+              </Center>
+              <Center
+                borderRadius=".3rem"
+                border="1px solid"
+                borderColor="palette.light"
+                bg="rgba(0, 0, 100, .01)"
+                p=".5rem 1rem"
+                justifyContent="start"
+                flex={3}
+              >
+                <Text>{student.lastName}</Text>
+              </Center>
+              <IconButton
+                bg="palette.light"
+                aria-label="Edit"
+                variant="outline"
+                onClick={() => handleEdit(student)}
+                icon={<AiOutlineEdit />}
+              />
+              <IconButton
+                bg="palette.light"
+                aria-label="Remove"
+                variant="outline"
+                onClick={() => handleRemove(student.rollNumber)}
+                icon={<IoMdRemove />}
+              />
+            </Stack>
+          );
+        })}
+      </Stack>
       <Stack spacing=".8rem" pt="1rem">
         <UploadCSV />
         <Button

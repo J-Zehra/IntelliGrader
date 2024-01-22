@@ -10,7 +10,6 @@ import {
   Text,
   useDisclosure,
   useMediaQuery,
-  useToast,
 } from "@chakra-ui/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -30,7 +29,6 @@ import EmptyStudent from "../components/emptyStudent";
 export default function StudentsPage() {
   const { ref } = useObserver(ClassNavLink.students);
   const { class_id } = useParams();
-  const toast = useToast();
   const [studentId, setStudentId] = useState<string>("");
   const [selectedStudentToEdit, setSelectedStudentToEdit] =
     useState<FetchedStudentInfo>({
@@ -84,12 +82,6 @@ export default function StudentsPage() {
           (student) => student.id !== data.id,
         );
         return newData;
-      });
-
-      toast({
-        title: "Success",
-        status: "success",
-        duration: 3000,
       });
     },
   });

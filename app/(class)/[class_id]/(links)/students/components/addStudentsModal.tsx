@@ -14,7 +14,7 @@ import {
   useToast,
 } from "@chakra-ui/react";
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import React, { useState } from "react";
 import { useParams } from "next/navigation";
 import { FetchedStudentInfo, StudentInfo } from "@/utils/types";
@@ -52,6 +52,18 @@ export default function AddStudentModal({
         data,
       ]);
       onClose();
+    },
+    onError: (error: AxiosError) => {
+      const { data } = error.response!;
+      const response = data as { error: string; message: string };
+
+      toast({
+        title: response.error,
+        description: response.message,
+        duration: 3000,
+        position: "top",
+        status: "error",
+      });
     },
   });
 

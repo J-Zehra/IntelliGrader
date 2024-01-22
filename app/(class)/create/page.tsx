@@ -3,15 +3,14 @@
 import { Stack, Button, useToast, Center } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import { AiOutlinePlus } from "react-icons/ai";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { BsArrowRightShort } from "react-icons/bs";
 import { useRecoilValue, useRecoilState, useSetRecoilState } from "recoil";
-import { ClassInfo } from "@/utils/types";
+import { ClassInfo, ClassVariant } from "@/utils/types";
 import { headerState } from "@/state/headerState";
 import { classInfoState } from "@/state/classInfoState";
 import { createClassStepState } from "@/state/stepState";
-import Loading from "@/components/loading";
 import Step1 from "./components/step1";
 import Step2 from "./components/step2";
 
@@ -20,6 +19,7 @@ export default function CreateClass() {
   const toast = useToast();
   const setHeaderTitle = useSetRecoilState(headerState);
   const classInfo = useRecoilValue(classInfoState);
+  const setClassInfo = useSetRecoilState(classInfoState);
   const [activeStep, setActiveStep] = useRecoilState(createClassStepState);
 
   const createClass = (data: ClassInfo) => {
@@ -30,8 +30,31 @@ export default function CreateClass() {
     mutationFn: createClass,
     mutationKey: ["create-class"],
     onSuccess: (data) => {
+      setClassInfo({
+        program: "",
+        section: "",
+        course: "",
+        year: 0,
+        variant: ClassVariant.default,
+        students: [],
+      });
+
+      setActiveStep(0);
+
       setHeaderTitle(data.data.subject);
       navigate.push(`/${data.data.id}/dashboard`);
+    },
+    onError: (error: AxiosError) => {
+      const { data } = error.response!;
+      const response = data as { error: string; message: string };
+
+      toast({
+        title: response.error,
+        description: response.message,
+        duration: 3000,
+        position: "top",
+        status: "error",
+      });
     },
   });
 
@@ -104,6 +127,7 @@ export default function CreateClass() {
 
     if (activeStep === 1) {
       mutateClass.mutate(classInfo);
+
       return;
     }
 
@@ -113,8 +137,7 @@ export default function CreateClass() {
   const steps = [<Step1 />, <Step2 />];
 
   return (
-    <Center flexDir="column">
-      {mutateClass.isLoading ? <Loading message="Creating Class" /> : ""}
+    <Center flexDir="column" pb="2rem" pos="relative">
       {steps[activeStep]}
       <Stack
         direction="row"
@@ -134,11 +157,13 @@ export default function CreateClass() {
           </Button>
         ) : null}
         <Button
+          onClick={handleNext}
           isLoading={mutateClass.isLoading}
+          _loading={{ bg: "palette.accent" }}
+          loadingText="Creating..."
           leftIcon={
             activeStep === 0 ? <BsArrowRightShort /> : <AiOutlinePlus />
           }
-          onClick={handleNext}
           p="1.5rem 1rem"
           fontSize=".9rem"
         >

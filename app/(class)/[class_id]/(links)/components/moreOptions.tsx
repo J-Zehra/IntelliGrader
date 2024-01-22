@@ -1,4 +1,4 @@
-import { Center, useDisclosure, useToast } from "@chakra-ui/react";
+import { Center, useDisclosure } from "@chakra-ui/react";
 import {
   QueryObserverResult,
   RefetchOptions,
@@ -22,7 +22,6 @@ export default function MoreOptions({
     options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined,
   ) => Promise<QueryObserverResult<FetchedTestInfo[], unknown>>;
 }) {
-  const toast = useToast();
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   const deleteTest = (testId: string) => {
@@ -34,11 +33,6 @@ export default function MoreOptions({
     mutationKey: ["delete-test", id],
     onSuccess: () => {
       refetch();
-      toast({
-        title: "Success",
-        status: "success",
-        duration: 3000,
-      });
     },
   });
 
