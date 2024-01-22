@@ -14,6 +14,7 @@ import axios from "axios";
 import { Grade } from "@/utils/types";
 import { useQuery } from "@tanstack/react-query";
 import moment from "moment";
+import { createURL } from "../../../(tests)/[test_id]/components/createUrl";
 
 export default function RecentScans() {
   const { class_id } = useParams();
@@ -72,7 +73,7 @@ export default function RecentScans() {
                       <Image
                         borderTopRadius="1rem"
                         alt="Processed Image"
-                        src={`data:image/jpeg;base64, ${student.processedImage}`}
+                        src={createURL(student.processedImage)}
                         w="100%"
                         h="100%"
                         opacity={0.5}

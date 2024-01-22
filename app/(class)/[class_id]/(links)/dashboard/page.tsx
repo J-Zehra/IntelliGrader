@@ -6,7 +6,6 @@ import { Center, Image, Stack, useMediaQuery } from "@chakra-ui/react";
 import { ClassNavLink } from "@/utils/types";
 import useObserver from "@/hooks/useObserver";
 import OverviewCard from "./components/overviewCard";
-import RecentScans from "./components/recentScans";
 
 export default function ClassDashboardPage() {
   const { ref } = useObserver(ClassNavLink.home);
@@ -20,7 +19,7 @@ export default function ClassDashboardPage() {
         ref={ref}
       >
         <OverviewCard />
-        <RecentScans />
+        {/* <RecentScans /> */}
       </Stack>
       {isDesktopLayout ? (
         <Center flex={1}>

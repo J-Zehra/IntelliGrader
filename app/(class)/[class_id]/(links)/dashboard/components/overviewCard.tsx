@@ -32,7 +32,7 @@ export default function OverviewCard() {
     <Skeleton isLoaded={!isLoading} borderRadius="1.5rem">
       <Stack
         boxShadow="5px 5px 10px rgba(0, 0, 100, .03)"
-        p="1.2rem"
+        p="1rem 1.2rem"
         w="100%"
         borderRadius="1.5rem"
       >
@@ -40,6 +40,7 @@ export default function OverviewCard() {
           direction="row"
           paddingBottom="1rem"
           align="center"
+          p={0}
           justify="space-around"
         >
           <Stack align="center" spacing={0}>
