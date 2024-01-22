@@ -15,6 +15,7 @@ import {
 import React, { useState } from "react";
 import { useRecoilState } from "recoil";
 import { classInfoState } from "@/state/classInfoState";
+import { IoMdAdd } from "react-icons/io";
 
 export default function AddStudentModal({
   isOpen,
@@ -66,7 +67,7 @@ export default function AddStudentModal({
         <ModalHeader
           borderTopRadius=".4rem"
           bg="palette.accent"
-          paddingBlock="1.5rem"
+          paddingBlock="1.2rem"
           color="palette.background"
         >
           Add Student
@@ -79,7 +80,8 @@ export default function AddStudentModal({
               type="text"
               border="1px solid"
               borderColor="gray.100"
-              h="3.5rem"
+              h="3rem"
+              fontSize=".9erm"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
             />
@@ -88,7 +90,8 @@ export default function AddStudentModal({
               type="text"
               border="1px solid"
               borderColor="gray.100"
-              h="3.5rem"
+              h="3rem"
+              fontSize=".9erm"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
             />
@@ -97,7 +100,8 @@ export default function AddStudentModal({
               type="text"
               border="1px solid"
               borderColor="gray.100"
-              h="3.5rem"
+              h="3rem"
+              fontSize=".9erm"
               value={middleName}
               onChange={(e) => setMiddleName(e.target.value)}
             />
@@ -109,7 +113,8 @@ export default function AddStudentModal({
                 type="text"
                 border="1px solid"
                 borderColor="gray.100"
-                h="3.5rem"
+                h="3rem"
+                fontSize=".9erm"
                 disabled
                 value={rollNumber}
                 onChange={(e) => setRollNumber(parseInt(e.target.value, 10))}
@@ -119,7 +124,12 @@ export default function AddStudentModal({
         </ModalBody>
 
         <ModalFooter paddingTop={0}>
-          <Button colorScheme="blue" onClick={handleSave}>
+          <Button
+            colorScheme="blue"
+            leftIcon={<IoMdAdd />}
+            fontSize=".9rem"
+            onClick={handleSave}
+          >
             Add
           </Button>
         </ModalFooter>

@@ -41,11 +41,6 @@ export default function Test({
         break;
       case ClassVariant.secondary:
         background = "linear-gradient(to left, #015BD5, #0AA6FF)";
-        // CODE
-        break;
-      case ClassVariant.tertiary:
-        background = "linear-gradient(to left, #3A8FFF, #B8E5FF)";
-        // CODE
         break;
       default:
         background = "linear-gradient(to left, #D6E6FF, #FAFCFF)";
@@ -153,6 +148,9 @@ export default function Test({
             p=".5rem 1rem"
             fontSize=".8rem"
             h="fit-content"
+            _hover={{
+              textDecoration: "none",
+            }}
           >
             Open
           </Button>

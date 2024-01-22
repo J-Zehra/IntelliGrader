@@ -131,6 +131,7 @@ export default function StudentsPage() {
       <Stack
         direction="row-reverse"
         w="100%"
+        pb="10rem"
         justify="space-around"
         spacing="5rem"
         paddingTop={isDesktopLayout ? "2rem" : ""}

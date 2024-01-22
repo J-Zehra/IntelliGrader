@@ -26,6 +26,7 @@ export default function Profile() {
             name={data?.user?.email || ""}
             w="2.5rem"
             h="2.5rem"
+            color="palette.button.primary"
           />
         </MenuButton>
         <MenuList p=".6rem">

@@ -74,7 +74,7 @@ export default function Class({
   return (
     <WrapItem
       bg={bgVariant()}
-      p=".8rem"
+      p=".8rem 1rem"
       display="flex"
       flexDirection="column"
       borderRadius="1rem"

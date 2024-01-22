@@ -22,7 +22,12 @@ export default function VerifyNoticePage() {
             play
             style={{ width: 200, height: 200 }}
           />
-          <Text textAlign="center" lineHeight="1.8rem">
+          <Text
+            textAlign="center"
+            lineHeight="1.8rem"
+            fontSize=".9rem"
+            opacity={0.8}
+          >
             <Highlight
               query={decodedEmail}
               styles={{

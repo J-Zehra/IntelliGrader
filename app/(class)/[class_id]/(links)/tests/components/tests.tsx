@@ -58,7 +58,7 @@ export default function Tests() {
   };
 
   return (
-    <Stack spacing={6}>
+    <Stack spacing={6} pb="10rem">
       <Stack direction="row" w="100%" justify="space-between" align="center">
         <Text fontSize=".8rem" fontWeight="medium">
           Tests

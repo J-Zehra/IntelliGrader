@@ -63,7 +63,7 @@ export default function EditStudentModal({
           paddingBlock="1.5rem"
           color="palette.background"
         >
-          Add Student
+          Edit Student
         </ModalHeader>
         <ModalCloseButton color="white" />
         <ModalBody>
@@ -73,7 +73,8 @@ export default function EditStudentModal({
               type="text"
               border="1px solid"
               borderColor="gray.100"
-              h="3.5rem"
+              h="3rem"
+              fontSize=".9rem"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
             />
@@ -82,7 +83,8 @@ export default function EditStudentModal({
               type="text"
               border="1px solid"
               borderColor="gray.100"
-              h="3.5rem"
+              h="3rem"
+              fontSize=".9rem"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
             />
@@ -91,7 +93,8 @@ export default function EditStudentModal({
               type="text"
               border="1px solid"
               borderColor="gray.100"
-              h="3.5rem"
+              h="3rem"
+              fontSize=".9rem"
               value={middleName}
               onChange={(e) => setMiddleName(e.target.value)}
             />
@@ -103,7 +106,8 @@ export default function EditStudentModal({
                 type="text"
                 border="1px solid"
                 borderColor="gray.100"
-                h="3.5rem"
+                h="3rem"
+                fontSize=".9rem"
                 disabled
                 value={rollNumber}
                 onChange={(e) => setRollNumber(parseInt(e.target.value, 10))}
@@ -113,8 +117,8 @@ export default function EditStudentModal({
         </ModalBody>
 
         <ModalFooter paddingTop={0}>
-          <Button colorScheme="blue" onClick={handleSave}>
-            Add
+          <Button colorScheme="blue" fontSize=".9rem" onClick={handleSave}>
+            Update
           </Button>
         </ModalFooter>
       </ModalContent>
