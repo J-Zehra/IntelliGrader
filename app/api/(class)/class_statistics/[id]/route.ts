@@ -14,10 +14,10 @@ const calculatePassingRate = (
 const calculateAccuracy = (
   totalTestNumber: number,
   totalNumberOfCorrect: number,
-  totalTest: number,
+  totalStudent: number,
 ) => {
   return Math.round(
-    (totalTest / ((totalNumberOfCorrect / totalTestNumber) * 100)) * 100,
+    (totalNumberOfCorrect / (totalStudent * totalTestNumber)) * 100,
   );
 };
 
@@ -27,8 +27,8 @@ export async function GET(
 ) {
   const { id } = params;
   try {
-    const totalStudents = await prisma.student.count({
-      where: { classId: id },
+    const totalStudents = await prisma.studentGrade.count({
+      where: { test: { classId: id } },
     });
 
     const totalTests = await prisma.test.count({
@@ -51,6 +51,8 @@ export async function GET(
       _sum: { numberOfCorrect: true },
     });
 
+    console.log(totalTestsNumber._sum, totalNumberOfCorrect._sum, totalTests);
+
     const passingRate = calculatePassingRate(
       totalStudents,
       totalTests,
@@ -60,7 +62,7 @@ export async function GET(
     const accuracy = calculateAccuracy(
       totalTestsNumber._sum.totalNumber!,
       totalNumberOfCorrect._sum.numberOfCorrect!,
-      totalTests,
+      totalStudents,
     );
 
     const data = {

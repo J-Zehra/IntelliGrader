@@ -13,8 +13,7 @@ const calculateAccuracy = (
   totalStudent: number,
 ) => {
   return Math.round(
-    ((totalCorrect / (totalCorrect + totalNumberOfQuestions)) * 100) /
-      totalStudent,
+    (totalCorrect / (totalNumberOfQuestions * totalStudent)) * 100,
   );
 };
 
