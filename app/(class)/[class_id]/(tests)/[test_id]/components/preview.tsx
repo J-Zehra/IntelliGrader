@@ -1,6 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-nested-ternary */
 import {
+  Box,
   Center,
   IconButton,
   Image,
@@ -22,6 +23,10 @@ import AddMoreButton from "./addMoreButton";
 export default function Preview() {
   const [files, setFiles] = useRecoilState(fileState);
   const [loading, setLoading] = useState<boolean>(false);
+
+  const handleDelete = (url: string) => {
+    setFiles((prev) => prev.filter((item) => item.imageUrl !== url));
+  };
   // const imageRef = useRef<HTMLImageElement>();
 
   // useEffect(() => {
@@ -60,6 +65,7 @@ export default function Preview() {
           return (
             <WrapItem
               key={file.imageUrl}
+              pos="relative"
               w={
                 files.length === 1
                   ? "100%"
@@ -70,6 +76,17 @@ export default function Preview() {
                   : "23%"
               }
             >
+              <Box pos="absolute" top={0} right={0}>
+                <IconButton
+                  aria-label="Remove"
+                  variant="outline"
+                  bg="rgba(255, 255, 255, .5)"
+                  color="red.500"
+                  fontSize="1.3rem"
+                  onClick={() => handleDelete(file.imageUrl)}
+                  icon={<MdDeleteOutline />}
+                />
+              </Box>
               <Image
                 borderRadius=".5rem"
                 src={file.imageUrl}
