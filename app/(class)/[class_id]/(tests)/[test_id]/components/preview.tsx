@@ -1,8 +1,7 @@
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-nested-ternary */
 import {
   Center,
-  // CircularProgress,
-  // CircularProgressLabel,
   IconButton,
   Image,
   Stack,
@@ -14,33 +13,41 @@ import { useRecoilState } from "recoil";
 import { MdDeleteOutline } from "react-icons/md";
 import Lottie from "react-lottie-player";
 import { fileState } from "@/state/fileState";
+// import { AiOutlineRotateLeft } from "react-icons/ai";
+// import html2canvas from "html2canvas";
 import ScanningAnimation from "../../../../../../public/scanning_animation_2.json";
 import GradeButton from "./grade";
 import AddMoreButton from "./addMoreButton";
-// import { socket } from "../socket";
 
 export default function Preview() {
   const [files, setFiles] = useRecoilState(fileState);
   const [loading, setLoading] = useState<boolean>(false);
-  // const [index, setIndex] = useState(0);
+  // const imageRef = useRef<HTMLImageElement>();
 
   // useEffect(() => {
-  //   const onProgress = (data: any) => {
-  //     setIndex(data.index);
-  //     console.log("INDEX", data.index);
+  //   const rotateImage = async () => {
+  //     // Use html2canvas to capture the rotated image as a canvas
+  //     const canvas = await html2canvas(imageRef!.current!);
+
+  //     // Convert the canvas to a data URL
+  //     const dataUrl = canvas.toDataURL("image/jpeg");
+
+  //     // Convert the data URL to a Blob
+  //     const blob = await fetch(dataUrl).then((res) => res.blob());
+
+  //     // Create a File from the Blob
+  //     const file = new File([blob], "rotated_image.jpeg", {
+  //       type: "image/jpeg",
+  //     });
+
+  //     // Set the File in the component state
+  //     setFiles([{ image: file, imageUrl: URL.createObjectURL(file) }]);
   //   };
-
-  //   socket.on("progress", onProgress);
-
-  //   return () => {
-  //     socket.off("progress", onProgress);
-  //   };
-  // }, []);
-
-  // console.log("INDEX STATE", index);
+  //   rotateImage();
+  // }, [rotation, setFiles]);
 
   return (
-    <Stack>
+    <Stack pb="2rem">
       <Wrap
         padding=".5rem"
         justify="start"
@@ -86,22 +93,32 @@ export default function Preview() {
                     play
                     style={{ width: 200, height: 200 }}
                   />
-                  {/* <CircularProgress
-                    value={Math.round((index / files.length) * 100)}
-                    size="5rem"
-                    color="blue"
-                  >
-                    <CircularProgressLabel
-                      fontWeight="bold"
-                      color="palette.accent"
-                    >{`${index}/${files.length}`}</CircularProgressLabel>
-                  </CircularProgress> */}
                 </Center>
               ) : null}
             </WrapItem>
           );
         })}
       </Wrap>
+
+      {/* {files.length === 1 ? (
+        <Stack w="100%" align="center">
+          <IconButton
+            fontSize="1.2rem"
+            color="palette.button.primary"
+            borderColor="palette.light"
+            aria-label="Rotate"
+            variant="outline"
+            onClick={() =>
+              setRotation((prev) => {
+                if (prev === 270) return 0;
+                return prev + 90;
+              })
+            }
+            w="fit-content"
+            icon={<AiOutlineRotateLeft />}
+          />
+        </Stack>
+      ) : null} */}
 
       <Stack direction="row" justify="end" align="center" spacing={2.5} pt={5}>
         <IconButton

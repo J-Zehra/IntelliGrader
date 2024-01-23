@@ -1,34 +1,48 @@
-import { Button, Input } from "@chakra-ui/react";
+/* eslint-disable no-new */
+import { Button } from "@chakra-ui/react";
 import React, { ChangeEvent, useRef } from "react";
 import { useSetRecoilState } from "recoil";
 import { IoMdAdd } from "react-icons/io";
 import { fileState } from "@/state/fileState";
+import { useRouter } from "next/navigation";
+import Compressor from "compressorjs";
 
 export default function AddMoreButton() {
-  const setImage = useSetRecoilState(fileState);
   const fileInputRef = useRef<HTMLInputElement | null>(null);
+  const setImage = useSetRecoilState(fileState);
+  const navigate = useRouter();
 
-  const handleClick = () => {
+  const openCamera = () => {
+    navigate.push("scan");
     if (fileInputRef.current) {
       fileInputRef.current.click();
     }
   };
 
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    if (event.target.files) {
-      const { files } = event.target;
-      const fileList = Array.from(files);
+  const handleImageChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const compress = async () => {
+      if (event.target.files) {
+        const { files } = event.target;
+        const fileList = Array.from(files);
 
-      fileList.forEach((file) => {
-        setImage((prev) => [
-          {
-            image: file,
-            imageUrl: URL.createObjectURL(file),
-          },
-          ...prev,
-        ]);
-      });
-    }
+        fileList.forEach((file) => {
+          new Compressor(file, {
+            quality: 0.8,
+            success: (result) => {
+              setImage((prev) => [
+                {
+                  image: result as File,
+                  imageUrl: URL.createObjectURL(result),
+                },
+                ...prev,
+              ]);
+            },
+          });
+        });
+      }
+    };
+
+    compress();
   };
 
   return (
@@ -40,17 +54,17 @@ export default function AddMoreButton() {
         color="palette.accent"
         boxShadow="none"
         leftIcon={<IoMdAdd />}
-        onClick={handleClick}
+        onClick={openCamera}
       >
         Add more
       </Button>
-      <Input
+      <input
         type="file"
-        display="none"
-        multiple
         accept="image/*"
-        onChange={handleChange}
+        capture="environment"
+        style={{ display: "none" }}
         ref={fileInputRef}
+        onChange={handleImageChange}
       />
     </>
   );
