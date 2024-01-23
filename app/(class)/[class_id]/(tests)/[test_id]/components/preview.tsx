@@ -80,7 +80,8 @@ export default function Preview() {
                 <IconButton
                   aria-label="Remove"
                   variant="outline"
-                  bg="rgba(255, 255, 255, .5)"
+                  bg="palette.light"
+                  opacity={0.75}
                   color="red.500"
                   fontSize="1.3rem"
                   onClick={() => handleDelete(file.imageUrl)}
