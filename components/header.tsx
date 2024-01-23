@@ -14,7 +14,8 @@ export default function Header() {
     path === "/signin" ||
     path === "/signup" ||
     path === "/pdf" ||
-    path.includes("verify")
+    path.includes("verify") ||
+    path.includes("offline")
   )
     return null;
 

@@ -27,7 +27,7 @@ import { localGradeInfo } from "@/state/localGradeInfo";
 import Loading from "@/components/loading";
 import { failedToScan } from "@/state/failedToScan";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { CiCircleQuestion } from "react-icons/ci";
 import StudentGradeItemRest from "./components/studentGradeItemRest";
 import StudentGradeItem from "./components/studentGradeItem";
@@ -69,6 +69,16 @@ export default function LocalStudentGrades() {
   };
 
   const [isDesktopLayout] = useMediaQuery("(min-width: 40em)");
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIsNoteOpen(false);
+    }, 10000);
+
+    return () => {
+      clearInterval(timer);
+    };
+  }, [isNoteOpen]);
 
   return (
     <Center w="100%">

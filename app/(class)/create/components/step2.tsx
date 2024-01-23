@@ -59,7 +59,7 @@ export default function Step2() {
   useEffect(() => {
     const timer = setInterval(() => {
       setIsNoteOpen(false);
-    }, 15000);
+    }, 10000);
 
     return () => {
       clearInterval(timer);
