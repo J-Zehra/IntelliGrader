@@ -1,6 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import { atom } from "recoil";
-import { TestInfo } from "@/utils/types";
+import { ClassVariant, TestInfo } from "@/utils/types";
 
 export const setupTestState = atom<TestInfo>({
   key: "setupTestState",
@@ -9,6 +9,7 @@ export const setupTestState = atom<TestInfo>({
     testName: "",
     answerIndices: [],
     parts: [],
+    variant: ClassVariant.default,
     passingGrade: 50,
   },
 });

@@ -40,10 +40,10 @@ export default function Test({
         background = "linear-gradient(to left, #003C8F, #006CFB)";
         break;
       case ClassVariant.secondary:
-        background = "linear-gradient(to left, #015BD5, #0AA6FF)";
+        background = "transparent";
         break;
       default:
-        background = "linear-gradient(to left, #D6E6FF, #FAFCFF)";
+        background = "linear-gradient(to left, #E2E8EF, #FAFCFF)";
     }
 
     return background;
@@ -52,13 +52,25 @@ export default function Test({
   const textColorVariant = () => {
     let textColor = "";
 
+    if (variant === ClassVariant.primary) {
+      textColor = "palette.background";
+    } else {
+      textColor = "palette.button.primary";
+    }
+
+    return textColor;
+  };
+
+  const textButtonColorVariant = () => {
+    let textColor = "";
+
     if (
       variant === ClassVariant.primary ||
       variant === ClassVariant.secondary
     ) {
-      textColor = "palette.background";
+      textColor = "palette.button.primary";
     } else {
-      textColor = "palette.text";
+      textColor = "palette.background";
     }
 
     return textColor;
@@ -74,14 +86,20 @@ export default function Test({
       pos="relative"
       overflow="hidden"
       paddingInline="1rem"
-      boxShadow="0 2px 5px rgba(0, 0, 50, .2)"
+      border={variant === ClassVariant.secondary ? "1px solid" : ""}
+      borderColor={variant === ClassVariant.secondary ? "#8AB0E7" : ""}
+      boxShadow={
+        variant !== ClassVariant.secondary
+          ? "2px 2px 8px rgba(0, 0, 50, .1)"
+          : ""
+      }
       as={motion.div}
       variants={item}
     >
       <Stack
         direction="row"
-        w="100%"
         color={textColorVariant()}
+        w="100%"
         justify="space-between"
         align="start"
       >
@@ -99,21 +117,27 @@ export default function Test({
               opacity={0.2}
               orientation="vertical"
               h="1rem"
-              borderColor="palette.light"
+              borderColor={textColorVariant()}
             />
             <Text fontSize=".7rem" fontWeight="medium" opacity={0.6}>
               {`${testInfo._count?.testParts} parts`}
             </Text>
           </Stack>
-          <Divider borderColor="palette.light" opacity={0.2} />
+          <Divider borderColor={textColorVariant()} opacity={0.2} />
         </Stack>
         <MoreOptions id={testInfo.id} refetch={refetch} />
       </Stack>
-      <Stack direction="row" w="100%" align="end" justify="space-between">
+      <Stack
+        direction="row"
+        color={textColorVariant()}
+        w="100%"
+        align="end"
+        justify="space-between"
+      >
         <Text
           fontWeight="black"
           fontSize="4rem"
-          opacity=".03"
+          opacity=".02"
           pos="absolute"
           left="1rem"
           bottom={-4}
@@ -125,7 +149,7 @@ export default function Test({
           paddingTop=".2rem"
           fontWeight="medium"
           opacity={0.6}
-          color="palette.background"
+          color={textColorVariant()}
         >
           {`${moment(testInfo.createdAt).fromNow()}`}
         </Text>
@@ -143,9 +167,18 @@ export default function Test({
           <Button
             as={Link}
             href={`${testInfo.id}/scan`}
-            bg="palette.background"
-            color="palette.text"
             p=".5rem 1rem"
+            boxShadow="none"
+            border={variant === ClassVariant.secondary ? "1px solid" : ""}
+            borderColor={
+              variant === ClassVariant.secondary ? "palette.button.primary" : ""
+            }
+            bg={
+              variant === ClassVariant.secondary
+                ? "transparent"
+                : textColorVariant()
+            }
+            color={textButtonColorVariant()}
             fontSize=".8rem"
             h="fit-content"
             _hover={{

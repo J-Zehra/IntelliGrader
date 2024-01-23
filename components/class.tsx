@@ -27,7 +27,7 @@ export default function Class({
         background = "linear-gradient(to left, #003C8F, #006CFB)";
         break;
       case ClassVariant.secondary:
-        background = "linear-gradient(to left, #015BD5, #0AA6FF)";
+        background = "transparent";
         break;
       default:
         background = "linear-gradient(to left, #E2E8EF, #FAFCFF)";
@@ -39,10 +39,7 @@ export default function Class({
   const textColorVariant = () => {
     let textColor = "";
 
-    if (
-      variant === ClassVariant.primary ||
-      variant === ClassVariant.secondary
-    ) {
+    if (variant === ClassVariant.primary) {
       textColor = "palette.background";
     } else {
       textColor = "palette.button.primary";
@@ -79,9 +76,15 @@ export default function Class({
       flexDirection="column"
       borderRadius="1rem"
       pos="relative"
+      border={variant === ClassVariant.secondary ? "1px solid" : ""}
+      borderColor={variant === ClassVariant.secondary ? "#8AB0E7" : ""}
       overflow="hidden"
       w={{ base: "100%", sm: "20rem" }}
-      boxShadow="2px 2px 8px rgba(0, 0, 50, .1)"
+      boxShadow={
+        variant !== ClassVariant.secondary
+          ? "2px 2px 8px rgba(0, 0, 50, .1)"
+          : ""
+      }
       as={motion.div}
       variants={animationItem}
     >
@@ -145,7 +148,18 @@ export default function Class({
               <BsBarChartLine />
             </Center>
             <Button
-              bg={textColorVariant()}
+              bg={
+                variant === ClassVariant.secondary
+                  ? "transparent"
+                  : textColorVariant()
+              }
+              border={variant === ClassVariant.secondary ? "1px solid" : ""}
+              borderColor={
+                variant === ClassVariant.secondary
+                  ? "palette.button.primary"
+                  : ""
+              }
+              boxShadow="none"
               color={textButtonColorVariant()}
               p=".5rem 1rem"
               fontSize=".8rem"

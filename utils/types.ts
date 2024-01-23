@@ -37,6 +37,7 @@ export type QuestionPart = {
 export type TestInfo = {
   classId: string;
   testName: string;
+  variant: ClassVariant;
   passingGrade: number;
   answerIndices: number[];
   parts: QuestionPart[];
@@ -132,6 +133,7 @@ export type FetchedTestInfo = {
   testName: string;
   passingGrade: number;
   status: string;
+  variant: ClassVariant;
   answerIndices: number[];
   testParts?: QuestionPart[];
   _count?: { testParts: number };

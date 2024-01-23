@@ -1,5 +1,6 @@
 /* eslint-disable react/no-array-index-key */
 import {
+  Box,
   Divider,
   Input,
   Radio,
@@ -11,10 +12,27 @@ import {
 import React, { useEffect } from "react";
 import { useRecoilState } from "recoil";
 import { setupTestState } from "@/state/setupTestState";
-import { QuestionType, QuestionPart } from "@/utils/types";
+import { QuestionType, QuestionPart, ClassVariant } from "@/utils/types";
 
 export default function Step1() {
   const [testInfo, setTestInfo] = useRecoilState(setupTestState);
+
+  const bgVariant = (variant: ClassVariant) => {
+    let background = "";
+
+    switch (variant) {
+      case ClassVariant.primary:
+        background = "linear-gradient(to left, #003C8F, #006CFB)";
+        break;
+      case ClassVariant.secondary:
+        background = "transparent";
+        break;
+      default:
+        background = "#E2E8EF";
+    }
+
+    return background;
+  };
 
   const handleTestNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setTestInfo((prevTestInfo) => ({
@@ -240,6 +258,36 @@ export default function Step1() {
           defaultValue={50}
           onChange={handlePassingGradeChange}
         />
+      </Stack>
+      <Stack direction="row" spacing={2} align="center" h="4rem">
+        <Text fontSize=".8rem" opacity={0.8} paddingRight="1rem">
+          Choose Design Variant
+        </Text>
+        {[
+          ClassVariant.secondary,
+          ClassVariant.default,
+          ClassVariant.primary,
+        ].map((item) => {
+          return (
+            <Box
+              w={testInfo.variant === item ? "2.5rem" : "2rem"}
+              borderRadius=".2rem"
+              h={testInfo.variant === item ? "2.5rem" : "2rem"}
+              border={
+                testInfo.variant === item
+                  ? "1px solid rgba(0, 80, 255, .5)"
+                  : "1px solid rgba(0, 0, 0, .2)"
+              }
+              opacity={testInfo.variant === item ? 1 : 0.9}
+              transition="all .1s ease"
+              onClick={() =>
+                setTestInfo((prev) => ({ ...prev, variant: item }))
+              }
+              bg={bgVariant(item)}
+              key={item}
+            />
+          );
+        })}
       </Stack>
     </>
   );

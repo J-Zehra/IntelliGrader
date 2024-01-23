@@ -77,6 +77,7 @@ model Test {
   status          String @default("Incomplete")
   answerIndices   Int[]
   passingGrade    Int
+  variant         String
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
 

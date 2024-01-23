@@ -4,7 +4,7 @@ import { IoMdAdd } from "react-icons/io";
 import { useParams, useRouter } from "next/navigation";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
-import { ClassVariant, FetchedTestInfo } from "@/utils/types";
+import { FetchedTestInfo } from "@/utils/types";
 import EmptyTest from "@/app/(class)/[class_id]/(links)/components/emptyTest";
 import Test from "./test";
 import TestsLoading from "./testsLoading";
@@ -48,7 +48,7 @@ export default function Tests() {
                 refetch={refetch}
                 testInfo={test}
                 key={test.id}
-                variant={ClassVariant.primary}
+                variant={test.variant}
               />
             );
           })}

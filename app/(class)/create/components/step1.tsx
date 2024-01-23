@@ -14,10 +14,10 @@ export default function Step1() {
         background = "linear-gradient(to left, #003C8F, #006CFB)";
         break;
       case ClassVariant.secondary:
-        background = "linear-gradient(to left, #015BD5, #0AA6FF)";
+        background = "transparent";
         break;
       default:
-        background = "linear-gradient(to left, #E2E8EF, #FAFCFF)";
+        background = "#E2E8EF";
     }
 
     return background;
@@ -81,9 +81,9 @@ export default function Step1() {
           Choose Design Variant
         </Text>
         {[
+          ClassVariant.secondary,
           ClassVariant.default,
           ClassVariant.primary,
-          ClassVariant.secondary,
         ].map((item) => {
           return (
             <Box
@@ -93,7 +93,7 @@ export default function Step1() {
               border={
                 classInfo.variant === item
                   ? "1px solid rgba(0, 80, 255, .5)"
-                  : ""
+                  : "1px solid rgba(0, 0, 0, .2)"
               }
               opacity={classInfo.variant === item ? 1 : 0.9}
               transition="all .1s ease"

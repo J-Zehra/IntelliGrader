@@ -95,27 +95,27 @@ export default function Preview() {
                 boxShadow="2px 2px 10px rgba(0, 0, 100, .1)"
                 opacity={loading ? 0.3 : 1}
               />
-              {loading ? (
-                <Center
-                  pos="absolute"
-                  w="100%"
-                  flexDir="column"
-                  zIndex={10}
-                  h="100%"
-                  left={0}
-                  top={0}
-                >
-                  <Lottie
-                    loop
-                    animationData={ScanningAnimation}
-                    play
-                    style={{ width: 200, height: 200 }}
-                  />
-                </Center>
-              ) : null}
             </WrapItem>
           );
         })}
+        {loading ? (
+          <Center
+            pos="absolute"
+            w="100%"
+            flexDir="column"
+            zIndex={10}
+            h="100%"
+            left={0}
+            top={0}
+          >
+            <Lottie
+              loop
+              animationData={ScanningAnimation}
+              play
+              style={{ width: 200, height: 200 }}
+            />
+          </Center>
+        ) : null}
       </Wrap>
 
       {/* {files.length === 1 ? (

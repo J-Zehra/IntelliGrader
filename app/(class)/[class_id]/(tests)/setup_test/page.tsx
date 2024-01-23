@@ -14,7 +14,7 @@ import { AiOutlinePlus } from "react-icons/ai";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import axios from "axios";
 import { useMutation } from "@tanstack/react-query";
-import { TestInfo } from "@/utils/types";
+import { ClassVariant, TestInfo } from "@/utils/types";
 import { headerState } from "@/state/headerState";
 import { setupTestStepState } from "@/state/stepState";
 import { setupTestState } from "@/state/setupTestState";
@@ -51,6 +51,7 @@ export default function SetupTest() {
         classId: "",
         testName: "",
         parts: [],
+        variant: ClassVariant.default,
         passingGrade: 50,
       });
       navigate.push(`/${class_id}/${data.data.id}/scan`);

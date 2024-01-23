@@ -3,7 +3,7 @@ import { useParams } from "next/navigation";
 import axios from "axios";
 import { Grade } from "@/utils/types";
 import { useQuery } from "@tanstack/react-query";
-import { Skeleton, Stack, Text } from "@chakra-ui/react";
+import { Box, Skeleton, Stack, Text } from "@chakra-ui/react";
 import StudentGradeItem from "./studentGrade";
 
 export default function RecentScans() {
@@ -42,8 +42,25 @@ export default function RecentScans() {
           Recent Scans
         </Text>
         {isSuccess && studentGrades.length < 1 ? (
-          <Stack>
-            <Text>No recent scans</Text>
+          <Stack
+            marginTop="1rem"
+            spacing="1.2rem"
+            align="center"
+            justify="center"
+          >
+            <Box
+              w="6rem"
+              h="6rem"
+              borderRadius=".5rem"
+              border="2px dashed rgba(0, 0, 200, .4)"
+            />
+            <Text
+              color="palette.button.primary"
+              fontWeight="medium"
+              opacity={0.6}
+            >
+              No recent scans
+            </Text>
           </Stack>
         ) : null}
         {studentGrades?.map((grade) => {

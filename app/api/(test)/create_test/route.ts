@@ -6,7 +6,7 @@ import { TestInfo } from "@/utils/types";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { answerIndices, classId, testName, parts, passingGrade } =
+    const { answerIndices, classId, testName, parts, passingGrade, variant } =
       body as TestInfo;
 
     const newTest = await prisma.test.create({
@@ -14,6 +14,7 @@ export async function POST(request: Request) {
         answerIndices,
         classId,
         testName,
+        variant,
         passingGrade,
         testParts: {
           create: parts.map((part) => {
