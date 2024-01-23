@@ -14,7 +14,7 @@ export async function GET(
       orderBy: {
         createdAt: "desc",
       },
-      take: 3,
+      take: 2,
       include: {
         student: {
           select: {
@@ -26,6 +26,7 @@ export async function GET(
         },
         test: {
           select: {
+            id: true,
             answerIndices: true,
             testParts: true,
           },

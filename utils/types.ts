@@ -78,7 +78,7 @@ export type Grade = {
   totalScore: number;
   totalPerfectScore: number;
   createdAt: string;
-  test: { answerIndices: number[]; testParts?: QuestionPart };
+  test: { id: string; answerIndices: number[]; testParts?: QuestionPart };
 };
 
 export type Teacher = {

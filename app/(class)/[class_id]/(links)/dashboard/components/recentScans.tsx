@@ -1,20 +1,10 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Box, Center, Image, Skeleton, Stack, Text } from "@chakra-ui/react";
-import { Swiper, SwiperSlide } from "swiper/react";
-
-// Import Swiper styles
-import "swiper/css";
-import "swiper/css/effect-coverflow";
-import "swiper/css/pagination";
-
-// import required modules
-import { EffectCoverflow, Navigation } from "swiper/modules";
 import { useParams } from "next/navigation";
 import axios from "axios";
 import { Grade } from "@/utils/types";
 import { useQuery } from "@tanstack/react-query";
-import moment from "moment";
-import { createURL } from "../../../(tests)/[test_id]/components/createUrl";
+import { Skeleton, Stack, Text } from "@chakra-ui/react";
+import StudentGradeItem from "./studentGrade";
 
 export default function RecentScans() {
   const { class_id } = useParams();
@@ -29,7 +19,11 @@ export default function RecentScans() {
     return studentGrade;
   };
 
-  const { data: studentGrades, isLoading } = useQuery({
+  const {
+    data: studentGrades,
+    isLoading,
+    isSuccess,
+  } = useQuery({
     queryFn: getStudentGrades,
     queryKey: ["get-recent-scans", class_id],
   });
@@ -38,77 +32,18 @@ export default function RecentScans() {
 
   return (
     <Skeleton isLoaded={!isLoading} borderRadius="1rem" paddingBottom="2rem">
-      <Stack w="100%">
+      <Stack w="100%" spacing="1rem">
         <Text fontSize=".9rem" fontWeight="medium" opacity={0.8}>
           Recent Scans
         </Text>
-        <Swiper
-          style={{ width: "100%", padding: "1rem" }}
-          effect="coverflow"
-          grabCursor
-          slidesPerView={1}
-          coverflowEffect={{
-            rotate: -100,
-            stretch: 0,
-            depth: 100,
-            modifier: 1,
-            slideShadows: true,
-          }}
-          navigation
-          modules={[EffectCoverflow, Navigation]}
-        >
-          {studentGrades && studentGrades?.length > 0 ? (
-            studentGrades?.map((student) => {
-              return (
-                <SwiperSlide>
-                  <Center
-                    flexDir="column"
-                    borderRadius="1rem"
-                    w="100%"
-                    h="10rem"
-                    bg="palette.background"
-                    boxShadow="5px 5px 10px rgba(0, 0, 100, .08)"
-                  >
-                    <Box flex={2} w="100%" h="70%">
-                      <Image
-                        borderTopRadius="1rem"
-                        alt="Processed Image"
-                        src={createURL(student.processedImage)}
-                        w="100%"
-                        h="100%"
-                        opacity={0.5}
-                        objectFit="cover"
-                      />
-                    </Box>
-                    <Stack
-                      p="1rem"
-                      w="100%"
-                      direction="row"
-                      align="center"
-                      justify="space-between"
-                      flex={1}
-                    >
-                      <Text>{moment(student.createdAt).calendar()}</Text>
-                      <Text
-                        color={
-                          student.status === "Passed" ? "green" : "red.500"
-                        }
-                      >
-                        {student.status}
-                      </Text>
-                    </Stack>
-                  </Center>
-                </SwiperSlide>
-              );
-            })
-          ) : (
-            <Center>
-              <Text fontWeight="medium" opacity={0.6}>
-                No recent scans
-              </Text>
-            </Center>
-          )}
-        </Swiper>
+        {isSuccess && studentGrades.length < 1 ? (
+          <Stack>
+            <Text>No recent scans</Text>
+          </Stack>
+        ) : null}
+        {studentGrades?.map((grade) => {
+          return <StudentGradeItem grade={grade} />;
+        })}
       </Stack>
     </Skeleton>
   );
