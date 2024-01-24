@@ -83,7 +83,7 @@ export default function OverviewPage() {
           <Text fontWeight="medium">performance for this test</Text>
         </Stack>
         <Text fontWeight="medium" fontSize=".8rem" paddingTop="1rem">
-          {moment(grade?.createAt).calendar()}
+          {moment(grade?.createdAt).calendar()}
         </Text>
         <Wrap justify="center" pt={8} spacing={5}>
           <Skeleton isLoaded={!isLoading} borderRadius=".5rem">
