@@ -6,16 +6,16 @@ import {
   IconButton,
   Image,
   Stack,
+  Text,
   Wrap,
   WrapItem,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useLayoutEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { MdDeleteOutline } from "react-icons/md";
 import Lottie from "react-lottie-player";
 import { fileState } from "@/state/fileState";
-// import { AiOutlineRotateLeft } from "react-icons/ai";
-// import html2canvas from "html2canvas";
+import NetworkSpeed from "network-speed";
 import ScanningAnimation from "../../../../../../public/scanning_animation_2.json";
 import GradeButton from "./grade";
 import AddMoreButton from "./addMoreButton";
@@ -23,33 +23,45 @@ import AddMoreButton from "./addMoreButton";
 export default function Preview() {
   const [files, setFiles] = useRecoilState(fileState);
   const [loading, setLoading] = useState<boolean>(false);
+  const [slowConnection, setSlowConnection] = useState<boolean>(false);
 
   const handleDelete = (url: string) => {
     setFiles((prev) => prev.filter((item) => item.imageUrl !== url));
   };
-  // const imageRef = useRef<HTMLImageElement>();
 
-  // useEffect(() => {
-  //   const rotateImage = async () => {
-  //     // Use html2canvas to capture the rotated image as a canvas
-  //     const canvas = await html2canvas(imageRef!.current!);
+  useLayoutEffect(() => {
+    const testNetworkSpeed = new NetworkSpeed();
+    const getDownloadSpeed = async () => {
+      const baseUrl = "https://eu.httpbin.org/stream-bytes/500000";
+      const fileSizeInBytesDownload = 500000;
+      const downloadSpeed = await testNetworkSpeed.checkDownloadSpeed(
+        baseUrl,
+        fileSizeInBytesDownload,
+      );
 
-  //     // Convert the canvas to a data URL
-  //     const dataUrl = canvas.toDataURL("image/jpeg");
+      if (parseFloat(downloadSpeed.mbps) > 5) {
+        setSlowConnection(false);
+      } else {
+        setSlowConnection(true);
+      }
 
-  //     // Convert the data URL to a Blob
-  //     const blob = await fetch(dataUrl).then((res) => res.blob());
+      console.log("DOWNLOAD", downloadSpeed);
+    };
 
-  //     // Create a File from the Blob
-  //     const file = new File([blob], "rotated_image.jpeg", {
-  //       type: "image/jpeg",
-  //     });
+    let interval: NodeJS.Timeout;
 
-  //     // Set the File in the component state
-  //     setFiles([{ image: file, imageUrl: URL.createObjectURL(file) }]);
-  //   };
-  //   rotateImage();
-  // }, [rotation, setFiles]);
+    if (loading) {
+      interval = setInterval(() => {
+        getDownloadSpeed();
+      }, 3000);
+    }
+
+    return () => {
+      clearInterval(interval);
+    };
+  }, [loading]);
+
+  console.log(slowConnection);
 
   return (
     <Stack pb="2rem">
@@ -117,27 +129,25 @@ export default function Preview() {
           </Center>
         ) : null}
       </Wrap>
-
-      {/* {files.length === 1 ? (
-        <Stack w="100%" align="center">
-          <IconButton
-            fontSize="1.2rem"
+      {loading && slowConnection ? (
+        <Stack spacing={0.5}>
+          <Text
+            textAlign="center"
+            fontWeight="semibold"
+            fontSize=".8rem"
             color="palette.button.primary"
-            borderColor="palette.light"
-            aria-label="Rotate"
-            variant="outline"
-            onClick={() =>
-              setRotation((prev) => {
-                if (prev === 270) return 0;
-                return prev + 90;
-              })
-            }
-            w="fit-content"
-            icon={<AiOutlineRotateLeft />}
-          />
+          >
+            Slow connection
+          </Text>
+          <Text
+            textAlign="center"
+            fontSize=".8rem"
+            color="palette.button.primary"
+          >
+            This might take a while than the usual
+          </Text>
         </Stack>
-      ) : null} */}
-
+      ) : null}
       <Stack direction="row" justify="end" align="center" spacing={2.5} pt={5}>
         <IconButton
           aria-label="Delete Icon"
