@@ -134,13 +134,22 @@ export default function StudentGradeItemRest({
                     icon={<FaInfo />}
                   />
                 ) : (
-                  <Text fontSize=".8rem" fontWeight="semibold">
+                  <Text
+                    color="palette.button.primary"
+                    fontSize=".8rem"
+                    fontWeight="semibold"
+                  >
                     {student?.lastName}, {student?.firstName}
                   </Text>
                 )}
               </Text>
             </Skeleton>
-            <Stack direction="row" align="center" spacing={3}>
+            <Stack
+              direction="row"
+              align="center"
+              spacing={3}
+              color="palette.button.primary"
+            >
               <Stack align="center" spacing={0.1}>
                 <Text fontSize=".5rem" fontWeight="medi2um" opacity={0.7}>
                   Accuracy
@@ -152,7 +161,12 @@ export default function StudentGradeItemRest({
             </Stack>
           </Stack>
         </Stack>
-        <Stack spacing={0.1} paddingInline="1rem" align="center">
+        <Stack
+          color="palette.button.primary"
+          spacing={0.1}
+          paddingInline="1rem"
+          align="center"
+        >
           <Text fontSize="2rem" fontWeight="bold">
             {grade.total_score}
           </Text>

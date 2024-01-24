@@ -27,7 +27,7 @@ export default function StudentGradeItemRest({ grade }: { grade: Grade }) {
       boxShadow="2px 2px 4px rgba(0, 0, 100, .2)"
     >
       <Stack direction="row" w="100%" h="100%" spacing={2.5}>
-        <Stack h="100%" justify="space-between">
+        <Stack h="100%" justify="space-between" color="palette.button.primary">
           <Text fontSize=".8rem" fontWeight="semibold">
             {`${grade.student.lastName}, ${
               grade.student.firstName
@@ -48,7 +48,7 @@ export default function StudentGradeItemRest({ grade }: { grade: Grade }) {
             >
               View Details
             </Button>
-            <Stack align="center" spacing={0.1}>
+            <Stack align="center" spacing={0.1} color="palette.buttion.primary">
               <Text fontSize=".5rem" fontWeight="medi2um" opacity={0.7}>
                 Accuracy
               </Text>
@@ -60,11 +60,13 @@ export default function StudentGradeItemRest({ grade }: { grade: Grade }) {
         </Stack>
       </Stack>
       <Stack spacing={0.1} paddingInline="1rem" align="center">
-        <Text fontSize="2rem" fontWeight="bold">
+        <Text fontSize="2rem" color="palette.button.primary" fontWeight="bold">
           {grade.totalScore}
         </Text>
         <Divider mb={2} borderColor="palette.text" />
-        <Text fontSize=".8rem">{grade.totalPerfectScore}</Text>
+        <Text fontSize=".8rem" color="palette.button.primary">
+          {grade.totalPerfectScore}
+        </Text>
       </Stack>
     </Stack>
   );

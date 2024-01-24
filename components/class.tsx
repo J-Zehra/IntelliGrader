@@ -77,7 +77,7 @@ export default function Class({
       borderRadius="1rem"
       pos="relative"
       border={variant === ClassVariant.secondary ? "1px solid" : ""}
-      borderColor={variant === ClassVariant.secondary ? "#8AB0E7" : ""}
+      borderColor={variant === ClassVariant.secondary ? "palette.light" : ""}
       overflow="hidden"
       w={{ base: "100%", sm: "20rem" }}
       boxShadow={

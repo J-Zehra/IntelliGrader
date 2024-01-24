@@ -87,7 +87,7 @@ export default function Test({
       overflow="hidden"
       paddingInline="1rem"
       border={variant === ClassVariant.secondary ? "1px solid" : ""}
-      borderColor={variant === ClassVariant.secondary ? "#8AB0E7" : ""}
+      borderColor={variant === ClassVariant.secondary ? "palette.light" : ""}
       boxShadow={
         variant !== ClassVariant.secondary
           ? "2px 2px 8px rgba(0, 0, 50, .1)"

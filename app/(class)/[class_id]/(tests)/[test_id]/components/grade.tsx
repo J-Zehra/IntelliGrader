@@ -133,8 +133,12 @@ export default function GradeButton({
         return;
       }
 
-      const success = data.filter((item: any) => item.status === "success");
-      const failed = data.filter((item: any) => item.status === "failed");
+      const sorted = data.sort(
+        (a: any, b: any) => b.number_of_correct - a.number_of_correct,
+      );
+
+      const success = sorted.filter((item: any) => item.status === "success");
+      const failed = sorted.filter((item: any) => item.status === "failed");
 
       console.log("SUCCESS", success);
       console.log("FAILED", failed);
