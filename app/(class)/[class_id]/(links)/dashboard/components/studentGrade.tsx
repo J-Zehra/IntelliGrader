@@ -12,14 +12,15 @@ export default function StudentGradeItem({ grade }: { grade: Grade }) {
     <Stack
       p=".5rem 1rem"
       borderRadius=".5rem"
-      bg="palette.light"
+      bg="transparent"
+      border="1px solid"
+      borderColor="palette.light"
       w="100%"
       h="5.5rem"
       direction="row"
       align="center"
       justify="space-between"
       color="palette.text"
-      boxShadow="2px 2px 4px rgba(0, 0, 100, .2)"
     >
       <Stack direction="row" w="100%" h="100%" spacing={2.5}>
         <Stack h="100%" justify="space-between" color="palette.button.primary">
