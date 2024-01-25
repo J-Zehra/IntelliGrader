@@ -1,6 +1,6 @@
 "use client";
 
-import { Center, Stack, Text, Wrap, WrapItem } from "@chakra-ui/react";
+import { Center, Divider, Stack, Text, Wrap, WrapItem } from "@chakra-ui/react";
 import { useRouter } from "next/navigation";
 import React from "react";
 
@@ -16,15 +16,25 @@ export default function TutorialPage() {
 
   return (
     <Stack>
-      <Text fontSize="1.2rem" fontWeight="bold" opacity={0.6}>
+      <Text
+        fontSize="1.2rem"
+        marginBottom="1rem"
+        fontWeight="bold"
+        opacity={0.6}
+      >
         TUTORIALS
       </Text>
-      <Center w="100%">
+      <Center w="100%" h="15rem">
         <iframe
           title="Getting Started on IntelliGrader"
-          src="https://drive.google.com/file/d/1xTG9qRp7nxcSRmAqszTmN9a5qMHA-Zq3/view?fbclid=IwAR2PGr6bmP2C7ZDTDlHPuLxr9uakprsljpOcWm7gipf8BtbIvdqZnfC26dA"
+          style={{ borderRadius: "1rem" }}
+          width="100%"
+          height="100%"
+          src="https://drive.google.com/file/d/1xTG9qRp7nxcSRmAqszTmN9a5qMHA-Zq3/preview"
+          allow="autoplay"
         />
       </Center>
+      <Divider mt="1rem" />
       <Wrap pt="1.2rem" spacing=".6rem">
         {tutorials.map((tutorial) => {
           return (
