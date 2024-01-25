@@ -3,6 +3,7 @@
 import { Box, Center, Stack } from "@chakra-ui/react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
+import { motion } from "framer-motion";
 import CustomContainer from "./reusables/customContainer";
 import Profile from "./profile";
 
@@ -26,6 +27,9 @@ export default function Header() {
       zIndex={100}
       bg="palette.background"
       boxShadow="0 5px 10px rgba(0, 0, 0, .02)"
+      as={motion.div}
+      initial={{ y: -20, opacity: 0 }}
+      animate={{ y: 0, opacity: 1, transition: { delay: 0.5 } }}
     >
       <CustomContainer>
         <Stack direction="row" h="4rem" align="center" justify="space-between">

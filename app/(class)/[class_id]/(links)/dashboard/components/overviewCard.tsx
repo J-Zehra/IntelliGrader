@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Button, Divider, Skeleton, Stack, Text } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
+import { motion } from "framer-motion";
 import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { IoMdAdd } from "react-icons/io";
@@ -35,6 +36,9 @@ export default function OverviewCard() {
         p="1rem 1.2rem"
         w="100%"
         borderRadius="1.5rem"
+        as={motion.div}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
       >
         <Stack
           direction="row"

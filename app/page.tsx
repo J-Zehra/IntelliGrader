@@ -8,6 +8,7 @@ import ClassesList from "@/components/classesList";
 import ClassLoading from "@/components/classLoading";
 import CustomContainer from "@/components/reusables/customContainer";
 import EmptyClass from "@/components/emptyClass";
+import { motion } from "framer-motion";
 
 export default function Home() {
   const { data, isLoading, isSuccess } = useQuery({
@@ -37,7 +38,15 @@ export default function Home() {
   return (
     <CustomContainer>
       <Stack pt="5rem" spacing={10} pb="2rem">
-        <Stack w="100%" align="center" direction="row" justify="space-between">
+        <Stack
+          w="100%"
+          align="center"
+          direction="row"
+          justify="space-between"
+          as={motion.div}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+        >
           <Text fontSize=".9rem" fontWeight="semibold" opacity=".8">
             All classes
           </Text>
