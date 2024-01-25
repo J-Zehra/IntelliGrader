@@ -1,13 +1,24 @@
 /* eslint-disable react/no-array-index-key */
 
-import { useRecoilValue } from "recoil";
-import { setupTestState } from "@/state/setupTestState";
+import { useEffect } from "react";
+import { Stack, Text } from "@chakra-ui/react";
 import AnswerSheet from "./answerSheet";
 
 export default function Step2() {
-  const testInfo = useRecoilValue(setupTestState);
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
 
-  console.log(testInfo);
-
-  return <AnswerSheet />;
+  return (
+    <Stack spacing="1.5rem">
+      <Text
+        textAlign="center"
+        color="palette.button.primary"
+        fontWeight="semibold"
+      >
+        Create your Answer Sheet
+      </Text>
+      <AnswerSheet />;
+    </Stack>
+  );
 }

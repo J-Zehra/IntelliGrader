@@ -1,4 +1,5 @@
 /* eslint-disable react/no-array-index-key */
+import { QuestionType } from "@/utils/types";
 import { Text, View } from "@react-pdf/renderer";
 import React from "react";
 
@@ -15,11 +16,18 @@ function getLetterFromIndex(index: number) {
   return letter;
 }
 
+function convertToTorF(index: number) {
+  if (index === 0) return "T";
+  return "F";
+}
+
 export default function Parts({
   index,
+  questionType,
   numberOfChoices,
 }: {
   index: number;
+  questionType: QuestionType;
   numberOfChoices: number;
 }) {
   return (
@@ -60,7 +68,9 @@ export default function Parts({
               opacity: 0.5,
             }}
           >
-            {getLetterFromIndex(choiceIndex)}
+            {questionType === QuestionType.trueOrFalse
+              ? convertToTorF(choiceIndex)
+              : getLetterFromIndex(choiceIndex)}
           </Text>
         </View>
       ))}

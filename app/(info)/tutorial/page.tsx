@@ -19,6 +19,12 @@ export default function TutorialPage() {
       <Text fontSize="1.2rem" fontWeight="bold" opacity={0.6}>
         TUTORIALS
       </Text>
+      <Center w="100%">
+        <iframe
+          title="Getting Started on IntelliGrader"
+          src="https://drive.google.com/file/d/1xTG9qRp7nxcSRmAqszTmN9a5qMHA-Zq3/view?fbclid=IwAR2PGr6bmP2C7ZDTDlHPuLxr9uakprsljpOcWm7gipf8BtbIvdqZnfC26dA"
+        />
+      </Center>
       <Wrap pt="1.2rem" spacing=".6rem">
         {tutorials.map((tutorial) => {
           return (

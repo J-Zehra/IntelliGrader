@@ -84,6 +84,7 @@ export default function Bubbles({ test }: { test: QuestionPart[] }) {
             <Parts
               index={index}
               key={index}
+              questionType={part1.questionType}
               numberOfChoices={part1.numberOfChoices}
             />
           ))}
@@ -102,6 +103,7 @@ export default function Bubbles({ test }: { test: QuestionPart[] }) {
               <Parts
                 index={index}
                 key={index}
+                questionType={part2.questionType}
                 numberOfChoices={part2.numberOfChoices}
               />
             ))}
@@ -131,6 +133,7 @@ export default function Bubbles({ test }: { test: QuestionPart[] }) {
               <Parts
                 index={index}
                 key={index}
+                questionType={part3.questionType}
                 numberOfChoices={part3.numberOfChoices}
               />
             ))}
@@ -149,6 +152,7 @@ export default function Bubbles({ test }: { test: QuestionPart[] }) {
               <Parts
                 index={index}
                 key={index}
+                questionType={part4.questionType}
                 numberOfChoices={part4.numberOfChoices}
               />
             ))}
