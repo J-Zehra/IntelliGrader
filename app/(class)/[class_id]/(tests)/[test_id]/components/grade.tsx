@@ -123,6 +123,8 @@ export default function GradeButton({
         status: "error",
         duration: 3000,
       });
+
+      setErrorMessage("");
     }
   }, [errorMessage, toast]);
 
