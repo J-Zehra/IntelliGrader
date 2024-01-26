@@ -40,6 +40,16 @@ export default function SetupTest() {
     return axios.post("/api/create_test", data);
   };
 
+  const validateTest = ({
+    testName,
+    classId,
+  }: {
+    testName: string;
+    classId: string;
+  }) => {
+    return axios.post("/api/create_test/validate", { testName, classId });
+  };
+
   const mutateTest = useMutation({
     mutationFn: createTest,
     mutationKey: ["create test"],
@@ -68,8 +78,27 @@ export default function SetupTest() {
         position: "top",
         status: "error",
       });
+    },
+  });
 
-      setActiveStep(0);
+  const mutateValidateTest = useMutation({
+    mutationFn: validateTest,
+    mutationKey: ["validate test"],
+    onSuccess: () => {
+      setActiveStep((prev) => prev + 1);
+    },
+
+    onError: (error: AxiosError) => {
+      const { data } = error.response!;
+      const response = data as { error: string; message: string };
+
+      toast({
+        title: response.error,
+        description: response.message,
+        duration: 5000,
+        position: "top",
+        status: "error",
+      });
     },
   });
 
@@ -130,7 +159,10 @@ export default function SetupTest() {
         return;
       }
 
-      setActiveStep((prev) => prev + 1);
+      mutateValidateTest.mutate({
+        testName: testInfo.testName,
+        classId: class_id as string,
+      });
     } else if (activeStep === 1) {
       if (!isAnswerSheetComplete(testInfo)) {
         toast({
@@ -175,7 +207,9 @@ export default function SetupTest() {
             leftIcon={<AiOutlinePlus />}
             onClick={handleNext}
             p="1.6rem 1rem"
-            isLoading={mutateTest.isLoading}
+            _loading={{ bg: "palette.accent" }}
+            loadingText="Validating..."
+            isLoading={mutateTest.isLoading || mutateValidateTest.isLoading}
           >
             {activeStep === 3 ? "Create Test" : "Next"}
           </Button>

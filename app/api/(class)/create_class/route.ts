@@ -13,48 +13,20 @@ export async function POST(request: Request) {
     const { course, section, year, program, students, variant } =
       body as ClassInfo;
 
-    const classExist = await prisma.class.findFirst({
-      where: {
-        AND: [
-          {
-            program,
-          },
-          {
-            year,
-          },
-          {
-            section,
-          },
-          {
-            course,
-          },
-        ],
-      },
-    });
-
-    if (!classExist) {
-      const errorResponse = {
-        error: "Class Conflict.",
-        message:
-          "A class with a similar program, year, section, and course already exist.",
-      };
-      return NextResponse.json(errorResponse, { status: 400 });
-    }
-
     const newClass = await prisma.class.create({
       data: {
-        course,
-        section,
+        course: course.trim(),
+        section: section.trim(),
         year,
-        program,
+        program: program.trim(),
         variant,
         teacherId: user.id,
         students: {
           create: students.map((student) => {
             return {
-              firstName: student.firstName,
-              lastName: student.lastName,
-              middleName: student.middleName,
+              firstName: student.firstName.trim(),
+              lastName: student.lastName.trim(),
+              middleName: student.middleName.trim(),
               rollNumber: student.rollNumber,
             };
           }),

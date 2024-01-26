@@ -52,7 +52,7 @@ export default function RecentScans() {
               w="6rem"
               h="6rem"
               borderRadius=".5rem"
-              border="2px dashed rgba(0, 0, 200, .4)"
+              border="2px dashed rgba(0, 0, 50, .4)"
             />
             <Text
               color="palette.button.primary"

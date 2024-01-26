@@ -26,6 +26,10 @@ export default function CreateClass() {
     return axios.post("/api/create_class", data);
   };
 
+  const validateClass = (data: ClassInfo) => {
+    return axios.post("/api/create_class/validate", data);
+  };
+
   const mutateClass = useMutation({
     mutationFn: createClass,
     mutationKey: ["create-class"],
@@ -55,88 +59,107 @@ export default function CreateClass() {
         position: "top",
         status: "error",
       });
+    },
+  });
 
-      setActiveStep(0);
+  const mutateValidateClass = useMutation({
+    mutationFn: validateClass,
+    mutationKey: ["validate-class"],
+    onSuccess: () => {
+      setActiveStep(1);
+    },
+    onError: (error: AxiosError) => {
+      const { data } = error.response!;
+      const response = data as { error: string; message: string };
+
+      toast({
+        title: response.error,
+        description: response.message,
+        duration: 5000,
+        position: "top",
+        status: "error",
+      });
     },
   });
 
   const handleNext = () => {
-    if (
-      !classInfo.course ||
-      !classInfo.section ||
-      !classInfo.program ||
-      !classInfo.year
-    ) {
-      toast({
-        title: "Incomplete Fields.",
-        description: "Please fill all the fields.",
-        duration: 3000,
-        position: "top",
-        status: "error",
-      });
+    if (activeStep === 0) {
+      if (
+        !classInfo.course ||
+        !classInfo.section ||
+        !classInfo.program ||
+        !classInfo.year
+      ) {
+        toast({
+          title: "Incomplete Fields.",
+          description: "Please fill all the fields.",
+          duration: 3000,
+          position: "top",
+          status: "error",
+        });
 
-      setActiveStep(0);
-      return;
-    }
+        return;
+      }
 
-    if (classInfo.program.length > 10) {
-      toast({
-        title: "Invalid Program.",
-        description: "Please check if you input the wrong program.",
-        duration: 3000,
-        position: "top",
-        status: "error",
-      });
+      if (classInfo.program.length > 10) {
+        toast({
+          title: "Invalid Program.",
+          description: "Please check if you input the wrong program.",
+          duration: 3000,
+          position: "top",
+          status: "error",
+        });
 
-      return;
-    }
+        return;
+      }
 
-    if (classInfo.course.length > 30) {
-      toast({
-        title: "Character Limit Reached.",
-        description: "Please shorten your course name. 30 characters max.",
-        duration: 3000,
-        position: "top",
-        status: "error",
-      });
+      if (classInfo.course.length > 30) {
+        toast({
+          title: "Character Limit Reached.",
+          description: "Please shorten your course name. 30 characters max.",
+          duration: 3000,
+          position: "top",
+          status: "error",
+        });
 
-      return;
-    }
+        return;
+      }
 
-    if (classInfo.section.length > 30) {
-      toast({
-        title: "Character Limit Reached.",
-        description: "Please shorten your section name. 30 characters max.",
-        duration: 3000,
-        position: "top",
-        status: "error",
-      });
+      if (classInfo.section.length > 30) {
+        toast({
+          title: "Character Limit Reached.",
+          description: "Please shorten your section name. 30 characters max.",
+          duration: 3000,
+          position: "top",
+          status: "error",
+        });
 
-      return;
-    }
+        return;
+      }
 
-    if (classInfo.year > 10) {
-      toast({
-        title: "Invalid Year Level.",
-        description: "Please check if you input the wrong year.",
-        duration: 3000,
-        position: "top",
-        status: "error",
-      });
+      if (classInfo.year > 10) {
+        toast({
+          title: "Invalid Year Level.",
+          description: "Please check if you input the wrong year.",
+          duration: 3000,
+          position: "top",
+          status: "error",
+        });
 
-      return;
+        return;
+      }
+
+      mutateValidateClass.mutate(classInfo);
     }
 
     if (activeStep === 1) {
       mutateClass.mutate(classInfo);
-
-      return;
     }
-
-    setActiveStep((prev) => prev + 1);
   };
 
   const steps = [<Step1 />, <Step2 />];
+
+  console.log(activeStep);
 
   return (
     <Center flexDir="column" pb="2rem" pos="relative">
@@ -160,9 +183,11 @@ export default function CreateClass() {
         ) : null}
         <Button
           onClick={handleNext}
-          isLoading={mutateClass.isLoading}
+          isLoading={mutateClass.isLoading || mutateValidateClass.isLoading}
           _loading={{ bg: "palette.accent" }}
-          loadingText="Creating..."
+          loadingText={
+            mutateValidateClass.isLoading ? "Validating..." : "Creating..."
+          }
           leftIcon={
             activeStep === 0 ? <BsArrowRightShort /> : <AiOutlinePlus />
           }

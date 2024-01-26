@@ -9,25 +9,11 @@ export async function POST(request: Request) {
     const { answerIndices, classId, testName, parts, passingGrade, variant } =
       body as TestInfo;
 
-    const testExist = await prisma.test.findFirst({
-      where: {
-        testName,
-      },
-    });
-
-    if (!testExist) {
-      const errorResponse = {
-        error: "Test Name Conflict.",
-        message: "A test with a similar test name already exist.",
-      };
-      return NextResponse.json(errorResponse, { status: 400 });
-    }
-
     const newTest = await prisma.test.create({
       data: {
         answerIndices,
         classId,
-        testName,
+        testName: testName.trim(),
         variant,
         passingGrade,
         testParts: {
