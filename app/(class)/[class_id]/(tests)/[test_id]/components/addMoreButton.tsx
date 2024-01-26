@@ -7,7 +7,7 @@ import { fileState } from "@/state/fileState";
 import { useRouter } from "next/navigation";
 import Compressor from "compressorjs";
 
-export default function AddMoreButton() {
+export default function AddMoreButton({ isLoading }: { isLoading: boolean }) {
   const fileInputRef = useRef<HTMLInputElement | null>(null);
   const setImage = useSetRecoilState(fileState);
   const navigate = useRouter();
@@ -50,6 +50,7 @@ export default function AddMoreButton() {
       <Button
         bg="transparent"
         border="1px solid"
+        isDisabled={isLoading}
         borderColor="palette.accent"
         color="palette.accent"
         boxShadow="none"

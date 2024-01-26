@@ -17,7 +17,9 @@ import { socket } from "../socket";
 
 export default function GradeButton({
   setLoading,
+  isLoading,
 }: {
+  isLoading: boolean;
   setLoading: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
   const { test_id } = useParams();
@@ -126,7 +128,6 @@ export default function GradeButton({
 
   useEffect(() => {
     const onGradeEvent = (data: any) => {
-      console.log("RETUEND", data);
       if (data.length === 1 && data[0].status === "failed") {
         setErrorMessage(data[0].message);
         setLoading(false);
@@ -139,9 +140,6 @@ export default function GradeButton({
 
       const success = sorted.filter((item: any) => item.status === "success");
       const failed = sorted.filter((item: any) => item.status === "failed");
-
-      console.log("SUCCESS", success);
-      console.log("FAILED", failed);
 
       setLocalGradeInfo(success);
       setFailedScan(failed);
@@ -157,7 +155,11 @@ export default function GradeButton({
   }, [navigate, setFailedScan, setFiles, setLoading, setLocalGradeInfo]);
 
   return (
-    <Button leftIcon={<AiOutlineScan />} onClick={handleSubmit}>
+    <Button
+      isDisabled={isLoading}
+      leftIcon={<AiOutlineScan />}
+      onClick={handleSubmit}
+    >
       Grade
     </Button>
   );

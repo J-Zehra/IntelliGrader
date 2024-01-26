@@ -10,7 +10,7 @@ import {
   Wrap,
   WrapItem,
 } from "@chakra-ui/react";
-import React, { useLayoutEffect, useState } from "react";
+import React, { useEffect, useLayoutEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { MdDeleteOutline } from "react-icons/md";
 import Lottie from "react-lottie-player";
@@ -19,10 +19,12 @@ import NetworkSpeed from "network-speed";
 import ScanningAnimation from "../../../../../../public/scanning_animation_2.json";
 import GradeButton from "./grade";
 import AddMoreButton from "./addMoreButton";
+import { socket } from "../socket";
 
 export default function Preview() {
   const [files, setFiles] = useRecoilState(fileState);
   const [loading, setLoading] = useState<boolean>(false);
+  const [progress, setProgress] = useState<number>(0);
   const [slowConnection, setSlowConnection] = useState<boolean>(false);
 
   const handleDelete = (url: string) => {
@@ -61,17 +63,31 @@ export default function Preview() {
     };
   }, [loading]);
 
-  console.log(slowConnection);
+  useEffect(() => {
+    const onPartialGradeEvent = (data: any) => {
+      setProgress(data.index);
+      console.log(data.index);
+    };
+
+    socket.on("progress", onPartialGradeEvent);
+
+    return () => {
+      socket.off("progress", onPartialGradeEvent);
+    };
+  }, []);
 
   return (
     <Stack pb="2rem">
       <Wrap
         padding=".5rem"
-        justify="start"
+        justify="center"
         align="center"
         w="100%"
         pos="relative"
         borderRadius=".5rem"
+        h="70vh"
+        bg="rgba(0, 0, 0, .02)"
+        overflow="auto"
       >
         {files.map((file) => {
           return (
@@ -114,9 +130,11 @@ export default function Preview() {
           <Center
             pos="absolute"
             w="100%"
+            bg="rgba(255, 255, 255, .9)"
             flexDir="column"
             zIndex={10}
             h="100%"
+            paddingBottom="10rem"
             left={0}
             top={0}
           >
@@ -126,6 +144,11 @@ export default function Preview() {
               play
               style={{ width: 200, height: 200 }}
             />
+            <Text
+              color="palette.accent"
+              fontWeight="bold"
+              fontSize="1.5rem"
+            >{`${progress}/${files.length}`}</Text>
           </Center>
         ) : null}
       </Wrap>
@@ -157,8 +180,8 @@ export default function Preview() {
           onClick={() => setFiles([])}
           icon={<MdDeleteOutline />}
         />
-        <AddMoreButton />
-        <GradeButton setLoading={setLoading} />
+        <AddMoreButton isLoading={loading} />
+        <GradeButton isLoading={loading} setLoading={setLoading} />
       </Stack>
     </Stack>
   );
