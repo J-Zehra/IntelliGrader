@@ -17,7 +17,6 @@ export default function Tests() {
     data: testData,
     isLoading,
     isSuccess,
-    refetch,
   } = useQuery({
     queryKey: ["tests"],
     queryFn: async () => {
@@ -44,12 +43,7 @@ export default function Tests() {
         <Wrap w="100%" justify="start">
           {testData.map((test) => {
             return (
-              <Test
-                refetch={refetch}
-                testInfo={test}
-                key={test.id}
-                variant={test.variant}
-              />
+              <Test testInfo={test} key={test.id} variant={test.variant} />
             );
           })}
         </Wrap>

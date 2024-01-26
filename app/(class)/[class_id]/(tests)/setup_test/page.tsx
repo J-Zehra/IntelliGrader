@@ -12,7 +12,7 @@ import {
 import { useParams, useRouter } from "next/navigation";
 import { AiOutlinePlus } from "react-icons/ai";
 import { useRecoilState, useSetRecoilState } from "recoil";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { ClassVariant, TestInfo } from "@/utils/types";
 import { headerState } from "@/state/headerState";
@@ -55,6 +55,21 @@ export default function SetupTest() {
         passingGrade: 50,
       });
       navigate.push(`/${class_id}/${data.data.id}/scan`);
+    },
+
+    onError: (error: AxiosError) => {
+      const { data } = error.response!;
+      const response = data as { error: string; message: string };
+
+      toast({
+        title: response.error,
+        description: response.message,
+        duration: 5000,
+        position: "top",
+        status: "error",
+      });
+
+      setActiveStep(0);
     },
   });
 

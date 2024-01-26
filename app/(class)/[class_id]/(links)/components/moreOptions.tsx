@@ -1,27 +1,14 @@
 import { Center, useDisclosure } from "@chakra-ui/react";
-import {
-  QueryObserverResult,
-  RefetchOptions,
-  RefetchQueryFilters,
-  useMutation,
-} from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import React from "react";
 import { FaDeleteLeft } from "react-icons/fa6";
 import Lottie from "react-lottie-player";
-import { FetchedTestInfo } from "@/utils/types";
+import { queryClient } from "@/components/wrappers/queryWrapper";
 import loadingAnimation from "../../../../../public/signing_up.json";
 import ConfirmationModal from "./confirmationModa";
 
-export default function MoreOptions({
-  id,
-  refetch,
-}: {
-  id: string;
-  refetch: <TPageData>(
-    options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined,
-  ) => Promise<QueryObserverResult<FetchedTestInfo[], unknown>>;
-}) {
+export default function MoreOptions({ id }: { id: string }) {
   const { isOpen, onClose, onOpen } = useDisclosure();
 
   const deleteTest = (testId: string) => {
@@ -31,8 +18,13 @@ export default function MoreOptions({
   const mutateTest = useMutation({
     mutationFn: deleteTest,
     mutationKey: ["delete-test", id],
-    onSuccess: () => {
-      refetch();
+    onSuccess: ({ data }) => {
+      queryClient.setQueryData(["tests"], (oldData) => {
+        const newData = (oldData as any[]).filter(
+          (item) => item.id !== data.id,
+        );
+        return newData;
+      });
     },
   });
 

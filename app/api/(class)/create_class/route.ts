@@ -36,7 +36,7 @@ export async function POST(request: Request) {
       const errorResponse = {
         error: "Class Conflict.",
         message:
-          "A class with the similar program, year, section, and course already exist.",
+          "A class with a similar program, year, section, and course already exist.",
       };
       return NextResponse.json(errorResponse, { status: 400 });
     }

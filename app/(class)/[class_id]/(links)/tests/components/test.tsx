@@ -12,11 +12,6 @@ import React from "react";
 import { BsBarChartLine } from "react-icons/bs";
 import { motion } from "framer-motion";
 import moment from "moment";
-import {
-  QueryObserverResult,
-  RefetchOptions,
-  RefetchQueryFilters,
-} from "@tanstack/react-query";
 import { ClassVariant, FetchedTestInfo } from "@/utils/types";
 import { item } from "@/utils/animations";
 import MoreOptions from "@/app/(class)/[class_id]/(links)/components/moreOptions";
@@ -24,13 +19,9 @@ import MoreOptions from "@/app/(class)/[class_id]/(links)/components/moreOptions
 export default function Test({
   variant,
   testInfo,
-  refetch,
 }: {
   variant: ClassVariant;
   testInfo: FetchedTestInfo;
-  refetch: <TPageData>(
-    options?: (RefetchOptions & RefetchQueryFilters<TPageData>) | undefined,
-  ) => Promise<QueryObserverResult<FetchedTestInfo[], unknown>>;
 }) {
   const bgVariant = () => {
     let background = "";
@@ -125,7 +116,7 @@ export default function Test({
           </Stack>
           <Divider borderColor={textColorVariant()} opacity={0.2} />
         </Stack>
-        <MoreOptions id={testInfo.id} refetch={refetch} />
+        <MoreOptions id={testInfo.id} />
       </Stack>
       <Stack
         direction="row"
