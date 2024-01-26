@@ -119,7 +119,7 @@ export default function GradeButton({
       toast({
         title: "Error",
         description: errorMessage,
-        position: "bottom",
+        position: "top",
         status: "error",
         duration: 3000,
       });
