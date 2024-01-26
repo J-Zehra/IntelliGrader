@@ -51,10 +51,12 @@ export default function CreateClass() {
       toast({
         title: response.error,
         description: response.message,
-        duration: 3000,
+        duration: 5000,
         position: "top",
         status: "error",
       });
+
+      setActiveStep(0);
     },
   });
 
