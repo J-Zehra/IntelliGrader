@@ -18,13 +18,28 @@ export default function VideoPage() {
   const webcamRef = useRef<Webcam>(null);
 
   useEffect(() => {
-    const captureFrame = () => {
+    const captureFrame = async () => {
       const imageSrc = webcamRef.current?.getScreenshot({
         width: 600,
         height: 800,
       });
+
       if (imageSrc && openCamera) {
-        socket.emit("video", imageSrc);
+        const convertBase64ToBinary = (base64: string) => {
+          const binaryString = atob(base64);
+          const { length } = binaryString;
+          const bytes = new Uint8Array(length);
+
+          for (let i = 0; i < length; i += 1) {
+            bytes[i] = binaryString.charCodeAt(i);
+          }
+
+          return bytes;
+        };
+
+        const binaryData = convertBase64ToBinary(imageSrc.split(",")[1]);
+
+        socket.emit("video", { image: binaryData });
       }
     };
 
@@ -63,7 +78,6 @@ export default function VideoPage() {
             facingMode: "environment",
             aspectRatio: 4 / 3,
           }}
-          allowFullScreen
         />
       ) : (
         <Stack w="100%" h="100%" p="1rem">
