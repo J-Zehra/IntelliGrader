@@ -11,7 +11,7 @@ export const metadata: Metadata = {
   icons: "/favicon.svg",
   title: "IntelliGrader",
   description:
-    "IntelliGrader: Advancing Test Scoring through AI and Image Recognition",
+    "Discover the efficiency of Intelligrader, your go-to paper checker utilizing cutting-edge computer vision technology. Experience seamless grading with automated error detection, feedback generation, and insightful performance analytics. Elevate your assessment process effortlessly with Intelligrader's precision and convenience. Try it now for a smarter way to grade papers",
 };
 
 export default function RootLayout({
