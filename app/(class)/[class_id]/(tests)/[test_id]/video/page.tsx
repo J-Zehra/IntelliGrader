@@ -24,7 +24,7 @@ export default function VideoPage() {
         height: 800,
       });
       if (imageSrc && openCamera) {
-        socket.emit("image", imageSrc);
+        socket.emit("video", imageSrc);
       }
     };
 
