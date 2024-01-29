@@ -58,7 +58,7 @@ export default function BottomNavbar() {
         bottom={0}
         w="100%"
         h="4rem"
-        paddingInline={2}
+        paddingInline={4}
         bg="palette.background"
         borderBottomRadius="1.3rem"
         direction="row"
@@ -72,12 +72,17 @@ export default function BottomNavbar() {
             <Stack
               key={nav.label}
               align="center"
+              justify="center"
               spacing={1}
               fontSize="1.3rem"
               transition="all .3s ease"
               cursor="pointer"
               _hover={{ opacity: 0.8 }}
-              borderRadius=".6rem"
+              _active={{ bg: "rgba(0, 0, 200, .05)" }}
+              borderRadius="10rem"
+              p=".5rem"
+              w="3.5rem"
+              h="3.5rem"
               color={
                 activeBottomNav === nav.label
                   ? "palette.accent"

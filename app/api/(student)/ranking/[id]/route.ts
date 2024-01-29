@@ -42,12 +42,11 @@ export async function GET(
         0,
       );
 
-      // Calculate accuracy
-      const accuracy = Math.round(
-        (totalCorrect / (totalCorrect + totalIncorrect)) * 100,
-      );
+      const accuracy =
+        totalCorrect + totalIncorrect !== 0
+          ? Math.round((totalCorrect / (totalCorrect + totalIncorrect)) * 100)
+          : 0;
 
-      // Push student's name and accuracy to the ranking array
       const studentName = `${lastName}, ${firstName} ${
         middleName ? `${middleName.charAt(0)}.` : ""
       }`;

@@ -32,6 +32,8 @@ export default function StudentRankings() {
             <Stack
               key={student?.id}
               direction="row"
+              _active={{ bg: "rgba(0, 0, 200, .05)" }}
+              transition="all .3s ease"
               boxShadow="1px 1px 5px rgba(0, 0, 100, .05)"
               borderRadius=".5rem"
             >
