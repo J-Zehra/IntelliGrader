@@ -184,7 +184,7 @@ export default function CreateClass() {
         <Button
           onClick={handleNext}
           isLoading={mutateClass.isLoading || mutateValidateClass.isLoading}
-          _loading={{ bg: "palette.accent" }}
+          colorScheme="blue"
           loadingText={
             mutateValidateClass.isLoading ? "Validating..." : "Creating..."
           }
