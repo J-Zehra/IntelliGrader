@@ -79,7 +79,12 @@ export type Grade = {
   totalScore: number;
   totalPerfectScore: number;
   createdAt: string;
-  test: { id: string; answerIndices: number[]; testParts?: QuestionPart };
+  test: {
+    id: string;
+    answerIndices: number[];
+    testParts?: QuestionPart;
+    testName: string;
+  };
 };
 
 export type Teacher = {

@@ -1,16 +1,23 @@
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Center, Skeleton, Stack, Text } from "@chakra-ui/react";
+import { Center, Skeleton, Stack, Text, useToast } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import React from "react";
 
 export default function StudentRankings() {
   const { class_id } = useParams();
+  const navigate = useRouter();
+  const toast = useToast();
 
   const getClassRanking = async () => {
     let grade: Partial<
-      { accuracy: number; studentName: string; id: string }[]
+      {
+        accuracy: number;
+        studentName: string;
+        id: string;
+        rollNumber: number;
+      }[]
     > = [];
     await axios.get(`/api/ranking/${class_id}`).then((res) => {
       grade = res.data;
@@ -24,6 +31,25 @@ export default function StudentRankings() {
     queryFn: getClassRanking,
   });
 
+  const handleClick = (student: {
+    accuracy: number;
+    studentName: string;
+    id: string;
+    rollNumber: number;
+  }) => {
+    if (student.accuracy === 0) {
+      toast({
+        title: "No Records",
+        description: "This student doesn't have any recored tests yet.",
+        status: "info",
+        position: "top",
+      });
+      return;
+    }
+
+    navigate.push(`statistics/student-scores/${student!.id}`);
+  };
+
   return (
     <Stack>
       {!isLoading ? (
@@ -36,6 +62,7 @@ export default function StudentRankings() {
               transition="all .3s ease"
               boxShadow="1px 1px 5px rgba(0, 0, 100, .05)"
               borderRadius=".5rem"
+              onClick={() => handleClick(student!)}
             >
               <Center
                 flex={1}

@@ -3,7 +3,7 @@
 "use client";
 
 import { Box, IconButton, Skeleton, Stack, Text } from "@chakra-ui/react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import React, { ReactNode } from "react";
 import { BsArrowReturnLeft } from "react-icons/bs";
 import axios from "axios";
@@ -25,6 +25,7 @@ export default function ClassLayoutWrapper({
   children: ReactNode;
 }) {
   const navigate = useRouter();
+  const pathName = usePathname();
   const { class_id, test_id } = useParams();
 
   prefetchTests(class_id as string);
@@ -52,6 +53,14 @@ export default function ClassLayoutWrapper({
     queryFn: getClass,
   });
 
+  const handleNavigation = () => {
+    if (pathName.includes("student-scores")) {
+      navigate.back();
+    } else {
+      navigate.push("/");
+    }
+  };
+
   return (
     <CustomContainer>
       <Stack pt="5rem" w="100%" align="center" spacing="1rem" h="100vh">
@@ -64,7 +73,7 @@ export default function ClassLayoutWrapper({
             color="palette.button.primary"
             cursor="pointer"
             borderRadius=".2rem"
-            onClick={() => navigate.push("/")}
+            onClick={handleNavigation}
           >
             <BsArrowReturnLeft />
           </IconButton>

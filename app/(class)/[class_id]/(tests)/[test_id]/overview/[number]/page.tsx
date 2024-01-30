@@ -58,12 +58,15 @@ export default function OverviewPage() {
     mutationFn: deleteStudentGrade,
     mutationKey: ["delete-record"],
     onSuccess: ({ data }) => {
-      queryClient.setQueryData(["get-student-grades", test_id], (oldData) => {
-        const newData = (oldData as FetchedGradeInfo[]).filter(
-          (g) => g.id !== data.id,
-        );
-        return newData;
-      });
+      queryClient.setQueryData(
+        ["get-student-grades", test_id],
+        (oldData: any) => {
+          const newData = (oldData as FetchedGradeInfo[]).filter(
+            (g) => g.id !== data.id,
+          );
+          return newData;
+        },
+      );
 
       navigate.back();
     },
