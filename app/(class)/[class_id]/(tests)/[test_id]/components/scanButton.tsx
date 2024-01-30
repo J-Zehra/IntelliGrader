@@ -64,6 +64,8 @@ export default function ScanButton({
         borderColor="palette.background"
         onClick={openCamera}
         cursor="pointer"
+        transition="all .3s ease"
+        _active={{ bg: "#0025E8" }}
         _hover={{ opacity: 0.8 }}
       >
         {icon}

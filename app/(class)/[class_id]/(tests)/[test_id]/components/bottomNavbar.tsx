@@ -42,12 +42,6 @@ export default function BottomNavbar() {
     };
   };
 
-  // useEffect(() => {
-  //   router.prefetch("settings");
-  //   router.prefetch("statistics");
-  //   router.prefetch("student_grades");
-  // }, [router]);
-
   if (image.length > 0) {
     return null;
   }
@@ -98,7 +92,7 @@ export default function BottomNavbar() {
           bottom={0}
           w="100%"
           h="4rem"
-          paddingInline={3}
+          paddingInline={5}
           bg="palette.background"
           borderBottomRadius="1.3rem"
           direction="row"
@@ -117,10 +111,15 @@ export default function BottomNavbar() {
                 key={nav.label}
                 align="center"
                 spacing={1}
+                justify="center"
                 cursor="pointer"
                 fontSize="1.2rem"
-                borderRadius=".6rem"
+                borderRadius="2rem"
                 _hover={{ opacity: 0.8 }}
+                w="3.5rem"
+                h="3.5rem"
+                p=".5rem"
+                _active={{ bg: "rgba(0, 0, 200, .05)" }}
                 transition="all .3s ease"
                 onClick={() => handleClick(nav.label, nav.link)}
                 {...style(nav.label)}
