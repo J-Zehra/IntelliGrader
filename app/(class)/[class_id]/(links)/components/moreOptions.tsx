@@ -25,6 +25,7 @@ export default function MoreOptions({ id }: { id: string }) {
         );
         return newData;
       });
+      onClose();
     },
   });
 
