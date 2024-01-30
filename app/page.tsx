@@ -9,19 +9,29 @@ import ClassLoading from "@/components/classLoading";
 import CustomContainer from "@/components/reusables/customContainer";
 import EmptyClass from "@/components/emptyClass";
 import { motion } from "framer-motion";
+import SearchInput from "@/components/searchInput";
+import axios from "axios";
+import { useEffect, useState } from "react";
 
 export default function Home() {
-  const { data, isLoading, isSuccess } = useQuery({
+  const [searchTerm, setSearchTerm] = useState<string>("");
+
+  const { data, isLoading, isSuccess, refetch } = useQuery({
     queryKey: ["classes"],
     queryFn: async () => {
-      const res = await fetch("/api/classes", {
-        method: "PUT",
-      });
-      const classes = res.json();
+      const res = await axios.put("/api/classes", { searchTerm });
 
-      return classes;
+      return res.data;
     },
   });
+
+  useEffect(() => {
+    const delaySearch = setTimeout(() => {
+      refetch();
+    }, 500);
+
+    return () => clearTimeout(delaySearch);
+  }, [refetch, searchTerm]);
 
   const renderClasses = () => {
     if (isLoading) {
@@ -37,7 +47,7 @@ export default function Home() {
 
   return (
     <CustomContainer>
-      <Stack pt="5rem" spacing={10} pb="2rem">
+      <Stack pt="5rem" spacing={8} pb="2rem">
         <Stack
           w="100%"
           align="center"
@@ -63,6 +73,9 @@ export default function Home() {
             </Button>
           </Link>
         </Stack>
+        {isSuccess && data.length > 1 ? (
+          <SearchInput setSearchTerm={setSearchTerm} />
+        ) : null}
         {renderClasses()}
       </Stack>
     </CustomContainer>

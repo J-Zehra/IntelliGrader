@@ -15,6 +15,7 @@ export async function GET(
       include: {
         _count: { select: { testParts: true } },
       },
+      orderBy: { createdAt: "desc" },
     });
 
     return NextResponse.json(testInfo);
