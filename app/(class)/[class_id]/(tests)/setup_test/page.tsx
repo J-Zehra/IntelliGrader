@@ -19,6 +19,7 @@ import { headerState } from "@/state/headerState";
 import { setupTestStepState } from "@/state/stepState";
 import { setupTestState } from "@/state/setupTestState";
 import Loading from "@/components/loading";
+import { useEffect } from "react";
 import Step1 from "./components/step1";
 import Step2 from "./components/step2";
 import Confimation from "./components/confimation";
@@ -55,7 +56,6 @@ export default function SetupTest() {
     mutationKey: ["create test"],
     onSuccess: (data) => {
       setHeader(data.data.testName);
-      setActiveStep(0);
       setTestInfo({
         answerIndices: [],
         classId: "",
@@ -185,6 +185,10 @@ export default function SetupTest() {
   const steps = [<Step1 />, <Step2 />, <Confimation />];
   const [isDesktopLayout] = useMediaQuery("(min-width: 40em)");
 
+  useEffect(() => {
+    setActiveStep(0);
+  }, [setActiveStep]);
+
   return (
     <Center w="100%">
       {mutateTest.isLoading ? <Loading message="Creating Test" /> : ""}
@@ -207,7 +211,7 @@ export default function SetupTest() {
             leftIcon={<AiOutlinePlus />}
             onClick={handleNext}
             p="1.6rem 1rem"
-            _loading={{ bg: "palette.accent" }}
+            colorScheme="blue"
             loadingText="Validating..."
             isLoading={mutateTest.isLoading || mutateValidateTest.isLoading}
           >
