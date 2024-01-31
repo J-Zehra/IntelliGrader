@@ -1,12 +1,12 @@
-import type { Metadata } from "next";
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import ThemeWrapper from "@/components/wrappers/themeWrapper";
 import Header from "@/components/header";
 import StateWrapper from "@/components/wrappers/stateWrapper";
 import QueryWrapper from "@/components/wrappers/queryWrapper";
 import SessionWrapper from "@/components/wrappers/sessionWrapper";
+import Head from "next/head";
 
-export const metadata: Metadata = {
+export const metadata = {
   manifest: "/manifest.json",
   icons: "/favicon.svg",
   title: "IntelliGrader",
@@ -40,6 +40,10 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
+      <Head>
+        <title>{metadata.title}</title>
+        <title>{metadata.description}</title>
+      </Head>
       <body>
         <SpeedInsights />
         <ThemeWrapper>
