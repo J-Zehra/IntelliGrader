@@ -73,9 +73,7 @@ export default function Home() {
             </Button>
           </Link>
         </Stack>
-        {isSuccess && data.length > 1 ? (
-          <SearchInput setSearchTerm={setSearchTerm} />
-        ) : null}
+        <SearchInput setSearchTerm={setSearchTerm} />
         {renderClasses()}
       </Stack>
     </CustomContainer>
