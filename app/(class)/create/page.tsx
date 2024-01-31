@@ -11,6 +11,7 @@ import { ClassInfo, ClassVariant } from "@/utils/types";
 import { headerState } from "@/state/headerState";
 import { classInfoState } from "@/state/classInfoState";
 import { createClassStepState } from "@/state/stepState";
+import { useEffect } from "react";
 import Step1 from "./components/step1";
 import Step2 from "./components/step2";
 
@@ -43,10 +44,8 @@ export default function CreateClass() {
         students: [],
       });
 
-      setActiveStep(0);
-
       setHeaderTitle(data.data.subject);
-      navigate.push(`/${data.data.id}/dashboard`);
+      navigate.replace(`/${data.data.id}/dashboard`);
     },
     onError: (error: AxiosError) => {
       const { data } = error.response!;
@@ -159,7 +158,9 @@ export default function CreateClass() {
 
   const steps = [<Step1 />, <Step2 />];
 
-  console.log(activeStep);
+  useEffect(() => {
+    setActiveStep(0);
+  }, [setActiveStep]);
 
   return (
     <Center flexDir="column" pb="2rem" pos="relative">

@@ -16,7 +16,7 @@ import { useEffect, useState } from "react";
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState<string>("");
 
-  const { data, isLoading, isSuccess, refetch } = useQuery({
+  const { data, isLoading, isSuccess, refetch, isRefetching } = useQuery({
     queryKey: ["classes"],
     queryFn: async () => {
       const res = await axios.put("/api/classes", { searchTerm });
@@ -34,7 +34,7 @@ export default function Home() {
   }, [refetch, searchTerm]);
 
   const renderClasses = () => {
-    if (isLoading) {
+    if (isLoading || isRefetching) {
       return <ClassLoading />;
     }
 
