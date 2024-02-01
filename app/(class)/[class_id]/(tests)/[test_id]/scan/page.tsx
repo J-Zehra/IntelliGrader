@@ -13,6 +13,7 @@ import { fileState } from "@/state/fileState";
 import { FetchedTestInfo, TestNavLink } from "@/utils/types";
 import { queryClient } from "@/components/wrappers/queryWrapper";
 import useTestObserver from "@/hooks/useTestObserver";
+import Link from "next/link";
 import Preview from "../components/preview";
 
 export default function ScanPage() {
@@ -66,6 +67,16 @@ export default function ScanPage() {
         >
           Automate the grading of test paper
         </Text>
+      </Stack>
+      <Stack align="center" pos="absolute" bottom="10rem" spacing=".5rems">
+        <Text fontSize=".8rem" color="palette.button.primary">
+          Having a problem scanning?
+        </Text>
+        <Link href="/tutorial/scanning-guide">
+          <Text fontSize=".8rem" fontWeight="medium" color="palette.accent">
+            See Scanning Guide
+          </Text>
+        </Link>
       </Stack>
     </Stack>
   );
