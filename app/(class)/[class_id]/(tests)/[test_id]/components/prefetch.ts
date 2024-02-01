@@ -1,7 +1,7 @@
 import axios from "axios";
 import { StudentGrade } from "@prisma/client";
 import { queryClient } from "@/components/wrappers/queryWrapper";
-import { Grade, Statistics } from "@/utils/types";
+import { Grade, Statistics, StudentInfo } from "@/utils/types";
 
 export const prefetchStudentGrades = async (id: string) => {
   const getStudentGrades = async () => {
@@ -55,5 +55,25 @@ export const prefetchTally = async (id: string) => {
   queryClient.prefetchQuery({
     queryKey: ["tally", id],
     queryFn: getTally,
+  });
+};
+
+export const prefetchUngradedStudents = async (
+  classId: string,
+  testId: string,
+) => {
+  const getUngradedStudents = async () => {
+    const data = { testId, classId };
+    let grade: StudentInfo[] = [];
+    await axios.get("/api/ungraded_students", { params: data }).then((res) => {
+      grade = res.data;
+    });
+
+    return grade;
+  };
+
+  await queryClient.prefetchQuery({
+    queryKey: ["ungraded-students", testId],
+    queryFn: getUngradedStudents,
   });
 };

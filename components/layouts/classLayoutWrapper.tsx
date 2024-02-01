@@ -15,7 +15,6 @@ import {
   prefetchStatistics,
   prefetchStudents,
   prefetchTests,
-  prefetchUngradedStudents,
 } from "@/app/(class)/[class_id]/(links)/components/prefetch";
 import CustomContainer from "../reusables/customContainer";
 
@@ -26,14 +25,13 @@ export default function ClassLayoutWrapper({
 }) {
   const navigate = useRouter();
   const pathName = usePathname();
-  const { class_id, test_id } = useParams();
+  const { class_id } = useParams();
 
   prefetchTests(class_id as string);
   prefetchStudents(class_id as string);
   prefetchStatistics(class_id as string);
   prefetchPassingRateDistribution(class_id as string);
   prefetchClassRanking(class_id as string);
-  prefetchUngradedStudents(class_id as string, test_id as string);
 
   const getClass = async () => {
     let test: { course: string; program: string; year: number } = {

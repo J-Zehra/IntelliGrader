@@ -12,6 +12,8 @@ import BottomNavbar from "@/app/(class)/[class_id]/(tests)/[test_id]/components/
 import {
   prefetchStatistics,
   prefetchStudentGrades,
+  prefetchTally,
+  prefetchUngradedStudents,
 } from "@/app/(class)/[class_id]/(tests)/[test_id]/components/prefetch";
 import CustomContainer from "../reusables/customContainer";
 
@@ -26,7 +28,8 @@ export default function TestLayoutWrapper({
 
   prefetchStatistics(test_id as string);
   prefetchStudentGrades(test_id as string);
-  // prefetchTally(test_id as string);
+  prefetchUngradedStudents(class_id as string, test_id as string);
+  prefetchTally(test_id as string);
 
   const handleBackNavigation = () => {
     if (

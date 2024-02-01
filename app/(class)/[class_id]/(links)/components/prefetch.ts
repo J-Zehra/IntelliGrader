@@ -1,10 +1,6 @@
 import axios from "axios";
 import { queryClient } from "@/components/wrappers/queryWrapper";
-import {
-  FetchedStudentInfo,
-  FetchedTestInfo,
-  StudentInfo,
-} from "@/utils/types";
+import { FetchedStudentInfo, FetchedTestInfo } from "@/utils/types";
 
 export const prefetchTests = async (id: string) => {
   await queryClient.prefetchQuery({
@@ -87,25 +83,5 @@ export const prefetchClassRanking = async (id: string) => {
   await queryClient.prefetchQuery({
     queryKey: ["class-ranking", id],
     queryFn: getClassRanking,
-  });
-};
-
-export const prefetchUngradedStudents = async (
-  classId: string,
-  testId: string,
-) => {
-  const getUngradedStudents = async () => {
-    const data = { testId, classId };
-    let grade: StudentInfo[] = [];
-    await axios.get("/api/ungraded_students", { params: data }).then((res) => {
-      grade = res.data;
-    });
-
-    return grade;
-  };
-
-  await queryClient.prefetchQuery({
-    queryKey: ["ungraded-students", testId],
-    queryFn: getUngradedStudents,
   });
 };
