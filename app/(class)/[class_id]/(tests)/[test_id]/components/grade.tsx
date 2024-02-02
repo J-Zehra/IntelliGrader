@@ -1,7 +1,7 @@
 /* eslint-disable no-await-in-loop */
 /* eslint-disable @typescript-eslint/naming-convention */
-import { Button, useToast } from "@chakra-ui/react";
-import React, { useEffect, useState } from "react";
+import { Button } from "@chakra-ui/react";
+import React, { useEffect } from "react";
 import { AiOutlineScan } from "react-icons/ai";
 import { useParams, useRouter } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
@@ -9,11 +9,9 @@ import axios from "axios";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { FetchedTestInfoToProcess } from "@/utils/types";
 import { fileState } from "@/state/fileState";
-import { localGradeInfo } from "@/state/localGradeInfo";
 import imageCompression, { Options } from "browser-image-compression";
-import { failedToScan } from "@/state/failedToScan";
+import { localGradeInfo } from "@/state/localGradeInfo";
 import { socket } from "../socket";
-// import { socket } from "../socket";
 
 export default function GradeButton({
   setLoading,
@@ -24,11 +22,8 @@ export default function GradeButton({
 }) {
   const { test_id } = useParams();
   const navigate = useRouter();
-  const toast = useToast();
-  const [errorMessage, setErrorMessage] = useState("");
   const [files, setFiles] = useRecoilState(fileState);
-  const setLocalGradeInfo = useSetRecoilState(localGradeInfo);
-  const setFailedScan = useSetRecoilState(failedToScan);
+  const setLocalGrade = useSetRecoilState(localGradeInfo);
 
   const getTest = async () => {
     let test: Partial<FetchedTestInfoToProcess> = {};
@@ -115,46 +110,21 @@ export default function GradeButton({
   };
 
   useEffect(() => {
-    if (errorMessage) {
-      toast({
-        title: "Error",
-        description: errorMessage,
-        position: "top",
-        status: "error",
-        duration: 3000,
-      });
-
-      setErrorMessage("");
-    }
-  }, [errorMessage, toast]);
-
-  useEffect(() => {
-    const onGradeEvent = (data: any) => {
-      if (data.length === 1 && data[0].status === "failed") {
-        setErrorMessage(data[0].message);
-        setLoading(false);
-        return;
-      }
-
-      const sorted = data.sort(
-        (a: any, b: any) => b.number_of_correct - a.number_of_correct,
-      );
-
-      const success = sorted.filter((item: any) => item.status === "success");
-      const failed = sorted.filter((item: any) => item.status === "failed");
-
-      setLocalGradeInfo(success);
-      setFailedScan(failed);
+    const onGradeEvent = () => {
       setFiles([]);
       navigate.push("local_student_grades");
     };
 
-    socket.on("grade_result", onGradeEvent);
+    socket.on("finished", onGradeEvent);
 
     return () => {
       socket.off("grade_result", onGradeEvent);
     };
-  }, [navigate, setFailedScan, setFiles, setLoading, setLocalGradeInfo]);
+  }, []);
+
+  useEffect(() => {
+    setLocalGrade([]);
+  }, []);
 
   return (
     <Button

@@ -9,13 +9,17 @@ import {
   Text,
   Wrap,
   WrapItem,
+  useToast,
 } from "@chakra-ui/react";
 import React, { useEffect, useLayoutEffect, useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { MdDeleteOutline } from "react-icons/md";
 import Lottie from "react-lottie-player";
 import { fileState } from "@/state/fileState";
 import NetworkSpeed from "network-speed";
+import { localGradeInfo } from "@/state/localGradeInfo";
+import { failedToScan } from "@/state/failedToScan";
+import { useRouter } from "next/navigation";
 import ScanningAnimation from "../../../../../../public/scanning_animation_2.json";
 import GradeButton from "./grade";
 import AddMoreButton from "./addMoreButton";
@@ -23,8 +27,12 @@ import { socket } from "../socket";
 
 export default function Preview() {
   const [files, setFiles] = useRecoilState(fileState);
+  const setLocalGradeInfo = useSetRecoilState(localGradeInfo);
+  const setFailedScan = useSetRecoilState(failedToScan);
   const [loading, setLoading] = useState<boolean>(false);
   const [progress, setProgress] = useState<number>(0);
+  const toast = useToast();
+  const navigate = useRouter();
   const [slowConnection, setSlowConnection] = useState<boolean>(false);
 
   const handleDelete = (url: string) => {
@@ -65,6 +73,33 @@ export default function Preview() {
 
   useEffect(() => {
     const onPartialGradeEvent = (data: any) => {
+      if (files.length === 1 && data.status === "failed") {
+        toast({
+          title: "Error",
+          description: data.message,
+          position: "top",
+          status: "error",
+          duration: 3000,
+        });
+        setLoading(false);
+        setFiles([]);
+        return;
+      }
+
+      if (files.length === 1 && data.status === "success") {
+        setLocalGradeInfo([data]);
+        setLoading(false);
+        setFiles([]);
+        navigate.push("local_student_grades");
+        return;
+      }
+
+      if (data.status === "success") {
+        setLocalGradeInfo((prev) => [...prev, data]);
+      } else {
+        setFailedScan((prev) => [...prev, data]);
+      }
+
       setProgress(data.index);
       console.log(data.index);
     };
@@ -74,7 +109,14 @@ export default function Preview() {
     return () => {
       socket.off("progress", onPartialGradeEvent);
     };
-  }, []);
+  }, [
+    files.length,
+    navigate,
+    setFailedScan,
+    setFiles,
+    setLocalGradeInfo,
+    toast,
+  ]);
 
   return (
     <Stack pb="2rem">

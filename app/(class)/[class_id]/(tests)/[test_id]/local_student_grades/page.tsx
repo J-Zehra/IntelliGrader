@@ -73,7 +73,7 @@ export default function LocalStudentGrades() {
   useEffect(() => {
     const timer = setInterval(() => {
       setIsNoteOpen(false);
-    }, 10000);
+    }, 20000);
 
     return () => {
       clearInterval(timer);

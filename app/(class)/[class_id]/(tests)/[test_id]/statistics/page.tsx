@@ -89,7 +89,7 @@ export default function StatisticsPage() {
         spacing={isDesktopLayout ? "1rem" : ""}
       >
         <Stack mt={10} spacing={5} flex={1}>
-          {isSuccess && statistics?.questionsMostGotWrong?.length! > 1 ? (
+          {isSuccess && statistics?.questionsMostGotWrong?.length! > 0 ? (
             <Text fontSize=".8rem" fontWeight="medium">
               Common Mistakes
             </Text>
@@ -120,7 +120,7 @@ export default function StatisticsPage() {
           </Stack>
         </Stack>
         <Stack mt={10} spacing={5} flex={1}>
-          {isSuccess && statistics?.questionsMostGotRight?.length! > 1 ? (
+          {isSuccess && statistics?.questionsMostGotRight?.length! > 0 ? (
             <Text fontSize=".8rem" fontWeight="medium">
               Questions Most Got Right
             </Text>
