@@ -59,7 +59,7 @@ export default function Step2() {
   useEffect(() => {
     const timer = setInterval(() => {
       setIsNoteOpen(false);
-    }, 10000);
+    }, 20000);
 
     return () => {
       clearInterval(timer);
@@ -86,9 +86,12 @@ export default function Step2() {
           marginBottom="1rem"
         >
           <Text fontSize=".8rem" opacity={0.65}>
-            <Highlight query="NOTE:" styles={{ fontWeight: "bold" }}>
+            <Highlight
+              query={["NOTE:", "firstName", "middleName", "lastName"]}
+              styles={{ fontWeight: "bold" }}
+            >
               NOTE: When uploading CSV file for students, make sure that the
-              columns are labeled [firstName, middleName, lastName].
+              columns are labeled firstName, middleName, lastName.
             </Highlight>
           </Text>
           <Button
