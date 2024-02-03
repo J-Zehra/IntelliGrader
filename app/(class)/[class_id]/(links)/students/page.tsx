@@ -5,7 +5,6 @@
 import {
   Center,
   IconButton,
-  Image,
   Stack,
   Text,
   useDisclosure,
@@ -139,7 +138,7 @@ export default function StudentsPage() {
                 <Stack
                   key={student.rollNumber}
                   direction="row"
-                  w={{ base: "100%", sm: "25rem" }}
+                  w={{ base: "100%", sm: "40rem" }}
                   align="center"
                   justify="space-between"
                   borderRadius=".5rem"
@@ -188,11 +187,11 @@ export default function StudentsPage() {
             })
           )}
         </Center>
-        {isDesktopLayout ? (
+        {/* {isDesktopLayout ? (
           <Center flex={1}>
             <Image src="/illustrations/students.svg" w="70%" opacity={0.8} />
           </Center>
-        ) : null}
+        ) : null} */}
       </Stack>
       {isAddModalopen ? (
         <AddStudentModal

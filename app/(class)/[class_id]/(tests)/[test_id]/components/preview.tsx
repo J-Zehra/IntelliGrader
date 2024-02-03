@@ -1,17 +1,16 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-nested-ternary */
 import {
-  Box,
   Center,
   IconButton,
-  Image,
+  Image as ChakraImage,
   Stack,
   Text,
   Wrap,
   WrapItem,
   useToast,
 } from "@chakra-ui/react";
-import React, { useEffect, useLayoutEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import { MdDeleteOutline } from "react-icons/md";
 import Lottie from "react-lottie-player";
@@ -20,6 +19,7 @@ import NetworkSpeed from "network-speed";
 import { localGradeInfo } from "@/state/localGradeInfo";
 import { failedToScan } from "@/state/failedToScan";
 import { useRouter } from "next/navigation";
+import { FaArrowRotateLeft } from "react-icons/fa6";
 import ScanningAnimation from "../../../../../../public/scanning_animation_2.json";
 import GradeButton from "./grade";
 import AddMoreButton from "./addMoreButton";
@@ -34,12 +34,51 @@ export default function Preview() {
   const toast = useToast();
   const navigate = useRouter();
   const [slowConnection, setSlowConnection] = useState<boolean>(false);
+  const [isRotating, setIsRotating] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(-1);
+
+  const rotateImage = (degrees: number, index: number) => {
+    setIsRotating(true);
+    const selectedFile = files[index];
+
+    if (selectedFile) {
+      const img = new Image();
+      img.src = selectedFile.imageUrl;
+
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+
+        canvas.width = img.height;
+        canvas.height = img.width;
+
+        ctx!.translate(canvas.width / 2, canvas.height / 2);
+        ctx!.rotate((degrees * Math.PI) / 180);
+        ctx!.drawImage(img, -img.width / 2, -img.height / 2);
+
+        canvas.toBlob((blob) => {
+          const rotatedFile = new File([blob!], selectedFile!.image!.name, {
+            type: selectedFile!.image!.type,
+          });
+
+          const updatedFiles = [...files];
+          updatedFiles[index] = {
+            imageUrl: canvas.toDataURL(),
+            image: rotatedFile,
+          };
+
+          setFiles(updatedFiles);
+          setIsRotating(false);
+        }, selectedFile!.image!.type);
+      };
+    }
+  };
 
   const handleDelete = (url: string) => {
     setFiles((prev) => prev.filter((item) => item.imageUrl !== url));
   };
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const testNetworkSpeed = new NetworkSpeed();
     const getDownloadSpeed = async () => {
       const baseUrl = "https://eu.httpbin.org/stream-bytes/500000";
@@ -131,7 +170,7 @@ export default function Preview() {
         bg="rgba(0, 0, 0, .02)"
         overflow="auto"
       >
-        {files.map((file) => {
+        {files.map((file, index) => {
           return (
             <WrapItem
               key={file.imageUrl}
@@ -146,7 +185,39 @@ export default function Preview() {
                   : "23%"
               }
             >
-              <Box pos="absolute" top={0} right={0}>
+              {isRotating && selectedIndex === index ? (
+                <Center
+                  pos="absolute"
+                  w="100%"
+                  h="100%"
+                  zIndex={10}
+                  bg="rgba(255, 255, 255, .6)"
+                >
+                  <Text
+                    color="palette.button.primary"
+                    fontWeight="medium"
+                    opacity={0.8}
+                    fontSize=".9rem"
+                  >
+                    Rotating...
+                  </Text>
+                </Center>
+              ) : null}
+              <Stack pos="absolute" top={0} spacing={0.5} right={0}>
+                <IconButton
+                  aria-label="Remove"
+                  variant="outline"
+                  bg="palette.light"
+                  opacity={0.75}
+                  color="blue.500"
+                  fontSize="1rem"
+                  p=".1rem"
+                  onClick={() => {
+                    setSelectedIndex(index);
+                    rotateImage(90, index);
+                  }}
+                  icon={<FaArrowRotateLeft />}
+                />
                 <IconButton
                   aria-label="Remove"
                   variant="outline"
@@ -157,8 +228,8 @@ export default function Preview() {
                   onClick={() => handleDelete(file.imageUrl)}
                   icon={<MdDeleteOutline />}
                 />
-              </Box>
-              <Image
+              </Stack>
+              <ChakraImage
                 borderRadius=".5rem"
                 src={file.imageUrl}
                 w="100%"
