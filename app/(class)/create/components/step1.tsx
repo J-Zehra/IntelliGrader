@@ -37,9 +37,17 @@ export default function Step1() {
           value={classInfo.schoolLevel}
         >
           <Stack direction="row" spacing="1.2rem">
-            <Radio value="College">College</Radio>
-            <Radio value="High School">High School</Radio>
-            <Radio value="Elementary">Elementary</Radio>
+            <Radio value="College">
+              <Text fontSize=".9rem">College</Text>
+            </Radio>
+            <Radio value="High School">
+              {" "}
+              <Text fontSize=".9rem">High School</Text>
+            </Radio>
+            <Radio value="Elementary">
+              {" "}
+              <Text fontSize=".9rem">Elementary</Text>
+            </Radio>
           </Stack>
         </RadioGroup>
       </Box>
