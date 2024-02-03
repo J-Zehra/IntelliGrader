@@ -9,9 +9,10 @@ export default function ScanningGuide() {
   const ideals = [
     "The paper is not too far and not too close.",
     "All four corners of the paper is captured.",
-    "Not blurred.",
-    "Well lit.",
     "All markers are captured.",
+    "Not blurred.",
+    "White background or plain",
+    "Well lit.",
   ];
 
   const idealImages = [
@@ -30,6 +31,7 @@ export default function ScanningGuide() {
     "The paper is too far or too close.",
     "Paper can barely be seen due to poor lighting",
     "The picture is upside down or rotated",
+    "The background is messy and has too many activity",
   ];
   return (
     <Stack>
