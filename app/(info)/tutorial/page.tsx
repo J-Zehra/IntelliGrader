@@ -11,7 +11,7 @@ export default function TutorialPage() {
     { title: "Navigation Guide", link: "navigation-tutorial" },
     { title: "Scanning Guide", link: "scanning-guide" },
     { title: "Shading Guide", link: "shading-guide" },
-    // { title: "Error Guide", link: "error-guide" },
+    { title: "Test Creation Guide", link: "test-guide" },
   ];
 
   return (

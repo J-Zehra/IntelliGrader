@@ -6,6 +6,7 @@ import {
   Button,
   Center,
   Stack,
+  Text,
   useMediaQuery,
   useToast,
 } from "@chakra-ui/react";
@@ -20,6 +21,7 @@ import { setupTestStepState } from "@/state/stepState";
 import { setupTestState } from "@/state/setupTestState";
 import Loading from "@/components/loading";
 import { useEffect } from "react";
+import Link from "next/link";
 import Step1 from "./components/step1";
 import Step2 from "./components/step2";
 import Confimation from "./components/confimation";
@@ -198,6 +200,17 @@ export default function SetupTest() {
         paddingBottom="2rem"
         w={isDesktopLayout ? "30rem" : "100%"}
       >
+        <Stack
+          direction="row"
+          align="center"
+          fontSize=".8rem"
+          paddingBottom="1rem"
+        >
+          <Text>Not sure what to do?</Text>
+          <Text color="palette.accent">
+            <Link href="/tutorial/test-guide">See Test Creation Guide</Link>
+          </Text>
+        </Stack>
         {steps[activeStep]}
         <Stack direction="row" align="center" justify="end" spacing="1rem">
           <Button

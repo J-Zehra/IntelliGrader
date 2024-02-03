@@ -17,6 +17,8 @@ import { QuestionType, QuestionPart, ClassVariant } from "@/utils/types";
 export default function Step1() {
   const [testInfo, setTestInfo] = useRecoilState(setupTestState);
 
+  console.log(testInfo);
+
   const bgVariant = (variant: ClassVariant) => {
     let background = "";
 
@@ -204,6 +206,11 @@ export default function Step1() {
               <option value="15">15</option>
               <option value="20">20</option>
               <option value="25">25</option>
+              {/* <option value="30">30</option>
+              <option value="35">35</option>
+              <option value="40">40</option>
+              <option value="45">45</option>
+              <option value="50">50</option> */}
             </Select>
             <Select
               color="rgba(0, 0, 0, .6)"
