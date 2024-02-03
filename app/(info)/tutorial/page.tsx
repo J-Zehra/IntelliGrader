@@ -24,7 +24,7 @@ export default function TutorialPage() {
       >
         TUTORIALS
       </Text>
-      <Center w="100%" h="15rem">
+      <Center w="100%" h={{ base: "15rem", md: "30rem", sm: "20rem" }}>
         <iframe
           title="Getting Started on IntelliGrader"
           style={{ borderRadius: "1rem" }}
