@@ -11,12 +11,12 @@ export default function ClassesList({
 }) {
   return (
     <Wrap
-      spacing={2}
+      spacing={3}
       as={motion.div}
       variants={container}
       initial="hidden"
       animate="show"
-      w="100"
+      w="100%"
     >
       {classesData.map((classData) => (
         <Class variant={classData.variant} classInfo={classData} />
