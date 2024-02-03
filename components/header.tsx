@@ -33,7 +33,7 @@ export default function Header() {
     >
       <CustomContainer>
         <Stack direction="row" h="4rem" align="center" justify="space-between">
-          <Center onClick={() => navigate.push("/")}>
+          <Center cursor="pointer" onClick={() => navigate.push("/")}>
             <Image
               src="/logo_v1.svg"
               alt="logo"
