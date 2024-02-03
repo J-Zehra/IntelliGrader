@@ -51,6 +51,7 @@ export type UploadedFile = {
 export type ClassInfo = {
   course: string;
   section: string;
+  schoolLevel: string;
   year: number;
   program: string;
   variant: ClassVariant;

@@ -10,7 +10,7 @@ export async function POST(request: Request) {
     const session = await getServerSession(options);
     const user = session?.user as unknown as any;
     const body = await request.json();
-    const { course, section, year, program, students, variant } =
+    const { course, section, year, program, students, variant, schoolLevel } =
       body as ClassInfo;
 
     const newClass = await prisma.class.create({
@@ -18,6 +18,7 @@ export async function POST(request: Request) {
         course: course.trim(),
         section: section.trim(),
         year,
+        schoolLevel,
         program: program.trim(),
         variant,
         teacherId: user.id,

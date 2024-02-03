@@ -5,6 +5,7 @@ import { ClassInfo, ClassVariant, StudentInfo } from "@/utils/types";
 export const classInfoState = atom<ClassInfo>({
   key: "classInfoState",
   default: {
+    schoolLevel: "College",
     program: "",
     section: "",
     course: "",

@@ -36,6 +36,7 @@ export default function CreateClass() {
     mutationKey: ["create-class"],
     onSuccess: (data) => {
       setClassInfo({
+        schoolLevel: "College",
         program: "",
         section: "",
         course: "",
@@ -83,12 +84,18 @@ export default function CreateClass() {
 
   const handleNext = () => {
     if (activeStep === 0) {
-      if (
-        !classInfo.course ||
-        !classInfo.section ||
-        !classInfo.program ||
-        !classInfo.year
-      ) {
+      if (!classInfo.program && classInfo.schoolLevel === "College") {
+        toast({
+          title: "Incomplete Fields.",
+          description: "Please fill all the fields.",
+          duration: 3000,
+          position: "top",
+          status: "error",
+        });
+        return;
+      }
+
+      if (!classInfo.section || !classInfo.course || !classInfo.year) {
         toast({
           title: "Incomplete Fields.",
           description: "Please fill all the fields.",
@@ -136,7 +143,7 @@ export default function CreateClass() {
         return;
       }
 
-      if (classInfo.year > 10) {
+      if (classInfo.year > 12) {
         toast({
           title: "Invalid Year Level.",
           description: "Please check if you input the wrong year.",

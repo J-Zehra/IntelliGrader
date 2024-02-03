@@ -25,8 +25,9 @@ model Class {
   id        String   @id @default(cuid()) @map("_id")
   course    String
   year      Int
+  schoolLevel String?
   section   String
-  program   String
+  program   String?
   variant   String
   teacherId String
   createdAt DateTime @default(now())

@@ -1,4 +1,4 @@
-import { Box, Input, Stack, Text } from "@chakra-ui/react";
+import { Box, Input, Radio, RadioGroup, Stack, Text } from "@chakra-ui/react";
 import { useRecoilState } from "recoil";
 import { ClassVariant } from "@/utils/types";
 import { classInfoState } from "@/state/classInfoState";
@@ -25,22 +25,42 @@ export default function Step1() {
 
   return (
     <Stack spacing=".5rem" pt="1.5rem" w={{ base: "100%", sm: "30rem" }}>
+      <Box paddingBottom="1rem">
+        <RadioGroup
+          onChange={(e) => {
+            setClassInfo((prev) => ({
+              ...prev,
+              program: "",
+              schoolLevel: e,
+            }));
+          }}
+          value={classInfo.schoolLevel}
+        >
+          <Stack direction="row" spacing="1.2rem">
+            <Radio value="College">College</Radio>
+            <Radio value="High School">High School</Radio>
+            <Radio value="Elementary">Elementary</Radio>
+          </Stack>
+        </RadioGroup>
+      </Box>
+      {classInfo.schoolLevel === "College" ? (
+        <Input
+          placeholder="Program (acronym)"
+          type="text"
+          bg="gray.100"
+          h="3rem"
+          fontSize=".9rem"
+          value={classInfo.program}
+          onChange={(e) =>
+            setClassInfo((prev) => ({
+              ...prev,
+              program: e.target.value.toUpperCase(),
+            }))
+          }
+        />
+      ) : null}
       <Input
-        placeholder="Program (acronym)"
-        type="text"
-        bg="gray.100"
-        h="3rem"
-        fontSize=".9rem"
-        value={classInfo.program}
-        onChange={(e) =>
-          setClassInfo((prev) => ({
-            ...prev,
-            program: e.target.value.toUpperCase(),
-          }))
-        }
-      />
-      <Input
-        placeholder="Course"
+        placeholder={classInfo.schoolLevel === "College" ? "Course" : "Subject"}
         type="text"
         bg="gray.100"
         h="3rem"
@@ -62,7 +82,7 @@ export default function Step1() {
         }
       />
       <Input
-        placeholder="Year"
+        placeholder="Year level"
         type="number"
         maxLength={1}
         bg="gray.100"
