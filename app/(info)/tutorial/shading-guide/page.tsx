@@ -18,7 +18,10 @@ export default function ShadingGuide() {
         <Text fontWeight="bold" opacity={0.8}>
           IDEAL
         </Text>
-        <Image src="/tutorial/shading/ideal.png" w="100%" />
+        <Image
+          src="/tutorial/shading/ideal.png"
+          w={{ base: "100%", sm: "50%", md: "20%" }}
+        />
         <Text fontSize=".9rem">
           What you can see here is perfection. Of course we are aware that it is
           not always possible to attain this kind of shading, but this is the
@@ -31,7 +34,10 @@ export default function ShadingGuide() {
         <Text fontWeight="bold" opacity={0.8}>
           NON-IDEAL
         </Text>
-        <Image src="/tutorial/shading/nonIdeal.png" w="100%" />
+        <Image
+          src="/tutorial/shading/nonIdeal.png"
+          w={{ base: "100%", sm: "50%", md: "20%" }}
+        />
         <Text fontSize=".9rem">
           Half shaded, 1/4 shaded, lightly shaded, and too messy shaded - These
           are the main shading mistakes that you need to avoid. IntelliGrader

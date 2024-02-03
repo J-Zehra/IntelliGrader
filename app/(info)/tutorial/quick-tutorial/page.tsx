@@ -71,8 +71,11 @@ export default function QuickTutorialPage() {
               <Wrap>
                 {step.images.map((image: string) => {
                   return (
-                    <Center justifyContent="center" w="100%">
-                      <Image src={image} w="80%" />
+                    <Center justifyContent={{ base: "center", md: "start" }}>
+                      <Image
+                        src={image}
+                        w={{ base: "80%", sm: "50%", md: "20%" }}
+                      />
                     </Center>
                   );
                 })}

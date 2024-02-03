@@ -59,7 +59,7 @@ export default function ScanningGuide() {
         </Stack>
         <Stack justify="center" w="100%" paddingTop="2rem" direction="row">
           {idealImages.map((image) => {
-            return <Image src={image} w="45%" />;
+            return <Image borderRadius=".4rem" src={image} w="45%" />;
           })}
         </Stack>
       </Stack>
@@ -85,7 +85,7 @@ export default function ScanningGuide() {
           direction="row"
         >
           {nonIdealImages.map((image) => {
-            return <Image src={image} w="40%" />;
+            return <Image borderRadius=".4rem" src={image} w="40%" />;
           })}
         </Wrap>
       </Stack>

@@ -54,7 +54,10 @@ export default function NavigationTutorial() {
         <Text fontWeight="bold" opacity={0.8}>
           Class Navigation Bar
         </Text>
-        <Image src="/tutorial/navigation/classNavGuide.png" w="100%" />
+        <Image
+          src="/tutorial/navigation/classNavGuide.png"
+          w={{ base: "100%", sm: "50%", md: "20%" }}
+        />
         <Stack paddingLeft="1rem" spacing="1rem">
           {classNavBarInfo.map((nav) => {
             return (
@@ -72,7 +75,10 @@ export default function NavigationTutorial() {
         <Text fontWeight="bold" opacity={0.8}>
           Test Navigation Bar
         </Text>
-        <Image src="/tutorial/navigation/testNavGuide.png" w="100%" />
+        <Image
+          src="/tutorial/navigation/testNavGuide.png"
+          w={{ base: "100%", sm: "50%", md: "20%" }}
+        />
         <Stack paddingLeft="1rem" spacing="1rem">
           {testNavBarInfo.map((nav) => {
             return (
