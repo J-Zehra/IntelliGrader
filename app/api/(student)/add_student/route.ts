@@ -17,6 +17,7 @@ export async function POST(request: Request) {
           { firstName: { contains: student.firstName.trim() } },
           { lastName: { contains: student.lastName.trim() } },
           { middleName: { contains: student.middleName.trim() } },
+          { classId },
         ],
       },
     });

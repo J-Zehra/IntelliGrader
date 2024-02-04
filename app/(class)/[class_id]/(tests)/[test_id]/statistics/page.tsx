@@ -26,6 +26,7 @@ import TallyOfScores from "./components/tallyOfScores";
 import DownloadReport from "./components/downloadReport";
 import ClassPassingRate from "./components/classPassingRate";
 // import PolarAreaChart from "./components/polarAreaChart";
+// import PolarAreaChart from "./components/polarAreaChart";
 
 export default function StatisticsPage() {
   // eslint-disable-next-line @typescript-eslint/naming-convention
