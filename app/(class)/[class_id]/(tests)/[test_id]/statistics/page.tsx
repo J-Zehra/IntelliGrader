@@ -26,7 +26,7 @@ import TallyOfScores from "./components/tallyOfScores";
 import DownloadReport from "./components/downloadReport";
 import ClassPassingRate from "./components/classPassingRate";
 // import PolarAreaChart from "./components/polarAreaChart";
-// import PolarAreaChart from "./components/polarAreaChart";
+import PolarAreaChart from "./components/polarAreaChart";
 
 export default function StatisticsPage() {
   // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -78,11 +78,13 @@ export default function StatisticsPage() {
           <LowestScore score={statistics?.lowest} />
         </Skeleton>
       </Wrap>
+      <Box paddingTop="3rem">
+        <PolarAreaChart />
+      </Box>
       <Box paddingBlock="3rem 1rem">
         <Text fontSize=".8rem" paddingBottom="2rem" fontWeight="medium">
           Score Distribution
         </Text>
-        {/* <PolarAreaChart /> */}
         <TallyOfScores />
       </Box>
       <Stack

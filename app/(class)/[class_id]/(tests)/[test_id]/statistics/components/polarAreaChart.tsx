@@ -6,48 +6,64 @@ import { AgChartsReact } from "ag-charts-react";
 
 export default function PolarAreaChart() {
   // eslint-disable-next-line @typescript-eslint/naming-convention
-  const { test_id } = useParams();
+  const { test_id, class_id } = useParams();
 
   const getStatistics = async () => {
-    const data = { testId: test_id };
-    let responseData: number[] = [];
-    await axios.get("/api/tally", { params: data }).then((res) => {
-      const { tally } = res.data;
-      responseData = tally;
+    const data = { testId: test_id, classId: class_id };
+    let responseData: Partial<{
+      studentPassed: number;
+      studentFailed: number;
+      ungradedStudents: number;
+    }> = {};
+    await axios.get("/api/student_mark", { params: data }).then((res) => {
+      responseData = res.data;
     });
 
     return responseData;
   };
 
-  const { data: tally } = useQuery({
-    queryKey: ["tally", test_id],
+  const { data: markData } = useQuery({
+    queryKey: ["student-mark", test_id],
     queryFn: getStatistics,
   });
 
-  const labels: string[] = [];
+  const numFormatter = new Intl.NumberFormat("en-US");
 
-  if (tally) {
-    for (let i = 1; i <= tally.length; i += 1) {
-      labels.push(`Q${i}`);
-    }
-  }
+  const data = [
+    { mark: "Passed", number: markData?.studentPassed },
+    { mark: "Failed", number: markData?.studentFailed },
+    { mark: "Ungraded", number: markData?.ungradedStudents },
+  ];
 
   return (
     <div>
       <AgChartsReact
         options={{
-          data: labels.map((label, index) => {
-            return {
-              number: label,
-              correct: tally![index],
-            };
-          }),
+          padding: { top: 0, bottom: 0, left: 0, right: 0 },
+          background: { fill: "transparent" },
           series: [
             {
-              type: "bar",
-              direction: "horizontal",
-              xKey: "number",
-              yKey: "correct",
+              data,
+              type: "pie",
+              calloutLabelKey: "mark",
+              sectorLabelKey: "number",
+              angleKey: "number",
+              calloutLabel: {
+                offset: 10,
+              },
+              sectorLabel: {
+                formatter: ({ datum, sectorLabelKey = "number" }) => {
+                  return `${numFormatter.format(
+                    datum[sectorLabelKey],
+                  )} students`;
+                },
+              },
+              tooltip: {
+                renderer: ({ datum, angleKey, calloutLabelKey = "mark" }) => ({
+                  title: `${datum[calloutLabelKey]}`,
+                  content: `${datum[angleKey]} students`,
+                }),
+              },
             },
           ],
         }}
