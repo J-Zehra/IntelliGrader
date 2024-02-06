@@ -4,6 +4,7 @@
 import {
   Center,
   Divider,
+  IconButton,
   Radio,
   RadioGroup,
   Stack,
@@ -16,11 +17,15 @@ import { useRecoilState } from "recoil";
 import { setupTestState } from "@/state/setupTestState";
 import { QuestionType, TestInfo } from "@/utils/types";
 import { debounce } from "lodash";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
+import { motion } from "framer-motion";
 import PointInput from "./pointInput";
 
 export default function MDATAnswerSheet() {
   const [testInfo, setTestInfo] = useRecoilState<TestInfo>(setupTestState);
   const [answers, setAnswers] = useState<number[]>([]);
+  const [currentIndex, setCurrentIndex] = useState<number>(0);
+  const [currentPartIndex, setCurrentPartIndex] = useState<number>(0);
 
   const convertToLetter = useCallback((index: number, isTrueFalse: boolean) => {
     if (isTrueFalse) {
@@ -69,120 +74,161 @@ export default function MDATAnswerSheet() {
 
   console.log(testInfo);
 
+  // TODO: HANDLE PART CHANGES
+  const handleNext = () => {
+    if (currentIndex === testInfo.parts[currentPartIndex].totalNumber - 1) {
+      setCurrentPartIndex((prev) => prev + 1);
+    }
+
+    if (
+      currentIndex !==
+      testInfo.parts.reduce(
+        (accum, current) => accum + current.totalNumber,
+        0,
+      ) -
+        1
+    )
+      setCurrentIndex((prev) => prev + 1);
+  };
+
+  const handlePrev = () => {
+    if (currentIndex !== 0) setCurrentIndex((prev) => prev - 1);
+  };
+
   return (
     <Stack spacing={3}>
-      {testInfo.parts.map((part, partIndex) => (
-        <Stack key={partIndex} direction="column" borderRadius=".5rem">
-          <Center
-            bg="palette.button.secondary"
-            marginBlock={2}
-            p="1rem"
-            borderRadius=".6rem"
+      <Stack direction="column" borderRadius=".5rem">
+        <Center
+          bg="palette.button.secondary"
+          marginBlock={2}
+          p="1rem"
+          borderRadius=".6rem"
+        >
+          <Text
+            color="palette.button.primary"
+            fontWeight="bold"
+            fontSize="1.2rem"
           >
-            <Text
-              color="palette.button.primary"
-              fontWeight="bold"
-              fontSize="1.2rem"
-            >
-              {partIndex + 1}
-            </Text>
-          </Center>
+            Part {currentPartIndex + 1}
+          </Text>
+        </Center>
+        <Stack
+          key={currentIndex}
+          direction="column"
+          borderRadius=".6rem"
+          spacing={2.5}
+          pos="relative"
+          justify="space-between"
+          as={motion.div}
+          initial={{
+            x: 30,
+            opacity: 0,
+          }}
+          animate={{
+            x: 0,
+            opacity: 1,
+          }}
+        >
+          <Stack direction="row" pos="absolute" bottom="1rem" right="1rem">
+            <IconButton
+              variant="ghost"
+              aria-label="Prev"
+              icon={<FaArrowLeft />}
+              onClick={handlePrev}
+            />
+            <IconButton
+              onClick={handleNext}
+              aria-label="Next"
+              icon={<FaArrowRight />}
+            />
+          </Stack>
           <Stack
-            direction="column"
-            borderRadius=".6rem"
-            spacing={2.5}
-            justify="space-between"
+            key={`${currentPartIndex}-${currentIndex}`}
+            direction="row"
+            boxShadow="1px 1px 5px rgba(0, 0, 100, .05)"
+            borderRadius=".5rem"
           >
-            {Array.from({ length: part.totalNumber }).map(
-              (_, questionIndex) => (
-                <Stack
-                  key={`${partIndex}-${questionIndex}`}
+            <Center
+              flex={1}
+              bg="palette.button.secondary"
+              p="1rem"
+              borderLeftRadius=".6rem"
+            >
+              <Text
+                color="palette.button.primary"
+                fontWeight="bold"
+                fontSize="1.2rem"
+              >
+                {currentIndex + 1}
+              </Text>
+            </Center>
+            <Stack h="100%" w="100%" p="1rem" spacing="1.5rem">
+              <RadioGroup
+                flex={10}
+                onChange={(e) =>
+                  handleAnswerSelection(
+                    currentPartIndex,
+                    currentIndex,
+                    parseInt(e, 10),
+                  )
+                }
+              >
+                <Wrap
                   direction="row"
-                  boxShadow="1px 1px 5px rgba(0, 0, 100, .05)"
-                  borderRadius=".5rem"
+                  align="center"
+                  justify="start"
+                  spacing="1rem"
                 >
-                  <Center
-                    flex={1}
-                    bg="palette.button.secondary"
-                    p="1rem"
-                    borderLeftRadius=".6rem"
-                  >
-                    <Text
-                      color="palette.button.primary"
-                      fontWeight="bold"
-                      fontSize="1.2rem"
-                    >
-                      {questionIndex + 1}
-                    </Text>
-                  </Center>
-                  <Stack h="100%" w="100%" p="1rem" spacing="1.5rem">
-                    <RadioGroup
-                      flex={10}
-                      onChange={(e) =>
-                        handleAnswerSelection(
-                          partIndex,
-                          questionIndex,
-                          parseInt(e, 10),
-                        )
-                      }
-                    >
-                      <Wrap
-                        direction="row"
-                        align="center"
-                        justify="start"
-                        spacing="1rem"
+                  {[
+                    ...Array(testInfo.parts[currentPartIndex].numberOfChoices),
+                  ].map((__, choiceIndex) => (
+                    <WrapItem>
+                      <Radio
+                        key={`${currentPartIndex}-${currentIndex}-${choiceIndex}`}
+                        opacity={0.8}
+                        value={choiceIndex.toString()}
+                        borderColor="rgba(0, 0, 0, .6)"
                       >
-                        {[...Array(part.numberOfChoices)].map(
-                          (__, choiceIndex) => (
-                            <WrapItem>
-                              <Radio
-                                key={`${partIndex}-${questionIndex}-${choiceIndex}`}
-                                opacity={0.8}
-                                value={choiceIndex.toString()}
-                                borderColor="rgba(0, 0, 0, .6)"
-                              >
-                                <Text
-                                  opacity={0.6}
-                                  fontWeight="medium"
-                                  color="palette.text"
-                                  fontSize=".9rem"
-                                >
-                                  {convertToLetter(
-                                    choiceIndex,
-                                    part.questionType ===
-                                      QuestionType.trueOrFalse,
-                                  )}
-                                </Text>
-                              </Radio>
-                            </WrapItem>
-                          ),
-                        )}
-                      </Wrap>
-                    </RadioGroup>
-                    <Stack>
-                      <Divider marginBottom="1rem" />
-                      <Stack spacing="1rem">
-                        {[...Array(part.numberOfChoices)].map(
-                          (__, choiceIndex) => {
-                            return (
-                              <PointInput
-                                partIndex={partIndex}
-                                questionIndex={questionIndex}
-                                choiceIndex={choiceIndex}
-                                questionType={part.questionType}
-                              />
-                            );
-                          },
-                        )}
-                      </Stack>
-                    </Stack>
-                  </Stack>
+                        <Text
+                          opacity={0.6}
+                          fontWeight="medium"
+                          color="palette.text"
+                          fontSize=".9rem"
+                        >
+                          {convertToLetter(
+                            choiceIndex,
+                            testInfo.parts[currentPartIndex].questionType ===
+                              QuestionType.trueOrFalse,
+                          )}
+                        </Text>
+                      </Radio>
+                    </WrapItem>
+                  ))}
+                </Wrap>
+              </RadioGroup>
+              <Stack>
+                <Divider marginBottom="1rem" />
+                <Stack spacing="1rem">
+                  {[
+                    ...Array(testInfo.parts[currentPartIndex].numberOfChoices),
+                  ].map((__, choiceIndex) => {
+                    return (
+                      <PointInput
+                        partIndex={currentPartIndex}
+                        questionIndex={currentIndex}
+                        choiceIndex={choiceIndex}
+                        questionType={
+                          testInfo.parts[currentPartIndex].questionType
+                        }
+                      />
+                    );
+                  })}
                 </Stack>
-              ),
-            )}
+              </Stack>
+            </Stack>
           </Stack>
         </Stack>
-      ))}
+      </Stack>
     </Stack>
   );
 }
