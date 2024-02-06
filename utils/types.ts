@@ -27,10 +27,21 @@ export enum TestNavLink {
   statistics = "statistics",
 }
 
+export type Choices = {
+  choice: string;
+  point: number;
+};
+
+export type Number = {
+  number: number;
+  choices: Choices[];
+};
+
 export type QuestionPart = {
   questionType: QuestionType;
   numberOfChoices: number;
   points: number;
+  mdatPoints?: Number[];
   totalNumber: number;
 };
 
@@ -39,6 +50,7 @@ export type TestInfo = {
   testName: string;
   variant: ClassVariant;
   passingGrade: number;
+  format?: string;
   answerIndices: number[];
   parts: QuestionPart[];
 };
@@ -140,6 +152,7 @@ export type FetchedTestInfo = {
   passingGrade: number;
   status: string;
   variant: ClassVariant;
+  format: string;
   answerIndices: number[];
   testParts?: QuestionPart[];
   _count?: { testParts: number };
@@ -150,6 +163,7 @@ export type FetchedTestInfo = {
 export type FetchedTestInfoToProcess = {
   id: string;
   classId: string;
+  format: string;
   testName: string;
   answerIndices: number[];
   testParts: QuestionPart[];

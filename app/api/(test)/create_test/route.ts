@@ -6,28 +6,63 @@ import { TestInfo } from "@/utils/types";
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { answerIndices, classId, testName, parts, passingGrade, variant } =
-      body as TestInfo;
+    const {
+      answerIndices,
+      classId,
+      testName,
+      parts,
+      passingGrade,
+      variant,
+      format,
+    } = body as TestInfo;
 
-    const newTest = await prisma.test.create({
-      data: {
-        answerIndices,
-        classId,
-        testName: testName.trim(),
-        variant,
-        passingGrade,
-        testParts: {
-          create: parts.map((part) => {
-            return {
-              questionType: part.questionType,
-              totalNumber: part.totalNumber,
-              numberOfChoices: part.numberOfChoices,
-              points: part.points,
-            };
-          }),
+    let newTest = {};
+
+    if (format === "Regular") {
+      newTest = await prisma.test.create({
+        data: {
+          answerIndices,
+          classId,
+          testName: testName.trim(),
+          variant,
+          format,
+          passingGrade,
+          testParts: {
+            create: parts.map((part) => {
+              return {
+                questionType: part.questionType,
+                totalNumber: part.totalNumber,
+                numberOfChoices: part.numberOfChoices,
+                points: part.points,
+              };
+            }),
+          },
         },
-      },
-    });
+      });
+    } else {
+      console.time();
+      newTest = await prisma.test.create({
+        data: {
+          answerIndices,
+          classId,
+          testName: testName.trim(),
+          variant,
+          format,
+          passingGrade,
+          testParts: {
+            create: parts.map((part) => {
+              return {
+                questionType: part.questionType,
+                totalNumber: part.totalNumber,
+                numberOfChoices: part.numberOfChoices,
+                mdatPoints: part.mdatPoints,
+              };
+            }),
+          },
+        },
+      });
+      console.timeEnd();
+    }
 
     return NextResponse.json(newTest);
   } catch (err) {

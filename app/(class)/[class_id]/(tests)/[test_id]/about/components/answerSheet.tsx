@@ -32,6 +32,7 @@ export default function AnswerSheet({
             bg="palette.button.secondary"
             marginBlock={2}
             p="1rem"
+            gap="1rem"
             borderRadius=".6rem"
           >
             <Text
@@ -40,6 +41,13 @@ export default function AnswerSheet({
               fontSize="1.2rem"
             >
               {partIndex + 1}
+            </Text>
+            <Text
+              color="palette.button.primary"
+              fontWeight="medium"
+              fontSize=".9rem"
+            >
+              ({part.points} {part.points > 1 ? "points" : "point"})
             </Text>
           </Center>
           <Stack

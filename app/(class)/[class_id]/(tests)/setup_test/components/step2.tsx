@@ -2,9 +2,14 @@
 
 import { useEffect } from "react";
 import { Stack, Text } from "@chakra-ui/react";
+import { useRecoilValue } from "recoil";
+import { setupTestState } from "@/state/setupTestState";
 import AnswerSheet from "./answerSheet";
+import MDATAnswerSheet from "./mdatAnswerSheet";
 
 export default function Step2() {
+  const testInfo = useRecoilValue(setupTestState);
+
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
@@ -18,7 +23,7 @@ export default function Step2() {
       >
         Create your Answer Sheet
       </Text>
-      <AnswerSheet />;
+      {testInfo.format === "Regular" ? <AnswerSheet /> : <MDATAnswerSheet />}
     </Stack>
   );
 }

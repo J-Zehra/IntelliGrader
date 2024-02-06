@@ -7,12 +7,15 @@ export const isBasicInfoComplete = (testInfo: TestInfo) => {
     isError = true;
   }
 
+  if (
+    testInfo.format === "Regular" &&
+    testInfo.parts.some((item) => item.points === 0)
+  ) {
+    isError = true;
+  }
+
   testInfo.parts.forEach((part) => {
-    if (
-      part.numberOfChoices === 0 ||
-      part.points === 0 ||
-      part.totalNumber === 0
-    ) {
+    if (part.numberOfChoices === 0 || part.totalNumber === 0) {
       isError = true;
     }
   });

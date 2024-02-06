@@ -128,26 +128,28 @@ export default function SetupTest() {
         return;
       }
 
-      if (testInfo.parts.some((item) => item.points < 1)) {
-        toast({
-          title: "Invalid Points",
-          description: "Points cannot be zero or negative",
-          status: "error",
-          duration: 3000,
-        });
+      if (testInfo.format === "Regular") {
+        if (testInfo.parts.some((item) => item.points < 1)) {
+          toast({
+            title: "Invalid Points",
+            description: "Points cannot be zero or negative",
+            status: "error",
+            duration: 3000,
+          });
 
-        return;
-      }
+          return;
+        }
 
-      if (testInfo.parts.some((item) => item.points > 50)) {
-        toast({
-          title: "Invalid Points",
-          description: "Points are too big and might not be intended",
-          status: "error",
-          duration: 3000,
-        });
+        if (testInfo.parts.some((item) => item.points > 50)) {
+          toast({
+            title: "Invalid Points",
+            description: "Points are too big and might not be intended",
+            status: "error",
+            duration: 3000,
+          });
 
-        return;
+          return;
+        }
       }
 
       if (testInfo.passingGrade > 100 || testInfo.passingGrade < 0) {
@@ -175,6 +177,39 @@ export default function SetupTest() {
         });
 
         return;
+      }
+
+      if (testInfo.format === "MDAT") {
+        if (
+          testInfo.parts.some((item) => {
+            return item.mdatPoints?.some((mdat) =>
+              mdat.choices.some((choice) => choice.point < 1),
+            );
+          })
+        ) {
+          toast({
+            title: "Invalid Points",
+            description: "Points cannot be 0 or negative.",
+            status: "error",
+            duration: 3000,
+          });
+          return;
+        }
+        if (
+          testInfo.parts.some((item) => {
+            return item.mdatPoints?.some(
+              (mdat) => mdat.choices?.some((choice) => choice.point > 100),
+            );
+          })
+        ) {
+          toast({
+            title: "Invalid Points",
+            description: "Points too big and might not be intended.",
+            status: "error",
+            duration: 3000,
+          });
+          return;
+        }
       }
       setActiveStep((prev) => prev + 1);
     } else if (activeStep === 2) {
