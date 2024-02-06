@@ -159,6 +159,35 @@ export default function Step1() {
 
   return (
     <>
+      <Box paddingBottom=".5rem">
+        <RadioGroup
+          onChange={(e) => {
+            setTestInfo((prev) => ({
+              ...prev,
+              format: e,
+              parts: prev.parts.map((item) => ({ ...item, points: 0 })),
+            }));
+          }}
+          value={testInfo.format}
+        >
+          <Stack direction="row" spacing="1.2rem" align="center">
+            <Text
+              fontSize=".9rem"
+              marginRight="1rem"
+              opacity={0.8}
+              fontWeight="medium"
+            >
+              Fomat
+            </Text>
+            <Radio value="Regular">
+              <Text fontSize=".9rem">Regular</Text>
+            </Radio>
+            <Radio value="MDAT">
+              <Text fontSize=".9rem">MDAT</Text>
+            </Radio>
+          </Stack>
+        </RadioGroup>
+      </Box>
       <Input
         placeholder="Test Name"
         type="text"
@@ -223,7 +252,9 @@ export default function Step1() {
               <option value={QuestionType.multipleChoice}>
                 Multiple Choice
               </option>
-              <option value={QuestionType.trueOrFalse}>True or False</option>
+              {testInfo.format === "Regular" ? (
+                <option value={QuestionType.trueOrFalse}>True or False</option>
+              ) : null}
             </Select>
             {part.questionType !== QuestionType.trueOrFalse && (
               <Input
@@ -236,15 +267,17 @@ export default function Step1() {
                 onChange={(e) => handleNumberofChoicesChange(e, index)}
               />
             )}
-            <Input
-              placeholder="Points"
-              type="number"
-              bg="gray.100"
-              h="3rem"
-              fontSize=".9rem"
-              value={part.points === 0 ? "" : part.points}
-              onChange={(e) => handlePointsChange(e, index)}
-            />
+            {testInfo.format === "Regular" ? (
+              <Input
+                placeholder="Points"
+                type="number"
+                bg="gray.100"
+                h="3rem"
+                fontSize=".9rem"
+                value={part.points === 0 ? "" : part.points}
+                onChange={(e) => handlePointsChange(e, index)}
+              />
+            ) : null}
           </Stack>
         ))}
       </Stack>

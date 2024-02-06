@@ -66,6 +66,10 @@ export default function Step2() {
     };
   }, [isNoteOpen]);
 
+  useEffect(() => {
+    setIsNoteOpen(true);
+  }, []);
+
   return (
     <Stack paddingBottom="2rem" w={{ base: "100%", sm: "30rem" }}>
       <Center w="100%" justifyContent="end">

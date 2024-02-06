@@ -78,6 +78,7 @@ model Test {
   status          String @default("Incomplete")
   answerIndices   Int[]
   passingGrade    Int
+  format          String?
   variant         String
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
@@ -88,11 +89,22 @@ model Test {
 
 }
 
+type Choices {
+  choice String
+  point Int
+}
+
+type QuestionNumber {
+  number Int
+  choices Choices[]
+}
+
 model TestPart {
   id              String       @id @default(cuid()) @map("_id")
   questionType    String       
   numberOfChoices Int?         
   points          Int?
+  mdatPoints      QuestionNumber[]
   totalNumber     Int
   testId          String      
   test            Test         @relation(fields: [testId], references: [id], onDelete: Cascade)

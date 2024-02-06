@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 /* eslint-disable react/jsx-props-no-spreading */
 /* eslint-disable no-prototype-builtins */
-import { Button } from "@chakra-ui/react";
+import { Button, useToast } from "@chakra-ui/react";
 import {
   QueryObserverResult,
   RefetchOptions,
@@ -53,6 +53,7 @@ export default function UploadCSV({
 }) {
   const { CSVReader } = useCSVReader();
   const { class_id } = useParams();
+  const toast = useToast();
 
   const addStudents = (data: { students: StudentName[]; classId: string }) => {
     return axios.post("/api/add_students", data);
@@ -69,6 +70,17 @@ export default function UploadCSV({
 
   const handleAcceeptedFile = (results: any) => {
     const transformedData = transformData(results.data);
+    if (transformedData.length < 1) {
+      toast({
+        title: "Invalid CSV Format",
+        description: "Please follow the format for the CSV file",
+        status: "error",
+        position: "top",
+        duration: 5000,
+      });
+      return;
+    }
+
     const data = {
       students: transformedData,
       classId: class_id as string,

@@ -12,8 +12,12 @@ export async function GET(
   try {
     const testInfo = await prisma.test.findFirst({
       where: { id },
-      include: { testParts: true },
+      include: {
+        testParts: true,
+      },
     });
+
+    console.log(testInfo);
 
     return NextResponse.json(testInfo);
   } catch (err) {

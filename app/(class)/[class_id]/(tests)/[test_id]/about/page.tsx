@@ -1,3 +1,4 @@
+/* eslint-disable no-nested-ternary */
 /* eslint-disable @typescript-eslint/naming-convention */
 
 "use client";
@@ -12,6 +13,7 @@ import moment from "moment";
 import useTestObserver from "@/hooks/useTestObserver";
 import AnswerSheet from "./components/answerSheet";
 import UngradedStudents from "./components/ungradedStudents";
+import MDATAnswerSheet from "./components/mdatAnswerSheet";
 
 export default function SettingsPage() {
   const navigate = useRouter();
@@ -37,6 +39,8 @@ export default function SettingsPage() {
   };
 
   const [isDesktopLayout] = useMediaQuery("(min-width: 40em)");
+
+  console.log(test);
 
   return (
     <Stack spacing="2rem" paddingBottom="10rem" ref={ref}>
@@ -83,20 +87,17 @@ export default function SettingsPage() {
                   {test?.answerIndices?.length}
                 </Text>
               </Stack>
-              {test?.testParts?.map((part, index) => {
-                return (
-                  <Stack direction="row" justify="space-between" align="center">
-                    <Text fontSize=".9rem">Part {index + 1}</Text>
-                    <Text
-                      color="palette.accent"
-                      fontSize=".9rem"
-                      fontWeight="semibold"
-                    >
-                      {part.totalNumber * part.points}
-                    </Text>
-                  </Stack>
-                );
-              })}
+              <Stack direction="row" justify="space-between" align="center">
+                <Text fontSize=".9rem">Format</Text>
+                <Text
+                  color="palette.accent"
+                  fontSize=".9rem"
+                  fontWeight="semibold"
+                >
+                  {test?.format}
+                </Text>
+              </Stack>
+
               <Stack direction="row" justify="space-between" align="center">
                 <Text fontSize=".9rem">Date Created</Text>
                 <Text
@@ -134,6 +135,11 @@ export default function SettingsPage() {
           <Skeleton h="3.5rem" opacity={0.5} borderRadius=".5rem" />
           <Skeleton h="3.5rem" opacity={0.2} borderRadius=".5rem" />
         </Stack>
+      ) : test?.format === "MDAT" ? (
+        <MDATAnswerSheet
+          testPart={test?.testParts}
+          answerIndices={test?.answerIndices}
+        />
       ) : (
         <AnswerSheet
           testPart={test?.testParts}

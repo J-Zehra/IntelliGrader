@@ -7,6 +7,7 @@ export const setupTestState = atom<TestInfo>({
   default: {
     classId: "",
     testName: "",
+    format: "Regular",
     answerIndices: [],
     parts: [],
     variant: ClassVariant.default,

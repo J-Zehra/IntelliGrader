@@ -1,5 +1,5 @@
 /* eslint-disable react/jsx-props-no-spreading */
-import { Button } from "@chakra-ui/react";
+import { Button, useToast } from "@chakra-ui/react";
 import { MdOutlineFileUpload } from "react-icons/md";
 import { useCSVReader } from "react-papaparse";
 import { useSetRecoilState } from "recoil";
@@ -57,9 +57,23 @@ const transformData = (data: any[]) => {
 export default function UploadCSV() {
   const setClassInfo = useSetRecoilState(classInfoState);
   const { CSVReader } = useCSVReader();
+  const toast = useToast();
 
   const handleAcceeptedFile = (results: any) => {
     const transformedData = transformData(results.data);
+
+    console.log(transformedData);
+
+    if (transformedData.length < 1) {
+      toast({
+        title: "Invalid CSV Format",
+        description: "Please follow the format for the CSV file",
+        status: "error",
+        position: "top",
+        duration: 5000,
+      });
+      return;
+    }
 
     transformedData.forEach((student, index) => {
       setClassInfo((prev) => ({

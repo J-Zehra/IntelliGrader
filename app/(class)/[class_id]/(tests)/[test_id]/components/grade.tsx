@@ -88,6 +88,8 @@ export default function GradeButton({
           numberOfChoices: part.numberOfChoices || 0,
           points: part.points || 0,
           totalNumber: part.totalNumber || 0,
+          mdat: part.mdatPoints,
+          format: testData?.format,
         };
       });
 
