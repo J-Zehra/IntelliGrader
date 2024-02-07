@@ -23,6 +23,8 @@ export default function Home() {
 
       return res.data;
     },
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
   });
 
   useEffect(() => {

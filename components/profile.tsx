@@ -19,7 +19,7 @@ export default function Profile() {
 
   return (
     <Box>
-      <Menu autoSelect={false}>
+      <Menu strategy="absolute" placement="right-start" autoSelect={false}>
         <MenuButton>
           <Avatar
             bg="palette.light"
