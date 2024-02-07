@@ -1,5 +1,5 @@
 /* eslint-disable no-new */
-import { Box, Center, Input } from "@chakra-ui/react";
+import { Box, Input, Stack, Text } from "@chakra-ui/react";
 import React, { ChangeEvent, useRef } from "react";
 import { CiFileOn } from "react-icons/ci";
 import { useSetRecoilState } from "recoil";
@@ -43,7 +43,8 @@ export default function FileUploadButton() {
 
   return (
     <Box>
-      <Center
+      <Stack
+        align="center"
         cursor="pointer"
         borderRadius="3rem"
         _hover={{ opacity: 0.8 }}
@@ -52,9 +53,13 @@ export default function FileUploadButton() {
         w="3.5rem"
         h="3.5rem"
         p=".5rem"
+        flexDirection="column"
       >
         <CiFileOn opacity={0.8} />
-      </Center>
+        <Text fontSize=".7rem" opacity={0.8}>
+          Upload
+        </Text>
+      </Stack>
       <Input
         type="file"
         display="none"

@@ -91,9 +91,9 @@ export default function BottomNavbar() {
               onClick={() => handleChangeNav(nav.label, nav.link)}
             >
               {nav.icon}
-              {activeBottomNav === nav.label ? (
-                <Text fontSize=".75rem">{nav.label}</Text>
-              ) : null}
+              <Text fontSize=".75rem" opacity={0.8}>
+                {nav.label}
+              </Text>
             </Stack>
           );
         })}

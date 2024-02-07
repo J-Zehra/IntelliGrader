@@ -125,9 +125,9 @@ export default function BottomNavbar() {
                 {...style(nav.label)}
               >
                 {nav.icon}
-                {activeBottomNav === nav.label ? (
-                  <Text fontSize=".7rem">{nav.label}</Text>
-                ) : null}
+                <Text fontSize=".7rem" opacity={0.8}>
+                  {nav.label}
+                </Text>
               </Stack>
             );
           })}
