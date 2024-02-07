@@ -20,7 +20,13 @@ export default function ConfirmationModal({
   handleDeleteClass: () => void;
 }) {
   return (
-    <Modal isOpen={isOpen} size="xs" onClose={onClose} isCentered>
+    <Modal
+      preserveScrollBarGap
+      isOpen={isOpen}
+      size="xs"
+      onClose={onClose}
+      isCentered
+    >
       <ModalOverlay />
       <ModalContent padding="0">
         <ModalHeader>Confirmation</ModalHeader>
