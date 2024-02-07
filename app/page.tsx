@@ -11,7 +11,7 @@ import EmptyClass from "@/components/emptyClass";
 import { motion } from "framer-motion";
 import SearchInput from "@/components/searchInput";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export default function Home() {
   const [searchTerm, setSearchTerm] = useState<string>("");
@@ -23,15 +23,9 @@ export default function Home() {
 
       return res.data;
     },
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
   });
-
-  useEffect(() => {
-    const delaySearch = setTimeout(() => {
-      refetch();
-    }, 500);
-
-    return () => clearTimeout(delaySearch);
-  }, [refetch, searchTerm]);
 
   const renderClasses = () => {
     if (isLoading || isRefetching) {
@@ -73,7 +67,7 @@ export default function Home() {
             </Button>
           </Link>
         </Stack>
-        <SearchInput setSearchTerm={setSearchTerm} />
+        <SearchInput setSearchTerm={setSearchTerm} refetch={refetch} />
         {renderClasses()}
       </Stack>
     </CustomContainer>

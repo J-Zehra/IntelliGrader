@@ -11,7 +11,7 @@ export default function ClassesList({
 }) {
   return (
     <Wrap
-      spacing={3}
+      spacing={2}
       as={motion.div}
       variants={container}
       initial="hidden"

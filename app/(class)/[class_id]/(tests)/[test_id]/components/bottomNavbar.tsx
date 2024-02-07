@@ -119,15 +119,14 @@ export default function BottomNavbar() {
                 w="3.5rem"
                 h="3.5rem"
                 p=".5rem"
+                opacity={activeBottomNav === nav.label ? 1 : 0.8}
                 _active={{ bg: "rgba(0, 0, 200, .05)" }}
                 transition="all .3s ease"
                 onClick={() => handleClick(nav.label, nav.link)}
                 {...style(nav.label)}
               >
                 {nav.icon}
-                {activeBottomNav === nav.label ? (
-                  <Text fontSize=".7rem">{nav.label}</Text>
-                ) : null}
+                <Text fontSize=".7rem">{nav.label}</Text>
               </Stack>
             );
           })}

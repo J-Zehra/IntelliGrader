@@ -22,6 +22,7 @@ import { setupTestState } from "@/state/setupTestState";
 import Loading from "@/components/loading";
 import { useEffect } from "react";
 import Link from "next/link";
+import { queryClient } from "@/components/wrappers/queryWrapper";
 import Step1 from "./components/step1";
 import Step2 from "./components/step2";
 import Confimation from "./components/confimation";
@@ -57,6 +58,11 @@ export default function SetupTest() {
     mutationFn: createTest,
     mutationKey: ["create test"],
     onSuccess: (data) => {
+      queryClient.setQueryData(["tests"], (oldData) => {
+        const newData = [data, ...(oldData as any[])];
+        return newData;
+      });
+
       setHeader(data.data.testName);
       setTestInfo({
         answerIndices: [],

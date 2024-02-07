@@ -4,7 +4,6 @@ import Header from "@/components/header";
 import StateWrapper from "@/components/wrappers/stateWrapper";
 import QueryWrapper from "@/components/wrappers/queryWrapper";
 import SessionWrapper from "@/components/wrappers/sessionWrapper";
-import Head from "next/head";
 
 export const metadata = {
   manifest: "/manifest.json",
@@ -40,10 +39,6 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <Head>
-        <title>{metadata.title}</title>
-        <title>{metadata.description}</title>
-      </Head>
       <body>
         <SpeedInsights />
         <ThemeWrapper>

@@ -1,4 +1,4 @@
-import { Button, Center, Stack, Text, WrapItem } from "@chakra-ui/react";
+import { Button, Center, Stack, Text } from "@chakra-ui/react";
 import { BsBarChartLine } from "react-icons/bs";
 import { motion } from "framer-motion";
 import { useSetRecoilState } from "recoil";
@@ -69,7 +69,7 @@ export default function Class({
   };
 
   return (
-    <WrapItem
+    <Stack
       bg={bgVariant()}
       p=".8rem 1rem"
       display="flex"
@@ -78,7 +78,6 @@ export default function Class({
       pos="relative"
       border={variant === ClassVariant.secondary ? "1px solid" : ""}
       borderColor={variant === ClassVariant.secondary ? "palette.light" : ""}
-      overflow="hidden"
       w={{ base: "100%", sm: "20rem" }}
       boxShadow={
         variant !== ClassVariant.secondary
@@ -110,6 +109,7 @@ export default function Class({
           fontWeight="black"
           fontSize="5rem"
           opacity=".015"
+          zIndex={-1}
           pos="absolute"
           left="1rem"
           bottom={-4}
@@ -164,6 +164,8 @@ export default function Class({
               p=".5rem 1rem"
               fontSize=".8rem"
               h="fit-content"
+              transition="all .3 ease"
+              _hover={{ opacity: 0.8 }}
               onClick={handleClick}
             >
               Open
@@ -171,6 +173,6 @@ export default function Class({
           </Stack>
         </Stack>
       </Stack>
-    </WrapItem>
+    </Stack>
   );
 }

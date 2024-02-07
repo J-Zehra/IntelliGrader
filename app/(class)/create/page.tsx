@@ -12,6 +12,7 @@ import { headerState } from "@/state/headerState";
 import { classInfoState } from "@/state/classInfoState";
 import { createClassStepState } from "@/state/stepState";
 import { useEffect } from "react";
+import { queryClient } from "@/components/wrappers/queryWrapper";
 import Step1 from "./components/step1";
 import Step2 from "./components/step2";
 
@@ -34,7 +35,12 @@ export default function CreateClass() {
   const mutateClass = useMutation({
     mutationFn: createClass,
     mutationKey: ["create-class"],
-    onSuccess: (data) => {
+    onSuccess: ({ data }) => {
+      queryClient.setQueryData(["classes"], (oldData) => {
+        const newData = [data, ...(oldData as any[])];
+        return newData;
+      });
+
       setClassInfo({
         schoolLevel: "College",
         program: "",
@@ -45,8 +51,8 @@ export default function CreateClass() {
         students: [],
       });
 
-      setHeaderTitle(data.data.subject);
-      navigate.replace(`/${data.data.id}/dashboard`);
+      setHeaderTitle(data.subject);
+      navigate.replace(`/${data.id}/dashboard`);
     },
     onError: (error: AxiosError) => {
       const { data } = error.response!;

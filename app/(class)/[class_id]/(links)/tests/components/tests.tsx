@@ -40,7 +40,7 @@ export default function Tests() {
 
     if (isSuccess && testData.length > 0) {
       return (
-        <Wrap w="100%" justify="start">
+        <Wrap w="100%" justify="start" gap={2}>
           {testData.map((test) => {
             return (
               <Test testInfo={test} key={test.id} variant={test.variant} />
