@@ -36,18 +36,18 @@ export default function ConfirmationModal({
           justify="start"
           w="100%"
         >
+          <Button fontSize=".9rem" onClick={onClose}>
+            Cancel
+          </Button>
           <Button
+            onClick={handleDeleteTest}
             bg="transparent"
             border="1px solid"
             borderColor="palette.accent"
             color="palette.accent"
-            onClick={onClose}
             fontSize=".9rem"
             boxShadow="none"
           >
-            Cancel
-          </Button>
-          <Button fontSize=".9rem" onClick={handleDeleteTest}>
             Confirm
           </Button>
         </ModalFooter>

@@ -1,10 +1,23 @@
-import { Center, useDisclosure } from "@chakra-ui/react";
+import {
+  Center,
+  Menu,
+  MenuButton,
+  MenuDivider,
+  MenuGroup,
+  MenuItem,
+  MenuList,
+  useDisclosure,
+} from "@chakra-ui/react";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import React from "react";
-import { FaDeleteLeft } from "react-icons/fa6";
 import Lottie from "react-lottie-player";
 import { queryClient } from "@/components/wrappers/queryWrapper";
+import Link from "next/link";
+import { HiOutlineDotsVertical } from "react-icons/hi";
+import { MdDeleteOutline } from "react-icons/md";
+import { IoMdInformation } from "react-icons/io";
+import { CiStar } from "react-icons/ci";
 import loadingAnimation from "../../../../../public/signing_up.json";
 import ConfirmationModal from "./confirmationModa";
 
@@ -53,9 +66,46 @@ export default function MoreOptions({ id }: { id: string }) {
           onClose={onClose}
         />
       ) : null}
-      <Center zIndex={10} onClick={onOpen}>
-        <FaDeleteLeft />
-      </Center>
+      <Menu>
+        <MenuButton>
+          <Center cursor="pointer" zIndex={10}>
+            <HiOutlineDotsVertical />
+          </Center>
+        </MenuButton>
+        <MenuList>
+          <MenuGroup>
+            <Link href={`${id}/about`}>
+              <MenuItem
+                fontSize=".9rem"
+                color="palette.button.primary"
+                icon={<IoMdInformation />}
+              >
+                About
+              </MenuItem>
+            </Link>
+            <Link href={`${id}/student_grades`}>
+              <MenuItem
+                fontSize=".9rem"
+                color="palette.button.primary"
+                icon={<CiStar />}
+              >
+                Graded Tests
+              </MenuItem>
+            </Link>
+          </MenuGroup>
+          <MenuDivider mb="1rem" />
+          <MenuGroup>
+            <MenuItem
+              color="red.500"
+              icon={<MdDeleteOutline />}
+              fontSize=".9rem"
+              onClick={onOpen}
+            >
+              Delete
+            </MenuItem>
+          </MenuGroup>
+        </MenuList>
+      </Menu>
     </>
   );
 }
