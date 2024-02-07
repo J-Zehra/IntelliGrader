@@ -83,6 +83,7 @@ export default function BottomNavbar() {
               p=".5rem"
               w="3.5rem"
               h="3.5rem"
+              opacity={activeBottomNav === nav.label ? 1 : 0.8}
               color={
                 activeBottomNav === nav.label
                   ? "palette.accent"
@@ -91,9 +92,7 @@ export default function BottomNavbar() {
               onClick={() => handleChangeNav(nav.label, nav.link)}
             >
               {nav.icon}
-              <Text fontSize=".75rem" opacity={0.8}>
-                {nav.label}
-              </Text>
+              <Text fontSize=".75rem">{nav.label}</Text>
             </Stack>
           );
         })}
