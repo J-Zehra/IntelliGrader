@@ -16,7 +16,6 @@ import React, { useCallback, useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { setupTestState } from "@/state/setupTestState";
 import { QuestionType, TestInfo } from "@/utils/types";
-import { debounce } from "lodash";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 import { motion } from "framer-motion";
 import PointInput from "./pointInput";
@@ -44,24 +43,17 @@ export default function MDATAnswerSheet() {
     return String.fromCharCode("A".charCodeAt(0) + index);
   }, []);
 
-  const handleAnswerSelection = React.useCallback(
-    debounce((partIndex, questionIndex, choiceIndex) => {
-      const newAnswers = [...answers];
-      const questionAbsoluteIndex =
-        testInfo.parts
-          .slice(0, partIndex)
-          .reduce((acc, part) => acc + part.totalNumber, 0) + questionIndex;
-      newAnswers[questionAbsoluteIndex] = choiceIndex;
+  const handleAnswerSelection = (choiceIndex: number) => {
+    const newAnswers = [...answers];
+    newAnswers[currentIndex] = choiceIndex;
 
-      setAnswers(newAnswers);
+    setAnswers(newAnswers);
 
-      setTestInfo((prevTestInfo) => ({
-        ...prevTestInfo,
-        answerIndices: newAnswers,
-      }));
-    }, 300), // Adjust the delay time as needed
-    [answers, setAnswers, setTestInfo, testInfo.parts],
-  );
+    setTestInfo((prevTestInfo) => ({
+      ...prevTestInfo,
+      answerIndices: newAnswers,
+    }));
+  };
 
   useEffect(() => {
     setTestInfo((prevTestInfo) => ({
@@ -84,13 +76,11 @@ export default function MDATAnswerSheet() {
 
   console.log(testInfo);
 
-  // TODO: HANDLE PART CHANGES
   const handleNext = () => {
     const sumUpToIndex = (array: TestInfo, endIndex: number) => {
       let sum = 0;
 
       for (let i = 0; i <= endIndex; i += 1) {
-        // Assuming each element is an object with a 'value' property
         sum += array.parts[i].totalNumber;
       }
 
@@ -109,6 +99,15 @@ export default function MDATAnswerSheet() {
 
     if (currentIndex === sumUpToIndex(testInfo, currentPartIndex) - 1) {
       setCurrentPartIndex((prev) => prev + 1);
+
+      // Reset RadioGroup state when moving to the next part
+      setAnswers((prevAnswers) => {
+        const newAnswers = [...prevAnswers];
+        for (let i = currentIndex + 1; i <= totalMaxNumber; i += 1) {
+          newAnswers[i] = -1;
+        }
+        return newAnswers;
+      });
     }
 
     setCurrentIndex((prev) => Math.min(prev + 1, totalMaxNumber));
@@ -231,13 +230,7 @@ export default function MDATAnswerSheet() {
             <Stack h="100%" w="100%" p="1rem" spacing="1.5rem">
               <RadioGroup
                 flex={10}
-                onChange={(e) =>
-                  handleAnswerSelection(
-                    currentPartIndex,
-                    currentIndex,
-                    parseInt(e, 10),
-                  )
-                }
+                onChange={(e) => handleAnswerSelection(parseInt(e, 10))}
                 value={testInfo.answerIndices[currentIndex]?.toString()}
               >
                 <Wrap
