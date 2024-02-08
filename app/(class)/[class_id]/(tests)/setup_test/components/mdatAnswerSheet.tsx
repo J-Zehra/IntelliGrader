@@ -23,7 +23,17 @@ import PointInput from "./pointInput";
 
 export default function MDATAnswerSheet() {
   const [testInfo, setTestInfo] = useRecoilState<TestInfo>(setupTestState);
-  const [answers, setAnswers] = useState<number[]>([]);
+  const [answers, setAnswers] = useState<number[]>(
+    Array.from(
+      {
+        length: testInfo.parts.reduce(
+          (acc, current) => acc + current.totalNumber,
+          0,
+        ),
+      },
+      () => -1,
+    ),
+  );
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [currentPartIndex, setCurrentPartIndex] = useState<number>(0);
 
@@ -76,24 +86,70 @@ export default function MDATAnswerSheet() {
 
   // TODO: HANDLE PART CHANGES
   const handleNext = () => {
-    if (currentIndex === testInfo.parts[currentPartIndex].totalNumber - 1) {
-      setCurrentPartIndex((prev) => prev + 1);
-    }
+    const sumUpToIndex = (array: TestInfo, endIndex: number) => {
+      let sum = 0;
 
-    if (
-      currentIndex !==
+      for (let i = 0; i <= endIndex; i += 1) {
+        // Assuming each element is an object with a 'value' property
+        sum += array.parts[i].totalNumber;
+      }
+
+      return sum;
+    };
+
+    const totalMaxNumber =
       testInfo.parts.reduce(
         (accum, current) => accum + current.totalNumber,
         0,
-      ) -
-        1
-    )
-      setCurrentIndex((prev) => prev + 1);
+      ) - 1;
+
+    if (currentIndex === totalMaxNumber) {
+      return;
+    }
+
+    if (currentIndex === sumUpToIndex(testInfo, currentPartIndex) - 1) {
+      setCurrentPartIndex((prev) => prev + 1);
+    }
+
+    setCurrentIndex((prev) => Math.min(prev + 1, totalMaxNumber));
   };
 
   const handlePrev = () => {
-    if (currentIndex !== 0) setCurrentIndex((prev) => prev - 1);
+    const sumUpToIndex = (array: TestInfo, endIndex: number) => {
+      let sum = 0;
+
+      for (let i = 0; i <= endIndex; i += 1) {
+        sum += array.parts[i].totalNumber;
+      }
+
+      return sum;
+    };
+
+    if (currentIndex === 0) {
+      return;
+    }
+
+    if (currentIndex === sumUpToIndex(testInfo, currentPartIndex - 1)) {
+      setCurrentPartIndex((prev) => prev - 1);
+    }
+
+    setCurrentIndex((prev) => prev - 1);
   };
+
+  useEffect(() => {
+    setTestInfo((prev) => ({
+      ...prev,
+      answerIndices: Array.from(
+        {
+          length: prev.parts.reduce(
+            (acc, current) => acc + current.totalNumber,
+            0,
+          ),
+        },
+        () => -1,
+      ),
+    }));
+  }, []);
 
   return (
     <Stack spacing={3}>
@@ -130,17 +186,27 @@ export default function MDATAnswerSheet() {
           }}
         >
           <Stack direction="row" pos="absolute" bottom="1rem" right="1rem">
-            <IconButton
-              variant="ghost"
-              aria-label="Prev"
-              icon={<FaArrowLeft />}
-              onClick={handlePrev}
-            />
-            <IconButton
-              onClick={handleNext}
-              aria-label="Next"
-              icon={<FaArrowRight />}
-            />
+            {currentIndex !== 0 ? (
+              <IconButton
+                variant="ghost"
+                aria-label="Prev"
+                icon={<FaArrowLeft />}
+                onClick={handlePrev}
+              />
+            ) : null}
+            {currentIndex !==
+            testInfo.parts.reduce(
+              (acc, current) => acc + current.totalNumber,
+              0,
+            ) -
+              1 ? (
+              <IconButton
+                onClick={handleNext}
+                isDisabled={testInfo.answerIndices[currentIndex] === -1}
+                aria-label="Next"
+                icon={<FaArrowRight />}
+              />
+            ) : null}
           </Stack>
           <Stack
             key={`${currentPartIndex}-${currentIndex}`}
@@ -172,6 +238,7 @@ export default function MDATAnswerSheet() {
                     parseInt(e, 10),
                   )
                 }
+                value={testInfo.answerIndices[currentIndex]?.toString()}
               >
                 <Wrap
                   direction="row"

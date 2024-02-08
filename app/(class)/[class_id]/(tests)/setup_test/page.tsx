@@ -59,8 +59,11 @@ export default function SetupTest() {
     mutationKey: ["create test"],
     onSuccess: (data) => {
       queryClient.setQueryData(["tests"], (oldData) => {
-        const newData = [data, ...(oldData as any[])];
-        return newData;
+        console.log(data);
+        if (Array.isArray(oldData)) {
+          return [data, ...(oldData as any[])];
+        }
+        return [data, oldData];
       });
 
       setHeader(data.data.testName);
@@ -127,6 +130,17 @@ export default function SetupTest() {
         toast({
           title: "Maximum Number Exceeded",
           description: "Number of Choices should not exceed 10",
+          status: "error",
+          duration: 3000,
+        });
+
+        return;
+      }
+
+      if (testInfo.parts.some((item) => item.numberOfChoices < 2)) {
+        toast({
+          title: "Invalid Number of Chocies",
+          description: "Number of Choices cannot be less than 2",
           status: "error",
           duration: 3000,
         });
@@ -261,16 +275,18 @@ export default function SetupTest() {
           >
             Back
           </Button>
-          <Button
-            leftIcon={<AiOutlinePlus />}
-            onClick={handleNext}
-            p="1.6rem 1rem"
-            colorScheme="blue"
-            loadingText="Validating..."
-            isLoading={mutateTest.isLoading || mutateValidateTest.isLoading}
-          >
-            {activeStep === 3 ? "Create Test" : "Next"}
-          </Button>
+          {activeStep !== 1 || !testInfo.answerIndices.includes(-1) ? (
+            <Button
+              leftIcon={<AiOutlinePlus />}
+              onClick={handleNext}
+              p="1.6rem 1rem"
+              colorScheme="blue"
+              loadingText="Validating..."
+              isLoading={mutateTest.isLoading || mutateValidateTest.isLoading}
+            >
+              {activeStep === 3 ? "Create Test" : "Next"}
+            </Button>
+          ) : null}
         </Stack>
       </Stack>
     </Center>
