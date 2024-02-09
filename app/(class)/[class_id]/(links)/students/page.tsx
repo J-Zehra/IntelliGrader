@@ -24,6 +24,7 @@ import Loading from "./components/loading";
 import EditStudentModal from "./components/editStudentModal";
 import UploadCSV from "./components/uploadCSV";
 import EmptyStudent from "../components/emptyStudent";
+import ConfirmationModal from "./components/confirmationModal";
 
 export default function StudentsPage() {
   const { ref } = useObserver(ClassNavLink.students);
@@ -48,6 +49,11 @@ export default function StudentsPage() {
     onClose: onEditModalClose,
     onOpen: onEditModalOpen,
   } = useDisclosure();
+  const {
+    isOpen: isDeleteModalOpen,
+    onClose: onDeleteModalClose,
+    onOpen: onDeleteModalOpen,
+  } = useDisclosure();
 
   const getStudents = async () => {
     let data: FetchedStudentInfo[] = [];
@@ -56,10 +62,6 @@ export default function StudentsPage() {
     });
 
     return data;
-  };
-
-  const deleteTest = (id: string) => {
-    return axios.delete(`/api/delete_student/${id}`);
   };
 
   const {
@@ -71,6 +73,10 @@ export default function StudentsPage() {
     queryKey: ["students", class_id],
     queryFn: getStudents,
   });
+
+  const deleteTest = (id: string) => {
+    return axios.delete(`/api/delete_student/${id}`);
+  };
 
   const mutateStudent = useMutation({
     mutationFn: deleteTest,
@@ -87,7 +93,12 @@ export default function StudentsPage() {
 
   const handleRemove = (id: string) => {
     setStudentId(id);
-    mutateStudent.mutate(id);
+    onDeleteModalOpen();
+  };
+
+  const handleDeleteStudent = () => {
+    mutateStudent.mutate(studentId);
+    onDeleteModalClose();
   };
 
   const handleEdit = (student: FetchedStudentInfo) => {
@@ -161,7 +172,7 @@ export default function StudentsPage() {
                     bg="rgba(0, 0, 100, .01)"
                     p=".5rem 1rem"
                     justifyContent="start"
-                    flex={3}
+                    flex={5}
                   >
                     <Text>{student.lastName}</Text>
                   </Center>
@@ -210,6 +221,13 @@ export default function StudentsPage() {
           student={selectedStudentToEdit}
           isOpen={isEditModalOpen}
           onClose={onEditModalClose}
+        />
+      ) : null}
+      {isDeleteModalOpen ? (
+        <ConfirmationModal
+          isOpen={isDeleteModalOpen}
+          onClose={onDeleteModalClose}
+          handleDeleteStudent={handleDeleteStudent}
         />
       ) : null}
     </Stack>
