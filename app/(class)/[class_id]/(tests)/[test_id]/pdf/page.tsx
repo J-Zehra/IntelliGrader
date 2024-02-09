@@ -15,13 +15,11 @@ import axios from "axios";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
 import { Button, Stack, Text as ChakraText } from "@chakra-ui/react";
-import Lottie from "react-lottie-player";
 import { FetchedTestInfoToGeneratePaper } from "@/utils/types";
 import Loading from "@/components/loading";
 import ControlNumber from "./components/controlNumber";
 import TestInfo from "./components/testInfo";
 import Bubbles from "./components/bubbles";
-import DoneAnimation from "../../../../../../public/done_animation.json";
 
 const styles = StyleSheet.create({
   page: {
@@ -103,12 +101,6 @@ export default function PDFPage() {
 
   return (
     <Stack align="center" w="100%" spacing="1.5rem">
-      <Lottie
-        loop
-        animationData={DoneAnimation}
-        play
-        style={{ width: 200, height: 200 }}
-      />
       <ChakraText
         fontSize="1rem"
         opacity=".6"
