@@ -97,7 +97,7 @@ export default function DownloadReport() {
       s: {
         font: {
           color: {
-            rgb: grade.status === "passed" ? "35CB71" : "CB3535",
+            rgb: grade.status === "Passed" ? "259358" : "CB3535",
           },
         },
       },

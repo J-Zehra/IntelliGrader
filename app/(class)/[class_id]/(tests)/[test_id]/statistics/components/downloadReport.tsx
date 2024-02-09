@@ -150,7 +150,7 @@ export default function DownloadReport() {
         mostCommon?.questionsMostGotWrong?.some((obj) => obj.index === index)
       ) {
         const common = {
-          v: item,
+          v: testInfo.totalStudents! - item,
           t: "s",
           s: { font: { bold: true }, fill: { fgColor: { rgb: "FD9999" } } },
         };
