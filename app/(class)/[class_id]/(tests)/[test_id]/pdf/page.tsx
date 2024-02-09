@@ -117,7 +117,7 @@ export default function PDFPage() {
   }
 
   if (isDocumentLoading) {
-    return <Loading message="Loading Document" />;
+    <Loading message="Loading Document" />;
   }
 
   if (!isLargerThan30) {
