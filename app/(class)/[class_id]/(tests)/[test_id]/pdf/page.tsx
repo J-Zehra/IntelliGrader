@@ -8,7 +8,6 @@ import {
   Page,
   View,
   StyleSheet,
-  PDFViewer,
   PDFDownloadLink,
   Text,
 } from "@react-pdf/renderer";
@@ -24,7 +23,6 @@ import {
 import Lottie from "react-lottie-player";
 import { FetchedTestInfoToGeneratePaper } from "@/utils/types";
 import Loading from "@/components/loading";
-import { useState } from "react";
 import ControlNumber from "./components/controlNumber";
 import TestInfo from "./components/testInfo";
 import Bubbles from "./components/bubbles";
@@ -47,7 +45,6 @@ const styles = StyleSheet.create({
 export default function PDFPage() {
   const { test_id } = useParams();
   const [isLargerThan30] = useMediaQuery("(min-width: 30em)");
-  const [isDocumentLoading, setIsDocumentLoading] = useState(true);
 
   const { data: testData, isLoading } = useQuery({
     queryKey: ["generate-paper"],
@@ -69,11 +66,7 @@ export default function PDFPage() {
 
   function BubbleSheetDoc() {
     return (
-      <Document
-        onRender={() => {
-          setIsDocumentLoading(false);
-        }}
-      >
+      <Document>
         {testData?.class?.students?.map((student) => {
           return (
             <Page size={[8.5 * 72, 13 * 72]} style={styles.page}>
@@ -116,10 +109,6 @@ export default function PDFPage() {
     );
   }
 
-  if (isDocumentLoading) {
-    <Loading message="Loading Document" />;
-  }
-
   if (!isLargerThan30) {
     return (
       <Stack align="center" w="100%" spacing="1.5rem">
@@ -141,15 +130,21 @@ export default function PDFPage() {
           document={<BubbleSheetDoc />}
           fileName={`${testData?.class?.program} | ${testData?.testName} - Bubble Sheet`}
         >
-          <Button>Download</Button>
+          {({ loading }) =>
+            loading ? (
+              <Loading message="Loading Document" />
+            ) : (
+              <Button>Download</Button>
+            )
+          }
         </PDFDownloadLink>
       </Stack>
     );
   }
 
-  return (
-    <PDFViewer style={styles.viewer}>
-      <BubbleSheetDoc />
-    </PDFViewer>
-  );
+  // return (
+  //   <PDFViewer style={styles.viewer}>
+  //     <BubbleSheetDoc />
+  //   </PDFViewer>
+  // );
 }

@@ -5,18 +5,18 @@
 
 import { Button, Skeleton, Stack, Text, useMediaQuery } from "@chakra-ui/react";
 import { RiAiGenerate } from "react-icons/ri";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { FetchedTestInfo, TestNavLink } from "@/utils/types";
 import moment from "moment";
 import useTestObserver from "@/hooks/useTestObserver";
+import Link from "next/link";
 import AnswerSheet from "./components/answerSheet";
 import UngradedStudents from "./components/ungradedStudents";
 import MDATAnswerSheet from "./components/mdatAnswerSheet";
 
 export default function SettingsPage() {
-  const navigate = useRouter();
   const { ref } = useTestObserver(TestNavLink.settings);
   const { test_id } = useParams();
 
@@ -33,10 +33,6 @@ export default function SettingsPage() {
     queryKey: ["test-info", test_id],
     queryFn: getTest,
   });
-
-  const handleGenerate = () => {
-    navigate.push("pdf");
-  };
 
   const [isDesktopLayout] = useMediaQuery("(min-width: 40em)");
 
@@ -111,13 +107,14 @@ export default function SettingsPage() {
             </Stack>
           </Skeleton>
           <Button
+            as={Link}
             w="100%"
             bg="transparent"
             color="palette.accent"
             border="1px solid"
             borderColor="palette.accent"
             boxShadow="none"
-            onClick={handleGenerate}
+            href="pdf"
             leftIcon={<RiAiGenerate />}
           >
             Generate Test Paper
