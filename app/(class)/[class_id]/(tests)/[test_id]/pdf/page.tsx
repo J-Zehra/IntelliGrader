@@ -63,7 +63,7 @@ export default function PDFPage() {
 
   console.log(testData);
 
-  if (isLoading || isDocumentLoading) {
+  if (isLoading) {
     return <Loading message="Generating" />;
   }
 
@@ -114,6 +114,10 @@ export default function PDFPage() {
         })}
       </Document>
     );
+  }
+
+  if (isDocumentLoading) {
+    return <Loading message="Loading Document" />;
   }
 
   if (!isLargerThan30) {
