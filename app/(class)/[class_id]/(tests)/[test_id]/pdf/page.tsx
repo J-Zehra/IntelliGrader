@@ -58,51 +58,6 @@ export default function PDFPage() {
     return <Loading message="Getting Data" />;
   }
 
-  function BubbleSheetDoc() {
-    return (
-      <Document>
-        {testData?.class?.students?.map((student) => {
-          return (
-            <Page size={[8.5 * 72, 13 * 72]} style={styles.page}>
-              <View
-                style={{
-                  width: "100%",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <Text style={{ fontWeight: "bold", fontSize: ".2in" }}>
-                  {testData.testName}
-                </Text>
-                <ControlNumber number={student.rollNumber} />
-              </View>
-              <View
-                style={{
-                  marginTop: ".2in",
-                  marginBottom: ".1in",
-                  width: "100%",
-                  borderBottom: "1px solid #E2E2E2",
-                }}
-              />
-              <TestInfo
-                name={`${student.firstName} ${student.middleName.charAt(0)}. ${
-                  student.lastName
-                }`}
-                course={testData.class!.course}
-                programAndSection={`${testData.class!.program} ${
-                  testData.class!.section
-                }`}
-                date=""
-              />
-              <Bubbles test={testData.testParts!} />
-            </Page>
-          );
-        })}
-      </Document>
-    );
-  }
-
   return (
     <Stack align="center" w="100%" spacing="1.5rem">
       <Lottie
@@ -120,7 +75,48 @@ export default function PDFPage() {
         Answer Sheet Ready to Download.
       </ChakraText>
       <PDFDownloadLink
-        document={<BubbleSheetDoc />}
+        document={
+          <Document>
+            {testData?.class?.students?.map((student) => {
+              return (
+                <Page size={[8.5 * 72, 13 * 72]} style={styles.page}>
+                  <View
+                    style={{
+                      width: "100%",
+                      flexDirection: "row",
+                      justifyContent: "space-between",
+                      alignItems: "center",
+                    }}
+                  >
+                    <Text style={{ fontWeight: "bold", fontSize: ".2in" }}>
+                      {testData.testName}
+                    </Text>
+                    <ControlNumber number={student.rollNumber} />
+                  </View>
+                  <View
+                    style={{
+                      marginTop: ".2in",
+                      marginBottom: ".1in",
+                      width: "100%",
+                      borderBottom: "1px solid #E2E2E2",
+                    }}
+                  />
+                  <TestInfo
+                    name={`${student.firstName} ${student.middleName.charAt(
+                      0,
+                    )}. ${student.lastName}`}
+                    course={testData.class!.course}
+                    programAndSection={`${testData.class!.program} ${
+                      testData.class!.section
+                    }`}
+                    date=""
+                  />
+                  <Bubbles test={testData.testParts!} />
+                </Page>
+              );
+            })}
+          </Document>
+        }
         fileName={`${testData?.class?.program} | ${testData?.testName} - Bubble Sheet`}
       >
         {({ loading }) => (
