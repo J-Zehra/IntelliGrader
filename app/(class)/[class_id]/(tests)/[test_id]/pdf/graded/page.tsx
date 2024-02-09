@@ -56,6 +56,7 @@ export default function GradedPDF() {
   const { data: studentGrades, isLoading } = useQuery({
     queryFn: getStudentGrades,
     queryKey: ["get-student-grades", test_id],
+    refetchOnMount: false,
   });
 
   const { data: testData, isLoading: isTestDataLoading } = useQuery({
