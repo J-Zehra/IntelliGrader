@@ -14,12 +14,7 @@ import {
 import axios from "axios";
 import { useParams } from "next/navigation";
 import { useQuery } from "@tanstack/react-query";
-import {
-  Button,
-  Stack,
-  useMediaQuery,
-  Text as ChakraText,
-} from "@chakra-ui/react";
+import { Button, Stack, Text as ChakraText } from "@chakra-ui/react";
 import Lottie from "react-lottie-player";
 import { FetchedTestInfoToGeneratePaper } from "@/utils/types";
 import Loading from "@/components/loading";
@@ -44,7 +39,6 @@ const styles = StyleSheet.create({
 
 export default function PDFPage() {
   const { test_id } = useParams();
-  const [isLargerThan30] = useMediaQuery("(min-width: 30em)");
 
   const { data: testData, isLoading } = useQuery({
     queryKey: ["generate-paper"],
@@ -61,7 +55,7 @@ export default function PDFPage() {
   console.log(testData);
 
   if (isLoading) {
-    return <Loading message="Generating" />;
+    return <Loading message="Getting Data" />;
   }
 
   function BubbleSheetDoc() {
@@ -109,42 +103,34 @@ export default function PDFPage() {
     );
   }
 
-  if (!isLargerThan30) {
-    return (
-      <Stack align="center" w="100%" spacing="1.5rem">
-        <Lottie
-          loop
-          animationData={DoneAnimation}
-          play
-          style={{ width: 200, height: 200 }}
-        />
-        <ChakraText
-          fontSize="1rem"
-          opacity=".6"
-          fontWeight="semibold"
-          color="palette.button.primary"
+  <Stack align="center" w="100%" spacing="1.5rem">
+    <Lottie
+      loop
+      animationData={DoneAnimation}
+      play
+      style={{ width: 200, height: 200 }}
+    />
+    <ChakraText
+      fontSize="1rem"
+      opacity=".6"
+      fontWeight="semibold"
+      color="palette.button.primary"
+    >
+      Answer Sheet Ready to Download.
+    </ChakraText>
+    <PDFDownloadLink
+      document={<BubbleSheetDoc />}
+      fileName={`${testData?.class?.program} | ${testData?.testName} - Bubble Sheet`}
+    >
+      {({ loading }) => (
+        <Button
+          isLoading={loading}
+          loadingText="Loading document..."
+          colorScheme="blue"
         >
-          Answer Sheet Ready to Download.
-        </ChakraText>
-        <PDFDownloadLink
-          document={<BubbleSheetDoc />}
-          fileName={`${testData?.class?.program} | ${testData?.testName} - Bubble Sheet`}
-        >
-          {({ loading }) =>
-            loading ? (
-              <Loading message="Loading Document" />
-            ) : (
-              <Button>Download</Button>
-            )
-          }
-        </PDFDownloadLink>
-      </Stack>
-    );
-  }
-
-  // return (
-  //   <PDFViewer style={styles.viewer}>
-  //     <BubbleSheetDoc />
-  //   </PDFViewer>
-  // );
+          Download
+        </Button>
+      )}
+    </PDFDownloadLink>
+  </Stack>;
 }
