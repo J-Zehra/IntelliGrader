@@ -118,9 +118,8 @@ export default function Test({
       >
         <Text
           fontWeight="black"
-          fontSize="4rem"
+          fontSize="3rem"
           opacity=".02"
-          zIndex={-1}
           pos="absolute"
           left="1rem"
           bottom={-4}

@@ -88,7 +88,7 @@ export default function Class({
       variants={animationItem}
     >
       <Box pos="absolute" bottom={0} left="1rem">
-        <Text fontWeight="black" fontSize="3rem" opacity=".05">
+        <Text fontWeight="black" fontSize="3rem" opacity=".02">
           {`${classInfo.program} ${classInfo.year}`}
         </Text>
       </Box>
