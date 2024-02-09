@@ -24,6 +24,7 @@ import {
 import Lottie from "react-lottie-player";
 import { FetchedTestInfoToGeneratePaper } from "@/utils/types";
 import Loading from "@/components/loading";
+import { useState } from "react";
 import ControlNumber from "./components/controlNumber";
 import TestInfo from "./components/testInfo";
 import Bubbles from "./components/bubbles";
@@ -46,6 +47,7 @@ const styles = StyleSheet.create({
 export default function PDFPage() {
   const { test_id } = useParams();
   const [isLargerThan30] = useMediaQuery("(min-width: 30em)");
+  const [isDocumentLoading, setIsDocumentLoading] = useState(true);
 
   const { data: testData, isLoading } = useQuery({
     queryKey: ["generate-paper"],
@@ -61,13 +63,17 @@ export default function PDFPage() {
 
   console.log(testData);
 
-  if (isLoading) {
+  if (isLoading || isDocumentLoading) {
     return <Loading message="Generating" />;
   }
 
   function BubbleSheetDoc() {
     return (
-      <Document>
+      <Document
+        onRender={() => {
+          setIsDocumentLoading(false);
+        }}
+      >
         {testData?.class?.students?.map((student) => {
           return (
             <Page size={[8.5 * 72, 13 * 72]} style={styles.page}>
