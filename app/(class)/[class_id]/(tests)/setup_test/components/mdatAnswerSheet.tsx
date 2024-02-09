@@ -11,17 +11,22 @@ import {
   Text,
   Wrap,
   WrapItem,
+  useToast,
 } from "@chakra-ui/react";
 import React, { useCallback, useEffect, useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useSetRecoilState } from "recoil";
 import { setupTestState } from "@/state/setupTestState";
 import { QuestionType, TestInfo } from "@/utils/types";
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa6";
 import { motion } from "framer-motion";
+import { setupTestStepState } from "@/state/stepState";
 import PointInput from "./pointInput";
 
 export default function MDATAnswerSheet() {
   const [testInfo, setTestInfo] = useRecoilState<TestInfo>(setupTestState);
+  const toast = useToast();
+  const setActiveStep = useSetRecoilState(setupTestStepState);
+
   const [answers, setAnswers] = useState<number[]>(
     Array.from(
       {
@@ -67,7 +72,7 @@ export default function MDATAnswerSheet() {
               j,
               part.questionType === QuestionType.trueOrFalse,
             ),
-            point: 1,
+            point: 0,
           })),
         })),
       })),
@@ -76,7 +81,40 @@ export default function MDATAnswerSheet() {
 
   console.log(testInfo);
 
+  const calculateIndex = (partIndex: number, currentI: number) => {
+    let currentIndexInPart = currentI;
+
+    // Iterate through previous parts and subtract their total numbers
+    for (let i = 0; i < partIndex; i += 1) {
+      currentIndexInPart -= testInfo.parts[i].totalNumber;
+    }
+
+    return currentIndexInPart;
+  };
+
   const handleNext = () => {
+    if (
+      !testInfo.parts[currentPartIndex].mdatPoints![
+        calculateIndex(currentPartIndex, currentIndex)
+      ].choices.some((item) => item.point > 0)
+    ) {
+      toast({
+        title: "Points are all 0",
+        description: "Set atleast one choice's point to non-zero",
+        status: "error",
+        duration: 3000,
+        position: "top",
+      });
+      return;
+    }
+
+    if (
+      currentIndex ===
+      testInfo.parts.reduce((acc, current) => acc + current.totalNumber, 0) - 1
+    ) {
+      setActiveStep((prev) => prev + 1);
+    }
+
     const sumUpToIndex = (array: TestInfo, endIndex: number) => {
       let sum = 0;
 
@@ -193,19 +231,13 @@ export default function MDATAnswerSheet() {
                 onClick={handlePrev}
               />
             ) : null}
-            {currentIndex !==
-            testInfo.parts.reduce(
-              (acc, current) => acc + current.totalNumber,
-              0,
-            ) -
-              1 ? (
-              <IconButton
-                onClick={handleNext}
-                isDisabled={testInfo.answerIndices[currentIndex] === -1}
-                aria-label="Next"
-                icon={<FaArrowRight />}
-              />
-            ) : null}
+
+            <IconButton
+              onClick={handleNext}
+              isDisabled={testInfo.answerIndices[currentIndex] === -1}
+              aria-label="Next"
+              icon={<FaArrowRight />}
+            />
           </Stack>
           <Stack
             key={`${currentPartIndex}-${currentIndex}`}
@@ -275,7 +307,10 @@ export default function MDATAnswerSheet() {
                     return (
                       <PointInput
                         partIndex={currentPartIndex}
-                        questionIndex={currentIndex}
+                        questionIndex={calculateIndex(
+                          currentPartIndex,
+                          currentIndex,
+                        )}
                         choiceIndex={choiceIndex}
                         questionType={
                           testInfo.parts[currentPartIndex].questionType

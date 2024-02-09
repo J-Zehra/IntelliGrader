@@ -202,21 +202,6 @@ export default function SetupTest() {
       if (testInfo.format === "MDAT") {
         if (
           testInfo.parts.some((item) => {
-            return item.mdatPoints?.some((mdat) =>
-              mdat.choices.some((choice) => choice.point < 1),
-            );
-          })
-        ) {
-          toast({
-            title: "Invalid Points",
-            description: "Points cannot be 0 or negative.",
-            status: "error",
-            duration: 3000,
-          });
-          return;
-        }
-        if (
-          testInfo.parts.some((item) => {
             return item.mdatPoints?.some(
               (mdat) => mdat.choices?.some((choice) => choice.point > 100),
             );
@@ -275,11 +260,12 @@ export default function SetupTest() {
           >
             Back
           </Button>
-          {activeStep !== 1 || !testInfo.answerIndices.includes(-1) ? (
+          {activeStep !== 1 ? (
             <Button
               leftIcon={<AiOutlinePlus />}
               onClick={handleNext}
               p="1.6rem 1rem"
+              isDisabled={testInfo.answerIndices.includes(-1)}
               colorScheme="blue"
               loadingText="Validating..."
               isLoading={mutateTest.isLoading || mutateValidateTest.isLoading}
@@ -287,6 +273,7 @@ export default function SetupTest() {
               {activeStep === 3 ? "Create Test" : "Next"}
             </Button>
           ) : null}
+          ,
         </Stack>
       </Stack>
     </Center>

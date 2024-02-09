@@ -1,8 +1,9 @@
+/* eslint-disable no-nested-ternary */
 import { setupTestState } from "@/state/setupTestState";
 import { QuestionType, TestInfo } from "@/utils/types";
 import { Input, Stack, Text } from "@chakra-ui/react";
 import React, { useCallback } from "react";
-import { useSetRecoilState } from "recoil";
+import { useRecoilState } from "recoil";
 
 export default function PointInput({
   partIndex,
@@ -15,7 +16,7 @@ export default function PointInput({
   choiceIndex: number;
   questionType: QuestionType;
 }) {
-  const setTestInfo = useSetRecoilState<TestInfo>(setupTestState);
+  const [testInfo, setTestInfo] = useRecoilState<TestInfo>(setupTestState);
 
   const convertToLetter = useCallback((index: number, isTrueFalse: boolean) => {
     if (isTrueFalse) {
@@ -40,7 +41,7 @@ export default function PointInput({
                     if (cIndex === choiceIndex) {
                       return {
                         ...choice,
-                        point: value || 1,
+                        point: value || 0,
                       };
                     }
                     return choice;
@@ -74,6 +75,17 @@ export default function PointInput({
         type="number"
         placeholder="Points"
         fontSize=".9rem"
+        value={
+          testInfo.parts[partIndex].mdatPoints
+            ? testInfo.parts[partIndex].mdatPoints![questionIndex].choices[
+                choiceIndex
+              ].point === 0
+              ? ""
+              : testInfo.parts[partIndex].mdatPoints![questionIndex].choices[
+                  choiceIndex
+                ].point
+            : ""
+        }
         w="6rem"
         onChange={(e) => handlePointsChange(parseInt(e.target.value, 10))}
       />
