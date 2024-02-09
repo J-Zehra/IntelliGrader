@@ -260,19 +260,19 @@ export default function SetupTest() {
           >
             Back
           </Button>
-          {/* {activeStep !== 1 && testInfo.format !== "Regular" ? ( */}
-          <Button
-            leftIcon={<AiOutlinePlus />}
-            onClick={handleNext}
-            p="1.6rem 1rem"
-            isDisabled={testInfo.answerIndices.includes(-1)}
-            colorScheme="blue"
-            loadingText="Validating..."
-            isLoading={mutateTest.isLoading || mutateValidateTest.isLoading}
-          >
-            {activeStep === 3 ? "Create Test" : "Next"}
-          </Button>
-          {/* ) : null} */}
+          {activeStep !== 1 || testInfo.format === "Regular" ? (
+            <Button
+              leftIcon={<AiOutlinePlus />}
+              onClick={handleNext}
+              p="1.6rem 1rem"
+              isDisabled={testInfo.answerIndices.includes(-1)}
+              colorScheme="blue"
+              loadingText="Validating..."
+              isLoading={mutateTest.isLoading || mutateValidateTest.isLoading}
+            >
+              {activeStep === 3 ? "Create Test" : "Next"}
+            </Button>
+          ) : null}
         </Stack>
       </Stack>
     </Center>
