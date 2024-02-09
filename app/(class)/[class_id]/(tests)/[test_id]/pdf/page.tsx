@@ -93,7 +93,7 @@ export default function PDFPage() {
       );
       return test;
     },
-    refetchOnMount: true,
+    refetchOnMount: false,
   });
 
   console.log(testData);
