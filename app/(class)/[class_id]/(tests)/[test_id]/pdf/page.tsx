@@ -103,34 +103,36 @@ export default function PDFPage() {
     );
   }
 
-  <Stack align="center" w="100%" spacing="1.5rem">
-    <Lottie
-      loop
-      animationData={DoneAnimation}
-      play
-      style={{ width: 200, height: 200 }}
-    />
-    <ChakraText
-      fontSize="1rem"
-      opacity=".6"
-      fontWeight="semibold"
-      color="palette.button.primary"
-    >
-      Answer Sheet Ready to Download.
-    </ChakraText>
-    <PDFDownloadLink
-      document={<BubbleSheetDoc />}
-      fileName={`${testData?.class?.program} | ${testData?.testName} - Bubble Sheet`}
-    >
-      {({ loading }) => (
-        <Button
-          isLoading={loading}
-          loadingText="Loading document..."
-          colorScheme="blue"
-        >
-          Download
-        </Button>
-      )}
-    </PDFDownloadLink>
-  </Stack>;
+  return (
+    <Stack align="center" w="100%" spacing="1.5rem">
+      <Lottie
+        loop
+        animationData={DoneAnimation}
+        play
+        style={{ width: 200, height: 200 }}
+      />
+      <ChakraText
+        fontSize="1rem"
+        opacity=".6"
+        fontWeight="semibold"
+        color="palette.button.primary"
+      >
+        Answer Sheet Ready to Download.
+      </ChakraText>
+      <PDFDownloadLink
+        document={<BubbleSheetDoc />}
+        fileName={`${testData?.class?.program} | ${testData?.testName} - Bubble Sheet`}
+      >
+        {({ loading }) => (
+          <Button
+            isLoading={loading}
+            loadingText="Generating Document..."
+            colorScheme="blue"
+          >
+            Download
+          </Button>
+        )}
+      </PDFDownloadLink>
+    </Stack>
+  );
 }
