@@ -7,12 +7,12 @@ import Loading from "@/components/loading";
 import { FetchedTestInfoToGeneratePaper, Grade } from "@/utils/types";
 import {
   Document,
-  PDFDownloadLink,
   StyleSheet,
   Page,
   Text,
   View,
   Image,
+  usePDF,
 } from "@react-pdf/renderer";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
 
 export default function GradedPDF() {
   const { test_id } = useParams();
+  const [instance, updateInstance] = usePDF({});
 
   const getStudentGrades = async () => {
     const id = test_id;
@@ -60,89 +61,91 @@ export default function GradedPDF() {
   });
 
   const { data: testData, isLoading: isTestDataLoading } = useQuery({
-    queryKey: ["generate-paper"],
+    queryKey: ["generate-paper", studentGrades],
     queryFn: async () => {
       let test: Partial<FetchedTestInfoToGeneratePaper> = {};
       await axios.get(`/api/tests/generate/${test_id}`).then((res) => {
         test = res.data;
       });
 
+      updateInstance(
+        <Document>
+          {studentGrades?.map((student) => {
+            return (
+              <Page size={[8.5 * 72, 13 * 72]} style={styles.page}>
+                <View
+                  style={{
+                    width: "100%",
+                    flexDirection: "row",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                  }}
+                >
+                  <Text style={{ fontWeight: "bold", fontSize: ".2in" }}>
+                    {test!.testName}
+                  </Text>
+                  <Text
+                    style={{
+                      fontWeight: "bold",
+                      fontSize: ".35in",
+                      color:
+                        student.status === "Passed" ? "#259358" : "#C81A1A",
+                      marginLeft: ".8in",
+                    }}
+                  >
+                    {`${student.numberOfCorrect}/${student.answerIndices.length}`}
+                  </Text>
+                  <Image
+                    src={
+                      student.status === "Passed"
+                        ? "/passed.png"
+                        : "/failed.png"
+                    }
+                    style={{
+                      width: "1.2in",
+                      marginLeft: ".5in",
+                      transform: "rotate(-15deg)",
+                    }}
+                  />
+                  <ControlNumber number={student.student.rollNumber} />
+                </View>
+                <View
+                  style={{
+                    marginTop: ".2in",
+                    marginBottom: ".2in",
+                    width: "100%",
+                    borderBottom: "1px solid #E2E2E2",
+                  }}
+                />
+                <TestInfo
+                  name={`${
+                    student.student.firstName
+                  } ${student.student.middleName.charAt(0)}. ${
+                    student.student.lastName
+                  }`}
+                  course={test!.class!.course}
+                  programAndSection={`${test!.class!.program} ${
+                    test!.class!.section
+                  }`}
+                  date={moment(student.createdAt).format("MMM Do YYYY")}
+                />
+                <GradedBubbles test={test!.testParts!} grade={student} />
+              </Page>
+            );
+          })}
+        </Document>,
+      );
+
       return test;
     },
     refetchOnMount: false,
+    enabled: !!studentGrades,
   });
 
   console.log(studentGrades);
 
   if (isLoading || isTestDataLoading) {
     return <Loading message="Getting Data.." remove />;
-  }
-
-  function BubbleSheetDoc() {
-    return (
-      <Document>
-        {studentGrades?.map((student) => {
-          return (
-            <Page size={[8.5 * 72, 13 * 72]} style={styles.page}>
-              <View
-                style={{
-                  width: "100%",
-                  flexDirection: "row",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                }}
-              >
-                <Text style={{ fontWeight: "bold", fontSize: ".2in" }}>
-                  {testData!.testName}
-                </Text>
-                <Text
-                  style={{
-                    fontWeight: "bold",
-                    fontSize: ".35in",
-                    color: student.status === "Passed" ? "#259358" : "#C81A1A",
-                    marginLeft: ".8in",
-                  }}
-                >
-                  {`${student.numberOfCorrect}/${student.answerIndices.length}`}
-                </Text>
-                <Image
-                  src={
-                    student.status === "Passed" ? "/passed.png" : "/failed.png"
-                  }
-                  style={{
-                    width: "1.2in",
-                    marginLeft: ".5in",
-                    transform: "rotate(-15deg)",
-                  }}
-                />
-                <ControlNumber number={student.student.rollNumber} />
-              </View>
-              <View
-                style={{
-                  marginTop: ".2in",
-                  marginBottom: ".2in",
-                  width: "100%",
-                  borderBottom: "1px solid #E2E2E2",
-                }}
-              />
-              <TestInfo
-                name={`${
-                  student.student.firstName
-                } ${student.student.middleName.charAt(0)}. ${
-                  student.student.lastName
-                }`}
-                course={testData!.class!.course}
-                programAndSection={`${testData!.class!.program} ${
-                  testData!.class!.section
-                }`}
-                date={moment(student.createdAt).format("MMM Do YYYY")}
-              />
-              <GradedBubbles test={testData!.testParts!} grade={student} />
-            </Page>
-          );
-        })}
-      </Document>
-    );
   }
 
   return (
@@ -159,14 +162,21 @@ export default function GradedPDF() {
         fontWeight="semibold"
         color="palette.button.primary"
       >
-        Answer Sheet Ready to Download.
+        Graded Bubble Sheet Ready to Download.
       </ChakraText>
-      <PDFDownloadLink
-        document={<BubbleSheetDoc />}
-        fileName={`${testData?.class?.program} | ${testData?.testName} - Graded Test Papers`}
-      >
-        <Button>Download</Button>
-      </PDFDownloadLink>
+      {instance.loading ? (
+        <Button isLoading={instance.loading} colorScheme="blue">
+          Download
+        </Button>
+      ) : (
+        <Button
+          as="a"
+          href={instance.url!}
+          download={`${testData?.class?.program} | ${testData?.testName} - Graded Bubble Sheet`}
+        >
+          Download
+        </Button>
+      )}
     </Stack>
   );
 }
