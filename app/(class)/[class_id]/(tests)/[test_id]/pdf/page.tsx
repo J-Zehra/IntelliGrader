@@ -99,7 +99,7 @@ export default function PDFPage() {
   console.log(testData);
 
   if (isLoading) {
-    return <Loading message="Getting Data" remove />;
+    return <Loading message="Getting data.." remove />;
   }
 
   return (

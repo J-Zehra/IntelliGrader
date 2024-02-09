@@ -8,7 +8,6 @@ import { FetchedTestInfoToGeneratePaper, Grade } from "@/utils/types";
 import {
   Document,
   PDFDownloadLink,
-  PDFViewer,
   StyleSheet,
   Page,
   Text,
@@ -19,12 +18,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useParams } from "next/navigation";
 import React from "react";
-import {
-  Button,
-  Stack,
-  useMediaQuery,
-  Text as ChakraText,
-} from "@chakra-ui/react";
+import { Button, Stack, Text as ChakraText } from "@chakra-ui/react";
 import Lottie from "react-lottie-player";
 import moment from "moment";
 import ControlNumber from "../components/controlNumber";
@@ -48,7 +42,6 @@ const styles = StyleSheet.create({
 
 export default function GradedPDF() {
   const { test_id } = useParams();
-  const [isLargerThan30] = useMediaQuery("(min-width: 30em)");
 
   const getStudentGrades = async () => {
     const id = test_id;
@@ -75,12 +68,13 @@ export default function GradedPDF() {
 
       return test;
     },
+    refetchOnMount: false,
   });
 
   console.log(studentGrades);
 
   if (isLoading || isTestDataLoading) {
-    return <Loading message="Generating" />;
+    return <Loading message="Getting Data.." remove />;
   }
 
   function BubbleSheetDoc() {
@@ -105,7 +99,7 @@ export default function GradedPDF() {
                     fontWeight: "bold",
                     fontSize: ".35in",
                     color: student.status === "Passed" ? "#259358" : "#C81A1A",
-                    marginLeft: ".5in",
+                    marginLeft: ".8in",
                   }}
                 >
                   {`${student.numberOfCorrect}/${student.answerIndices.length}`}
@@ -150,36 +144,28 @@ export default function GradedPDF() {
     );
   }
 
-  if (!isLargerThan30) {
-    return (
-      <Stack align="center" w="100%" spacing="1.5rem">
-        <Lottie
-          loop
-          animationData={DoneAnimation}
-          play
-          style={{ width: 200, height: 200 }}
-        />
-        <ChakraText
-          fontSize="1rem"
-          opacity=".6"
-          fontWeight="semibold"
-          color="palette.button.primary"
-        >
-          Answer Sheet Ready to Download.
-        </ChakraText>
-        <PDFDownloadLink
-          document={<BubbleSheetDoc />}
-          fileName={`${testData?.class?.program} | ${testData?.testName} - Graded Test Papers`}
-        >
-          <Button>Download</Button>
-        </PDFDownloadLink>
-      </Stack>
-    );
-  }
-
   return (
-    <PDFViewer style={styles.viewer}>
-      <BubbleSheetDoc />
-    </PDFViewer>
+    <Stack align="center" w="100%" spacing="1.5rem">
+      <Lottie
+        loop
+        animationData={DoneAnimation}
+        play
+        style={{ width: 200, height: 200 }}
+      />
+      <ChakraText
+        fontSize="1rem"
+        opacity=".6"
+        fontWeight="semibold"
+        color="palette.button.primary"
+      >
+        Answer Sheet Ready to Download.
+      </ChakraText>
+      <PDFDownloadLink
+        document={<BubbleSheetDoc />}
+        fileName={`${testData?.class?.program} | ${testData?.testName} - Graded Test Papers`}
+      >
+        <Button>Download</Button>
+      </PDFDownloadLink>
+    </Stack>
   );
 }
