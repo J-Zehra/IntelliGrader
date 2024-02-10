@@ -45,7 +45,7 @@ export default function Step1() {
 
   const handlePassingGradeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const grade = parseInt(e.target.value, 10);
-    if (grade >= 40 && grade <= 100) {
+    if (grade >= 25 && grade <= 100) {
       setTestInfo((prevTestInfo) => ({
         ...prevTestInfo,
         passingGrade: parseInt(e.target.value, 10),
