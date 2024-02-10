@@ -138,7 +138,7 @@ export default function Test({
         <Stack color={textColorVariant()} direction="row" spacing={4}>
           <Center
             as={Link}
-            href={`${testInfo.id}/overview/statistics`}
+            href={`${testInfo.id}/statistics`}
             p=".1rem"
             fontSize="1.2rem"
             cursor="pointer"
