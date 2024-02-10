@@ -18,6 +18,7 @@ model User {
   createdAt       DateTime     @default(now())
   updatedAt       DateTime     @updatedAt
 
+  scannerSettings ScannerSettings?
   accounts      Account[]
   class           Class[]
 }
@@ -85,7 +86,14 @@ model Test {
   testParts       TestPart[]
   studentGrade    StudentGrade[]
   class           Class        @relation(fields: [classId], references: [id], onDelete: Cascade)
+}
 
+model ScannerSettings {
+  id              String       @id @default(cuid()) @map("_id")
+  shading_threshold Int @default(45)
+  teacherId String @unique
+
+  teacher   User     @relation(fields: [teacherId], references: [id])
 }
 
 type Choices {

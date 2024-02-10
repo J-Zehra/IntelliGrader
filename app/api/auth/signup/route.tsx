@@ -82,6 +82,7 @@ export async function POST(request: Request) {
       email: email.toLowerCase(),
       emailVerified: false,
       password: hashedPassword,
+      scannerSettings: { create: { shading_threshold: 45 } },
     },
   });
 
