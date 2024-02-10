@@ -22,17 +22,11 @@ export async function GET(
       where: { classId: id },
     });
 
-    const totalTestSCompleted = await prisma.test.aggregate({
-      where: { status: "Completed" },
-      _count: { status: true },
-    });
-
     const data = {
       program: classInfo?.program,
       course: classInfo?.course,
       totalStudents,
       totalTests,
-      totalTestSCompleted: totalTestSCompleted._count.status,
     };
 
     return NextResponse.json(data);
