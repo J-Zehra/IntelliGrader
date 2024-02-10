@@ -12,7 +12,11 @@ import {
   WrapItem,
   useDisclosure,
 } from "@chakra-ui/react";
-import { FetchedStudentInfo, QuestionsMostGotRight } from "@/utils/types";
+import {
+  FetchedStudentInfo,
+  QuestionType,
+  QuestionsMostGotRight,
+} from "@/utils/types";
 import { MdOutlineArrowDropDown } from "react-icons/md";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
@@ -20,6 +24,11 @@ import { useParams } from "next/navigation";
 
 function convertToLetter(index: number) {
   return String.fromCharCode("A".charCodeAt(0) + index);
+}
+
+function convertToTorF(index: number) {
+  if (index === 0) return "True";
+  return "False";
 }
 
 export default function MostPickedAnswerItem({
@@ -126,7 +135,9 @@ export default function MostPickedAnswerItem({
                       color={item.correctAnswer === index2 ? "green" : ""}
                       fontSize=".9rem"
                     >
-                      {convertToLetter(index2)}
+                      {item.questionType === QuestionType.trueOrFalse
+                        ? convertToTorF(index2)
+                        : convertToLetter(index2)}
                     </Text>
                   </Radio>
                 </WrapItem>

@@ -5,7 +5,7 @@
 /* eslint-disable import/prefer-default-export */
 import { NextResponse } from "next/server";
 import prisma from "@/libs/prismadb";
-import { QuestionPart } from "@/utils/types";
+import { QuestionPart, QuestionType } from "@/utils/types";
 
 const calculateAccuracy = (
   totalCorrect: number,
@@ -32,6 +32,24 @@ const getNumberOfChoices = (
 
     if (questionNumber <= cumulativeTotal) {
       return part.numberOfChoices;
+    }
+  }
+
+  // Return undefined if the questionNumber is not found in the testParts array
+  return undefined;
+};
+
+const getQuestionType = (
+  testParts: QuestionPart[],
+  questionNumber: number,
+): QuestionType | undefined => {
+  let cumulativeTotal = 0;
+
+  for (const part of testParts) {
+    cumulativeTotal += part.totalNumber;
+
+    if (questionNumber <= cumulativeTotal) {
+      return part.questionType;
     }
   }
 
@@ -88,6 +106,7 @@ const getQuestionsMostStudentsGotRight = (
       studentNames: studentsPickedRight[index],
       correctAnswer: correctAnswer[index],
       numberOfChoices: getNumberOfChoices(questionParts, index),
+      questionType: getQuestionType(questionParts, index),
     }));
 
   return topRightQuestions;
@@ -138,6 +157,7 @@ const getQuestionsMostStudentsGotWrong = (
       mostPickedAnswer: mostPickedAnswers[index],
       correctAnswer: correctAnswer[index],
       numberOfChoices: getNumberOfChoices(questionParts, index),
+      questionType: getQuestionType(questionParts, index),
     }));
 
   return topWrongQuestions;

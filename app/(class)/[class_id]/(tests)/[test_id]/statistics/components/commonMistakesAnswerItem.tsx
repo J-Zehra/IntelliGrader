@@ -12,7 +12,11 @@ import {
   WrapItem,
   useDisclosure,
 } from "@chakra-ui/react";
-import { FetchedStudentInfo, QuestionsMostGotWrong } from "@/utils/types";
+import {
+  FetchedStudentInfo,
+  QuestionType,
+  QuestionsMostGotWrong,
+} from "@/utils/types";
 import { MdOutlineArrowDropDown } from "react-icons/md";
 import { useParams } from "next/navigation";
 import axios from "axios";
@@ -20,6 +24,11 @@ import { useQuery } from "@tanstack/react-query";
 
 function convertToLetter(index: number) {
   return String.fromCharCode("A".charCodeAt(0) + index);
+}
+
+function convertToTorF(index: number) {
+  if (index === 0) return "True";
+  return "False";
 }
 
 export default function CommonyMistakesAnswerItem({
@@ -126,7 +135,9 @@ export default function CommonyMistakesAnswerItem({
                       }
                       color={item.correctAnswer === index2 ? "red" : ""}
                     >
-                      {convertToLetter(index2)}
+                      {item.questionType === QuestionType.trueOrFalse
+                        ? convertToTorF(index2)
+                        : convertToLetter(index2)}
                     </Text>
                   </Radio>
                 </WrapItem>

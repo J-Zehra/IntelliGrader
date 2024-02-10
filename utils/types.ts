@@ -111,6 +111,7 @@ export type QuestionsMostGotRight = {
   studentCount: number;
   numberOfChoices: number;
   correctAnswer: number;
+  questionType: QuestionType;
   studentNames: string[];
 };
 
@@ -119,6 +120,7 @@ export type QuestionsMostGotWrong = {
   studentCount: number;
   mostPickedAnswer: number;
   correctAnswer: number;
+  questionType: QuestionType;
   numberOfChoices: number;
   studentNames: string[];
 };
