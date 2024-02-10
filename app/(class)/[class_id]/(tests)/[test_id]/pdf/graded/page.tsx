@@ -93,7 +93,7 @@ export default function GradedPDF() {
                       marginLeft: ".8in",
                     }}
                   >
-                    {`${student.numberOfCorrect}/${student.answerIndices.length}`}
+                    {`${student.totalScore}/${student.totalPerfectScore}`}
                   </Text>
                   <Image
                     src={
