@@ -74,7 +74,7 @@ export default function StudentGrades() {
             </Text>
           </Stack>
         ) : null}
-        {isSuccess && studentGrades?.length > 1 ? (
+        {isSuccess && studentGrades?.length > 0 ? (
           <Stack
             w="100%"
             paddingTop="1rem"

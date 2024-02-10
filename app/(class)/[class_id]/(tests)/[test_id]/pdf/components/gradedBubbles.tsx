@@ -82,37 +82,72 @@ export default function GradedBubbles({
           border: "6.5px solid black",
         }}
       />
-      {partAnswerIndices.map((part, partIndex) => (
-        <View
-          key={partIndex}
-          style={{
-            flex: 1,
-            flexDirection: "column",
-            height: "100%",
-            gap: ".4in",
-            justifyContent: "space-between",
-            paddingVertical: ".25in",
-          }}
-        >
-          <View
-            style={{
-              fontSize: ".16in",
-              flex: 1,
-              gap: ".07in",
-            }}
-          >
-            {part.indices.map((answer, index) => (
-              <GradedParts
-                index={index}
-                key={index}
-                answer={answer}
-                correctAnswer={part.correctIndices[index]}
-                numberOfChoices={part.numberOfChoices}
-              />
-            ))}
-          </View>
-        </View>
-      ))}
+      <View
+        style={{
+          flex: 1,
+          flexDirection: "column",
+          height: "100%",
+          gap: ".4in",
+          justifyContent: "space-between",
+          paddingVertical: ".25in",
+        }}
+      >
+        {partAnswerIndices.map((part, partIndex) =>
+          partIndex === 0 || partIndex === 1 ? (
+            <View
+              style={{
+                fontSize: ".16in",
+                flex: 1,
+                gap: ".07in",
+              }}
+              key={partIndex}
+            >
+              {part.indices.map((answer, index) => (
+                <GradedParts
+                  index={index}
+                  key={index}
+                  answer={answer}
+                  correctAnswer={part.correctIndices[index]}
+                  numberOfChoices={part.numberOfChoices}
+                />
+              ))}
+            </View>
+          ) : null,
+        )}
+      </View>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: "column",
+          height: "100%",
+          gap: ".4in",
+          justifyContent: "space-between",
+          paddingVertical: ".25in",
+        }}
+      >
+        {partAnswerIndices.map((part, partIndex) =>
+          partIndex === 2 || partIndex === 3 ? (
+            <View
+              style={{
+                fontSize: ".16in",
+                flex: 1,
+                gap: ".07in",
+              }}
+              key={partIndex}
+            >
+              {part.indices.map((answer, index) => (
+                <GradedParts
+                  index={index}
+                  key={index}
+                  answer={answer}
+                  correctAnswer={part.correctIndices[index]}
+                  numberOfChoices={part.numberOfChoices}
+                />
+              ))}
+            </View>
+          ) : null,
+        )}
+      </View>
     </View>
   );
 }
