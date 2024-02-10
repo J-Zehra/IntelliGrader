@@ -166,8 +166,8 @@ export async function GET(request: Request) {
 
     const point = await prisma.studentGrade.aggregate({
       where: { testId: testId! },
-      _max: { numberOfCorrect: true },
-      _min: { numberOfCorrect: true },
+      _max: { totalScore: true },
+      _min: { totalScore: true },
     });
 
     const studentsAnswerData = await prisma.studentGrade.findMany({
@@ -211,8 +211,8 @@ export async function GET(request: Request) {
     const responseData = {
       accuracy,
       passingRate,
-      highest: point._max.numberOfCorrect!,
-      lowest: point._min.numberOfCorrect!,
+      highest: point._max.totalScore!,
+      lowest: point._min.totalScore!,
       questionsMostGotRight,
       questionsMostGotWrong,
     };
