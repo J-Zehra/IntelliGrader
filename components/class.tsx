@@ -104,7 +104,7 @@ export default function Class({
             {classInfo.course}
           </Text>
           <Text fontSize=".7rem" fontWeight="medium" opacity={0.8}>
-            {`${classInfo.program} ${classInfo.year}`}
+            {`${classInfo.program} ${classInfo.year} - ${classInfo.section}`}
           </Text>
         </Stack>
         <MoreOptions id={classInfo.id} />
