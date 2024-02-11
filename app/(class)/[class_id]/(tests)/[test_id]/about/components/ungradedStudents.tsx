@@ -28,8 +28,6 @@ export default function UngradedStudents() {
     queryFn: getUngradedStudents,
   });
 
-  console.log(studentInfo);
-
   return (
     <Stack>
       {isLoading ? (

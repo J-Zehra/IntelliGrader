@@ -47,7 +47,6 @@ export async function GET(request: Request) {
     const studentGrades: StudentGrade[] = test.studentGrade.map(
       (studentGrade) => {
         const { firstName, lastName, middleName } = studentGrade.student;
-        console.log("Last Name", lastName);
 
         const formattedName = `${lastName}, ${firstName} ${
           middleName ? middleName.charAt(0) : ""

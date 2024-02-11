@@ -14,7 +14,8 @@ import {
 } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
+import { useRouter } from "next13-progressbar";
 import { FaRegCheckCircle } from "react-icons/fa";
 import { FetchedTestInfo } from "@/utils/types";
 

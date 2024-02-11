@@ -17,7 +17,7 @@ import {
 } from "@chakra-ui/react";
 import { useRecoilValue } from "recoil";
 import { BsArrowReturnLeft } from "react-icons/bs";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next13-progressbar";
 import { setupTestStepState } from "@/state/stepState";
 import CustomContainer from "../reusables/customContainer";
 

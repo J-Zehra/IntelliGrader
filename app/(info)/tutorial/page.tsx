@@ -1,7 +1,7 @@
 "use client";
 
 import { Center, Divider, Stack, Text, Wrap, WrapItem } from "@chakra-ui/react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next13-progressbar";
 import React from "react";
 
 export default function TutorialPage() {

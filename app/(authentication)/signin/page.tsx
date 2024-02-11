@@ -14,7 +14,7 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next13-progressbar";
 import { useState } from "react";
 import { signIn } from "next-auth/react";
 // import GoogleSignIn from "@/components/reusables/googleSignIn";
@@ -54,7 +54,6 @@ export default function SinginPage() {
     // SEND REQUEST
     await signIn("credentials", { email, password, redirect: false }).then(
       (res) => {
-        console.log(res);
         clearState();
         setLoading(false);
         if (res && res.error) {

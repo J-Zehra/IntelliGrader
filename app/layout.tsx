@@ -4,6 +4,7 @@ import Header from "@/components/header";
 import StateWrapper from "@/components/wrappers/stateWrapper";
 import QueryWrapper from "@/components/wrappers/queryWrapper";
 import SessionWrapper from "@/components/wrappers/sessionWrapper";
+import Providers from "./provider";
 
 export const metadata = {
   manifest: "/manifest.json",
@@ -43,12 +44,14 @@ export default function RootLayout({
         <SpeedInsights />
         <ThemeWrapper>
           <SessionWrapper>
-            <StateWrapper>
-              <QueryWrapper>
-                <Header />
-                {children}
-              </QueryWrapper>
-            </StateWrapper>
+            <Providers>
+              <StateWrapper>
+                <QueryWrapper>
+                  <Header />
+                  {children}
+                </QueryWrapper>
+              </StateWrapper>
+            </Providers>
           </SessionWrapper>
         </ThemeWrapper>
       </body>

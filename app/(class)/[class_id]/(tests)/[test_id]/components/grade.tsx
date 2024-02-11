@@ -3,7 +3,8 @@
 import { Button } from "@chakra-ui/react";
 import React, { useEffect } from "react";
 import { AiOutlineScan } from "react-icons/ai";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
+import { useRouter } from "next13-progressbar";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useRecoilState, useSetRecoilState } from "recoil";
@@ -38,7 +39,6 @@ export default function GradeButton({
 
   const handleSubmit = async () => {
     if (!files || !testData) {
-      console.log("No File");
       return;
     }
 
@@ -81,7 +81,6 @@ export default function GradeButton({
       });
 
       const scaledImages = await Promise.all(scalingPromises);
-      console.log(scaledImages);
 
       const parts = testData!.testParts!.map((part) => {
         return {

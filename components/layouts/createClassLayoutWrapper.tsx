@@ -15,7 +15,7 @@ import {
   Stepper,
   Text,
 } from "@chakra-ui/react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next13-progressbar";
 import { useRecoilValue } from "recoil";
 import { createClassStepState } from "@/state/stepState";
 import CustomContainer from "../reusables/customContainer";

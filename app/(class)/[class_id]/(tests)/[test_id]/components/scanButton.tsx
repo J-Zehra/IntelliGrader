@@ -3,7 +3,7 @@
 import { Center } from "@chakra-ui/react";
 import React, { ChangeEvent, useRef } from "react";
 import { useSetRecoilState } from "recoil";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next13-progressbar";
 import { fileState } from "@/state/fileState";
 import Compressor from "compressorjs";
 

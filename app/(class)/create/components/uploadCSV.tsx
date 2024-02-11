@@ -62,8 +62,6 @@ export default function UploadCSV() {
   const handleAcceeptedFile = (results: any) => {
     const transformedData = transformData(results.data);
 
-    console.log(transformedData);
-
     if (transformedData.length < 1) {
       toast({
         title: "Invalid CSV Format",

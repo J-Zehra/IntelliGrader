@@ -45,8 +45,6 @@ export default function StudentScores() {
     queryFn: getClassRanking,
   });
 
-  console.log(studentGrades);
-
   const [isDesktopLayout] = useMediaQuery("(min-width: 40em)");
   return (
     <Center w="100%">

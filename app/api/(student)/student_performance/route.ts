@@ -89,9 +89,6 @@ export async function GET(request: Request) {
       totalQuestions._sum.totalPerfectScore!,
     );
 
-    console.log(totalCorrect._sum.totalScore);
-    console.log(totalQuestions._sum.totalPerfectScore);
-
     return NextResponse.json({ grade: studentGrade, passingRate, accuracy });
   } catch (err) {
     return NextResponse.json({ message: "GET Error", err }, { status: 400 });

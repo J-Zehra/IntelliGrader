@@ -29,8 +29,6 @@ export async function GET(
       passingRate: number;
     }[] = [];
 
-    console.log(tests);
-
     tests.forEach((test) => {
       const rate = Math.round((test._count.studentGrade / totalStudent) * 100);
       passingGradeDistribution.push({

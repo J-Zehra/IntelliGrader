@@ -11,9 +11,6 @@ export async function PUT(request: Request) {
     const session = await getServerSession(options);
     const user = session?.user as unknown as any;
 
-    console.log(threshold);
-    console.log(user.id);
-
     const newThreshold = await prisma.scannerSettings.update({
       where: {
         teacherId: user.id,
@@ -22,8 +19,6 @@ export async function PUT(request: Request) {
         shading_threshold: threshold,
       },
     });
-
-    console.log(newThreshold);
 
     return NextResponse.json(newThreshold);
   } catch (err) {

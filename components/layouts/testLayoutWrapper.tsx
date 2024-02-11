@@ -5,7 +5,8 @@
 import { ReactNode } from "react";
 import { Box, IconButton, Skeleton, Stack, Text } from "@chakra-ui/react";
 import { BsArrowReturnLeft } from "react-icons/bs";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
+import { useRouter } from "next13-progressbar";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import BottomNavbar from "@/app/(class)/[class_id]/(tests)/[test_id]/components/bottomNavbar";

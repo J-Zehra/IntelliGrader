@@ -51,8 +51,6 @@ export async function GET(
       _sum: { numberOfCorrect: true },
     });
 
-    console.log(totalTestsNumber._sum, totalNumberOfCorrect._sum, totalTests);
-
     const passingRate = calculatePassingRate(
       totalStudents,
       totalTests,

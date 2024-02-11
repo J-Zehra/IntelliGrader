@@ -18,7 +18,7 @@ import { fileState } from "@/state/fileState";
 import NetworkSpeed from "network-speed";
 import { localGradeInfo } from "@/state/localGradeInfo";
 import { failedToScan } from "@/state/failedToScan";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next13-progressbar";
 import { FaArrowRotateLeft } from "react-icons/fa6";
 import ScanningAnimation from "../../../../../../public/scanning_animation_2.json";
 import GradeButton from "./grade";
@@ -93,8 +93,6 @@ export default function Preview() {
       } else {
         setSlowConnection(true);
       }
-
-      console.log("DOWNLOAD", downloadSpeed);
     };
 
     let interval: NodeJS.Timeout;
@@ -140,7 +138,6 @@ export default function Preview() {
       }
 
       setProgress(data.index);
-      console.log(data.index);
     };
 
     socket.on("progress", onPartialGradeEvent);

@@ -2,11 +2,11 @@ import { Box, Button, Center, Stack, Text } from "@chakra-ui/react";
 import { BsBarChartLine } from "react-icons/bs";
 import { motion } from "framer-motion";
 import { useSetRecoilState } from "recoil";
-import { useRouter } from "next/navigation";
 import { ClassVariant, FetchedClassInfo } from "@/utils/types";
 import { item as animationItem } from "@/utils/animations";
 import { headerState } from "@/state/headerState";
 import moment from "moment";
+import { useRouter } from "next13-progressbar";
 import MoreOptions from "./moreOptions";
 
 export default function Class({
@@ -142,17 +142,7 @@ export default function Class({
               <BsBarChartLine />
             </Center>
             <Button
-              bg={
-                variant === ClassVariant.secondary
-                  ? "transparent"
-                  : textColorVariant()
-              }
               border={variant === ClassVariant.secondary ? "1px solid" : ""}
-              borderColor={
-                variant === ClassVariant.secondary
-                  ? "palette.button.primary"
-                  : ""
-              }
               boxShadow="none"
               color={textButtonColorVariant()}
               p=".5rem 1rem"
@@ -161,6 +151,16 @@ export default function Class({
               transition="all .3 ease"
               _hover={{ opacity: 0.8 }}
               onClick={handleClick}
+              bg={
+                variant === ClassVariant.secondary
+                  ? "transparent"
+                  : textColorVariant()
+              }
+              borderColor={
+                variant === ClassVariant.secondary
+                  ? "palette.button.primary"
+                  : ""
+              }
             >
               Open
             </Button>

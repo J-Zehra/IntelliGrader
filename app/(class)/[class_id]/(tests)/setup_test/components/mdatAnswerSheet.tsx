@@ -79,8 +79,6 @@ export default function MDATAnswerSheet() {
     }));
   }, [convertToLetter, setTestInfo]);
 
-  console.log(testInfo);
-
   const calculateIndex = (partIndex: number, currentI: number) => {
     let currentIndexInPart = currentI;
 

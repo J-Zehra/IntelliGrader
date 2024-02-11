@@ -3,7 +3,8 @@ import { Button, Divider, Skeleton, Stack, Text } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import { motion } from "framer-motion";
 import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
+import { useRouter } from "next13-progressbar";
 import { IoMdAdd } from "react-icons/io";
 
 type ClassOverview = {

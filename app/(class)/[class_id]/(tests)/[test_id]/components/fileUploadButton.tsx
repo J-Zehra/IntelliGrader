@@ -3,7 +3,7 @@ import { Box, Input, Stack, Text } from "@chakra-ui/react";
 import React, { ChangeEvent, useRef } from "react";
 import { CiFileOn } from "react-icons/ci";
 import { useSetRecoilState } from "recoil";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next13-progressbar";
 import { fileState } from "@/state/fileState";
 import Compressor from "compressorjs";
 

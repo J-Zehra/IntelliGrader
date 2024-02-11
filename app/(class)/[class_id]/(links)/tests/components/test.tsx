@@ -1,6 +1,5 @@
 /* eslint-disable no-underscore-dangle */
 import { Button, Center, Divider, Link, Stack, Text } from "@chakra-ui/react";
-import React from "react";
 import { BsBarChartLine } from "react-icons/bs";
 import { motion } from "framer-motion";
 import moment from "moment";

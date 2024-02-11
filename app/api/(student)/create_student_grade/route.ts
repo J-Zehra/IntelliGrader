@@ -42,8 +42,6 @@ export async function POST(request: Request) {
           (grade.total_score / grade.total_perfect_score) * 100,
         );
 
-        console.log("HEREEE");
-
         if (existingStudentGrade) {
           return prisma.studentGrade.update({
             where: { id: existingStudentGrade.id },

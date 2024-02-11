@@ -17,8 +17,6 @@ import { QuestionType, QuestionPart, ClassVariant } from "@/utils/types";
 export default function Step1() {
   const [testInfo, setTestInfo] = useRecoilState(setupTestState);
 
-  console.log(testInfo);
-
   const bgVariant = (variant: ClassVariant) => {
     let background = "";
 

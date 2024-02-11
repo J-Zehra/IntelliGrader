@@ -12,7 +12,8 @@ import {
   Text,
   useMediaQuery,
 } from "@chakra-ui/react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
+import { useRouter } from "next13-progressbar";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { Grade, TestNavLink } from "@/utils/types";

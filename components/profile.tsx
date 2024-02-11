@@ -13,13 +13,12 @@ import {
   // useDisclosure,
 } from "@chakra-ui/react";
 import { signOut, useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next13-progressbar";
 // import ScannerSettingsModal from "./scannerSettingsModal";
 
 export default function Profile() {
   const { data } = useSession();
   const userData = data as any;
-  console.log(data);
   const navigate = useRouter();
 
   return (

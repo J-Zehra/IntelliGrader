@@ -2,7 +2,8 @@
 
 import CustomContainer from "@/components/reusables/customContainer";
 import { Button, Center, Highlight, Stack, Text } from "@chakra-ui/react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
+import { useRouter } from "next13-progressbar";
 import React from "react";
 import Lottie from "react-lottie-player";
 import emailAnimation from "../../../../public/emailAnimation.json";

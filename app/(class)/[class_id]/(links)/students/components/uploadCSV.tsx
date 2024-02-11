@@ -64,7 +64,6 @@ export default function UploadCSV({
     mutationKey: ["add-students"],
     onSuccess: () => {
       refetch();
-      console.log("Success");
     },
   });
 

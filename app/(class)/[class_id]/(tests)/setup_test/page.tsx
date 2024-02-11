@@ -10,7 +10,8 @@ import {
   useMediaQuery,
   useToast,
 } from "@chakra-ui/react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
+import { useRouter } from "next13-progressbar";
 import { AiOutlinePlus } from "react-icons/ai";
 import { useRecoilState, useSetRecoilState } from "recoil";
 import axios, { AxiosError } from "axios";
@@ -59,7 +60,6 @@ export default function SetupTest() {
     mutationKey: ["create test"],
     onSuccess: (data) => {
       queryClient.setQueryData(["tests"], (oldData) => {
-        console.log(data);
         if (Array.isArray(oldData)) {
           return [data, ...(oldData as any[])];
         }
@@ -75,6 +75,15 @@ export default function SetupTest() {
         variant: ClassVariant.default,
         passingGrade: 50,
       });
+
+      toast({
+        title: "Success!",
+        description: "Test successfully created.",
+        duration: 5000,
+        position: "top",
+        status: "success",
+      });
+
       navigate.push(`/${class_id}/${data.data.id}/scan`);
     },
 
@@ -172,7 +181,7 @@ export default function SetupTest() {
         }
       }
 
-      if (testInfo.passingGrade > 100 || testInfo.passingGrade < 0) {
+      if (testInfo.passingGrade > 100 || testInfo.passingGrade < 25) {
         toast({
           title: "Invalid Passing Grade",
           description: "Passing grade cannot be negative and greater that 100",

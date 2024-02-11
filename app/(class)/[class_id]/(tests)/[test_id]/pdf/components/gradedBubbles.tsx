@@ -12,8 +12,6 @@ export default function GradedBubbles({
   test: QuestionPart[];
   grade: Grade;
 }) {
-  console.log("Test", test);
-
   const { answerIndices } = grade;
 
   let startIndex = 0;

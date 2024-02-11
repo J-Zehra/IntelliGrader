@@ -2,7 +2,8 @@
 
 import { Box, Center, Stack } from "@chakra-ui/react";
 import Image from "next/image";
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+import { useRouter } from "next13-progressbar";
 import { motion } from "framer-motion";
 import CustomContainer from "./reusables/customContainer";
 import Profile from "./profile";

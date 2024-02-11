@@ -4,7 +4,8 @@ import CustomContainer from "@/components/reusables/customContainer";
 import { Button, Center, Stack, Text, useToast } from "@chakra-ui/react";
 import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
+import { useRouter } from "next13-progressbar";
 import Lottie from "react-lottie-player";
 import confirmAnimation from "../../../../public/confirmAnimation.json";
 

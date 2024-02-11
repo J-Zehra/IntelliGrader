@@ -1,7 +1,7 @@
 "use client";
 
 import { Stack, Button, useToast, Center } from "@chakra-ui/react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next13-progressbar";
 import { AiOutlinePlus } from "react-icons/ai";
 import axios, { AxiosError } from "axios";
 import { useMutation } from "@tanstack/react-query";
@@ -52,6 +52,13 @@ export default function CreateClass() {
       });
 
       setHeaderTitle(data.subject);
+      toast({
+        title: "Success!",
+        description: "Class successfully created.",
+        duration: 5000,
+        position: "top",
+        status: "success",
+      });
       navigate.replace(`/${data.id}/dashboard`);
     },
     onError: (error: AxiosError) => {

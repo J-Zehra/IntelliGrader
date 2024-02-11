@@ -28,8 +28,6 @@ export default function RecentScans() {
     queryKey: ["get-recent-scans", class_id],
   });
 
-  console.log(studentGrades);
-
   return (
     <Skeleton isLoaded={!isLoading} borderRadius="1rem" paddingBottom="2rem">
       <Stack w="100%">

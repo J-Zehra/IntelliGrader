@@ -3,7 +3,8 @@
 "use client";
 
 import { Box, IconButton, Skeleton, Stack, Text } from "@chakra-ui/react";
-import { useParams, usePathname, useRouter } from "next/navigation";
+import { useParams, usePathname } from "next/navigation";
+import { useRouter } from "next13-progressbar";
 import React, { ReactNode } from "react";
 import { BsArrowReturnLeft } from "react-icons/bs";
 import axios from "axios";

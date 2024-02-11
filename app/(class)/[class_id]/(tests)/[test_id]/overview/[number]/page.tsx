@@ -15,7 +15,8 @@ import {
   useMediaQuery,
 } from "@chakra-ui/react";
 import React from "react";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
+import { useRouter } from "next13-progressbar";
 import axios from "axios";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import { FetchedGradeInfo, FetchedSingleGrade } from "@/utils/types";

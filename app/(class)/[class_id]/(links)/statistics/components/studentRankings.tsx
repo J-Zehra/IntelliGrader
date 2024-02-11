@@ -2,7 +2,8 @@
 import { Center, Skeleton, Stack, Text, useToast } from "@chakra-ui/react";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
+import { useRouter } from "next13-progressbar";
 import React from "react";
 
 export default function StudentRankings() {

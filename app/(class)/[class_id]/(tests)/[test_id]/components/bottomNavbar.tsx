@@ -3,7 +3,8 @@
 /* eslint-disable react/jsx-props-no-spreading */
 import { Box, Center, Stack, Text, useDisclosure } from "@chakra-ui/react";
 
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname } from "next/navigation";
+import { useRouter } from "next13-progressbar";
 import { useRecoilState, useRecoilValue } from "recoil";
 import { TestNavLink } from "@/utils/types";
 import { fileState } from "@/state/fileState";
@@ -45,8 +46,6 @@ export default function BottomNavbar() {
   if (image.length > 0) {
     return null;
   }
-
-  console.log(path);
 
   if (
     path.includes("pdf") ||

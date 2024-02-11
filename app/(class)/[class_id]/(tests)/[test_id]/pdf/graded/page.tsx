@@ -142,8 +142,6 @@ export default function GradedPDF() {
     enabled: !!studentGrades,
   });
 
-  console.log(studentGrades);
-
   if (isLoading || isTestDataLoading) {
     return <Loading message="Getting Data.." remove />;
   }

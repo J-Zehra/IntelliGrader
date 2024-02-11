@@ -36,8 +36,6 @@ export default function SettingsPage() {
 
   const [isDesktopLayout] = useMediaQuery("(min-width: 40em)");
 
-  console.log(test);
-
   return (
     <Stack spacing="2rem" paddingBottom="10rem" ref={ref}>
       <Text fontSize=".8rem">Test Information</Text>

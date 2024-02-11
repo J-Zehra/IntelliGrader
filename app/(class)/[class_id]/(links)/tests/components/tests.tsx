@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Button, Stack, Text, Wrap } from "@chakra-ui/react";
 import { IoMdAdd } from "react-icons/io";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
+import { useRouter } from "next13-progressbar";
 import axios from "axios";
 import { useQuery } from "@tanstack/react-query";
 import { FetchedTestInfo } from "@/utils/types";

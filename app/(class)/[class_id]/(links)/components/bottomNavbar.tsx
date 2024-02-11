@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { Box, Stack, Text, useDisclosure } from "@chakra-ui/react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next13-progressbar";
 import { ClassNavLink } from "@/utils/types";
 import { useRecoilState } from "recoil";
 import { classActiveNavState } from "@/state/classActiveNav";

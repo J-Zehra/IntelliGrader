@@ -207,8 +207,6 @@ export default function DownloadReport() {
     result.unshift(programName);
   }
 
-  console.log(result);
-
   const handleDownload = (data: unknown[][]) => {
     const ws = utils.aoa_to_sheet(data);
     ws["!cols"] = [{ wch: 25 }];

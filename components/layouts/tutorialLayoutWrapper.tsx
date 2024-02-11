@@ -1,6 +1,6 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import { useRouter } from "next13-progressbar";
 import React, { ReactNode } from "react";
 import { Box, IconButton, Stack } from "@chakra-ui/react";
 import { BsArrowReturnLeft } from "react-icons/bs";

@@ -4,7 +4,7 @@ import React, { ChangeEvent, useRef } from "react";
 import { useSetRecoilState } from "recoil";
 import { IoMdAdd } from "react-icons/io";
 import { fileState } from "@/state/fileState";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next13-progressbar";
 import Compressor from "compressorjs";
 
 export default function AddMoreButton({ isLoading }: { isLoading: boolean }) {

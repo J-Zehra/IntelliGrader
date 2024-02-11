@@ -20,8 +20,6 @@ export const isBasicInfoComplete = (testInfo: TestInfo) => {
     }
   });
 
-  console.log(isError);
-
   return isError;
 };
 

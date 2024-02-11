@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/naming-convention */
 import { AiOutlineEye } from "react-icons/ai";
 import { Button, Divider, Stack, Text } from "@chakra-ui/react";
-import { useRouter } from "next/navigation";
+import { useRouter } from "next13-progressbar";
 import { Grade } from "@/utils/types";
 import moment from "moment";
 

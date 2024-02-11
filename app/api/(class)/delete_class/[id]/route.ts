@@ -7,7 +7,6 @@ export async function DELETE(
   { params }: { params: { id: string } },
 ) {
   const { id } = params;
-  console.log("ClassID", id);
   try {
     const deletedTest = await prisma.class.delete({
       where: { id },
