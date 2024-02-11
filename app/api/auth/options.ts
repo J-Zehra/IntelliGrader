@@ -3,6 +3,7 @@ import GoogleProvider from "next-auth/providers/google";
 import { PrismaAdapter } from "@auth/prisma-adapter";
 import bcrypt from "bcrypt";
 import { NextAuthOptions } from "next-auth";
+import validator from "validator";
 import prisma from "@/libs/prismadb";
 
 const options: NextAuthOptions = {
@@ -26,6 +27,12 @@ const options: NextAuthOptions = {
           if (!credentials.email || !credentials.password) {
             throw new Error("Please fill all the fields");
           }
+        }
+
+        // CHECK IF THE EMAIL IS VALID
+        const validEmail = validator.isEmail(credentials!.email);
+        if (!validEmail) {
+          throw new Error("Invalid Email");
         }
 
         // CHECK IF USER EXIST

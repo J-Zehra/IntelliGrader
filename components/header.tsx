@@ -17,7 +17,10 @@ export default function Header() {
     path === "/signup" ||
     path === "/pdf" ||
     path.includes("verify") ||
-    path.includes("offline")
+    path.includes("offline") ||
+    path.includes("forgot-password") ||
+    path.includes("reset-notice") ||
+    path.includes("reset-password")
   )
     return null;
 

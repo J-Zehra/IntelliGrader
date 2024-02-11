@@ -9,6 +9,7 @@ import {
   MenuGroup,
   MenuItem,
   MenuList,
+  Stack,
   Text,
   useDisclosure,
   // useDisclosure,
@@ -16,9 +17,15 @@ import {
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next13-progressbar";
 import ScannerSettingsModal from "./scannerSettingsModal";
+import DeleteModal from "./deleteModal";
 
 export default function Profile() {
   const { isOpen, onClose, onOpen } = useDisclosure();
+  const {
+    isOpen: isDeleteModalOpen,
+    onClose: onDeleteModalClose,
+    onOpen: onDeleteModalOpen,
+  } = useDisclosure();
   const { data } = useSession();
   const userData = data as any;
   const navigate = useRouter();
@@ -27,6 +34,9 @@ export default function Profile() {
     <Box>
       {isOpen ? (
         <ScannerSettingsModal onClose={onClose} isOpen={isOpen} />
+      ) : null}
+      {isDeleteModalOpen ? (
+        <DeleteModal onClose={onDeleteModalClose} isOpen={isDeleteModalOpen} />
       ) : null}
       <Menu strategy="absolute" placement="right-start" autoSelect={false}>
         <MenuButton>
@@ -81,16 +91,29 @@ export default function Profile() {
           </MenuGroup>
           <MenuDivider mb="1rem" />
           <MenuGroup>
-            <Button
-              onClick={() => signOut()}
-              p="0 1rem"
-              borderColor="palette.light"
-              color="palette.accent"
-              variant="outline"
-              fontSize=".9rem"
-            >
-              Logout
-            </Button>
+            <Stack direction="row">
+              <Button
+                onClick={() => signOut()}
+                p="0 1rem"
+                borderColor="palette.light"
+                color="palette.accent"
+                variant="outline"
+                fontSize=".9rem"
+              >
+                Logout
+              </Button>
+              <Button
+                onClick={onDeleteModalOpen}
+                p="0 1rem"
+                borderColor="red.200"
+                color="red"
+                _hover={{ bg: "rgba(200, 0, 0, .05)" }}
+                variant="outline"
+                fontSize=".9rem"
+              >
+                Delete Account
+              </Button>
+            </Stack>
           </MenuGroup>
         </MenuList>
       </Menu>

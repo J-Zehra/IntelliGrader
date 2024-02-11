@@ -3,6 +3,7 @@
 import {
   Box,
   Button,
+  Center,
   // Divider,
   Input,
   InputGroup,
@@ -119,6 +120,18 @@ export default function SinginPage() {
           Sign in
         </Button>
       </Box>
+      <Center>
+        <Link
+          href="/forgot-password"
+          style={{
+            color: "#75AFFF",
+            fontWeight: "bold",
+            fontSize: ".9rem",
+          }}
+        >
+          Forgot Password
+        </Link>
+      </Center>
       <Text textAlign="center" color="palette.light" fontSize=".9rem">
         Doesn&apos;t have an account yet?
         <Link

@@ -7,7 +7,7 @@ import { Resend } from "resend";
 import { EmailTemplate } from "@/components/email-template";
 
 // eslint-disable-next-line import/prefer-default-export
-export async function POST(request: Request) {
+export async function PUT(request: Request) {
   const body = await request.json();
   const newUserData: Teacher = body;
 
