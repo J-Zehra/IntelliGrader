@@ -26,6 +26,15 @@ export default function GradeButton({
   const [files, setFiles] = useRecoilState(fileState);
   const setLocalGrade = useSetRecoilState(localGradeInfo);
 
+  const { data: thresholdData } = useQuery({
+    queryKey: ["settings"],
+    queryFn: async () => {
+      const res = await axios.get("/api/scanner-settings");
+
+      return res.data;
+    },
+  });
+
   const getTest = async () => {
     let test: Partial<FetchedTestInfoToProcess> = {};
     await axios.get(`/api/tests/${test_id}`).then((res) => {
@@ -38,7 +47,7 @@ export default function GradeButton({
   const { data: testData } = useQuery({ queryKey: ["test"], queryFn: getTest });
 
   const handleSubmit = async () => {
-    if (!files || !testData) {
+    if (!files || !testData || !thresholdData) {
       return;
     }
 
@@ -75,7 +84,6 @@ export default function GradeButton({
 
           return binaryString;
         } catch (error) {
-          console.error("Error compressing image:", error);
           return null;
         }
       });
@@ -96,6 +104,7 @@ export default function GradeButton({
         images: scaledImages,
         answer: testData!.answerIndices,
         parts,
+        threshold: thresholdData.shading_threshold || 45,
       };
 
       return data;

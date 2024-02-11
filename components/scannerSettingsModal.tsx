@@ -10,6 +10,7 @@ import {
   Skeleton,
   Stack,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
@@ -23,8 +24,9 @@ export default function ScannerSettingsModal({
   onClose: () => void;
 }) {
   const [threshold, setThreshold] = useState<number>();
+  const toast = useToast();
 
-  const { isLoading } = useQuery({
+  const { isFetched } = useQuery({
     queryKey: ["settings"],
     queryFn: async () => {
       const res = await axios.get("/api/scanner-settings");
@@ -37,7 +39,16 @@ export default function ScannerSettingsModal({
   const mutateThreshold = useMutation({
     mutationKey: ["edit-threshold"],
     mutationFn: () => {
-      return axios.put("api/set-scanner-settings", { threshold });
+      return axios.put("/api/set-scanner-settings", { threshold });
+    },
+    onSuccess: () => {
+      toast({
+        title: "Successfully Changed.",
+        duration: 3000,
+        position: "top",
+        status: "success",
+      });
+      onClose();
     },
   });
 
@@ -58,7 +69,7 @@ export default function ScannerSettingsModal({
         <ModalHeader>Scanner Settings</ModalHeader>
         <ModalBody as={Stack}>
           <Text fontSize=".8rem">Shading Threshold</Text>
-          <Skeleton isLoaded={!isLoading} borderRadius=".5rem">
+          <Skeleton isLoaded={isFetched} borderRadius=".5rem">
             <Input
               placeholder="Threshold"
               value={threshold || ""}
@@ -73,6 +84,16 @@ export default function ScannerSettingsModal({
           justify="start"
           w="100%"
         >
+          <Button
+            padding="1.2rem"
+            colorScheme="blue"
+            fontSize=".9rem"
+            variant="outline"
+            borderRadius=".8rem"
+            onClick={onClose}
+          >
+            Cancel
+          </Button>
           <Button
             onClick={handleSave}
             padding="1.2rem"

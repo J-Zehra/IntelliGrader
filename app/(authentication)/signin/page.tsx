@@ -58,8 +58,7 @@ export default function SinginPage() {
         setLoading(false);
         if (res && res.error) {
           toast({
-            title: "Error.",
-            description: res.error,
+            title: res.error,
             duration: 3000,
             position: "top",
             status: "error",

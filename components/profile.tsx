@@ -10,22 +10,24 @@ import {
   MenuItem,
   MenuList,
   Text,
+  useDisclosure,
   // useDisclosure,
 } from "@chakra-ui/react";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next13-progressbar";
-// import ScannerSettingsModal from "./scannerSettingsModal";
+import ScannerSettingsModal from "./scannerSettingsModal";
 
 export default function Profile() {
+  const { isOpen, onClose, onOpen } = useDisclosure();
   const { data } = useSession();
   const userData = data as any;
   const navigate = useRouter();
 
   return (
     <Box>
-      {/* {isOpen ? (
+      {isOpen ? (
         <ScannerSettingsModal onClose={onClose} isOpen={isOpen} />
-      ) : null} */}
+      ) : null}
       <Menu strategy="absolute" placement="right-start" autoSelect={false}>
         <MenuButton>
           <Avatar
@@ -73,9 +75,9 @@ export default function Profile() {
             >
               Terms of Service
             </MenuItem>
-            {/* <MenuItem borderRadius=".6rem" onClick={onOpen}>
+            <MenuItem borderRadius=".6rem" onClick={onOpen}>
               Scanner Settings
-            </MenuItem> */}
+            </MenuItem>
           </MenuGroup>
           <MenuDivider mb="1rem" />
           <MenuGroup>
