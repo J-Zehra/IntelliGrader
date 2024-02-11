@@ -85,7 +85,7 @@ export default function ScannerSettingsModal({
           <Stack direction="row">
             <Text fontSize=".75rem">Shading Threshold</Text>
             <Tooltip
-              label="Higher value will be stricter to shading, while lower value will be more tolerant."
+              label="Higher value will be stricter to shading, while lower value will be more tolerant. Valid threshold is between 25 to 80"
               p=".8rem"
               borderRadius=".8rem"
               bg="palette.light"
