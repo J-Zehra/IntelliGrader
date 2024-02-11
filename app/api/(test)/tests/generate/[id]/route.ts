@@ -26,6 +26,7 @@ export async function GET(
             students: true,
             course: true,
             program: true,
+            year: true,
             section: true,
           },
         },

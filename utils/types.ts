@@ -217,6 +217,7 @@ export type FetchedTestInfoToGeneratePaper = {
     course: string;
     program: string;
     section: string;
+    year: number;
     students: {
       firstName: string;
       lastName: string;

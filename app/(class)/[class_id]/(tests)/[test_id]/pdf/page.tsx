@@ -81,8 +81,8 @@ export default function PDFPage() {
                   )}. ${student.lastName}`}
                   course={test.class!.course}
                   programAndSection={`${test.class!.program} ${
-                    test.class!.section
-                  }`}
+                    test.class!.year
+                  } - ${test.class!.section}`}
                   date=""
                 />
                 <Bubbles test={test.testParts!} />

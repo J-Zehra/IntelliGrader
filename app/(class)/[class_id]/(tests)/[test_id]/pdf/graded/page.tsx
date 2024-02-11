@@ -124,9 +124,9 @@ export default function GradedPDF() {
                     student.student.lastName
                   }`}
                   course={test!.class!.course}
-                  programAndSection={`${test!.class!.program} ${
-                    test!.class!.section
-                  }`}
+                  programAndSection={`${test.class!.program} ${
+                    test.class!.year
+                  } - ${test.class!.section}`}
                   date={moment(student.createdAt).format("MMM Do YYYY")}
                 />
                 <GradedBubbles test={test!.testParts!} grade={student} />
