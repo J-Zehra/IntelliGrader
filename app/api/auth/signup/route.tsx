@@ -25,7 +25,17 @@ export async function PUT(request: Request) {
   if (password.length < 6) {
     const errorResponse = {
       error: "Invalid Password.",
-      message: "Password must be at least 8 characters long.",
+      message: "Password must be at least 6 characters long.",
+    };
+    return NextResponse.json(errorResponse, {
+      status: 400,
+    });
+  }
+
+  if (password.length > 25) {
+    const errorResponse = {
+      error: "Invalid Password.",
+      message: "Password too long. It must not exceed 25 characters.",
     };
     return NextResponse.json(errorResponse, {
       status: 400,

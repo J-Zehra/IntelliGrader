@@ -76,6 +76,26 @@ export default function ResetPasswordPage() {
       });
       return;
     }
+    if (password.length < 6) {
+      toast({
+        title: "Invalid Password.",
+        description: "Password must be at least 6 characters long.",
+        duration: 3000,
+        position: "top",
+        status: "error",
+      });
+      return;
+    }
+    if (password.length > 25) {
+      toast({
+        title: "Invalid Password.",
+        description: "Password too long. It must not exceed 25 characters",
+        duration: 3000,
+        position: "top",
+        status: "error",
+      });
+      return;
+    }
 
     if (password !== confirmPassword) {
       toast({
