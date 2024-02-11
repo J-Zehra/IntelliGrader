@@ -1,4 +1,5 @@
 import {
+  Box,
   Button,
   Input,
   Modal,
@@ -10,11 +11,13 @@ import {
   Skeleton,
   Stack,
   Text,
+  Tooltip,
   useToast,
 } from "@chakra-ui/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useState } from "react";
+import { MdQuestionMark } from "react-icons/md";
 
 export default function ScannerSettingsModal({
   isOpen,
@@ -23,7 +26,7 @@ export default function ScannerSettingsModal({
   isOpen: boolean;
   onClose: () => void;
 }) {
-  const [threshold, setThreshold] = useState<number>();
+  const [threshold, setThreshold] = useState<number>(45);
   const toast = useToast();
 
   const { isFetched } = useQuery({
@@ -53,6 +56,17 @@ export default function ScannerSettingsModal({
   });
 
   const handleSave = () => {
+    if (threshold < 25 || threshold > 80) {
+      toast({
+        title: "Invalid Threshold",
+        description: "Recommended threshold value is ranging from 25 to 80",
+        duration: 5000,
+        position: "top",
+        status: "error",
+      });
+      return;
+    }
+
     mutateThreshold.mutate();
   };
 
@@ -68,10 +82,32 @@ export default function ScannerSettingsModal({
       <ModalContent padding="0">
         <ModalHeader>Scanner Settings</ModalHeader>
         <ModalBody as={Stack}>
-          <Text fontSize=".8rem">Shading Threshold</Text>
+          <Stack direction="row">
+            <Text fontSize=".75rem">Shading Threshold</Text>
+            <Tooltip
+              label="Higher value will be stricter to shading, while lower value will be more tolerant."
+              p=".8rem"
+              borderRadius=".8rem"
+              bg="palette.light"
+              fontSize=".75rem"
+              color="rgba(0, 0, 50, .7)"
+              placement="end-end"
+            >
+              <Box
+                cursor="pointer"
+                p=".3rem"
+                borderRadius="1rem"
+                fontSize=".7rem"
+                bg="palette.light"
+              >
+                <MdQuestionMark />
+              </Box>
+            </Tooltip>
+          </Stack>
           <Skeleton isLoaded={isFetched} borderRadius=".5rem">
             <Input
               placeholder="Threshold"
+              type="number"
               value={threshold || ""}
               onChange={(e) => setThreshold(parseInt(e.target.value, 10))}
             />
