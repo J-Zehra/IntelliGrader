@@ -117,11 +117,11 @@ export default function Test({
       >
         <Text
           fontWeight="black"
-          fontSize="3rem"
+          fontSize="2rem"
           opacity=".02"
           pos="absolute"
           left="1rem"
-          bottom={-4}
+          bottom=".5rem"
         >
           {testInfo.testName}
         </Text>

@@ -82,7 +82,6 @@ export default function MDATAnswerSheet() {
   const calculateIndex = (partIndex: number, currentI: number) => {
     let currentIndexInPart = currentI;
 
-    // Iterate through previous parts and subtract their total numbers
     for (let i = 0; i < partIndex; i += 1) {
       currentIndexInPart -= testInfo.parts[i].totalNumber;
     }
