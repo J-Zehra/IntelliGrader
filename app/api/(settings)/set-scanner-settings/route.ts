@@ -11,11 +11,15 @@ export async function PUT(request: Request) {
     const session = await getServerSession(options);
     const user = session?.user as unknown as any;
 
-    const newThreshold = await prisma.scannerSettings.update({
+    const newThreshold = await prisma.scannerSettings.upsert({
       where: {
         teacherId: user.id,
       },
-      data: {
+      update: {
+        shading_threshold: threshold,
+      },
+      create: {
+        teacherId: user.id,
         shading_threshold: threshold,
       },
     });
