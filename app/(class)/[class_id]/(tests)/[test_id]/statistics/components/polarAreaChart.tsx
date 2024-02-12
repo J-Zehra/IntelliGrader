@@ -2,7 +2,10 @@
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useParams } from "next/navigation";
-import { AgChartsReact } from "ag-charts-react";
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
+import { Pie } from "react-chartjs-2";
+
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 export default function PolarAreaChart() {
   // eslint-disable-next-line @typescript-eslint/naming-convention
@@ -27,47 +30,33 @@ export default function PolarAreaChart() {
     queryFn: getStatistics,
   });
 
-  const numFormatter = new Intl.NumberFormat("en-US");
-
-  const data = [
-    { mark: "Passed", number: markData?.studentPassed },
-    { mark: "Failed", number: markData?.studentFailed },
-    { mark: "Ungraded", number: markData?.ungradedStudents },
-  ];
+  const data = {
+    labels: ["Passed", "Failed", "Ungraded"],
+    datasets: [
+      {
+        data: [
+          markData?.studentPassed,
+          markData?.studentFailed,
+          markData?.ungradedStudents,
+        ],
+        backgroundColor: [
+          "rgba(0, 0, 255, 0.2)",
+          "rgba(255, 0, 0, 0.2)",
+          "rgba(200, 200, 200, 0.2)",
+        ],
+        borderColor: [
+          "rgba(0, 0, 255, 0.8)",
+          "rgba(255, 0, 0, 0.8)",
+          "rgba(200, 200, 200, 0.8)",
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
 
   return (
     <div>
-      <AgChartsReact
-        options={{
-          padding: { top: 0, bottom: 0, left: 0, right: 0 },
-          background: { fill: "transparent" },
-          series: [
-            {
-              data,
-              type: "pie",
-              calloutLabelKey: "mark",
-              sectorLabelKey: "number",
-              angleKey: "number",
-              calloutLabel: {
-                offset: 10,
-              },
-              sectorLabel: {
-                formatter: ({ datum, sectorLabelKey = "number" }) => {
-                  return `${numFormatter.format(
-                    datum[sectorLabelKey],
-                  )} students`;
-                },
-              },
-              tooltip: {
-                renderer: ({ datum, angleKey, calloutLabelKey = "mark" }) => ({
-                  title: `${datum[calloutLabelKey]}`,
-                  content: `${datum[angleKey]} students`,
-                }),
-              },
-            },
-          ],
-        }}
-      />
+      <Pie data={data} />
     </div>
   );
 }

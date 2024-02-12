@@ -60,7 +60,6 @@ export default function StatisticsPage() {
             </Skeleton>
           </Wrap>
           <Stack spacing="1.2rem">
-            <Text fontSize=".8rem">Passing Rate Distribution</Text>
             <AreaChart />
           </Stack>
         </Stack>

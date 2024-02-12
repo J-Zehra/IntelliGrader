@@ -3,21 +3,21 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import {
   Chart as ChartJS,
-  RadialLinearScale,
-  PointElement,
-  LineElement,
-  Filler,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
   Tooltip,
   Legend,
 } from "chart.js";
+import { Bar } from "react-chartjs-2";
 import { useParams } from "next/navigation";
-import { Radar } from "react-chartjs-2";
 
 ChartJS.register(
-  RadialLinearScale,
-  PointElement,
-  LineElement,
-  Filler,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
   Tooltip,
   Legend,
 );
@@ -55,6 +55,24 @@ export default function AreaChart() {
   };
 
   return (
-    <Radar data={data} options={{ plugins: { legend: { align: "start" } } }} />
+    <Bar
+      data={data}
+      options={{
+        indexAxis: "y" as const,
+        elements: {
+          bar: {
+            borderWidth: 2,
+          },
+        },
+        responsive: true,
+        plugins: {
+          legend: { align: "start" },
+          title: {
+            display: true,
+            text: "Passing Rate Distrubution",
+          },
+        },
+      }}
+    />
   );
 }

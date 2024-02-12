@@ -46,6 +46,59 @@ export default function AddStudentModal({
       return;
     }
 
+    const firstNameHasSpecialCharacter = /[!@#$%^&*()_+{}[\]:;<>,.?~\\/-]/.test(
+      firstName,
+    );
+
+    const lastNameHasSpecialCharacter = /[!@#$%^&*()_+{}[\]:;<>,.?~\\/-]/.test(
+      lastName,
+    );
+
+    const middleNameHasSpecialCharacter =
+      /[!@#$%^&*()_+{}[\]:;<>,.?~\\/-]/.test(middleName);
+
+    const firstNameHasNumber = /\d/.test(firstName);
+
+    const lastNameHasNumber = /\d/.test(lastName);
+
+    const middleNameHasNumber = /\d/.test(middleName);
+
+    if (firstNameHasSpecialCharacter || firstNameHasNumber) {
+      toast({
+        title: "Invalid First Name.",
+        description: "Special character and number is not allowed.",
+        duration: 3000,
+        position: "top",
+        status: "error",
+      });
+
+      return;
+    }
+
+    if (lastNameHasSpecialCharacter || lastNameHasNumber) {
+      toast({
+        title: "Invalid Last Name.",
+        description: "Special character and number is not allowed.",
+        duration: 3000,
+        position: "top",
+        status: "error",
+      });
+
+      return;
+    }
+
+    if (middleNameHasSpecialCharacter || middleNameHasNumber) {
+      toast({
+        title: "Invalid Middle Name.",
+        description: "Special character and number is not allowed.",
+        duration: 3000,
+        position: "top",
+        status: "error",
+      });
+
+      return;
+    }
+
     const studentData = {
       firstName,
       lastName,
@@ -81,6 +134,7 @@ export default function AddStudentModal({
               border="1px solid"
               borderColor="gray.100"
               h="3rem"
+              maxLength={30}
               fontSize=".9erm"
               value={lastName}
               onChange={(e) => setLastName(e.target.value)}
@@ -91,6 +145,7 @@ export default function AddStudentModal({
               border="1px solid"
               borderColor="gray.100"
               h="3rem"
+              maxLength={30}
               fontSize=".9erm"
               value={firstName}
               onChange={(e) => setFirstName(e.target.value)}
@@ -101,6 +156,7 @@ export default function AddStudentModal({
               border="1px solid"
               borderColor="gray.100"
               h="3rem"
+              maxLength={30}
               fontSize=".9erm"
               value={middleName}
               onChange={(e) => setMiddleName(e.target.value)}

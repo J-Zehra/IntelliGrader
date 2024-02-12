@@ -57,6 +57,7 @@ export default function Step1() {
           type="text"
           bg="gray.100"
           h="3rem"
+          maxLength={10}
           fontSize=".9rem"
           value={classInfo.program}
           onChange={(e) =>
@@ -72,6 +73,7 @@ export default function Step1() {
         type="text"
         bg="gray.100"
         h="3rem"
+        maxLength={30}
         fontSize=".9rem"
         value={classInfo.course}
         onChange={(e) =>
@@ -83,6 +85,7 @@ export default function Step1() {
         type="text"
         bg="gray.100"
         h="3rem"
+        maxLength={30}
         fontSize=".9rem"
         value={classInfo.section}
         onChange={(e) =>
@@ -92,7 +95,6 @@ export default function Step1() {
       <Input
         placeholder="Year level"
         type="number"
-        maxLength={1}
         bg="gray.100"
         h="3rem"
         fontSize=".9rem"

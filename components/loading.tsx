@@ -17,7 +17,7 @@ export default function Loading({
       top={0}
       left={0}
       pos="absolute"
-      bg="rgba(0, 0, 0, .8)"
+      bg="rgba(0, 0, 0, .9)"
       w="100vw"
       flexDir="column"
       zIndex="overlay"

@@ -77,6 +77,7 @@ export default function SinginPage() {
       <Input
         borderRadius=".75rem"
         variant="primary"
+        maxLength={50}
         value={email}
         onChange={(e) => {
           setEmail(e.target.value);
@@ -88,6 +89,7 @@ export default function SinginPage() {
           borderRadius=".75rem"
           variant="primary"
           placeholder="Password"
+          maxLength={30}
           value={password}
           onChange={(e) => {
             setPassword(e.target.value);

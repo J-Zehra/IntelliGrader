@@ -37,8 +37,10 @@ export default function CreateClass() {
     mutationKey: ["create-class"],
     onSuccess: ({ data }) => {
       queryClient.setQueryData(["classes"], (oldData) => {
-        const newData = [data, ...(oldData as any[])];
-        return newData;
+        if (Array.isArray(oldData)) {
+          return [data, ...(oldData as any[])];
+        }
+        return [data, oldData];
       });
 
       setClassInfo({

@@ -93,7 +93,7 @@ model ScannerSettings {
   shading_threshold Int @default(45)
   teacherId String @unique
 
-  teacher   User     @relation(fields: [teacherId], references: [id])
+  teacher   User     @relation(fields: [teacherId], references: [id], onDelete: Cascade)
 }
 
 type Choices {

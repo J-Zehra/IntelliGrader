@@ -57,6 +57,7 @@ export default function StudentRankings() {
         students?.map((student, index) => {
           return (
             <Stack
+              cursor="pointer"
               key={student?.id}
               direction="row"
               _active={{ bg: "rgba(0, 0, 200, .05)" }}

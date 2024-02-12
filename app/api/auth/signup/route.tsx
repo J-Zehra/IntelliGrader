@@ -7,7 +7,7 @@ import { Resend } from "resend";
 import { EmailTemplate } from "@/components/email-template";
 
 // eslint-disable-next-line import/prefer-default-export
-export async function PUT(request: Request) {
+export async function POST(request: Request) {
   const body = await request.json();
   const newUserData: Teacher = body;
 
@@ -22,27 +22,28 @@ export async function PUT(request: Request) {
     return NextResponse.json(errorResponse, { status: 400 });
   }
 
-  if (password.length < 6) {
+  // USERNAME VALIDATION
+  if (username.length < 6) {
     const errorResponse = {
-      error: "Invalid Password.",
-      message: "Password must be at least 6 characters long.",
+      error: "Invalid Username.",
+      message: "Username should be atleast 6 characters long.",
     };
     return NextResponse.json(errorResponse, {
       status: 400,
     });
   }
 
-  if (password.length > 25) {
+  if (username.length > 30) {
     const errorResponse = {
-      error: "Invalid Password.",
-      message: "Password too long. It must not exceed 25 characters.",
+      error: "Invalid Username.",
+      message: "Username too long. It should not exceed 30 characters.",
     };
     return NextResponse.json(errorResponse, {
       status: 400,
     });
   }
 
-  // CHECK IF THE EMAIL IS VALID
+  // EMAIL VALIDATION
   const validEmail = validator.isEmail(email);
   if (!validEmail) {
     const errorResponse = {
@@ -50,6 +51,61 @@ export async function PUT(request: Request) {
       message: "Please provide a valid email address.",
     };
     return NextResponse.json(errorResponse, { status: 400 });
+  }
+
+  // PASSWORD VALIDATION
+  if (password.length < 8) {
+    const errorResponse = {
+      error: "Invalid Password.",
+      message: "Password must be at least 8 characters long.",
+    };
+    return NextResponse.json(errorResponse, {
+      status: 400,
+    });
+  }
+
+  if (password.length > 30) {
+    const errorResponse = {
+      error: "Invalid Password.",
+      message: "Password too long. It must not exceed 30 characters.",
+    };
+    return NextResponse.json(errorResponse, {
+      status: 400,
+    });
+  }
+
+  const hasCapitalLetter = /[A-Z]/.test(password);
+  const hasSpecialCharacter = /[!@#$%^&*()_+{}[\]:;<>,.?~\\/-]/.test(password);
+  const hasNumber = /\d/.test(password);
+
+  if (!hasCapitalLetter) {
+    const errorResponse = {
+      error: "Invalid Password.",
+      message: "Password should have atleast one capital letter.",
+    };
+    return NextResponse.json(errorResponse, {
+      status: 400,
+    });
+  }
+
+  if (!hasSpecialCharacter) {
+    const errorResponse = {
+      error: "Invalid Password.",
+      message: "Password should have atleast one special character.",
+    };
+    return NextResponse.json(errorResponse, {
+      status: 400,
+    });
+  }
+
+  if (!hasNumber) {
+    const errorResponse = {
+      error: "Invalid Password.",
+      message: "Password should have atleast one number.",
+    };
+    return NextResponse.json(errorResponse, {
+      status: 400,
+    });
   }
 
   // CHECK IF USERNAME EXISTS
