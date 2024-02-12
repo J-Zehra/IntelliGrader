@@ -1,24 +1,41 @@
 "use client";
 
 import {
+  Box,
   Button,
   Input,
+  InputGroup,
+  InputRightElement,
   Skeleton,
   Stack,
   Text,
+  useDisclosure,
   useToast,
 } from "@chakra-ui/react";
 import { useMutation, useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { useParams } from "next/navigation";
 import { useRouter } from "next13-progressbar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { AiFillEye, AiFillEyeInvisible } from "react-icons/ai";
+import { IoMdClose } from "react-icons/io";
+import { FaCheck } from "react-icons/fa6";
+import { validate } from "../utils/validator";
 
 export default function ResetPasswordPage() {
   const { id } = useParams();
   const navigate = useRouter();
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
+  const [hasSpecialCharacter, setHasSpecialCharacter] = useState(false);
+  const [hasNumber, setHasNumber] = useState(false);
+  const [hasCapitalLetter, setHasCapitalLetter] = useState(false);
+  const [hasLengthOf8, setHasLengthOf8] = useState(false);
+  const [passwordMatch, setPasswordMatch] = useState(false);
+  const { isOpen: viewPassword, onToggle: toggleViewPassword } =
+    useDisclosure();
+  const { isOpen: viewConfirmPassword, onToggle: toggleViewConfirmPassword } =
+    useDisclosure();
   const toast = useToast();
 
   const clearState = () => {
@@ -66,50 +83,64 @@ export default function ResetPasswordPage() {
   });
 
   const handleChangePassword = () => {
-    if (!password || !confirmPassword) {
-      toast({
-        title: "Empty Fields.",
-        description: "Please complete all fields.",
-        duration: 3000,
-        position: "top",
-        status: "error",
-      });
-      return;
-    }
-    if (password.length < 6) {
-      toast({
-        title: "Invalid Password.",
-        description: "Password must be at least 6 characters long.",
-        duration: 3000,
-        position: "top",
-        status: "error",
-      });
-      return;
-    }
-    if (password.length > 25) {
-      toast({
-        title: "Invalid Password.",
-        description: "Password too long. It must not exceed 25 characters",
-        duration: 3000,
-        position: "top",
-        status: "error",
-      });
-      return;
-    }
+    const { isValid, errorDescription, errorTitle } = validate(
+      password,
+      confirmPassword,
+    );
 
-    if (password !== confirmPassword) {
+    if (!isValid) {
       toast({
-        title: "Password Not Match.",
-        description: "Password and confirm password do not match.",
-        duration: 3000,
+        title: errorTitle,
+        description: errorDescription,
+        duration: 5000,
         position: "top",
         status: "error",
+        isClosable: true,
       });
+
       return;
     }
 
     mutateUser.mutate();
   };
+
+  useEffect(() => {
+    const capitalLetter = /[A-Z]/.test(password);
+    const specialCharacter = /[!@#$%^&*()_+{}[\]:;<>,.?~\\/-]/.test(password);
+    const number = /\d/.test(password);
+
+    if (capitalLetter) {
+      setHasCapitalLetter(true);
+    } else {
+      setHasCapitalLetter(false);
+    }
+
+    if (specialCharacter) {
+      setHasSpecialCharacter(true);
+    } else {
+      setHasSpecialCharacter(false);
+    }
+
+    if (number) {
+      setHasNumber(true);
+    } else {
+      setHasNumber(false);
+    }
+
+    if (password.length >= 8 || confirmPassword.length >= 8) {
+      setHasLengthOf8(true);
+    } else {
+      setHasLengthOf8(false);
+    }
+
+    if (password || confirmPassword) {
+      if (password === confirmPassword) {
+        setPasswordMatch(true);
+      } else {
+        setPasswordMatch(false);
+      }
+    }
+  }, [password, confirmPassword]);
 
   return (
     <Stack
@@ -130,20 +161,130 @@ export default function ResetPasswordPage() {
         </Text>
       </Skeleton>
       <Stack maxW="20rem" w="100%" spacing="1.2rem">
-        <Input
-          placeholder="New password"
-          borderRadius=".7rem"
-          value={password}
-          variant="primary"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <Input
-          borderRadius=".7rem"
-          variant="primary"
-          value={confirmPassword}
-          placeholder="Confirm new password"
-          onChange={(e) => setConfirmPassword(e.target.value)}
-        />
+        <InputGroup>
+          <Input
+            borderRadius=".75rem"
+            variant="primary"
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+            }}
+            maxLength={30}
+            minLength={8}
+            type={viewPassword ? "text" : "password"}
+            placeholder="Password"
+          />
+          <InputRightElement
+            h="100%"
+            color="palette.text"
+            opacity=".5"
+            w="3.5rem"
+            cursor="pointer"
+            onClick={toggleViewPassword}
+          >
+            {viewPassword ? (
+              <AiFillEye fontSize="1.2rem" />
+            ) : (
+              <AiFillEyeInvisible fontSize="1.2rem" />
+            )}
+          </InputRightElement>
+        </InputGroup>
+        <InputGroup>
+          <Input
+            borderRadius=".75rem"
+            value={confirmPassword}
+            maxLength={30}
+            minLength={8}
+            onChange={(e) => {
+              setConfirmPassword(e.target.value);
+            }}
+            variant="primary"
+            type={viewConfirmPassword ? "text" : "password"}
+            placeholder="Confirm Password"
+          />
+          <InputRightElement
+            h="100%"
+            color="palette.text"
+            opacity=".5"
+            w="3.5rem"
+            paddingInline=".6rem"
+            onClick={toggleViewConfirmPassword}
+            cursor="pointer"
+          >
+            {viewConfirmPassword ? (
+              <AiFillEye fontSize="1.2rem" />
+            ) : (
+              <AiFillEyeInvisible fontSize="1.2rem" />
+            )}
+          </InputRightElement>
+        </InputGroup>
+        <Stack paddingLeft=".5rem" spacing={0.4}>
+          <Stack
+            direction="row"
+            align="center"
+            transition="all .3s ease"
+            opacity={hasLengthOf8 ? 1 : 0.5}
+          >
+            <Box color="palette.text">
+              {hasLengthOf8 ? <FaCheck /> : <IoMdClose />}
+            </Box>
+            <Text fontSize=".8rem" color="palette.text">
+              has atleast 8 characters
+            </Text>
+          </Stack>
+          <Stack
+            direction="row"
+            align="center"
+            transition="all .3s ease"
+            opacity={hasSpecialCharacter ? 1 : 0.5}
+          >
+            <Box color="palette.text">
+              {hasSpecialCharacter ? <FaCheck /> : <IoMdClose />}
+            </Box>
+            <Text fontSize=".8rem" color="palette.text">
+              has a special character
+            </Text>
+          </Stack>
+          <Stack
+            direction="row"
+            align="center"
+            transition="all .3s ease"
+            opacity={hasNumber ? 1 : 0.5}
+          >
+            <Box color="palette.text">
+              {hasNumber ? <FaCheck /> : <IoMdClose />}
+            </Box>
+            <Text fontSize=".8rem" color="palette.text">
+              has a number
+            </Text>
+          </Stack>
+          <Stack
+            direction="row"
+            align="center"
+            transition="all .3s ease"
+            opacity={hasCapitalLetter ? 1 : 0.5}
+          >
+            <Box color="palette.text">
+              {hasCapitalLetter ? <FaCheck /> : <IoMdClose />}
+            </Box>
+            <Text fontSize=".8rem" color="palette.text">
+              has a capital letter
+            </Text>
+          </Stack>
+          <Stack
+            direction="row"
+            align="center"
+            transition="all .3s ease"
+            opacity={passwordMatch ? 1 : 0.5}
+          >
+            <Box color="palette.text">
+              {passwordMatch ? <FaCheck /> : <IoMdClose />}
+            </Box>
+            <Text fontSize=".8rem" color="palette.text">
+              password matched
+            </Text>
+          </Stack>
+        </Stack>
         <Button
           onClick={handleChangePassword}
           isLoading={mutateUser.isLoading}

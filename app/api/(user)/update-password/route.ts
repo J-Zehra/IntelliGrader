@@ -22,10 +22,56 @@ export async function PUT(request: Request) {
       });
     }
 
-    if (password.length < 6) {
+    if (password.length < 8) {
       const errorResponse = {
         error: "Invalid Password.",
-        message: "Password must be at least 6 characters long.",
+        message: "Password must be at least 8 characters long.",
+      };
+      return NextResponse.json(errorResponse, {
+        status: 400,
+      });
+    }
+
+    if (password.length > 30) {
+      const errorResponse = {
+        error: "Invalid Password.",
+        message: "Password too long. It must not exceed 30 characters.",
+      };
+      return NextResponse.json(errorResponse, {
+        status: 400,
+      });
+    }
+
+    const hasCapitalLetter = /[A-Z]/.test(password);
+    const hasSpecialCharacter = /[!@#$%^&*()_+{}[\]:;<>,.?~\\/-]/.test(
+      password,
+    );
+    const hasNumber = /\d/.test(password);
+
+    if (!hasCapitalLetter) {
+      const errorResponse = {
+        error: "Invalid Password.",
+        message: "Password should have atleast one capital letter.",
+      };
+      return NextResponse.json(errorResponse, {
+        status: 400,
+      });
+    }
+
+    if (!hasSpecialCharacter) {
+      const errorResponse = {
+        error: "Invalid Password.",
+        message: "Password should have atleast one special character.",
+      };
+      return NextResponse.json(errorResponse, {
+        status: 400,
+      });
+    }
+
+    if (!hasNumber) {
+      const errorResponse = {
+        error: "Invalid Password.",
+        message: "Password should have atleast one number.",
       };
       return NextResponse.json(errorResponse, {
         status: 400,
