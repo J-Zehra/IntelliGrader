@@ -43,7 +43,6 @@ export default function Step1() {
 
   const handlePassingGradeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
-    console.log("VALUE", value);
     if (value === "") {
       setTestInfo((prevTestInfo) => ({
         ...prevTestInfo,

@@ -250,6 +250,9 @@ export default function SetupTest() {
     setActiveStep(0);
   }, [setActiveStep]);
 
+  console.log("STEP", activeStep);
+  console.log("FORMAT", testInfo.format);
+
   return (
     <Center w="100%">
       {mutateTest.isLoading ? <Loading message="Creating Test" /> : ""}
@@ -284,7 +287,9 @@ export default function SetupTest() {
               leftIcon={<AiOutlinePlus />}
               onClick={handleNext}
               p="1.6rem 1rem"
-              isDisabled={testInfo.answerIndices.includes(-1)}
+              isDisabled={
+                activeStep !== 0 && testInfo.answerIndices.includes(-1)
+              }
               colorScheme="blue"
               loadingText="Validating..."
               isLoading={mutateTest.isLoading || mutateValidateTest.isLoading}
