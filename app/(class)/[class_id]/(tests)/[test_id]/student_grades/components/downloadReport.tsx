@@ -11,6 +11,7 @@ import { utils, writeFile } from "xlsx-js-style";
 type StudentGrade = {
   student: string;
   status: string;
+  totalScore: number;
   answerIndices: number[];
 };
 
@@ -80,15 +81,9 @@ export default function DownloadReport() {
       t: "s",
     };
 
-    data.push(name); // Push name to data for the current iteration
-    let totalCount = 0;
-    grade.answerIndices.forEach((item) => {
-      if (item === 1) {
-        totalCount += 1;
-      }
-    });
+    data.push(name);
 
-    const total = { v: totalCount, t: "s" };
+    const total = { v: grade.totalScore, t: "s" };
     data.push(total);
 
     const status = {

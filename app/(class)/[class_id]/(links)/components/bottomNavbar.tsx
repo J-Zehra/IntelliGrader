@@ -9,9 +9,11 @@ import {
   MdOutlineKeyboardArrowUp,
 } from "react-icons/md";
 import { motion } from "framer-motion";
+import { usePathname } from "next/navigation";
 import { navlinks } from "./navlinks";
 
 export default function BottomNavbar() {
+  const path = usePathname();
   const router = useRouter();
   const { isOpen: isToggled, onToggle } = useDisclosure();
   const [activeBottomNav, setActiveBottomNav] =
@@ -21,6 +23,10 @@ export default function BottomNavbar() {
     setActiveBottomNav(label);
     router.push(link);
   };
+
+  if (path.includes("student-scores")) {
+    return null;
+  }
 
   return (
     <Box

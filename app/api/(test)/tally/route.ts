@@ -66,11 +66,10 @@ export async function GET(request: Request) {
           student: formattedName,
           answerIndices,
           status: studentGrade.status,
+          totalScore: studentGrade.totalScore,
         };
       },
     );
-
-    // Now studentGrades should contain the correct data for each student.
 
     return NextResponse.json({
       tally: questionTally,
