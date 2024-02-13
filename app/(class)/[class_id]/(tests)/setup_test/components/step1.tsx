@@ -42,13 +42,20 @@ export default function Step1() {
   };
 
   const handlePassingGradeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const grade = parseInt(e.target.value, 10);
-    if (grade >= 25 && grade <= 100) {
+    const { value } = e.target;
+    console.log("VALUE", value);
+    if (value === "") {
       setTestInfo((prevTestInfo) => ({
         ...prevTestInfo,
-        passingGrade: parseInt(e.target.value, 10),
+        passingGrade: 0,
       }));
+
+      return;
     }
+    setTestInfo((prevTestInfo) => ({
+      ...prevTestInfo,
+      passingGrade: parseInt(e.target.value, 10),
+    }));
   };
 
   const createDefaultPart = (): QuestionPart => ({
@@ -289,11 +296,8 @@ export default function Step1() {
           type="number"
           bg="gray.100"
           h="3rem"
+          value={testInfo.passingGrade === 0 ? "" : testInfo.passingGrade}
           fontSize=".9rem"
-          min={40}
-          max={100}
-          maxLength={3}
-          defaultValue={50}
           onChange={handlePassingGradeChange}
         />
       </Stack>

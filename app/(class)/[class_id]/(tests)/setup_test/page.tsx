@@ -129,6 +129,21 @@ export default function SetupTest() {
           title: "Incomplete Field",
           description: "Please fill all the fields",
           status: "error",
+          position: "top",
+          duration: 3000,
+        });
+
+        return;
+      }
+
+      console.log("Passing Grade", testInfo.passingGrade);
+
+      if (testInfo.passingGrade > 100 || testInfo.passingGrade < 25) {
+        toast({
+          title: "Invalid Passing Grade",
+          description: "Passing grade cannot be negative or greater than 100",
+          status: "error",
+          position: "top",
           duration: 3000,
         });
 
@@ -140,6 +155,7 @@ export default function SetupTest() {
           title: "Maximum Number Exceeded",
           description: "Number of Choices should not exceed 10",
           status: "error",
+          position: "top",
           duration: 3000,
         });
 
@@ -151,6 +167,7 @@ export default function SetupTest() {
           title: "Invalid Number of Chocies",
           description: "Number of Choices cannot be less than 2",
           status: "error",
+          position: "top",
           duration: 3000,
         });
 
@@ -163,6 +180,7 @@ export default function SetupTest() {
             title: "Invalid Points",
             description: "Points cannot be zero or negative",
             status: "error",
+            position: "top",
             duration: 3000,
           });
 
@@ -174,22 +192,12 @@ export default function SetupTest() {
             title: "Invalid Points",
             description: "Points are too big and might not be intended",
             status: "error",
+            position: "top",
             duration: 3000,
           });
 
           return;
         }
-      }
-
-      if (testInfo.passingGrade > 100 || testInfo.passingGrade < 25) {
-        toast({
-          title: "Invalid Passing Grade",
-          description: "Passing grade cannot be negative and greater that 100",
-          status: "error",
-          duration: 3000,
-        });
-
-        return;
       }
 
       mutateValidateTest.mutate({
@@ -202,6 +210,7 @@ export default function SetupTest() {
           title: "Incomplete Answer",
           description: "Please select all the answers",
           status: "error",
+          position: "top",
           duration: 3000,
         });
 
@@ -220,6 +229,7 @@ export default function SetupTest() {
             title: "Invalid Points",
             description: "Points too big and might not be intended.",
             status: "error",
+            position: "top",
             duration: 3000,
           });
           return;
