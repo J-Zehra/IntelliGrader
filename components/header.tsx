@@ -37,7 +37,11 @@ export default function Header() {
     >
       <CustomContainer>
         <Stack direction="row" h="4rem" align="center" justify="space-between">
-          <Center cursor="pointer" onClick={() => navigate.push("/")}>
+          <Center
+            gap=".5rem"
+            cursor="pointer"
+            onClick={() => navigate.push("/")}
+          >
             <Image
               src="/logo_v1.svg"
               alt="logo"
@@ -45,6 +49,9 @@ export default function Header() {
               height={500}
               style={{ width: "10rem" }}
             />
+            {/* <Text fontWeight="bold" color="red.800">
+              PUP-Grader
+            </Text> */}
           </Center>
           <Profile />
         </Stack>

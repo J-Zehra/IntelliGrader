@@ -7,8 +7,8 @@ import {
   Text,
   useMediaQuery,
   Image as ChakraImage,
+  Image,
 } from "@chakra-ui/react";
-import Image from "next/image";
 import { usePathname } from "next/navigation";
 import { ReactNode } from "react";
 
@@ -27,17 +27,16 @@ export default function AuthLayoutWrapper({
       h="100vh"
       direction={isDesktopLayout ? "row" : "column"}
     >
-      <Center flex={1}>
-        <Image
-          alt="logo"
-          width={500}
-          height={500}
-          src="/logo_v2.svg"
-          style={{
-            width: isDesktopLayout ? "15rem" : "12rem",
-            marginLeft: isDesktopLayout ? "10rem" : 0,
-          }}
-        />
+      <Center
+        alignItems="start"
+        paddingLeft="8rem"
+        flex={2}
+        flexDir="column"
+        gap="1rem"
+      >
+        <Box w="20rem" paddingBottom="2rem">
+          <Image src="/logo_v2.svg" alt="Logo" />
+        </Box>
       </Center>
       <Center
         flex={isDesktopLayout ? 2 : 1.6}
@@ -51,7 +50,7 @@ export default function AuthLayoutWrapper({
         {isDesktopLayout ? (
           <ChakraImage
             src="/auth_bg_2.png"
-            left="15rem"
+            left="25rem"
             top={0}
             zIndex={-1}
             h="100%"

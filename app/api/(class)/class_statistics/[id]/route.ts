@@ -20,7 +20,6 @@ const calculateAccuracy = (
     (totalNumberOfCorrect / (totalStudent * totalTestNumber)) * 100,
   );
 };
-
 export async function GET(
   request: Request,
   { params }: { params: { id: string } },
