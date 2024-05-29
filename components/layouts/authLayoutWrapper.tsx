@@ -29,14 +29,18 @@ export default function AuthLayoutWrapper({
     >
       <Center
         alignItems="start"
-        paddingLeft="8rem"
+        paddingLeft={isDesktopLayout ? "8rem" : ""}
         flex={2}
         flexDir="column"
         gap="1rem"
       >
-        <Box w="20rem" paddingBottom="2rem">
-          <Image src="/logo_v2.svg" alt="Logo" />
-        </Box>
+        <Center w="100%" paddingBottom="2rem">
+          <Image
+            src="/logo_v2.svg"
+            w={isDesktopLayout ? "20rem" : "70%"}
+            alt="Logo"
+          />
+        </Center>
       </Center>
       <Center
         flex={isDesktopLayout ? 2 : 1.6}
